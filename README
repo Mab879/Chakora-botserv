@@ -1,0 +1,67 @@
+/  __ \ |         | |                  
+| /  \/ |__   __ _| | _____  _ __ __ _ 
+| |   | '_ \ / _` | |/ / _ \| '__/ _` |
+| \__/\ | | | (_| |   < (_) | | | (_| |
+ \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
+ 
+                README
+---------------------------------------
+
+TABLE OF CONTENTS
+-----------------
+  1. Credits
+  2. Description
+  3. Installation
+  4. Getting support
+  5. Reporting bugs
+
+1. CREDITS
+----------
+
+Chakora is developed by The Chakora Project Development
+Team, a team managed by TechnoDevs.
+
+Elijah "starcoder" Perrault - Head Developer
+Matthew "MattB/MattWB" Barksdale - Developer
+Mitchell "cooper" Cooper - Developer
+
+If you are interested in becoming a developer for Chakora,
+please contact Elijah at elijah@technoirc.org
+
+
+2. DESCRIPTION
+--------------
+
+Chakora Services are IRC Services coded in Perl for the InspIRCd 
+1.2/2.0 and Charybdis (TS6) Linking Protocols. It comes with; 
+ChanServ, NickServ, OperServ, HostServ, MemoServ and Global.
+
+ATTENTION: By using this software, you are stating
+that you have read and agreed to the terms in docs/LICENSE.
+
+3. INSTALLATION
+---------------
+
+See docs/INSTALLATION
+
+4. GETTING SUPPORT
+------------------
+
+Should you need any help with Chakora, please drop by
+our IRC chatroom:
+
+Host: irc.technoirc.net
+Port: 6667 | SSL: 6697
+Channel: #Chakora
+
+5. REPORTING BUGS
+-----------------
+
+Should you come across a bug within the original code, please
+report it to us via one of the following methods:
+
+Email elijah@technoirc.org
+
+or
+
+Visit our IRC chatroom, which is given above.
