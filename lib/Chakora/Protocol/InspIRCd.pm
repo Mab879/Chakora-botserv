@@ -90,12 +90,12 @@ sub serv_notice {
 sub serv_join {
 	my ($svs, $chan) = @_;
 	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".time()." + :,".svsUID($svs));
-	serv_mode("Chakora::Server", $chan, "+o ".svsUID($svs));
+	serv_mode("chakora::server", $chan, "+o ".svsUID($svs));
 }
 
 # Handle MODE
 sub serv_mode {
-	my ($svs, $target, $modes) = @_;
+	my ($svs, $chan, $modes) = @_;
 	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
 }
 
