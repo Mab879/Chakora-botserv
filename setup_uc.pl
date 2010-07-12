@@ -68,7 +68,7 @@ eval {
 
 print("Checking for Term::Prompt..... ");
 eval {
-	use Term::Prompt;
+	require Term::Prompt;
 	print "OK\n";
 	1;
 } or print("Not Found (install Term::Prompt)\n") and $die = 1;
@@ -80,6 +80,8 @@ if ($die == 1) {
 }
 
 print("Alright, sparky! All required modules were found!\nStarting configuration generator...\n\n"); sleep 2;
+
+use Term::Prompt;
 
 `mkdir etc`;
 my $file = './etc/chakora.conf';
