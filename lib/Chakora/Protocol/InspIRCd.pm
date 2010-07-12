@@ -94,6 +94,12 @@ sub serv_kick {
 	send_sock(":".svsUID($svs)." KICK ".$chan." ".$user." :".$msg);
 }
 
+# Handle PART
+sub serv_part {
+	my ($svs, $chan, $msg) = @_;
+	send_sock(":".svsUID($svs)." PART ".$chan." :".$msg);
+}
+
 ######### Receiving data #########
 
 # Handle UID
