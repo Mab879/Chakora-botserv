@@ -82,7 +82,7 @@ if ($die == 1) {
 print("Alright, sparky! All required modules were found!\nStarting configuration generator...\n\n"); sleep 2;
 
 if ($die != 1) {
-	use Term::Prompt;
+#	use Term::Prompt;
 }
 
 `mkdir etc`;
