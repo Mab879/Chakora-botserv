@@ -9,18 +9,17 @@
 # Linking protocol module for InspIRCd 1.2 and 2.0
 use strict;
 use warnings;
-use FindBin qw($_BIN);
-use lib "$_BIN/../lib";
+use lib "../lib";
 
 ######### Core #########
 
-my (@svsuid, %uid);
-$svsuid['cs'] = config('server', 'numeric')."AAAAAA";
-$svsuid['hs'] = config('server', 'numeric')."AAAAAB";
-$svsuid['ms'] = config('server', 'numeric')."AAAAAC";
-$svsuid['ns'] = config('server', 'numeric')."AAAAAD";
-$svsuid['os'] = config('server', 'numeric')."AAAAAE";
-$svsuid['g'] = config('server', 'numeric')."AAAAAF";
+my (%svsuid, %uid, $uid);
+$svsuid{'cs'} = config('me', 'sid')."AAAAAA";
+$svsuid{'hs'} = config('me', 'sid')."AAAAAB";
+$svsuid{'ms'} = config('me', 'sid')."AAAAAC";
+$svsuid{'ns'} = config('me', 'sid')."AAAAAD";
+$svsuid{'os'} = config('me', 'sid')."AAAAAE";
+$svsuid{'g'} = config('me', 'sid')."AAAAAF";
 
 sub irc_connect {
 	send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
@@ -32,7 +31,7 @@ sub svsUID {
 	if (lc($svs) eq 'chakora::server') {
 		return config('me', 'sid');
 	} else {
-		return $svsuid[$svs];
+		return $svsuid{$svs};
 	}
 }
 
