@@ -7,4 +7,13 @@
              INSTALLATION
 ----------------------------------------
 
-No information available at this time.
+Follow these steps to install Chakora;
+
+perl configure.pl
+
+If all modules are there, the configuration generator will start,
+otherwise, please install the missing modules then try again.
+
+After configuring everything, remember to edit etc/chakora.conf and
+configure the logging section to your liking. (Note: Logging does not work
+at the moment.)
