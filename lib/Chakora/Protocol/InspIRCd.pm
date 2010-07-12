@@ -20,6 +20,11 @@ $svsuid['hs'] = config('server', 'numeric')."AAAAAB";
 $svsuid['ms'] = config('server', 'numeric')."AAAAAC";
 $svsuid['ns'] = config('server', 'numeric')."AAAAAD";
 $svsuid['os'] = config('server', 'numeric')."AAAAAE";
+$svsuid['g'] = config('server', 'numeric')."AAAAAF";
+
+sub irc_connect {
+	send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
+}
 
 # Get service UID
 sub svsUID {
@@ -63,6 +68,13 @@ sub nickUID {
 
 ######### Sending data #########
 
+# Handle client creation
+sub serv_add {
+	my ($uid, $user, $nick, $host, $modes, $real) = @_;
+	send_sock(":".svsUID('chakora::server')." UID ".$uid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
+	send_sock(":".$uid." OPERTYPE Service");
+}
+
 # Handle PRIVMSG
 sub serv_privmsg {
 	my ($svs, $target, $msg) = @_;
@@ -100,7 +112,32 @@ sub serv_part {
 	send_sock(":".svsUID($svs)." PART ".$chan." :".$msg);
 }
 
+# Handle QUIT
+sub serv_quit {
+	my ($svs, $msg) = @_;
+	send_sock(":".svsUID($svs)." QUIT :".$msg);
+}
+
 ######### Receiving data #########
+
+# Handle ENDBURST
+sub raw_endburst {
+	send_sock(":".config('me', 'sid')." BURST");
+	send_sock(":".config('me', 'sid')." VERSION :Chakora-1.0-dev ".config('me', 'sid'));
+	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+Iiok", config('global', 'real'));
+	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+Iiok", config('chanserv', 'real'));
+	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+Iiok", config('hostserv', 'real'));
+	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+Iiok", config('memoserv', 'real'));
+	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+Iiok", config('nickserv', 'real'));
+	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+Iiok", config('operserv', 'real'));
+	serv_join(svsUID('g'), config('log', 'logchan'));
+	serv_join(svsUID('cs'), config('log', 'logchan'));
+	serv_join(svsUID('hs'), config('log', 'logchan'));
+	serv_join(svsUID('ms'), config('log', 'logchan'));
+	serv_join(svsUID('ns'), config('log', 'logchan'));
+	serv_join(svsUID('os'), config('log', 'logchan'));
+	send_sock(":".config('me', 'sid')." ENDBURST");
+}
 
 # Handle UID
 sub raw_uid {
