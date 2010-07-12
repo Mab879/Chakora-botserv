@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+#
+# /  __ \ |         | |                  
+# | /  \/ |__   __ _| | _____  _ __ __ _ 
+# | |   | '_ \ / _` | |/ / _ \| '__/ _` |
+# | \__/\ | | | (_| |   < (_) | | | (_| |
+#  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
+#          Chakora IRC Services
+#
+# Core file.
+use strict;
+use warnings;
+use IO::Socket;
+use Config::Scoped;
+use File::Data;
+
+use lib "../lib";
+
+# Get configuration values
+my $conf = Config::Scoped->new(
+	file => "../etc/chakora.conf",
+	) or die("We couldn't open the config file!\n");
+
+# Put them into variables	
+my $settings = $conf->parse;
+
+if (lc(config('server', 'ircd')) eq 'inspircd') {
+	require Chakora::Protocol::InspIRCd;
+} elsif  (lc(config('server', 'ircd')) eq 'charybdis') {
+	require Chakora::Protocol::Charybdis;
+} else {
+	error("error", "Invalid protocol.");
+}
+	
+	
+# Open the socket and connect to the server
+my $socket = IO::Socket::INET->new(
+	Proto => "tcp",
+	PeerAddr => config('server', 'host'),
+	PeerPort => config('server', 'port'),
+	) or die("Connection to ".config('server', 'host')." failed.\n");
+
+# Create some variables for later use
+my ($data, $ex, @ex);
+
+# Connect!
+irc_connect();
+
+while (1) {
+	$data = <$socket>;
+	
+	chomp($data);
+	undef $ex;
+	@ex = split(' ', $data);
+	
+	print("[IRC] ".$data."\n");
+	
+	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'END') {
+		raw_capabend();
+	}
+}
+
+sub send_sock {
+	my ($str) = @_;
+	chomp($str);
+	send($socket, $str."\r\n", 0);
+	print("[YOU] ".$str."\n");
+}
+
+sub config {
+	my ($block, $name) = @_;
+	$block = lc($block);
+	$name = lc($name);
+	if (defined $settings->{$block}->{$name}) {
+		return $settings->{$block}->{$name};
+	} else {
+		return 0;
+	}
+}
+
+sub error {
+	my ($type, $msg) = @_;
+	print("[ERROR] ".$msg."\n");
+	my ($file);
+	if ($type ne 0) {
+		$type = lc($type);
+#		log($type, $msg);
+	}
+	die();
+}	
