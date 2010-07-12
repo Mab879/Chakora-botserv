@@ -119,8 +119,8 @@ sub serv_quit {
 
 ######### Receiving data #########
 
-# Handle ENDBURST
-sub raw_endburst {
+# Handle CAPAB END
+sub raw_capabend {
 	send_sock(":".config('me', 'sid')." BURST");
 	send_sock(":".config('me', 'sid')." VERSION :Chakora-1.0-dev ".config('me', 'sid'));
 	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+Iiok", config('global', 'real'));
@@ -129,12 +129,12 @@ sub raw_endburst {
 	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+Iiok", config('memoserv', 'real'));
 	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+Iiok", config('nickserv', 'real'));
 	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+Iiok", config('operserv', 'real'));
-	serv_join(svsUID('g'), config('log', 'logchan'));
-	serv_join(svsUID('cs'), config('log', 'logchan'));
-	serv_join(svsUID('hs'), config('log', 'logchan'));
-	serv_join(svsUID('ms'), config('log', 'logchan'));
-	serv_join(svsUID('ns'), config('log', 'logchan'));
-	serv_join(svsUID('os'), config('log', 'logchan'));
+	serv_join('g', config('log', 'logchan'));
+	serv_join('cs', config('log', 'logchan'));
+	serv_join('hs', config('log', 'logchan'));
+	serv_join('ms', config('log', 'logchan'));
+	serv_join('ns', config('log', 'logchan'));
+	serv_join('os', config('log', 'logchan'));
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 
