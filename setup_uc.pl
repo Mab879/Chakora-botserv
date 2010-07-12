@@ -26,42 +26,42 @@ my ($die);
 
 print "Checking for IO::Socket..... "; 
 eval {
-	use IO::Socket;
+	require IO::Socket;
 	print "OK\n";
 	1;
 } or print("Not Found (install IO::Socket)\n") and $die = 1;
 
 print("Checking for Config::Scoped..... ");
 eval {
-	use Config::Scoped;
+	require Config::Scoped;
 	print "OK\n";
 	1;
 } or print("Not Found (install Config::Scoped)\n") and $die = 1;
 
 print("Checking for DBI..... ");
 eval {
-	use DBI;
+	require DBI;
 	print "OK\n";
 	1;
 } or print("Not Found (install DBI)\n") and $die = 1;
 
 print("Checking for DBD::CSV..... ");
 eval {
-	use DBD::CSV;
+	require DBD::CSV;
 	print "OK\n";
 	1;
 } or print("Not Found (install DBD::CSV)\n") and $die = 1;
 
 print("Checking for FindBin..... ");
 eval {
-	use FindBin;
+	require FindBin;
 	print "OK\n";
 	1;
 } or print("Not Found (install FindBin)\n") and $die = 1;
 
 print("Checking for File::Data..... ");
 eval {
-	use File::Data;
+	require File::Data;
 	print "OK\n";
 	1;
 } or print("Not Found (install File::Data)\n") and $die = 1;
