@@ -80,13 +80,13 @@ sub serv_add {
 # Handle PRIVMSG
 sub serv_privmsg {
 	my ($svs, $target, $msg) = @_;
-	send_sock(":".svsUID($svs)." PRIVMSG ".$target." ".$msg);
+	send_sock(":".svsUID($svs)." PRIVMSG ".$target." :".$msg);
 }
 
 # Handle NOTICE
 sub serv_notice {
 	my ($svs, $target, $msg) = @_;
-	send_sock(":".svsUID($svs)." NOTICE ".$target." ".$msg);
+	send_sock(":".svsUID($svs)." NOTICE ".$target." :".$msg);
 }
 
 # Handle JOIN/FJOIN
