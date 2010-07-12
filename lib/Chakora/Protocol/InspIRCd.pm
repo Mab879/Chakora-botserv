@@ -86,10 +86,10 @@ sub serv_notice {
 	send_sock(":".svsUID($svs)." NOTICE ".$target." ".$msg);
 }
 
-# Handle JOIN
+# Handle JOIN/FJOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	send_sock(":".svsUID($svs)." JOIN ".$chan);
+	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".time()." + :,".svsUID($svs));
 	serv_mode("Chakora::Server", $chan, "+o ".svsUID($svs));
 }
 
