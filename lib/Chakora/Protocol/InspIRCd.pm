@@ -13,13 +13,16 @@ use lib "../lib";
 
 ######### Core #########
 
-my (%svsuid, %uid, $uid);
+my (%svsuid, %uid, $uid, %rawcmds);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
 $svsuid{'ns'} = config('me', 'sid')."AAAAAD";
 $svsuid{'os'} = config('me', 'sid')."AAAAAE";
 $svsuid{'g'} = config('me', 'sid')."AAAAAF";
+
+$rawcmds{'UID'}{handler} = \&raw_uid;
+$rawcmds{'PING'}{handler} = \&raw_ping;
 
 sub irc_connect {
 	send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
@@ -86,11 +89,11 @@ sub serv_notice {
 	send_sock(":".svsUID($svs)." NOTICE ".$target." ".$msg);
 }
 
-# Handle JOIN
+# Handle JOIN/FJOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	send_sock(":".svsUID($svs)." JOIN ".$chan);
-	serv_mode("Chakora::Server", $chan, "+o ".svsUID($svs));
+	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".time()." + :,".svsUID($svs));
+	serv_mode("chakora::server", $chan, "+o ".svsUID($svs));
 }
 
 # Handle MODE
@@ -143,11 +146,19 @@ sub raw_uid {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	$uid{$uid}{'uid'} = $rex[0];
-	$uid{$uid}{'nick'} = $rex[2];
-	$uid{$uid}{'host'} = $rex[3];
-	$uid{$uid}{'mask'} = $rex[4];
-	$uid{$uid}{'user'} = $rex[5];
-	$uid{$uid}{'ip'} = $rex[6];
-	$uid{$uid}{'real'} = substr($rex[9], 1);
+	$uid{$uid}{'uid'} = $rex[2];
+	$uid{$uid}{'nick'} = $rex[4];
+	$uid{$uid}{'host'} = $rex[5];
+	$uid{$uid}{'mask'} = $rex[6];
+	$uid{$uid}{'user'} = $rex[7];
+	$uid{$uid}{'ip'} = $rex[8];
+	$uid{$uid}{'real'} = substr($rex[11], 1);
+}
+
+# Handle PING
+sub raw_ping {
+	my ($raw) = @_;
+	my (@rex);
+	@rex = split(' ', $raw);
+	send_sock(":".svsUID("chakora::server")." PONG ".$rex[3]." ".$rex[2]);
 }

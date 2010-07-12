@@ -24,6 +24,9 @@ my $conf = Config::Scoped->new(
 # Put them into variables	
 my $settings = $conf->parse;
 
+# Create some variables for later use
+my (%rawcmds);
+
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	require Chakora::Protocol::InspIRCd;
 } elsif  (lc(config('server', 'ircd')) eq 'charybdis') {
@@ -55,9 +58,17 @@ while (1) {
 	
 	print("[IRC] ".$data."\n");
 	
-	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'END') {
+	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
 		raw_capabend();
 	}
+	
+	if ($rawcmds{$ex[1]}) {
+		my $sub_ref = $rawcmds{$ex[1]}{handler};
+		eval {
+			&{ $sub_ref }( \@ex );
+		};
+	}
+	
 }
 
 sub send_sock {
