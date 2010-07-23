@@ -50,11 +50,10 @@ my $socket = IO::Socket::INET->new(
 my ($data, $ex, @ex);
 
 # Connect!
-irc_connect;
+irc_connect();
 
-while (1) 
+while ($data = <$socket>) 
 {
-	$data = <$socket>;
 	
 	chomp($data);
 	undef $ex;
