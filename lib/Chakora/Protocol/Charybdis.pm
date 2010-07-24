@@ -26,6 +26,8 @@ sub irc_connect {
 	send_sock("CAPAB QS ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC");
 	send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
 	send_sock("SVINFO 6 6 0 ".time());
+	# Until we implent the proper way to tell if Charybdis is done syncing, we will make it send the after-sync stuff after sending linking info
+	raw_capabend();
 }
 
 # Get service UID
