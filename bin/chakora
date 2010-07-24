@@ -42,6 +42,7 @@ if (lc(config('server', 'ircd')) eq 'inspircd')
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
 	Proto => "tcp",
+	LocalAddr => config('server', 'vhost'),
 	PeerAddr => config('server', 'host'),
 	PeerPort => config('server', 'port'),
 	) or die("Connection to ".config('server', 'host')." failed.\n");
