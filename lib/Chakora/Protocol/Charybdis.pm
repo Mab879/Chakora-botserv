@@ -75,7 +75,7 @@ sub nickUID {
 # Handle client creation
 sub serv_add {
 	my ($uid, $user, $nick, $host, $modes, $real) = @_;
-	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$uid." ".config('me', 'name')." 0 :".$real);
+	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$uid." ".config('me', 'name')." * :".$real);
 }
 
 # Handle PRIVMSG
