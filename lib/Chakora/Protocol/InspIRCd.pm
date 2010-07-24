@@ -102,6 +102,12 @@ sub serv_mode {
 	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
 }
 
+#Handle ERROR
+sub serv_error {
+my $error = @_;
+send_sock(":".svsUID('chakora::server')." ERROR :".$error);
+}
+
 # Handle KICK
 sub serv_kick {
 	my ($svs, $chan, $user, $msg) = @_;
