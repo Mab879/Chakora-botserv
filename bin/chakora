@@ -35,7 +35,7 @@ if (lc(config('server', 'ircd')) eq 'inspircd')
 	require Chakora::Protocol::Charybdis;
 } else 
 {
-	error("error", "Invalid protocol.");
+	error("error", "This protocol isn't supported by Chakora.");
 }
 	
 	
