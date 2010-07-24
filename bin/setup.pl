@@ -33,7 +33,7 @@ my $host = prompt('x', 'What is the hostname of the remote server?', 'eg. some.s
 print("\n");
 $conf->append("\thost = ".$host."\n");
 
-my $vhost = prompt('x', 'What should be the vHost of this server?', 'Mainly for multi-homed hosts.', '127.0.0.1');
+my $vhost = prompt('x', 'What should be the vHost (ip to bind to) of this server?', 'Mainly for multi-homed hosts.', '0.0.0.0');
 print("\n");
 $conf->append("\tvhost = ".$vhost."\n");
 
