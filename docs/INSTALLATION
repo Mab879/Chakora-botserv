@@ -9,7 +9,7 @@
 
 Follow these steps to install Chakora;
 
-perl configure.pl
+./configure
 
 If all modules are there, the configuration generator will start,
 otherwise, please install the missing modules then try again.
