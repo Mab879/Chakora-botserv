@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 #
 # /  __ \ |         | |                  
 # | /  \/ |__   __ _| | _____  _ __ __ _ 
@@ -27,11 +27,14 @@ my $settings = $conf->parse;
 # Create some variables for later use
 my (%rawcmds);
 
-if (lc(config('server', 'ircd')) eq 'inspircd') {
+if (lc(config('server', 'ircd')) eq 'inspircd') 
+{
 	require Chakora::Protocol::InspIRCd;
-} elsif  (lc(config('server', 'ircd')) eq 'charybdis') {
+} elsif  (lc(config('server', 'ircd')) eq 'charybdis') 
+{
 	require Chakora::Protocol::Charybdis;
-} else {
+} else 
+{
 	error("error", "Invalid protocol.");
 }
 	
@@ -49,8 +52,8 @@ my ($data, $ex, @ex);
 # Connect!
 irc_connect();
 
-while (1) {
-	$data = <$socket>;
+while ($data = <$socket>) 
+{
 	
 	chomp($data);
 	undef $ex;
@@ -62,38 +65,46 @@ while (1) {
 		raw_capabend();
 	}
 	
-	if ($rawcmds{$ex[1]}) {
+	if ($rawcmds{$ex[1]}) 
+	{
 		my $sub_ref = $rawcmds{$ex[1]}{handler};
-		eval {
+		eval 
+		{
 			&{ $sub_ref }( \@ex );
 		};
 	}
 	
 }
 
-sub send_sock {
+sub send_sock 
+{
 	my ($str) = @_;
 	chomp($str);
 	send($socket, $str."\r\n", 0);
 	print("[YOU] ".$str."\n");
 }
 
-sub config {
+sub config 
+{
 	my ($block, $name) = @_;
 	$block = lc($block);
 	$name = lc($name);
-	if (defined $settings->{$block}->{$name}) {
+	if (defined $settings->{$block}->{$name}) 
+	{
 		return $settings->{$block}->{$name};
-	} else {
+	} else 
+	{
 		return 0;
 	}
 }
 
-sub error {
+sub error 
+{
 	my ($type, $msg) = @_;
 	print("[ERROR] ".$msg."\n");
 	my ($file);
-	if ($type ne 0) {
+	if ($type ne 0) 
+	{
 		$type = lc($type);
 #		log($type, $msg);
 	}
