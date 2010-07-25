@@ -13,7 +13,8 @@ use lib "../lib";
 
 ######### Core #########
 
-my (%svsuid, %uid, $uid, %rawcmds);
+our %rawcmds;
+my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -40,19 +41,19 @@ sub svsUID {
 
 # Get UID info
 sub uidInfo {
-	my ($uid, $section) = @_;
+	my ($ruid, $section) = @_;
 	if ($section == 1) {
-		return $uid{$uid}{'nick'};
+		return $uid{$ruid}{'nick'};
 	} elsif ($section == 2) {
-		return $uid{$uid}{'user'};
+		return $uid{$ruid}{'user'};
 	} elsif ($section == 3) {
-		return $uid{$uid}{'host'};
+		return $uid{$ruid}{'host'};
 	} elsif ($section == 4) {
-		return $uid{$uid}{'mask'};
+		return $uid{$ruid}{'mask'};
 	} elsif ($section == 5) {
-		return $uid{$uid}{'ip'};
+		return $uid{$ruid}{'ip'};
 	} elsif ($section == 6) {
-		return $uid{$uid}{'real'};
+		return $uid{$ruid}{'real'};
 	} else {
 		return 0;
 	}
@@ -72,9 +73,9 @@ sub nickUID {
 
 # Handle client creation
 sub serv_add {
-	my ($uid, $user, $nick, $host, $modes, $real) = @_;
-	send_sock(":".svsUID('chakora::server')." UID ".$uid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
-	send_sock(":".$uid." OPERTYPE Service");
+	my ($ruid, $user, $nick, $host, $modes, $real) = @_;
+	send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
+	send_sock(":".$ruid." OPERTYPE Service");
 }
 
 # Handle PRIVMSG
@@ -152,13 +153,14 @@ sub raw_uid {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	$uid{$uid}{'uid'} = $rex[2];
-	$uid{$uid}{'nick'} = $rex[4];
-	$uid{$uid}{'host'} = $rex[5];
-	$uid{$uid}{'mask'} = $rex[6];
-	$uid{$uid}{'user'} = $rex[7];
-	$uid{$uid}{'ip'} = $rex[8];
-	$uid{$uid}{'real'} = substr($rex[11], 1);
+	my $ruid = $rex[2];
+	$uid{$ruid}{'uid'} = $rex[2];
+	$uid{$ruid}{'nick'} = $rex[4];
+	$uid{$ruid}{'host'} = $rex[5];
+	$uid{$ruid}{'mask'} = $rex[6];
+	$uid{$ruid}{'user'} = $rex[7];
+	$uid{$ruid}{'ip'} = $rex[8];
+	$uid{$ruid}{'real'} = substr($rex[11], 1);
 }
 
 # Handle PING
@@ -168,3 +170,5 @@ sub raw_ping {
 	@rex = split(' ', $raw);
 	send_sock(":".svsUID("chakora::server")." PONG ".$rex[3]." ".$rex[2]);
 }
+
+1;

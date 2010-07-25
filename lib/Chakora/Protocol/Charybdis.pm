@@ -12,7 +12,7 @@ use warnings;
 use lib "../lib";
 
 ######### Core #########
-
+our %rawcmds;
 my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
@@ -20,6 +20,8 @@ $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
 $svsuid{'ns'} = config('me', 'sid')."AAAAAD";
 $svsuid{'os'} = config('me', 'sid')."AAAAAE";
 $svsuid{'g'} = config('me', 'sid')."AAAAAF";
+$rawcmds{'EUID'}{handler} = \&raw_uid;
+$rawcmds{'PING'}{handler} = \&raw_ping;
 
 sub irc_connect {
 	send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
@@ -131,12 +133,12 @@ sub serv_quit {
 
 # Handle CAPAB END
 sub raw_capabend {
-	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+Soi", config('global', 'real'));
-	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+Soi", config('chanserv', 'real'));
-	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+Soi", config('hostserv', 'real'));
-	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+Soi", config('memoserv', 'real'));
-	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+Soi", config('nickserv', 'real'));
-	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+Soi", config('operserv', 'real'));
+	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+oS", config('global', 'real'));
+	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+oS", config('chanserv', 'real'));
+	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+oS", config('hostserv', 'real'));
+	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+oS", config('memoserv', 'real'));
+	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+oS", config('nickserv', 'real'));
+	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+oS", config('operserv', 'real'));
 	serv_join('g', config('log', 'logchan'));
 	serv_join('cs', config('log', 'logchan'));
 	serv_join('hs', config('log', 'logchan'));
@@ -158,3 +160,11 @@ sub raw_euid {
 	$uid{$ruid}{'host'} = $rex[10];
 	$uid{$ruid}{'real'} = substr($rex[11], 1);
 }
+sub raw_ping {
+	my ($raw) = @_;
+	my (@rex);
+	@rex = split(' ', $raw);
+	send_sock(":".svsUID("chakora::server")." PONG ".$rex[2]);
+}
+
+1;
