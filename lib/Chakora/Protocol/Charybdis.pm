@@ -1,3 +1,4 @@
+
 # /  __ \ |         | |                  
 # | /  \/ |__   __ _| | _____  _ __ __ _ 
 # | |   | '_ \ / _` | |/ / _ \| '__/ _` |
@@ -12,6 +13,8 @@ use warnings;
 use lib "../lib";
 
 ######### Core #########
+
+
 
 my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
@@ -131,12 +134,12 @@ sub serv_quit {
 
 # Handle CAPAB END
 sub raw_capabend {
-	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+oS", config('global', 'real'));
-	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+oS", config('chanserv', 'real'));
-	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+oS", config('hostserv', 'real'));
-	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+oS", config('memoserv', 'real'));
-	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+oS", config('nickserv', 'real'));
-	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+oS", config('operserv', 'real'));
+	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+Soi", config('global', 'real'));
+	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+Soi", config('chanserv', 'real'));
+	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+Soi", config('hostserv', 'real'));
+	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+Soi", config('memoserv', 'real'));
+	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+Soi", config('nickserv', 'real'));
+	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+Soi", config('operserv', 'real'));
 	serv_join('g', config('log', 'logchan'));
 	serv_join('cs', config('log', 'logchan'));
 	serv_join('hs', config('log', 'logchan'));
@@ -157,4 +160,6 @@ sub raw_euid {
 	$uid{$uid}{'uid'} = $rex[7];
 	$uid{$uid}{'host'} = $rex[8];
 	$uid{$uid}{'real'} = substr($rex[9], 1);
+	die("OMG A USER");
 }
+
