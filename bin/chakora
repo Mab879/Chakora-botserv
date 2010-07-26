@@ -73,6 +73,7 @@ while ($data = <$socket>)
 	print("[IRC] ".$data."\n");
 	
 	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
+		# die() if m_invisible is loaded, this will not be removed, so don't ask
 		if ($data =~ m/m_invisible.so/) {
 			error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
 		}
