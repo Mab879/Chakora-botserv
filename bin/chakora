@@ -23,7 +23,7 @@ GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
 
-#Handle --help
+# Handle --help
 if ($options{help})
 {
 print("**Chakora Help**\n");
@@ -90,13 +90,18 @@ while ($data = <$socket>)
 			error("chakora", "Chakora requires that m_services_account be loaded in InspIRCd, please load it and try again!");
 		}
 	}
+
+	# InspIRCd: done bursting
 	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
 		raw_capabend();
 	}
+
+	# Charybdis: syncing done
 	elsif ($ex[0] eq 'PING' and !$ex[2] and lc(config('server', 'ircd')) eq 'charybdis') {
 		raw_endsync();
 	}
 
+	# Handle a command, if a handler is defined in the protocol module
 	if ($rawcmds{$ex[1]}{handler}) 
 	{
 		my $sub_ref = $rawcmds{$ex[1]}{handler};
