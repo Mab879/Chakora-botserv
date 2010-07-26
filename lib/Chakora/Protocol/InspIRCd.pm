@@ -13,7 +13,14 @@ use lib "../lib";
 
 ######### Core #########
 
-our %rawcmds;
+our %rawcmds = (
+	'UID' => {
+		handler => \&raw_uid,
+	},
+	'PING' => {
+		handler => \&raw_ping,
+	},
+);
 my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
@@ -21,9 +28,6 @@ $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
 $svsuid{'ns'} = config('me', 'sid')."AAAAAD";
 $svsuid{'os'} = config('me', 'sid')."AAAAAE";
 $svsuid{'g'} = config('me', 'sid')."AAAAAF";
-
-$rawcmds{'UID'}{handler} = \&raw_uid;
-$rawcmds{'PING'}{handler} = \&raw_ping;
 
 sub irc_connect {
 	send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));

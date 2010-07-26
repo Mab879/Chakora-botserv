@@ -66,12 +66,12 @@ while ($data = <$socket>)
 		raw_capabend();
 	}
 
-		if ($rawcmds{$ex[1]}{handler}) 
+	if ($rawcmds{$ex[1]}{handler}) 
 	{
 		my $sub_ref = $rawcmds{$ex[1]}{handler};
 		eval 
 		{
-			&{ $sub_ref }( \@ex );
+			&{ $sub_ref }($data);
 		};
 	}
 	
