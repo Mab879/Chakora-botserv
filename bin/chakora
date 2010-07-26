@@ -25,7 +25,7 @@ my $conf = Config::Scoped->new(
 my $settings = $conf->parse;
 
 # Create some variables for later use
-my (%rawcmds);
+our %rawcmds;
 
 if (lc(config('server', 'ircd')) eq 'inspircd') 
 {
@@ -65,8 +65,8 @@ while ($data = <$socket>)
 	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
 		raw_capabend();
 	}
-	
-	if ($rawcmds{$ex[1]}) 
+
+		if ($rawcmds{$ex[1]}{handler}) 
 	{
 		my $sub_ref = $rawcmds{$ex[1]}{handler};
 		eval 
