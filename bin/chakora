@@ -22,6 +22,13 @@ my (%options);
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
+if ($options{help})
+{
+print("**Chakora Help**\n");
+print("--debug = Run in debug mode\n");
+print("--help = Return this help menu\n");
+exit;
+}
 
 # Don't allow Chakora to run as root
 if (`whoami` eq "root\n") { error("startup", "Do not run Chakora as root"); }
