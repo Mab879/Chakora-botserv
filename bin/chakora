@@ -23,6 +23,9 @@ GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
 
+# Don't allow Chakora to run as root
+if (`whoami` eq "root\n") { error("startup", "Do not run Chakora as root"); }
+
 # Get configuration values
 my $conf = Config::Scoped->new(
 	file => "../etc/chakora.conf",
