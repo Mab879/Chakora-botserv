@@ -138,5 +138,5 @@ sub error
 		$type = lc($type);
 #		log($type, $msg);
 	}
-	die();
+	exit;
 }	
