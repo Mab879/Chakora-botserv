@@ -21,6 +21,15 @@ our %rawcmds = (
 		handler => \&raw_ping,
 	},
 );
+our %PROTO_SETTINGS = (
+        name => 'InspIRCd 1.2',
+        owner => 'q',
+        admin => 'a',
+        op => 'o',
+        halfop => 'h',
+        voice => 'v',
+        mute => '-',
+);
 my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
