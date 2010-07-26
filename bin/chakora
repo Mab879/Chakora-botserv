@@ -17,6 +17,7 @@ use Getopt::Long;
 
 use lib "../lib";
 
+
 my (%options);
 # Get command line options
 GetOptions("help" => \$options{help},
@@ -33,7 +34,7 @@ exit;
 }
 
 # Don't allow Chakora to run as root
-if (`whoami` eq "root\n") { error("startup", "Do not run Chakora as root"); }
+if (`whoami` eq "root\n") { error("chakora", "Do not run Chakora as root"); }
 
 # Get configuration values
 my $conf = Config::Scoped->new(
@@ -67,7 +68,7 @@ my $socket = IO::Socket::INET->new(
 	) or die("Connection to ".config('server', 'host')." failed.\n");
 
 # Create some variables for later use
-my ($data, $ex, @ex);
+my ($data, $ex, @ex, $synced);
 
 # Connect!
 irc_connect();
@@ -82,7 +83,7 @@ while ($data = <$socket>)
 	print("[IRC] ".$data."\n");
 	
 	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
-		# die() if m_invisible is loaded, this will not be removed, so don't ask
+		# die() if m_invisible is loaded, this will not be removed - so don't ask
 		if ($data =~ m/m_invisible.so/) {
 			error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
 		}
@@ -91,13 +92,14 @@ while ($data = <$socket>)
 		}
 	}
 
-	# InspIRCd: done bursting
+	# InspIRCd: CAPAB END recieved
 	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
 		raw_capabend();
 	}
 
 	# Charybdis: syncing done
-	elsif ($ex[0] eq 'PING' and !$ex[2] and lc(config('server', 'ircd')) eq 'charybdis') {
+	if ($ex[0] eq 'PING' and !$synced and lc(config('server', 'ircd')) eq 'charybdis') {
+		$synced = 1;
 		raw_endsync();
 	}
 
@@ -147,3 +149,5 @@ sub error
 	}
 	exit;
 }	
+
+
