@@ -20,6 +20,15 @@ our %rawcmds = (
 		handler => \&raw_ping,
 	},
 );
+our %PROTO_SETTINGS = (
+	name => 'Charybdis IRCd',
+	owner => '-',
+	admin => '-',
+	op => 'o',
+	halfop => '-',
+	voice => 'v',
+	mute => 'q',
+);
 my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
