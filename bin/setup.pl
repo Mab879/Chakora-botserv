@@ -2,10 +2,14 @@
 use File::Data;
 use Term::Prompt;
 
+if (-d 'etc') { 
+print("etc/ already exists... this shouldn't be the case. Please execute rm -rf etc and re-execute this script\n");
+exit;
+}
+else {
 `mkdir etc`;
 my $file = './etc/chakora.conf';
 `touch $file`;
-
 my $conf = File::Data->new($file);
 
 $conf->prepend("# Chakora configuration file\n");
@@ -206,3 +210,4 @@ $conf->append("operators {\n\tsra = \"".$sras."\"\n}\n");
 $conf->append("\n# End configuration file");
 
 print("\nAll done! Please configure the logging portion of the config in\netc/chakora.conf then run ./bin/chakora to start her up!\n");
+}
