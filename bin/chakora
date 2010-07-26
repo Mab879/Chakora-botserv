@@ -22,6 +22,8 @@ my (%options);
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
+
+#Handle --help
 if ($options{help})
 {
 print("**Chakora Help**\n");
