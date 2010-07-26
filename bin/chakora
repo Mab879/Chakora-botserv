@@ -91,6 +91,9 @@ while ($data = <$socket>)
 	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
 		raw_capabend();
 	}
+	elsif ($ex[0] eq 'PING' and !$ex[2] and lc(config('server', 'ircd')) eq 'charybdis') {
+		raw_endsync();
+	}
 
 	if ($rawcmds{$ex[1]}{handler}) 
 	{

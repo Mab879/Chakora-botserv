@@ -42,8 +42,6 @@ sub irc_connect {
 	send_sock("CAPAB QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC");
 	send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
 	send_sock("SVINFO 6 6 0 ".time());
-	# Until we implent the proper way to tell if Charybdis is done syncing, we will make it send the after-sync stuff after sending linking info
-	raw_capabend();
 }
 
 # Get service UID
@@ -146,7 +144,7 @@ sub serv_quit {
 ######### Receiving data #########
 
 # Handle CAPAB END
-sub raw_capabend {
+sub raw_endsync {
 	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+oS", config('global', 'real'));
 	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+oS", config('chanserv', 'real'));
 	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+oS", config('hostserv', 'real'));
