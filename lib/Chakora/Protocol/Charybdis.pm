@@ -145,7 +145,7 @@ sub serv_quit {
 
 ######### Receiving data #########
 
-# Handle CAPAB END
+# Handle END SYNC
 sub raw_endsync {
 	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+oS", config('global', 'real'));
 	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+oS", config('chanserv', 'real'));
@@ -174,6 +174,7 @@ sub raw_euid {
 	$uid{$ruid}{'host'} = $rex[10];
 	$uid{$ruid}{'real'} = substr($rex[11], 1);
 }
+#Handle PING
 sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
