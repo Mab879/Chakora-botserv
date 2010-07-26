@@ -29,6 +29,8 @@ our %PROTO_SETTINGS = (
         halfop => 'h',
         voice => 'v',
         mute => '-',
+	bexcept => 'e',
+	iexcept => 'I',
 );
 my (%svsuid, %uid, $uid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
