@@ -38,6 +38,13 @@ eval {
 	1;
 } or print("Not Found (install Config::Scoped)\n") and $die = 1;
 
+print("Checking for Getopt::Long..... ");
+eval {
+	require Getopt::Long;
+	print "OK\n";
+	1;
+} or print("Not Found (install Getopt::Long)\n") and $die = 1;
+
 print("Checking for DBI..... ");
 eval {
 	require DBI;
