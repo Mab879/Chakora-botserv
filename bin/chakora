@@ -14,6 +14,7 @@ use IO::Socket;
 use Config::Scoped;
 use File::Data;
 use Getopt::Long;
+use POSIX qw(setsid);
 
 use lib "../lib";
 
@@ -23,6 +24,10 @@ my (%options);
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
+
+unless ($options{debug} == 1) {
+	daemonize();
+}
 
 # Handle --help
 if ($options{help}) {
@@ -144,6 +149,18 @@ sub send_sock {
 	chomp($str);
 	send($socket, $str."\r\n", 0);
 	print("[YOU] ".$str."\n");
+}
+
+sub daemonize {
+	print("Becoming a daemon...\n");
+
+	open STDIN, '/dev/null'   or die "Can't read /dev/null: $!";
+	open STDOUT, '>>/dev/null' or die "Can't write to /dev/null: $!";
+	open STDERR, '>>/dev/null' or die "Can't write to /dev/null: $!";
+	defined(my $pid = fork)   or die "Can't fork: $!";
+	exit if $pid;
+	setsid                    or die "Can't start a new session: $!";
+	umask 0;
 }
 
 sub config {
