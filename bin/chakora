@@ -25,12 +25,11 @@ GetOptions("help" => \$options{help},
 	  );
 
 # Handle --help
-if ($options{help})
-{
-print("**Chakora Help**\n");
-print("--debug = Run in debug mode\n");
-print("--help = Return this help menu\n");
-exit;
+if ($options{help}) {
+	print("**Chakora Help**\n");
+	print("--debug = Run in debug mode\n");
+	print("--help = Return this help menu\n");
+	exit;
 }
 
 # Don't allow Chakora to run as root
@@ -136,16 +135,14 @@ while ($data = <$socket>)
 	
 }
 
-sub send_sock 
-{
+sub send_sock {
 	my ($str) = @_;
 	chomp($str);
 	send($socket, $str."\r\n", 0);
 	print("[YOU] ".$str."\n");
 }
 
-sub config 
-{
+sub config {
 	my ($block, $name) = @_;
 	$block = lc($block);
 	$name = lc($name);
@@ -158,8 +155,7 @@ sub config
 	}
 }
 
-sub error 
-{
+sub error {
 	my ($type, $msg) = @_;
 	print("[ERROR] ".$msg."\n");
 	my ($file);
