@@ -179,7 +179,7 @@ sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	send_sock(":".svsUID("chakora::server")." PONG ".$rex[2]);
+	send_sock(":".svsUID("chakora::server")." PONG ".$rex[1]);
 }
 
 1;
