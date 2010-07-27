@@ -45,7 +45,7 @@ my $conf = Config::Scoped->new(
 my $settings = $conf->parse;
 
 # Create some variables for later use
-our %rawcmds;
+our (%rawcmds, %PROTO_SETTINGS);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') 
 {
@@ -87,11 +87,32 @@ while ($data = <$socket>)
 		if ($data =~ m/m_invisible.so/) {
 			error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
 		}
-		if ($data !~ m/m_services_account.so/) { 
-			error("chakora", "Chakora requires that m_services_account be loaded in InspIRCd, please load it and try again!");
+	}
+	# Check for status modes
+	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES' and lc(config('server', 'ircd')) eq 'inspircd') {
+		if ($data =~ m/PREFIX=(qaohv)/) {
+			$PROTO_SETTINGS{owner} = 'q';
+			$PROTO_SETTINGS{admin} = 'a';
+			$PROTO_SETTINGS{halfop} = 'h';
+		} elsif ($data =~ m/PREFIX=(aohv)/) {
+			$PROTO_SETTINGS{admin} = 'a';
+			$PROTO_SETTINGS{halfop} = 'h';
+		} elsif ($data =~ m/PREFIX=(qohv)/) {
+			$PROTO_SETTINGS{owner} = 'q';
+			$PROTO_SETTINGS{halfop} = 'h';
+		} elsif ($data =~ m/PREFIX=(qaov)/) {
+			$PROTO_SETTINGS{owner} = 'q';
+			$PROTO_SETTINGS{admin} = 'a';
+		} elsif ($data =~ m/PREFIX=(aov)/) {
+			$PROTO_SETTINGS{admin} = 'a';
+		} elsif ($data =~ m/PREFIX=(qov)/) {
+			$PROTO_SETTINGS{owner} = 'q';
+		} elsif ($data =~ m/PREFIX=(ohv)/) {
+			$PROTO_SETTINGS{halfop} = 'h';
+		} else {
+			print("[PROTOCOL] +qah are disabled, we recommend enabling these then restarting services.\n");
 		}
 	}
-
 	# InspIRCd: CAPAB END recieved
 	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
 		raw_capabend();

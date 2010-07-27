@@ -22,13 +22,13 @@ our %rawcmds = (
 	},
 );
 our %PROTO_SETTINGS = (
-        name => 'InspIRCd 1.2',
-        owner => 'q',
-        admin => 'a',
-        op => 'o',
-        halfop => 'h',
-        voice => 'v',
-        mute => '-',
+	name => 'InspIRCd',
+	owner => '-',
+	admin => '-',
+	op => 'o',
+	halfop => '-',
+	voice => 'v',
+	mute => 'b m:',
 	bexcept => 'e',
 	iexcept => 'I',
 );
