@@ -122,6 +122,10 @@ while ($data = <$socket>)
 		$synced = 1;
 		raw_endsync();
 	}
+	# Charybdis: Respond to PING's
+	elsif ($ex[0] eq 'PING' and lc(config('server', 'ircd')) eq 'charybdis') {
+		raw_ping($data);
+	}
 
 	# Handle a command, if a handler is defined in the protocol module
 	if ($rawcmds{$ex[1]}{handler}) 
