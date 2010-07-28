@@ -29,6 +29,10 @@ unless ($options{debug}) {
 	daemonize();
 }
 
+# Okay! Here we go!
+print("Chakora IRC Services started at ".time()."\n");
+svsflog("chakora", "Chakora IRC Services started.");
+
 # Handle --help
 if ($options{help}) {
 	print("**Chakora Help**\n");
@@ -193,9 +197,21 @@ sub error {
 	if ($type ne 0) 
 	{
 		$type = lc($type);
-#		log($type, $msg);
+		svsflog($type, "[ERROR] ".$msg);
 	}
 	exit;
 }	
+
+sub svsflog {
+	my ($type, $str) = @_;
+	my $file = $type.".log";
+	unless (-d "../var") {
+		`mkdir ../var`;
+	}
+	`touch ../var/$file`;
+	open FILE, ">>../var/$file" or print("[FATAL] $file: Unable to open log file! Abort!\n") and exit;
+	print FILE "(".time().") ".$str."\n"; 
+	close FILE; 
+}
 
 
