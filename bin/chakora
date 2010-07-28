@@ -25,7 +25,7 @@ GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
 
-unless ($options{debug} == 1) {
+unless ($options{debug}) {
 	daemonize();
 }
 
