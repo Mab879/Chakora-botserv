@@ -88,9 +88,13 @@ while ($data = <$socket>)
 	print("[IRC] ".$data."\n");
 	
 	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
-		# die() if m_invisible is loaded, this will not be removed - so don't ask
+		# stop if m_invisible is loaded, this will not be removed - so don't ask
 		if ($data =~ m/m_invisible.so/) {
 			error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
+		}
+		# check for m_services_account
+		if ($data =~ m/m_services_account.so/) {
+			my $INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
 		}
 	}
 	# Check for status modes
@@ -120,6 +124,9 @@ while ($data = <$socket>)
 	}
 	# InspIRCd: CAPAB END recieved
 	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
+		if ($INSPIRCD_SERVICES_ACCOUNT_MOD != 1) {
+			error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
+		}
 		raw_capabend();
 	}
 
