@@ -69,8 +69,6 @@ sub uidInfo {
 		return $uid{$ruid}{'mask'};
 	} elsif ($section == 5) {
 		return $uid{$ruid}{'ip'};
-	} elsif ($section == 6) {
-		return $uid{$ruid}{'real'};
 	} else {
 		return 0;
 	}
@@ -172,7 +170,6 @@ sub raw_euid {
 	$uid{$ruid}{'ip'} = $rex[8];
 	$uid{$ruid}{'uid'} = $rex[9];
 	$uid{$ruid}{'host'} = $rex[10];
-	$uid{$ruid}{'real'} = substr($rex[11], 1);
 }
 #Handle PING
 sub raw_ping {
