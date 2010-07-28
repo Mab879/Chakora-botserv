@@ -61,6 +61,7 @@ if (lc(config('server', 'ircd')) eq 'inspircd')
 {
 	error("error", "This protocol isn't supported by Chakora.");
 }
+
 	
 	
 # Open the socket and connect to the server
@@ -74,6 +75,7 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex);
 my $synced = 0;
+my ($INSPIRCD_SERVICES_ACCOUNT_MOD);
 
 # Connect!
 irc_connect();
@@ -94,7 +96,7 @@ while ($data = <$socket>)
 		}
 		# check for m_services_account
 		if ($data =~ m/m_services_account.so/) {
-			my $INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
+			$INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
 		}
 	}
 	# Check for status modes
