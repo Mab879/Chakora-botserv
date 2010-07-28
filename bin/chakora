@@ -72,7 +72,8 @@ my $socket = IO::Socket::INET->new(
 	) or die("Connection to ".config('server', 'host')." failed.\n");
 
 # Create some variables for later use
-my ($data, $ex, @ex, $synced);
+my ($data, $ex, @ex);
+my $synced = 0;
 
 # Connect!
 irc_connect();
@@ -123,12 +124,12 @@ while ($data = <$socket>)
 	}
 
 	# Charybdis: syncing done
-	if ($ex[0] eq 'PING' and !$synced and lc(config('server', 'ircd')) eq 'charybdis') {
+	if ($ex[0] eq 'PING' and $synced ne 1 and lc(config('server', 'ircd')) eq 'charybdis') {
 		$synced = 1;
 		raw_endsync();
 	}
 	# Charybdis: Respond to PING's
-	elsif ($ex[0] eq 'PING' and lc(config('server', 'ircd')) eq 'charybdis') {
+	elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis') {
 		raw_ping($data);
 	}
 
@@ -154,12 +155,12 @@ sub send_sock {
 sub daemonize {
 	print("Becoming a daemon...\n");
 
-	open STDIN, '/dev/null'   or die "Can't read /dev/null: $!";
-	open STDOUT, '>>/dev/null' or die "Can't write to /dev/null: $!";
-	open STDERR, '>>/dev/null' or die "Can't write to /dev/null: $!";
-	defined(my $pid = fork)   or die "Can't fork: $!";
+	open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
+	open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+	open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+	defined(my $pid = fork)   or error("chakora", "Can't fork: $!");
 	exit if $pid;
-	setsid                    or die "Can't start a new session: $!";
+	setsid                    or error("chakora", "Can't start a new session: $!");
 	umask 0;
 }
 
