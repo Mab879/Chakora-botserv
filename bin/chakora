@@ -19,14 +19,23 @@ use POSIX qw(setsid);
 use lib "../lib";
 
 
-my (%options);
+my (%options, $PID);
 # Get command line options
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
 
 unless ($options{debug}) {
-	daemonize();
+	print("Becoming a daemon...\n");
+	open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
+	open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+	open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+	my $pid = fork();
+	unless ($pid == 0) {
+		svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
+		exit;
+	}
+	setsid or error("chakora", "Can't start a new session: $!");
 }
 
 # Okay! Here we go!
@@ -163,18 +172,6 @@ sub send_sock {
 	chomp($str);
 	send($socket, $str."\r\n", 0);
 	print("[YOU] ".$str."\n");
-}
-
-sub daemonize {
-	print("Becoming a daemon...\n");
-
-	open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
-	open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
-	open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
-	defined(my $pid = fork)   or error("chakora", "Can't fork: $!");
-	exit if $pid;
-	setsid                    or error("chakora", "Can't start a new session: $!");
-	umask 0;
 }
 
 sub config {
