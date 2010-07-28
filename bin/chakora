@@ -77,7 +77,7 @@ if (lc(config('server', 'ircd')) eq 'inspircd')
 	error("error", "This protocol isn't supported by Chakora.");
 }
 
-	
+require Modules::operserv::shutdown;	
 	
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
@@ -216,7 +216,7 @@ sub svsflog {
 sub cmd_add {
 	my ($name, $author, $version, $shelp, $fhelp, $handler, $ircd) = @_;
 	print("[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
-	svsflog("chakora", "[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
+	svsflog("chakora", "[MODULES] Attempting to load module: ".$name." v".$version." by ".$author);
 	$ircd = lc($ircd);
 	if ($ircd ne 'all' and $ircd ne lc(config('server', 'ircd'))) {
 		print("[MODULES] Module ".$name." refusing to load: Protocol not supported.\n");
