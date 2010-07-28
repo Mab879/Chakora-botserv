@@ -64,7 +64,7 @@ my $conf = Config::Scoped->new(
 my $settings = $conf->parse;
 
 # Create some variables for later use
-our (%rawcmds, %PROTO_SETTINGS);
+our (%rawcmds, %PROTO_SETTINGS, %COMMANDS);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') 
 {
@@ -213,4 +213,23 @@ sub svsflog {
 	close FILE; 
 }
 
-
+sub cmd_add {
+	my ($name, $author, $version, $shelp, $fhelp, $handler, $ircd) = @_;
+	print("[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
+	svsflog("chakora", "[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
+	$ircd = lc($ircd);
+	if ($ircd ne 'all' and $ircd ne lc(config('server', 'ircd'))) {
+		print("[MODULES] Module ".$name." refusing to load: Protocol not supported.\n");
+		svsflog("chakora", "[MODULES] Module ".$name." refusing to load: Protocol not supported.");
+	} else {
+		my @rname = split('/', $name);
+		$COMMANDS{$rname[0]}{$rname[1]}{name} = $name;
+		$COMMANDS{$rname[0]}{$rname[1]}{author} = $author;
+		$COMMANDS{$rname[0]}{$rname[1]}{version} = $version;
+		$COMMANDS{$rname[0]}{$rname[1]}{help}{short} = $shelp;
+		$COMMANDS{$rname[0]}{$rname[1]}{help}{full} = $fhelp;
+		$COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
+		print("[MODULES] ".$name.": Module successfully loaded.\n");
+		svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
+	}
+}
