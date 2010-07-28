@@ -51,7 +51,9 @@ if ($options{help}) {
 }
 
 # Don't allow Chakora to run as root
-if (`whoami` eq "root\n") { error("chakora", "Do not run Chakora as root"); }
+if (`whoami` eq "root\n") { 
+	error("chakora", "We forbid the running of Chakora as root."); 
+}
 
 # Get configuration values
 my $conf = Config::Scoped->new(
