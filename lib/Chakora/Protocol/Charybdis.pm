@@ -147,8 +147,6 @@ sub serv_quit {
 
 # Handle END SYNC
 sub raw_endsync {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
 	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+oS", config('global', 'real'));
 	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+oS", config('chanserv', 'real'));
 	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+oS", config('hostserv', 'real'));
