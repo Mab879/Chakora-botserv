@@ -9,5 +9,5 @@
 use strict;
 use warnings;
 
-cmd_add("operserv/shutdown", "The Chakora Project", "1.0", "Shuts down services.", "", '&\svs_os_shutdown', "all");
+cmd_add("operserv/shutdown", "The Chakora Project", "1.0", "Shuts down services.", "", '\&svs_os_shutdown', "all");
 1;
