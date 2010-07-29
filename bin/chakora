@@ -89,8 +89,6 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 	require Chakora::Protocol::InspIRCd;
 } elsif  (lc(config('server', 'ircd')) eq 'charybdis') {
 	require Chakora::Protocol::Charybdis;
-} elsif  (lc(config('server', 'ircd')) eq 'unreal') {
-	fork while fork;
 } else {
 	error("error", "This protocol isn't supported by Chakora.");
 }
