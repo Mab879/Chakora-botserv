@@ -73,6 +73,13 @@ eval {
 	1;
 } or print("Not Found (install File::Data)\n") and $die = 1;
 
+print("Checking for Term::ANSIColor..... ");
+eval {
+	require Term::ANSIColor;
+	print "OK\n";
+	1;
+} or print("Not Found (install Term::ANSIColor)\n") and $die = 1;
+
 print("Checking for Term::Prompt..... ");
 eval {
 	require Term::Prompt;
