@@ -35,7 +35,7 @@ print("By continuing you are hereby stating that\n");
 print("you have read and agreed to docs/LICENSE\n"); sleep 1;
 print("\n");
 print("Many thanks to the developers of Chakora for\n");
-print("for their hard work on this software!\n"); sleep 1;
+print("their hard work on this software!\n"); sleep 1;
 print("\n");
 print("Developers: starcoder, MattB, chazz, cooper, Freelancer\n"); sleep 1;
 print("\n");
