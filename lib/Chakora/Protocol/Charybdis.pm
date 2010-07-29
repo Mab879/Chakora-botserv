@@ -19,6 +19,9 @@ our %rawcmds = (
 	'PING' => {
 		handler => \&raw_ping,
 	},
+	'SJOIN' => {
+		handler => \&raw_sjoin,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -31,7 +34,7 @@ our %PROTO_SETTINGS = (
 	bexecpt => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid);
+my (%svsuid, %uid, $uid, %channel, $channel);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -107,14 +110,13 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	send_sock(":".svsUID($svs)." JOIN ".time()." ".$chan." +");
-	serv_mode("chakora::server", $chan, "+o ".svsUID($svs));
+	send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
 }
 
 # Handle TMODE
 sub serv_mode {
 	my ($svs, $chan, $modes) = @_;
-	send_sock(":".svsUID($svs)." TMODE  ".time()." ".$chan." ".$modes);
+	send_sock(":".svsUID($svs)." TMODE ".$channel{$chan}{'ts'}." ".$chan." ".$modes);
 }
 
 #Handle ERROR
@@ -171,7 +173,17 @@ sub raw_euid {
 	$uid{$ruid}{'uid'} = $rex[9];
 	$uid{$ruid}{'host'} = $rex[10];
 }
-#Handle PING
+
+# Handle SJOIN
+sub raw_sjoin {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] :48X SJOIN 1280086561 #services +nt :@48XAAAAAB
+	my $rchan = $rex[3];
+	$channel{$rchan}{'ts'} = $rex[2];
+}
+
+# Handle PING
 sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
