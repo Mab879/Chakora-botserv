@@ -169,7 +169,7 @@ while ($data = <$socket>)
 	# Charybdis: syncing done
 	if ($ex[0] eq 'PING' and $synced ne 1 and lc(config('server', 'ircd')) eq 'charybdis') {
 		$synced = 1;
-		raw_endsync();
+		raw_endsync($data);
 	}
 	# Charybdis: Respond to PING's
 	elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis') {
