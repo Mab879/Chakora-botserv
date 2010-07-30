@@ -20,7 +20,7 @@ use Term::ANSIColor;
 use lib "../lib";
 
 
-my (%options, $PID);
+my (%options, %svsuid);
 # Get command line options
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
@@ -106,7 +106,7 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex);
 my $synced = 0;
-my ($INSPIRCD_SERVICES_ACCOUNT_MOD);
+my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE);
 
 # Connect!
 irc_connect();
@@ -173,7 +173,7 @@ while ($data = <$socket>)
 		raw_ping($data);
 	}
 
-	# Handle a command, if a handler is defined in the protocol module
+	# Handle a server command, if a handler is defined in the protocol module
 	if ($rawcmds{$ex[1]}{handler}) 
 	{
 		my $sub_ref = $rawcmds{$ex[1]}{handler};
@@ -183,6 +183,27 @@ while ($data = <$socket>)
 		};
 	}
 	
+	# Handle services commands, if it exists
+	if ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
+		if ($ex[2] eq $svsuid{'cs'}) {
+			$SERVICES_MSGSERVICE = "chanserv";
+		} elsif ($ex[2] eq $svsuid{'hs'}) {
+			$SERVICES_MSGSERVICE = "hostserv";
+		} elsif ($ex[2] eq $svsuid{'ms'}) {
+			$SERVICES_MSGSERVICE = "memoserv";
+		} elsif ($ex[2] eq $svsuid{'ns'}) {
+			$SERVICES_MSGSERVICE = "nickserv";
+		} elsif ($ex[2] eq $svsuid{'os'}) {
+			$SERVICES_MSGSERVICE = "operserv";
+		}
+		if ($COMMANDS{$SERVICES_MSGSERVICE}{lc(substr($ex[3], 1))}{handler}) {
+			my $sub_ref = $COMMANDS{$SERVICES_MSGSERVICE}{lc(substr($ex[3], 1))}{handler};
+			eval 
+			{	
+				&{ $sub_ref }($data);
+			};
+		}
+	}
 }
 
 sub send_sock {
