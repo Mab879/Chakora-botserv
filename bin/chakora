@@ -119,7 +119,7 @@ my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac); 
 foreach $sac (@sab) { 
-	eval { require "Modules/".$sac; }; 
+	eval { require "../lib/Modules/".$sac.".pm"; }; 
 }
 
 while ($data = <$socket>) 
