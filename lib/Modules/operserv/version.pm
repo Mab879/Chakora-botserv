@@ -20,7 +20,7 @@ sub svs_os_version {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
-	serv_notice("os", $user, "Chakora IRC Services Version 1.0-dev - Developed by starcoder, MattB, chazz, cooper, and Freelancer");
+	serv_notice("os", $user, $Chakora::SERVICES_VERSION." - Developed by starcoder, MattB, chazz, cooper, and Freelancer");
 }
 
 1;

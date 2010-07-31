@@ -22,12 +22,16 @@ use lib "../lib";
 
 
 my (%options, %svsuid);
-our ($SERVICES_STARTTIME);
+our ($SERVICES_STARTTIME, $SERVICES_VERSION);
 
 # Get command line options
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
+
+# Define our version
+$SERVICES_VERSION = 'Chakora 1.0-dev';
+
 # Okay! Here we go!
 print color 'bold red';
 print("Chakora IRC Services Version 1.0-dev\n");
