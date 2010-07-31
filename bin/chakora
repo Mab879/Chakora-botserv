@@ -115,8 +115,12 @@ my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSE
 # Connect!
 irc_connect();
 
-require Modules::operserv::uptime;
-require Modules::operserv::version;
+my $saa = config('services', 'autoload'); 
+my @sab = split(' ', $saa);
+my ($sac); 
+foreach $sac (@sab) { 
+	eval { require "Modules/".$sac; }; 
+}
 
 while ($data = <$socket>) 
 {
@@ -264,6 +268,7 @@ sub svsflog {
 	print FILE "(".time().") ".$str."\n"; 
 	close FILE; 
 }
+
 sub module_init {
 	my ($name, $author, $version, $handler, $ircd) = @_;
 	print("[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
