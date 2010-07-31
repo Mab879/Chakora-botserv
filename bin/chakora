@@ -116,6 +116,7 @@ my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSE
 irc_connect();
 
 require Modules::operserv::uptime;
+require Modules::operserv::version;
 
 while ($data = <$socket>) 
 {
