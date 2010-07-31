@@ -7,16 +7,18 @@
 #          Modules::operserv::uptime
 #
 # Operserv Uptime module for Chakora
-
 use strict;
 use warnings;
 
-cmd_add("operserv/uptime", "The Chakora Project", "0.1", "Uptime", "Display\nservices\nuptime", \&svs_os_uptime, "all");
+module_init("operserv/uptime", "The Chakora Project", "0.1", \&init_os_uptime, "all");
 
+sub init_os_uptime {
+	cmd_add("operserv/uptime", "Uptime", "Display\nservices\nuptime", \&svs_os_uptime);
+}
 
 sub svs_os_uptime {
-        my ($raw) = @_;
-        my @rex = split(' ', $raw);
+    my ($raw) = @_;
+	my @rex = split(' ', $raw);
 	my $sdate = scalar(localtime($Chakora::SERVICES_STARTTIME));
 	my $uptime = time() - $Chakora::SERVICES_STARTTIME; 
 	my $minutes = $uptime / 60;
