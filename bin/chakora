@@ -106,7 +106,7 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex);
 my $synced = 0;
-my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE);
+my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
 
 # Connect!
 irc_connect();
@@ -119,6 +119,7 @@ while ($data = <$socket>)
 	@ex = split(' ', $data);
 	
 	print("[IRC] ".$data."\n");
+	$USER = substr($ex[0], 1);
 	
 	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
 		# stop if m_invisible is loaded, this will not be removed - so don't ask
@@ -185,23 +186,30 @@ while ($data = <$socket>)
 	
 	# Handle services commands, if it exists
 	if ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
-		if ($ex[2] eq $svsuid{'cs'}) {
-			$SERVICES_MSGSERVICE = "chanserv";
-		} elsif ($ex[2] eq $svsuid{'hs'}) {
-			$SERVICES_MSGSERVICE = "hostserv";
-		} elsif ($ex[2] eq $svsuid{'ms'}) {
-			$SERVICES_MSGSERVICE = "memoserv";
-		} elsif ($ex[2] eq $svsuid{'ns'}) {
-			$SERVICES_MSGSERVICE = "nickserv";
-		} elsif ($ex[2] eq $svsuid{'os'}) {
-			$SERVICES_MSGSERVICE = "operserv";
+		if ($ex[2] eq svsUID('cs')) {
+			$SERVICES_MSGSERVICE = "ChanServ";
+			$SERVICES_MSGSERVICEA = "cs";
+		} elsif ($ex[2] eq svsUID('hs')) {
+			$SERVICES_MSGSERVICE = "HostServ";
+			$SERVICES_MSGSERVICEA = "hs";
+		} elsif ($ex[2] eq svsUID('ms')) {
+			$SERVICES_MSGSERVICE = "MemoServ";
+			$SERVICES_MSGSERVICEA = "ms";
+		} elsif ($ex[2] eq svsUID('ns')) {
+			$SERVICES_MSGSERVICE = "NickServ";
+			$SERVICES_MSGSERVICEA = "ns";
+		} elsif ($ex[2] eq svsUID('os')) {
+			$SERVICES_MSGSERVICE = "OperServ";
+			$SERVICES_MSGSERVICEA = "os";
 		}
-		if ($COMMANDS{$SERVICES_MSGSERVICE}{lc(substr($ex[3], 1))}{handler}) {
-			my $sub_ref = $COMMANDS{$SERVICES_MSGSERVICE}{lc(substr($ex[3], 1))}{handler};
+		if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
+			my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
 			eval 
 			{	
 				&{ $sub_ref }($data);
 			};
+		} else {
+			serv_notice($SERVICES_MSGSERVICEA, $USER, "Unknown command. Please see /msg ".$SERVICES_MSGSERVICE." HELP for a list of commands.");
 		}
 	}
 }
