@@ -3,7 +3,7 @@
 # | |   | '_ \ / _` | |/ / _ \| '__/ _` |
 # | \__/\ | | | (_| |   < (_) | | | (_| |
 #  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
-#    Charybdis Linking Module
+#        Charybdis Linking Module
 #	   Chakora::Protocol::Charybdis
 #
 # Linking protocol module for Charybdis
