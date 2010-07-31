@@ -215,7 +215,7 @@ while ($data = <$socket>)
 				&{ $sub_ref }($data);
 			};
 		} else {
-			serv_notice($SERVICES_MSGSERVICEA, $USER, "Unknown command. Please see /msg ".$SERVICES_MSGSERVICE." HELP for a list of commands.");
+			serv_notice($SERVICES_MSGSERVICEA, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
 		}
 	}
 }
