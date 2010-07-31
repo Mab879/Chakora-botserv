@@ -27,7 +27,7 @@ sub svs_os_uptime {
 	my $weeks = $days / 7;
 	my $user = substr($rex[0], 1);
 	serv_notice("os", $user, "Services were started at: ".$sdate);
-	serv_notice("os", $user, "Services have been up for: ".int($days)." days.");
+	serv_notice("os", $user, "Services have been up for: ".int($weeks)." weeks, ".int($days)." days, ".int($hours)." hours, and ".int($minutes)." minutes.");
 }
 
 1;
