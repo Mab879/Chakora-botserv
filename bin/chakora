@@ -81,7 +81,7 @@ if (`whoami` eq "root\n") {
 	error("chakora", "We forbid the running of Chakora as root."); 
 }
 
-# Get configuration valueshe
+# Get configuration values
 my $conf = Config::Scoped->new(
 	file => "../etc/chakora.conf",
 	) or die("We couldn't open the config file!\n");
