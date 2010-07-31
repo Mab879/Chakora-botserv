@@ -35,7 +35,7 @@ please contact Elijah at elijah@technoirc.org
 --------------
 
 Chakora Services are IRC Services coded in Perl for the InspIRCd 
-1.2/2.0 and Charybdis (TS6) Linking Protocols. It comes with; 
+1.2/2.0, Charybdis (TS6), and DarkHex (Modified TS6) Linking Protocols. It comes with; 
 ChanServ, NickServ, OperServ, HostServ, MemoServ and Global.
 
 ATTENTION: By using this software, you are stating
