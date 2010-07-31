@@ -3,8 +3,10 @@ use File::Data;
 use Term::Prompt;
 
 if (-d 'etc') { 
-print("etc/ already exists... this shouldn't be the case. Please execute rm -rf etc and re-execute this script\n");
-exit;
+`mkdir etc.old`;
+`cp -R etc/* etc.old/`;
+`rm -rf etc/`;
+print('Removing etc/ to prevent conflicts, contents copied into etc.old/'."\n");
 }
 else {
 `mkdir etc`;
