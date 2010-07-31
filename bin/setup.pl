@@ -81,7 +81,10 @@ $conf->append("\t# Log channel.\n");
 $conf->append("\tlogchan = \"#services\"\n");
 $conf->append("\tlogchanf = \"error soper request register\"\n");
 
-$conf->append("}\n\n");
+$conf->append("}\n\nservices {\n");
+my $email = prompt('x', 'What is the admin email?', '', '');
+$conf->append("email = \"".$email."\"\n");
+$conf->append("autoload = \"\"\n}\n\n");
 
 my $svs = 'ChanServ';
 $conf->append(lc($svs)." {\n");
@@ -208,6 +211,7 @@ print("\n");
 $conf->append("operators {\n\tsra = \"".$sras."\"\n}\n");
 
 $conf->append("\n# End configuration file");
+
 
 print("\nAll done! Please configure the logging portion of the config in\netc/chakora.conf then run ./bin/chakora to start her up!\n");
 }
