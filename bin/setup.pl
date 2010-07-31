@@ -83,7 +83,7 @@ $conf->append("\tlogchanf = \"error soper request register\"\n");
 
 $conf->append("}\n\nservices {\n");
 my $email = prompt('x', 'What is the admin email?', '', '');
-$conf->append("email = \"".$email."\"\n");
+$conf->append("email = \'".$email."\'\n");
 $conf->append("autoload = \"\"\n}\n\n");
 
 my $svs = 'ChanServ';
