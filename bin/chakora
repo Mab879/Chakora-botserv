@@ -93,7 +93,6 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 	error("error", "This protocol isn't supported by Chakora.");
 }
 
-require Modules::operserv::shutdown;	
 	
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
