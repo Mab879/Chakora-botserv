@@ -8,6 +8,7 @@
 #          Chakora IRC Services
 #
 # Core file.
+package Chakora;
 use strict;
 use warnings;
 use IO::Socket;
@@ -21,12 +22,12 @@ use lib "../lib";
 
 
 my (%options, %svsuid);
+our ($SERVICES_STARTTIME);
 
 # Get command line options
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
 	  );
-
 # Okay! Here we go!
 print color 'bold red';
 print("Chakora IRC Services Version 1.0-dev\n");
@@ -47,7 +48,7 @@ print("Host: irc.technoirc.net | Channel: #chakora\n");
 print("\n\n");
 print color 'reset';
 print("Chakora IRC Services started at ".time()."\n"); sleep 1;
-my $SERVICES_STARTTIME = time();
+$SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
 
 unless ($options{debug}) {
