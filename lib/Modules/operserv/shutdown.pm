@@ -10,4 +10,10 @@ use strict;
 use warnings;
 
 cmd_add("operserv/shutdown", "The Chakora Project", "1.0", "Shuts down services.", "", '\&svs_os_shutdown', "all");
+
+sub svs_os_shutdown {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	serv_notice("OperServ", substr($rex[0], 1), "LOLWUT"); 
+}
 1;
