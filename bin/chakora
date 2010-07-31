@@ -43,7 +43,7 @@ print("If you require support, feel free to join our\n");
 print("official support chatroom!\n");
 print("\n");
 print("Host: irc.technoirc.net | Channel: #chakora\n");
-print("\n\n"); sleep 2;
+print("\n\n");
 print color 'reset';
 print("Chakora IRC Services started at ".time()."\n"); sleep 1;
 svsflog("chakora", "Chakora IRC Services started.");
