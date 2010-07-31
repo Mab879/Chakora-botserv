@@ -20,7 +20,8 @@ use Term::ANSIColor;
 use lib "../lib";
 
 
-my (%options, %svsuid, $SERVICES_STARTTIME);
+my (%options, %svsuid);
+
 # Get command line options
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
@@ -110,6 +111,8 @@ my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSE
 
 # Connect!
 irc_connect();
+
+require Modules::operserv::uptime;
 
 while ($data = <$socket>) 
 {
