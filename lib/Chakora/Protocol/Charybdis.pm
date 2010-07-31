@@ -122,10 +122,16 @@ sub serv_mode {
 	send_sock(":".svsUID($svs)." TMODE ".$channel{$chan}{'ts'}." ".$chan." ".$modes);
 }
 
-#Handle ERROR
+# Handle ERROR
 sub serv_error {
-my $error = @_;
-send_sock(":".svsUID('chakora::server')." ERROR :".$error);
+	my $error = @_;
+	send_sock(":".svsUID('chakora::server')." ERROR :".$error);
+}
+
+# Handle INVITE
+sub serv_invite {
+	my ($svs, $target, $chan);
+	send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
 }
 
 # Handle KICK
