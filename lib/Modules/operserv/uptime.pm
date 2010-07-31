@@ -25,30 +25,35 @@ sub svs_os_uptime {
 	my $hours = 0;
 	my $days = 0;
 	my $weeks = 0;
+	my $months = 0;
 	my $years = 0;
-	while ($uptime > 60) {
+	while ($uptime >= 60) {
 		$uptime = $uptime - 60;
 		$minutes = $minutes + 1;
 	}
-	while ($minutes > 60) {
+	while ($minutes >= 60) {
 		$minutes = $minutes - 60;
 		$hours = $hours + 1;
 	}
-	while ($hours > 24) {
+	while ($hours >= 24) {
 		$hours = $hours - 24;
 		$days = $days + 1;
 	}
-	while ($days > 7) {
+	while ($days >= 7) {
 		$days = $days - 7;
 		$weeks = $weeks + 1;
 	}
-	while ($weeks > 52) {
-		$weeks = $weeks - 52;
+	while ($weeks >= 4) {
+		$weeks = $weeks - 4;
+		$months = $months + 1;
+	}
+	while ($months >= 12) {
+		$months = $months - 12;
 		$years = $years + 1;
 	}
 	my $user = substr($rex[0], 1);
 	serv_notice("os", $user, "Services were started at: ".$sdate);
-	serv_notice("os", $user, "Services have been up for: ".int($years)." years, ".int($weeks)." weeks, ".int($days)." days, ".int($hours)." hours, ".int($minutes)." minutes, and ".int($uptime)." seconds.");
+	serv_notice("os", $user, "Services have been up for: ".int($years)." years, ".int($months)." months, ".int($weeks)." weeks, ".int($days)." days, ".int($hours)." hours, ".int($minutes)." minutes, and ".int($uptime)." seconds.");
 }
 
 1;
