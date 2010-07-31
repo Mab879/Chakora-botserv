@@ -81,7 +81,7 @@ if (`whoami` eq "root\n") {
 	error("chakora", "We forbid the running of Chakora as root."); 
 }
 
-# Get configuration values
+# Get configuration valueshe
 my $conf = Config::Scoped->new(
 	file => "../etc/chakora.conf",
 	) or die("We couldn't open the config file!\n");
@@ -296,7 +296,7 @@ sub cmd_add {
 	my ($name, $shelp, $fhelp, $handler) = @_;
 	my @rname = split('/', $name);
 	$COMMANDS{$rname[0]}{$rname[1]}{name} = $name;
-	$COMMANDS{$rname[0]}{$rname[1]}{help}{short} = $shelp;
-	$COMMANDS{$rname[0]}{$rname[1]}{help}{full} = $fhelp;
+	$COMMANDS{$rname[0]}{$rname[1]}{shelp} = $shelp;
+	$COMMANDS{$rname[0]}{$rname[1]}{fhelp} = $fhelp;
 	$COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
 }
