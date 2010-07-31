@@ -90,9 +90,11 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 	require Chakora::Protocol::InspIRCd;
 } elsif  (lc(config('server', 'ircd')) eq 'charybdis') {
 	require Chakora::Protocol::Charybdis;
+} elsif (lc(config('server', 'ircd')) eq 'darkhex') {
+    require Chakora::Protocol::DarkHex;
 } else {
 	error("error", "This protocol isn't supported by Chakora.");
-}
+};
 
 	
 # Open the socket and connect to the server
