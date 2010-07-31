@@ -215,5 +215,5 @@ $conf->append("operators {\n\tsra = \"".$sras."\"\n}\n");
 $conf->append("\n# End configuration file");
 
 
-print("\nAll done! Please configure the logging portion of the config in\netc/chakora.conf then run ./bin/chakora to start her up!\n");
+print("\nAll done! Please configure the logging and autoload portion of the config in\netc/chakora.conf then run ./bin/chakora to start her up!\n");
 }
