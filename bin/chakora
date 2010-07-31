@@ -123,7 +123,7 @@ my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac); 
 foreach $sac (@sab) { 
-	eval { require "../lib/Modules/".$sac.".pm"; }; 
+	eval { require "../lib/Modules/".lc($sac).".pm"; }; 
 }
 
 while ($data = <$socket>) 
