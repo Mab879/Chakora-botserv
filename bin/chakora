@@ -20,7 +20,7 @@ use Term::ANSIColor;
 use lib "../lib";
 
 
-my (%options, %svsuid);
+my (%options, %svsuid, $SERVICES_STARTTIME);
 # Get command line options
 GetOptions("help" => \$options{help},
 	   "debug" => \$options{debug},
@@ -46,6 +46,7 @@ print("Host: irc.technoirc.net | Channel: #chakora\n");
 print("\n\n");
 print color 'reset';
 print("Chakora IRC Services started at ".time()."\n"); sleep 1;
+my $SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
 
 unless ($options{debug}) {
