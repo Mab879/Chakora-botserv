@@ -23,8 +23,28 @@ use DBD::CSV;
 use SQL::Statement;
 use Text::CSV_XS;
 
-use lib "../lib";
+my ($ROOT_LIB, $ROOT_ETC);
+if (!(-d "lib/")) {
+	if (!(-d "../lib/")) {
+		error("chakora", "Unable to locate lib/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
+	} else {
+		$ROOT_LIB = "../lib";
+		use lib "../lib";
+	}
+} else {
+	$ROOT_LIB = "lib";
+	use lib "lib";
+}
 
+if (!(-d "etc/")) {
+	if (!(-d "../etc/")) {
+		error("chakora", "Unable to locate etc/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
+	} else {
+		$ROOT_ETC = "../etc";
+	}
+} else {
+	$ROOT_ETC = "etc";
+}
 
 my (%options, %svsuid);
 our ($SERVICES_STARTTIME, $SERVICES_VERSION);
@@ -88,7 +108,7 @@ if (`whoami` eq "root\n") {
 
 # Get configuration values
 my $conf = Config::Scoped->new(
-	file => "../etc/chakora.conf",
+	file => $ROOT_ETC."/chakora.conf",
 	) or die("We couldn't open the config file!\n");
 
 # Put them into variables	
@@ -128,7 +148,7 @@ my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac); 
 foreach $sac (@sab) { 
-	eval { require "../lib/Modules/".lc($sac).".pm"; }; 
+	eval { require $ROOT_LIB."/Modules/".lc($sac).".pm"; }; 
 }
 
 while ($data = <$socket>) 
