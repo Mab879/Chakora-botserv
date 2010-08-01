@@ -17,6 +17,11 @@ use File::Data;
 use Getopt::Long;
 use POSIX qw(setsid);
 use Term::ANSIColor;
+use DBI;
+use DBD::File;
+use DBD::CSV;
+use SQL::Statement;
+use Text::CSV_XS;
 
 use lib "../lib";
 
