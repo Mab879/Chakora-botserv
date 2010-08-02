@@ -142,7 +142,7 @@ our (%rawcmds, %PROTO_SETTINGS, %COMMANDS);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	require Chakora::Protocol::InspIRCd;
-} elsif  (lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
+} elsif (lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
 	require Chakora::Protocol::Charybdis;
 } else {
 	error("error", "This protocol isn't supported by Chakora.");
