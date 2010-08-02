@@ -25,25 +25,25 @@ use Text::CSV_XS;
 
 my ($ROOT_LIB, $ROOT_ETC);
 if (!(-d "lib/")) {
-	if (!(-d "../lib/")) {
-		error("chakora", "Unable to locate lib/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
-	} else {
-		$ROOT_LIB = "../lib";
-		use lib "../lib";
-	}
+    if (!(-d "../lib/")) {
+        error("chakora", "Unable to locate lib/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
+    } else {
+        $ROOT_LIB = "../lib";
+        use lib "../lib";
+    }
 } else {
-	$ROOT_LIB = "lib";
-	use lib "lib";
+    $ROOT_LIB = "lib";
+    use lib "lib";
 }
 
 if (!(-d "etc/")) {
-	if (!(-d "../etc/")) {
-		error("chakora", "Unable to locate etc/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
-	} else {
-		$ROOT_ETC = "../etc";
-	}
+    if (!(-d "../etc/")) {
+        error("chakora", "Unable to locate etc/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
+    } else {
+        $ROOT_ETC = "../etc";
+    }
 } else {
-	$ROOT_ETC = "etc";
+    $ROOT_ETC = "etc";
 }
 
 my (%options, %svsuid);
@@ -51,8 +51,8 @@ our ($SERVICES_STARTTIME, $SERVICES_VERSION);
 
 # Get command line options
 GetOptions("help" => \$options{help},
-	   "debug" => \$options{debug},
-	  );
+    "debug" => \$options{debug},
+);
 
 # Define our version
 $SERVICES_VERSION = 'Chakora 1.0-dev';
@@ -81,35 +81,35 @@ $SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
 
 unless ($options{debug}) {
-	print("Becoming a daemon...\n");
-	open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
-	open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
-	open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
-	my $pid = fork();
-	unless ($pid == 0) {
-		svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
-		exit;
-	}
-	setsid or error("chakora", "Can't start a new session: $!");
+    print("Becoming a daemon...\n");
+    open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
+    open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+    open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+    my $pid = fork();
+    unless ($pid == 0) {
+        svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
+        exit;
+    }
+    setsid or error("chakora", "Can't start a new session: $!");
 }
 
 # Handle --help
 if ($options{help}) {
-	print("**Chakora Help**\n");
-	print("--debug = Run in debug mode\n");
-	print("--help = Return this help menu\n");
-	exit;
+    print("**Chakora Help**\n");
+    print("--debug = Run in debug mode\n");
+    print("--help = Return this help menu\n");
+    exit;
 }
 
 # Don't allow Chakora to run as root
 if (`whoami` eq "root\n") { 
-	error("chakora", "We forbid the running of Chakora as root."); 
+    error("chakora", "We forbid the running of Chakora as root."); 
 }
 
 # Get configuration values
 my $conf = Config::Scoped->new(
-	file => $ROOT_ETC."/chakora.conf",
-	) or die("We couldn't open the config file!\n");
+    file => $ROOT_ETC."/chakora.conf",
+) or die("We couldn't open the config file!\n");
 
 # Put them into variables	
 my $settings = $conf->parse;
@@ -118,21 +118,21 @@ my $settings = $conf->parse;
 our (%rawcmds, %PROTO_SETTINGS, %COMMANDS);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
-	require Chakora::Protocol::InspIRCd;
+    require Chakora::Protocol::InspIRCd;
 } elsif (lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
-	require Chakora::Protocol::Charybdis;
+    require Chakora::Protocol::Charybdis;
 } else {
-	error("error", "This protocol isn't supported by Chakora.");
+    error("error", "This protocol isn't supported by Chakora.");
 };
 
-	
+
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
-	Proto => "tcp",
-	LocalAddr => config('server', 'vhost'),
-	PeerAddr => config('server', 'host'),
-	PeerPort => config('server', 'port'),
-	) or die("Connection to ".config('server', 'host')." failed.\n");
+    Proto => "tcp",
+    LocalAddr => config('server', 'vhost'),
+    PeerAddr => config('server', 'host'),
+    PeerPort => config('server', 'port'),
+) or die("Connection to ".config('server', 'host')." failed.\n");
 
 # Create some variables for later use
 my ($data, $ex, @ex);
@@ -146,180 +146,180 @@ my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac); 
 foreach $sac (@sab) { 
-	eval { require $ROOT_LIB."/Modules/".lc($sac).".pm"; }; 
+    eval { require $ROOT_LIB."/Modules/".lc($sac).".pm"; }; 
 }
 
 while ($data = <$socket>) 
 {
-	
-	chomp($data);
-	undef $ex;
-	@ex = split(' ', $data);
-	
-	print("[IRC] ".$data."\n");
-	$USER = substr($ex[0], 1);
-	
-	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
-		# stop if m_invisible is loaded, this will not be removed - so don't ask
-		if ($data =~ m/m_invisible.so/) {
-			error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
-		}
-		# check for m_services_account
-		if ($data =~ m/m_services_account.so/) {
-			$INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
-		}
-	}
-	# Check for status modes
-	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES' and lc(config('server', 'ircd')) eq 'inspircd') {
-		if ($data =~ m/PREFIX=(qaohv)/) {
-			$PROTO_SETTINGS{owner} = 'q';
-			$PROTO_SETTINGS{admin} = 'a';
-			$PROTO_SETTINGS{halfop} = 'h';
-		} elsif ($data =~ m/PREFIX=(aohv)/) {
-			$PROTO_SETTINGS{admin} = 'a';
-			$PROTO_SETTINGS{halfop} = 'h';
-		} elsif ($data =~ m/PREFIX=(qohv)/) {
-			$PROTO_SETTINGS{owner} = 'q';
-			$PROTO_SETTINGS{halfop} = 'h';
-		} elsif ($data =~ m/PREFIX=(qaov)/) {
-			$PROTO_SETTINGS{owner} = 'q';
-			$PROTO_SETTINGS{admin} = 'a';
-		} elsif ($data =~ m/PREFIX=(aov)/) {
-			$PROTO_SETTINGS{admin} = 'a';
-		} elsif ($data =~ m/PREFIX=(qov)/) {
-			$PROTO_SETTINGS{owner} = 'q';
-		} elsif ($data =~ m/PREFIX=(ohv)/) {
-			$PROTO_SETTINGS{halfop} = 'h';
-		} else {
-			print("[PROTOCOL] +qah are disabled, we recommend enabling these then restarting services.\n");
-		}
-	}
-	# InspIRCd: CAPAB END recieved
-	elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
-		if ($INSPIRCD_SERVICES_ACCOUNT_MOD != 1) {
-			error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
-		}
-		raw_capabend();
-	}
 
-	# Charybdis: syncing done
-	if ($ex[0] eq 'PING' and $synced ne 1 and lc(config('server', 'ircd')) eq 'charybdis') {
-		$synced = 1;
-		raw_endsync();
-	}
-	# Charybdis: Respond to PING's
-	elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis') {
-		raw_ping($data);
-	}
+    chomp($data);
+    undef $ex;
+    @ex = split(' ', $data);
 
-	# Handle a server command, if a handler is defined in the protocol module
-	if ($rawcmds{$ex[1]}{handler}) 
-	{
-		my $sub_ref = $rawcmds{$ex[1]}{handler};
-		eval 
-		{
-			&{ $sub_ref }($data);
-		};
-	}
-	
-	# Handle services commands, if it exists
-	if ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
-		if ($ex[2] eq svsUID('cs')) {
-			$SERVICES_MSGSERVICE = "ChanServ";
-			$SERVICES_MSGSERVICEA = "cs";
-		} elsif ($ex[2] eq svsUID('hs')) {
-			$SERVICES_MSGSERVICE = "HostServ";
-			$SERVICES_MSGSERVICEA = "hs";
-		} elsif ($ex[2] eq svsUID('ms')) {
-			$SERVICES_MSGSERVICE = "MemoServ";
-			$SERVICES_MSGSERVICEA = "ms";
-		} elsif ($ex[2] eq svsUID('ns')) {
-			$SERVICES_MSGSERVICE = "NickServ";
-			$SERVICES_MSGSERVICEA = "ns";
-		} elsif ($ex[2] eq svsUID('os')) {
-			$SERVICES_MSGSERVICE = "OperServ";
-			$SERVICES_MSGSERVICEA = "os";
-		}
-		if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
-			my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
-			eval 
-			{	
-				&{ $sub_ref }($data);
-			};
-		} else {
-			serv_notice($SERVICES_MSGSERVICEA, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
-		}
-	}
+    print("[IRC] ".$data."\n");
+    $USER = substr($ex[0], 1);
+
+    if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
+        # stop if m_invisible is loaded, this will not be removed - so don't ask
+        if ($data =~ m/m_invisible.so/) {
+            error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
+        }
+        # check for m_services_account
+        if ($data =~ m/m_services_account.so/) {
+            $INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
+        }
+    }
+    # Check for status modes
+    elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES' and lc(config('server', 'ircd')) eq 'inspircd') {
+        if ($data =~ m/PREFIX=(qaohv)/) {
+            $PROTO_SETTINGS{owner} = 'q';
+            $PROTO_SETTINGS{admin} = 'a';
+            $PROTO_SETTINGS{halfop} = 'h';
+        } elsif ($data =~ m/PREFIX=(aohv)/) {
+            $PROTO_SETTINGS{admin} = 'a';
+            $PROTO_SETTINGS{halfop} = 'h';
+        } elsif ($data =~ m/PREFIX=(qohv)/) {
+            $PROTO_SETTINGS{owner} = 'q';
+            $PROTO_SETTINGS{halfop} = 'h';
+        } elsif ($data =~ m/PREFIX=(qaov)/) {
+            $PROTO_SETTINGS{owner} = 'q';
+            $PROTO_SETTINGS{admin} = 'a';
+        } elsif ($data =~ m/PREFIX=(aov)/) {
+            $PROTO_SETTINGS{admin} = 'a';
+        } elsif ($data =~ m/PREFIX=(qov)/) {
+            $PROTO_SETTINGS{owner} = 'q';
+        } elsif ($data =~ m/PREFIX=(ohv)/) {
+            $PROTO_SETTINGS{halfop} = 'h';
+        } else {
+            print("[PROTOCOL] +qah are disabled, we recommend enabling these then restarting services.\n");
+        }
+    }
+    # InspIRCd: CAPAB END recieved
+    elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
+        if ($INSPIRCD_SERVICES_ACCOUNT_MOD != 1) {
+            error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
+        }
+        raw_capabend();
+    }
+
+    # Charybdis: syncing done
+    if ($ex[0] eq 'PING' and $synced ne 1 and lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
+        $synced = 1;
+        raw_endsync();
+    }
+    # Charybdis: Respond to PING's
+    elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
+        raw_ping($data);
+    }
+
+    # Handle a server command, if a handler is defined in the protocol module
+    if ($rawcmds{$ex[1]}{handler}) 
+    {
+        my $sub_ref = $rawcmds{$ex[1]}{handler};
+        eval 
+        {
+            &{ $sub_ref }($data);
+        };
+    }
+
+    # Handle services commands, if it exists
+    if ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
+        if ($ex[2] eq svsUID('cs')) {
+            $SERVICES_MSGSERVICE = "ChanServ";
+            $SERVICES_MSGSERVICEA = "cs";
+        } elsif ($ex[2] eq svsUID('hs')) {
+            $SERVICES_MSGSERVICE = "HostServ";
+            $SERVICES_MSGSERVICEA = "hs";
+        } elsif ($ex[2] eq svsUID('ms')) {
+            $SERVICES_MSGSERVICE = "MemoServ";
+            $SERVICES_MSGSERVICEA = "ms";
+        } elsif ($ex[2] eq svsUID('ns')) {
+            $SERVICES_MSGSERVICE = "NickServ";
+            $SERVICES_MSGSERVICEA = "ns";
+        } elsif ($ex[2] eq svsUID('os')) {
+            $SERVICES_MSGSERVICE = "OperServ";
+            $SERVICES_MSGSERVICEA = "os";
+        }
+        if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
+            my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
+            eval 
+            {	
+                &{ $sub_ref }($data);
+            };
+        } else {
+            serv_notice($SERVICES_MSGSERVICEA, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
+        }
+    }
 }
 
 sub send_sock {
-	my ($str) = @_;
-	chomp($str);
-	send($socket, $str."\r\n", 0);
-	print("[YOU] ".$str."\n");
+    my ($str) = @_;
+    chomp($str);
+    send($socket, $str."\r\n", 0);
+    print("[YOU] ".$str."\n");
 }
 
 sub config {
-	my ($block, $name) = @_;
-	$block = lc($block);
-	$name = lc($name);
-	if (defined $settings->{$block}->{$name}) 
-	{
-		return $settings->{$block}->{$name};
-	} else 
-	{
-		return 0;
-	}
+    my ($block, $name) = @_;
+    $block = lc($block);
+    $name = lc($name);
+    if (defined $settings->{$block}->{$name}) 
+    {
+        return $settings->{$block}->{$name};
+    } else 
+    {
+        return 0;
+    }
 }
 
 sub error {
-	my ($type, $msg) = @_;
-	print("[ERROR] ".$msg."\n");
-	my ($file);
-	if ($type ne 0) 
-	{
-		$type = lc($type);
-		svsflog($type, "[ERROR] ".$msg);
-	}
-	exit;
+    my ($type, $msg) = @_;
+    print("[ERROR] ".$msg."\n");
+    my ($file);
+    if ($type ne 0) 
+    {
+        $type = lc($type);
+        svsflog($type, "[ERROR] ".$msg);
+    }
+    exit;
 }	
 
 sub svsflog {
-	my ($type, $str) = @_;
-	my $file = $type.".log";
-	unless (-d "../var") {
-		`mkdir ../var`;
-	}
-	`touch ../var/$file`;
-	open FILE, ">>../var/$file" or print("[FATAL] $file: Unable to open log file! Abort!\n") and exit;
-	print FILE "(".time().") ".$str."\n"; 
-	close FILE; 
+    my ($type, $str) = @_;
+    my $file = $type.".log";
+    unless (-d "../var") {
+        `mkdir ../var`;
+    }
+    `touch ../var/$file`;
+    open FILE, ">>../var/$file" or print("[FATAL] $file: Unable to open log file! Abort!\n") and exit;
+    print FILE "(".time().") ".$str."\n"; 
+    close FILE; 
 }
 
 sub module_init {
-	my ($name, $author, $version, $handler, $ircd) = @_;
-	print("[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
-	svsflog("chakora", "[MODULES] Attempting to load module: ".$name." v".$version." by ".$author);
-	$ircd = lc($ircd);
-	if ($ircd ne 'all' and $ircd ne lc(config('server', 'ircd'))) {
-		print("[MODULES] Module ".$name." refusing to load: Protocol not supported.\n");
-		svsflog("chakora", "[MODULES] Module ".$name." refusing to load: Protocol not supported.");
-	} else {
-		eval
-		{
-			&{ $handler }();
-			print("[MODULES] ".$name.": Module successfully loaded.\n");
-			svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
-			1;	
-		} or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.");
-	}
+    my ($name, $author, $version, $handler, $ircd) = @_;
+    print("[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
+    svsflog("chakora", "[MODULES] Attempting to load module: ".$name." v".$version." by ".$author);
+    $ircd = lc($ircd);
+    if ($ircd ne 'all' and $ircd ne lc(config('server', 'ircd'))) {
+        print("[MODULES] Module ".$name." refusing to load: Protocol not supported.\n");
+        svsflog("chakora", "[MODULES] Module ".$name." refusing to load: Protocol not supported.");
+    } else {
+        eval
+        {
+            &{ $handler }();
+            print("[MODULES] ".$name.": Module successfully loaded.\n");
+            svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
+            1;	
+        } or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.");
+    }
 }
 
 sub cmd_add {
-	my ($name, $shelp, $fhelp, $handler) = @_;
-	my @rname = split('/', $name);
-	$COMMANDS{$rname[0]}{$rname[1]}{name} = $name;
-	$COMMANDS{$rname[0]}{$rname[1]}{shelp} = $shelp;
-	$COMMANDS{$rname[0]}{$rname[1]}{fhelp} = $fhelp;
-	$COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
+    my ($name, $shelp, $fhelp, $handler) = @_;
+    my @rname = split('/', $name);
+    $COMMANDS{$rname[0]}{$rname[1]}{name} = $name;
+    $COMMANDS{$rname[0]}{$rname[1]}{shelp} = $shelp;
+    $COMMANDS{$rname[0]}{$rname[1]}{fhelp} = $fhelp;
+    $COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
 }
