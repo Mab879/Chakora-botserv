@@ -121,6 +121,6 @@ if ($die == 1) {
 	die("Required modules missing! Please install these then try again!\n");
 }
 
-print("Alright, sparky! All required modules were found!\nStarting configuration generator...\n\n"); sleep 2;
+print("Alright! All required modules were found!\nStarting configuration generator...\n\n"); sleep 2;
 
 do './bin/setup.pl';
