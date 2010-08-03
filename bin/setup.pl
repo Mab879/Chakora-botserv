@@ -31,7 +31,7 @@ $conf->append("\tsid = ".$sid."\n");
 
 $conf->append("}\n\nserver {\n");
 
-my $ircd = prompt('a', 'What is the IRCd of the remote server?', 'inspircd, charybdis, or darkhex', 'inspircd');
+my $ircd = prompt('a', 'What is the IRCd of the remote server?', 'inspircd or charybdis', 'inspircd');
 print("\n");
 $conf->append("\tircd = ".$ircd."\n");
 
