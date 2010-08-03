@@ -16,7 +16,7 @@ print("| \__/\ | | | (_| |   < (_) | | | (_| | \n");
 print(" \____/_| |_|\__,_|_|\_\___/|_|  \__,_| \n");
 print("             SETUP WIZARD               \n");
 print("\n");
-print("Yes hello. Welcome to the Chakora Setup Wizard!\n");
+print("Welcome to the Chakora Setup Wizard!\n");
 print("We recommend using this to make sure everything works\n");
 print("properly.\n");
 print("\n"); sleep 2;
