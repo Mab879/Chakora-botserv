@@ -208,7 +208,7 @@ while ($data = <$socket>)
         raw_endsync();
     }
     # Charybdis: Respond to PING's
-    elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis' or lc(config('server', 'ircd')) eq 'darkhex' or lc(config('server', 'ircd)) eq 'ircd-seven') {
+    elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis' or lc(config('server', 'ircd')) eq 'darkhex' or lc(config('server', 'ircd')) eq 'ircd-seven') {
         raw_ping($data);
     }
 
