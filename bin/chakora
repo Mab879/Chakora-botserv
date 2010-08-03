@@ -203,12 +203,12 @@ while ($data = <$socket>)
     }
 
     # Charybdis: syncing done
-    if ($ex[0] eq 'PING' and $synced ne 1 and lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
+    if ($ex[0] eq 'PING' and $synced ne 1 and lc(config('server', 'ircd')) eq 'charybdis' or lc(config('server', 'ircd')) eq 'darkhex' or lc(config('server', 'ircd')) eq 'ircd-seven') {
         $synced = 1;
         raw_endsync();
     }
     # Charybdis: Respond to PING's
-    elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis' or 'darkhex' or 'ircd-seven') {
+    elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis' or lc(config('server', 'ircd')) eq 'darkhex' or lc(config('server', 'ircd)) eq 'ircd-seven') {
         raw_ping($data);
     }
 
