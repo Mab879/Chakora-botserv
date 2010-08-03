@@ -19,8 +19,8 @@ print("\n");
 print("Yes hello. Welcome to the Chakora Setup Wizard!\n");
 print("We recommend using this to make sure everything works\n");
 print("properly.\n");
-print("\n"); sleep 3;
-print("Checking for required modules...\n"); sleep 2;
+print("\n"); sleep 2;
+print("Checking for required modules...\n"); sleep 1;
 
 my ($die);
 
