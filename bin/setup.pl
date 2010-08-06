@@ -212,6 +212,19 @@ my $sras = prompt('x', 'Who should have SRA Status?', 'Separate nicks with space
 print("\n");
 $conf->append("operators {\n\tsra = \"".$sras."\"\n}\n");
 
+$conf->append("xmlrpc {\n");
+my $xmlrpc_use = prompt('y', 'Do you want to use the XML-RPC', 'Good for web services and remote control for services', 'y');
+print ("\n");
+$conf->append("\tuse = ".$xmlrpc_use."\n");
+if ($xmlrpc_use) {
+my $xmlrpc_host = prompt('x', 'What IP should the XML-RPC bind to?', 'Mainly for multi-homed hosts.', '0.0.0.0');
+print("\n");
+my $xmlrpc_port = prompt('x', 'What port should the XML-RPC bind to?', '', '8080');
+print("\n");
+$conf->append("\thost = ".$xmlrpc_host."\n");
+$conf->append("\tport = ".$xmlrpc_port."\n");
+}
+else { print("\nSince you didn't want the XML-RPC enabled, we didn't include the config options for it, if you want XML-RPC enabled later, rerun this setup wizard"); }
 $conf->append("\n# End configuration file");
 
 
