@@ -64,35 +64,22 @@ print("Chakora IRC Services Version 1.0-dev\n");
 print color 'bold green';
 print("\n");
 print("By continuing you are hereby stating that\n"); 
-print("you have read and agreed to docs/LICENSE\n"); sleep 1;
+print("you have read and agreed to docs/LICENSE\n");
 print("\n");
 print("Many thanks to the developers of Chakora for\n");
-print("their hard work on this software!\n"); sleep 1;
+print("their hard work on this software!\n");
 print("\n");
-print("Developers: starcoder, MattB, chazz, cooper, Freelancer\n"); sleep 1;
+print("Developers: starcoder, MattB, chazz, cooper, Freelancer\n");
 print("\n");
 print("If you require support, feel free to join our\n");
 print("official support chatroom!\n");
 print("\n");
-print("Host: irc.technoirc.net | Channel: #chakora\n");
+print("Host: irc.technoirc.net | Channel: #chakora\n"); sleep 2;
 print("\n\n");
 print color 'reset';
 print("Chakora IRC Services started at ".time()."\n"); sleep 1;
 $SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
-
-unless ($options{debug}) {
-    print("Becoming a daemon...\n");
-    open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
-    open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
-    open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
-    my $pid = fork();
-    unless ($pid == 0) {
-        svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
-        exit;
-    }
-    setsid or error("chakora", "Can't start a new session: $!");
-}
 
 # Handle --help
 if ($options{help}) {
@@ -119,13 +106,29 @@ my $settings = $conf->parse;
 our (%rawcmds, %PROTO_SETTINGS, %COMMANDS);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
-    require Chakora::Protocol::InspIRCd;
+	print("[MODULES] Loading protocol: InspIRCd 1.2/2.0\n");
+    require Chakora::Protocol::InspIRCd or error("chakora", "Protocol module failed to load: $!");
 } elsif (lc(config('server', 'ircd')) eq 'charybdis') {
-    require Chakora::Protocol::Charybdis;
+	print("[MODULES] Loading protocol: Charybdis\n");
+    require Chakora::Protocol::Charybdis or error("chakora", "Protocol module failed to load: $!");
 } else {
-    error("error", "This protocol isn't supported by Chakora.");
+    error("chakora", "This protocol isn't supported by Chakora.");
 };
 require Chakora::Protocol::Events;
+
+# Fork into the background unless --debug was specified
+unless ($options{debug}) {
+    print("Becoming a daemon...\n");
+    open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
+    open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+    open STDERR, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
+    my $pid = fork();
+    unless ($pid == 0) {
+        svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
+        exit;
+    }
+    setsid or error("chakora", "Can't start a new session: $!");
+}
 
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
@@ -300,7 +303,7 @@ sub svsflog {
     }
     `touch ../var/$file`;
     open FILE, ">>../var/$file" or print("[FATAL] $file: Unable to open log file! Abort!\n") and exit;
-    print FILE "(".time().") ".$str."\n"; 
+    print FILE "(".scalar(localtime(time())).") ".$str."\n"; 
     close FILE; 
 }
 
