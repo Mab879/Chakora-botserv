@@ -1,87 +1,12 @@
-/  __ \ |         | |                  
-| /  \/ |__   __ _| | _____  _ __ __ _ 
-| |   | '_ \ / _` | |/ / _ \| '__/ _` |
-| \__/\ | | | (_| |   < (_) | | | (_| |
- \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
- 
-               LICENSING
-----------------------------------------
+Copyright (c) 2010 The Chakora Project. All rights reserved.
 
-This software is distributed under the terms of the GNU
-Public License as well as TechnoDevs End User Software
-License.
-
-BY USING THIS SOFTWARE, YOU ARE STATING THAT YOU HAVE
-READ AND AGREED TO ALL TERMS BELOW.
-
-IF YOU DO NOT AGREE, DELETE THIS SOFTWARE IMMEDIATELY.
-
-1. GPL
-------
-
-This program is free software: you can 
-redistribute it and/or modify it under the terms 
-of the GNU General Public License as published by
-the Free Software Foundation, either version 3 
-of the License, or (at your option) any later 
-version.
-
-This program is distributed in the hope that it 
-will be useful, but WITHOUT ANY WARRANTY; without 
-even the implied warranty of MERCHANTABILITY or 
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
-General Public License for more details.
-
-You should have received a copy of the GNU General 
-Public License along with this program.  If not, 
-see http://www.gnu.org/licenses/
-
-2. TEUSL
---------
-
-All terms specified in this license overrule that
-which is stated above within the GNU Public License;
-
-All software written by TechnoDevs is legally property 
-of TechnoIRC Networks and its services, should you use 
-any code created by TechnoDevs, you have no right to 
-call it your property, you must include credits to 
-TechnoDevs for the code that you have used. (Credits must contain a link to TechnoDevs)
-
-Further more, any software, created by TechnoDevs, is 
-NOT to be used by you, unless you have been given the 
-software with a license that states you have the right 
-to use it, or the software's README file specifies that 
-it is open source, in which case, you have the right to use, 
-modify and re-distribute the software assuming you have 
-included credits for TechnoDevs.
-
-By using any of our open source software, you are 
-agreeing that you have NOT had your rights to the software
-revoked -- TechnoDevs holds the right to revoke your 
-rights to any of our software at ANYTIME WITHOUT WARNING 
-or ANY REASON whatsoever. Should you ever have your rights 
-revoked, you will be notified by email and/or IRC.
-
-It should also be your understanding that TechnoDevs is 
-not obligated to support you with your inquiry, all open 
-source software is available free online and WITHOUT WARRANTY 
-in hopes that it may be of use to you and others, 
-although support may be provided, it is not a gaurantee.
-
-It should be your understanding that by using any software 
-by TechnoDevs, that you are agreeing to all that which is 
-included in this license, failure to read this is not our 
-problem, action will be taken whether you have read this 
-or not, we are also not liable for your failure to read 
-any updates to this license, if you do not agree to the 
-entirety of this license, DELETE THE SOFTWARE IMMEDIATELY,
-otherwise, legal action will be taken if necessary.
-
-An up-to-date version of this license can be found at
-http://www.technoirc.org/index.php/License
-
-- Written By;
--
-- TechnoIRC Network Development Team
-- http://www.technoirc.org
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

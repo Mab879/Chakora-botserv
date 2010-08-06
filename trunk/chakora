@@ -7,7 +7,8 @@
 #  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
 #          Chakora IRC Services
 #
-# Core file. (trunk)
+# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 package Chakora;
 use strict;
 use warnings;

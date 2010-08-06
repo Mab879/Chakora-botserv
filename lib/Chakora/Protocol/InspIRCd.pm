@@ -6,7 +6,8 @@
 #    InspIRCd 1.2/2.0 Linking Module
 #	   Chakora::Protocol::InspIRCd
 #
-# Linking protocol module for InspIRCd 1.2 and 2.0
+# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 use strict;
 use warnings;
 use lib "../lib";
