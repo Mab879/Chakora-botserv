@@ -114,6 +114,10 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
+	if (!$channel{$chan}{'ts'})
+	{
+		$channel{$chan}{'ts'} = time();
+	}
 	send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
 }
 
