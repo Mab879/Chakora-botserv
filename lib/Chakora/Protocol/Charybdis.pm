@@ -23,6 +23,9 @@ our %rawcmds = (
 	'SJOIN' => {
 		handler => \&raw_sjoin,
 	},
+	'QUIT' => {
+		handler => \&raw_quit,
+	},
 	'JOIN' => {
 		handler => \&raw_join,
 	},
@@ -198,6 +201,14 @@ sub raw_sjoin {
 	my $chan = $rex[3];
 	$channel{$chan}{'ts'} = $rex[2];
 	event_join(substr($rex[5], 2), $rex[3]);
+}
+
+# Handle QUIT
+sub raw_quit {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = substr($rex[0], 1);
+	undef $uid{$ruid};
 }
 
 # Handle JOIN
