@@ -21,6 +21,9 @@ our %rawcmds = (
 	'PING' => {
 		handler => \&raw_ping,
 	},
+	'QUIT' => {
+		handler => \&raw_quit,
+	},
 	'FJOIN' => {
 		handler => \&raw_fjoin,
 	},
@@ -191,6 +194,14 @@ sub raw_ping {
 	my (@rex);
 	@rex = split(' ', $raw);
 	send_sock(":".svsUID("chakora::server")." PONG ".$rex[3]." ".$rex[2]);
+}
+
+# Handle QUIT
+sub raw_quit {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $ruid = substr($rex[0], 1);
+        undef $uid{$ruid};
 }
 
 # Handle FJOIN
