@@ -225,7 +225,7 @@ $conf->append("\thost = ".$xmlrpc_host."\n");
 $conf->append("\tport = ".$xmlrpc_port."\n");
 }
 else {
-	print("\nSince you didn't want the XML-RPC enabled, we didn't include the config options for it, if you want XML-RPC enabled later, rerun this setup wizard"); 
+	print("\nSince you didn't want the XML-RPC enabled, we didn't include the config options for it, if you want XML-RPC enabled later, rerun this setup wizard\n"); 
 }
 $conf->append("}");
 
