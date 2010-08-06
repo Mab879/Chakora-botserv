@@ -210,7 +210,7 @@ $conf->append("\treal = \"".$real."\"\n}\n\n");
 
 my $sras = prompt('x', 'Who should have SRA Status?', 'Separate nicks with spaces.', "starcoder MattB");
 print("\n");
-$conf->append("operators {\n\tsra = \"".$sras."\"\n}\n");
+$conf->append("operators {\n\tsra = \"".$sras."\"\n}\n\n");
 
 $conf->append("xmlrpc {\n");
 my $xmlrpc_use = prompt('y', 'Do you want to use the XML-RPC', 'Good for web services and remote control for services', 'y');
