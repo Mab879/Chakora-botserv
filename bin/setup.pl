@@ -228,5 +228,5 @@ else { print("\nSince you didn't want the XML-RPC enabled, we didn't include the
 $conf->append("\n# End configuration file");
 
 
-print("\nAll done! Please configure the logging and autoload portion of the config in\netc/chakora.conf then run ./bin/chakora to start her up!\n");
+print("\nPlease configure the logging and autoload portion of the config in\netc/chakora.conf then run ./bin/chakora to start Chakora!\n");
 }
