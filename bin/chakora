@@ -125,7 +125,7 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 } else {
     error("error", "This protocol isn't supported by Chakora.");
 };
-
+require Chakora::Protocol::Events;
 
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
@@ -138,7 +138,7 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex);
 my $synced = 0;
-my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
+my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
 
 # Connect!
 irc_connect();
@@ -168,6 +168,10 @@ while ($data = <$socket>)
         # check for m_services_account
         if ($data =~ m/m_services_account.so/) {
             $INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
+        }
+        # check for m_servprotect
+        if ($data =~ m/m_servprotect.so/) {
+            $INSPIRCD_SERVICE_PROTECT_MOD = 1;
         }
     }
     # Check for status modes
@@ -199,6 +203,9 @@ while ($data = <$socket>)
     elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
         if ($INSPIRCD_SERVICES_ACCOUNT_MOD != 1) {
             error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
+        }
+        if ($INSPIRCD_SERVICE_PROTECT_MOD != 1) {
+            error("chakora", "When using Chakora with InspIRCd, m_servprotect.so is needed, please load it and try again!");
         }
         raw_capabend();
     }
@@ -323,4 +330,13 @@ sub cmd_add {
     $COMMANDS{$rname[0]}{$rname[1]}{shelp} = $shelp;
     $COMMANDS{$rname[0]}{$rname[1]}{fhelp} = $fhelp;
     $COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
+}
+
+sub count {
+	my (@array) = @_;
+	my ($i, $ai);
+	foreach $ai (@array) {
+		$i += 1;
+	}
+	return $i;
 }

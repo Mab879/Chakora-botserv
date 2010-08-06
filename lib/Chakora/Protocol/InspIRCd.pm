@@ -21,6 +21,9 @@ our %rawcmds = (
 	'PING' => {
 		handler => \&raw_ping,
 	},
+	'FJOIN' => {
+		handler => \&raw_fjoin,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd',
@@ -188,6 +191,19 @@ sub raw_ping {
 	my (@rex);
 	@rex = split(' ', $raw);
 	send_sock(":".svsUID("chakora::server")." PONG ".$rex[3]." ".$rex[2]);
+}
+
+# Handle FJOIN
+sub raw_fjoin {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my ($args, $i, @users, $juser, @rjuser);
+	for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
+	@users = split(' ', $args);
+	foreach $juser (@users) {
+		@rjuser = split(',', $juser);
+		event_join($rjuser[1], $rex[2]);
+	}
 }
 
 1;
