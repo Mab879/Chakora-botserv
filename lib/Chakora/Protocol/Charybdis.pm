@@ -23,6 +23,9 @@ our %rawcmds = (
 	'SJOIN' => {
 		handler => \&raw_sjoin,
 	},
+	'JOIN' => {
+		handler => \&raw_join,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -114,8 +117,7 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	if (!$channel{$chan}{'ts'})
-	{
+	if (!$channel{$chan}{'ts'}) {
 		$channel{$chan}{'ts'} = time();
 	}
 	send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
@@ -193,8 +195,16 @@ sub raw_sjoin {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SJOIN 1280086561 #services +nt :@48XAAAAAB
-	my $rchan = $rex[3];
-	$channel{$rchan}{'ts'} = $rex[2];
+	my $chan = $rex[3];
+	$channel{$chan}{'ts'} = $rex[2];
+	event_join(substr($rex[5], 2), $rex[3]);
+}
+
+# Handle JOIN
+sub raw_join {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	event_join(substr($rex[0], 1), $rex[3]);
 }
 
 # Handle PING
