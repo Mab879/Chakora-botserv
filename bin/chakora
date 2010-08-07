@@ -146,6 +146,10 @@ my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $SERVICES_MSG
 # Connect!
 irc_connect();
 
+if (config('xmlrpc', 'use'))
+{
+	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignorning.\n");
+}
 my $saa = config('services', 'autoload'); 
 my @sab = split(' ', $saa);
 my ($sac); 
