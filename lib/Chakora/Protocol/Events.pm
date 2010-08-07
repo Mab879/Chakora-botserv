@@ -38,4 +38,112 @@ sub hook_join_del {
 	undef $hook_join{$handler};
 }
 
+### QUIT ###
+our (%hook_quit);
+
+# When users disconnect, execute all quit hooks.
+sub event_quit {
+	my ($user, $msg) = @_;
+	my ($hook);
+	foreach $hook (%hook_quit) {
+		eval
+		{
+			&{ $hook }($user, $msg);
+		};
+	}
+}
+
+# Add a hook to the quit event.
+sub hook_quit_add {
+	my ($handler) = @_;
+	$hook_quit{$handler} = $handler;
+}
+
+# Delete a hook from the quit event.
+sub hook_quit_del {
+	my ($handler) = @_;
+	undef $hook_quit{$handler};
+}
+
+### NICK ###
+our (%hook_nick);
+
+# When users change their nick, execute all nick hooks.
+sub event_nick {
+	my ($user, $newnick) = @_;
+	my ($hook);
+	foreach $hook (%hook_nick) {
+		eval
+		{
+			&{ $hook }($user, $newnick);
+		};
+	}
+}
+
+# Add a hook to the nick event.
+sub hook_nick_add {
+	my ($handler) = @_;
+	$hook_nick{$handler} = $handler;
+}
+
+# Delete a hook from the nick event.
+sub hook_nick_del {
+	my ($handler) = @_;
+	undef $hook_nick{$handler};
+}
+
+### UID/EUID ###
+our (%hook_uid);
+
+# When users connect, execute all UID hooks.
+sub event_uid {
+	my ($uid, $nick, $user, $host, $mask, $ip) = @_;
+	my ($hook);
+	foreach $hook (%hook_uid) {
+		eval
+		{
+			&{ $hook }($uid, $nick, $user, $host, $mask, $ip);
+		};
+	}
+}
+
+# Add a hook to the UID event.
+sub hook_uid_add {
+	my ($handler) = @_;
+	$hook_uid{$handler} = $handler;
+}
+
+# Delete a hook from the UID event.
+sub hook_uid_del {
+	my ($handler) = @_;
+	undef $hook_uid{$handler};
+}
+
+### PART ###
+our (%hook_part);
+
+# When users part, execute all part hooks.
+sub event_part {
+	my ($user, $chan, $msg) = @_;
+	my ($hook);
+	foreach $hook (%hook_part) {
+		eval
+		{
+			&{ $hook }($user, $chan, $msg);
+		};
+	}
+}
+
+# Add a hook to the part event.
+sub hook_part_add {
+	my ($handler) = @_;
+	$hook_part{$handler} = $handler;
+}
+
+# Delete a hook from the part event.
+sub hook_part_del {
+	my ($handler) = @_;
+	undef $hook_part{$handler};
+}
+
 1;
