@@ -27,6 +27,18 @@ our %rawcmds = (
 	'FJOIN' => {
 		handler => \&raw_fjoin,
 	},
+	'NICK' => {
+		handler => \&raw_nick,
+	},
+	'PART' => {
+		handler => \&raw_part,
+	},
+	'FHOST' => {
+		handler => \&raw_fhost,
+	},
+	'SETIDENT' => {
+		handler => \&raw_setident,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd',
@@ -186,6 +198,7 @@ sub raw_uid {
 	$uid{$ruid}{'mask'} = $rex[6];
 	$uid{$ruid}{'user'} = $rex[7];
 	$uid{$ruid}{'ip'} = $rex[8];
+	event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8]);
 }
 
 # Handle PING
@@ -202,6 +215,10 @@ sub raw_quit {
         my @rex = split(' ', $raw);
         my $ruid = substr($rex[0], 1);
         undef $uid{$ruid};
+        my ($i);
+        my $args = substr($rex[2], 1);
+        for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        event_quit($ruid, $args);
 }
 
 # Handle FJOIN
@@ -215,6 +232,42 @@ sub raw_fjoin {
 		@rjuser = split(',', $juser);
 		event_join($rjuser[1], $rex[2]);
 	}
+}
+
+# Handle NICK
+sub raw_nick {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = substr($rex[0], 1);
+	$uid{$ruid}{'nick'} = $rex[2];
+	event_nick($ruid, $rex[2]);
+}
+
+# Handle PART
+sub raw_part {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $user = substr($rex[0], 1);
+	my $args = substr($rex[3], 1);
+	my ($i);
+    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    event_part($user, $rex[2], $args);
+}
+
+# Handle FHOST
+sub raw_fhost {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = substr($rex[0], 1);
+	$uid{$ruid}{'mask'} = $rex[2];
+}
+
+# Handle SETIDENT
+sub raw_setident {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = substr($rex[0], 1);
+	$uid{$ruid}{'user'} = substr($rex[2], 1);
 }
 
 1;
