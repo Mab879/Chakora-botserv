@@ -117,27 +117,15 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 require Chakora::Protocol::Events;
 
 # Create database operator
-our $SVSDB = DBI->connect("dbi:CSV:", undef, undef, {
-        f_schema         => undef,
-        f_dir            => $ROOT_ETC,
-        f_ext            => ".csv/r",
-        f_lock           => 2,
-        f_encoding       => "utf8",
+if (!-d "$ROOT_ETC/data") {
+	`mkdir $ROOT_ETC/data`;
+}
+our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "Unable to open database: ".$DBI::errstr);
 
-        csv_eol          => "\r\n",
-        csv_sep_char     => ",",
-        csv_quote_char   => '"',
-        csv_escape_char  => '"',
-        csv_class        => "Text::CSV_XS",
-        csv_null         => 1,
-        csv_tables       => {
-            info => { file => "chakora.db" }
-            },
-
-        RaiseError       => 1,
-        PrintError       => 1,
-        FetchHashKeyName => "NAME_lc",
-        }) or error("chakora", "Unable to open database: ".$DBI::errstr);
+# Prepare the database
+if (!-e "$ROOT_ETC/data/nicks") {
+	$SVSDB->do("CREATE TABLE nicks (id INT, accountname TEXT, nick TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
+}
 
 # Fork into the background unless --debug was specified
 unless ($options{debug}) {
