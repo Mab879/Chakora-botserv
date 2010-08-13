@@ -39,6 +39,18 @@ our %rawcmds = (
 	'SETIDENT' => {
 		handler => \&raw_setident,
 	},
+	'VERSION' => {
+		handler => \&raw_version,
+	},
+	'PRIVMSG' => {
+		handler => \&raw_privmsg,
+	},
+	'NOTICE' => {
+		handler => \&raw_notice,
+	},
+	'OPERTYPE' => {
+		handler => \&raw_opertype,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd',
@@ -51,7 +63,7 @@ our %PROTO_SETTINGS = (
 	bexcept => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid);
+my (%svsuid, %uid, $uid, %sid, $sid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -165,6 +177,24 @@ sub serv_quit {
 	send_sock(":".svsUID($svs)." QUIT :".$msg);
 }
 
+# Handle CHGHOST
+sub serv_chghost {
+	my ($user, $newhost) = @_;
+	send_sock(":".svsUID('chakora::server')." CHGHOST ".$user." ".$newhost);
+}
+
+# Handle CHGIDENT
+sub serv_chgident {
+	my ($user, $newident) = @_;
+	send_sock(":".svsUID('chakora::server')." CHGIDENT ".$user." ".$newident);
+}	
+
+# Handle CHGNAME
+sub serv_chgname {
+	my ($user, $newname) = @_;
+	send_sock(":".svsUID('chakora::server')." CHGNAME ".$user." :".$newname);
+}	
+
 ######### Receiving data #########
 
 # Handle CAPAB END
@@ -268,6 +298,50 @@ sub raw_setident {
 	my @rex = split(' ', $raw);
 	my $ruid = substr($rex[0], 1);
 	$uid{$ruid}{'user'} = substr($rex[2], 1);
+}
+
+# Handle VERSION
+sub raw_version {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	$sid{substr($rex[0], 1)}{'uid'} = substr($rex[0], 1);
+	$sid{substr($rex[0], 1)}{'name'} = $rex[3];
+}
+
+# Handle SERVER
+sub raw_server {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	$sid{substr($rex[0], 1)}{'uid'} = $rex[5];
+	$sid{substr($rex[0], 1)}{'name'} = $rex[2];
+}
+
+# Handle PRIVMSG
+sub raw_privmsg {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $args = substr($rex[3], 1);
+	my ($i);
+    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	event_privmsg(substr($rex[0], 1), $rex[2], $args);
+}
+
+# Handle NOTICE
+sub raw_notice {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $args = substr($rex[3], 1);
+	my ($i);
+    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	event_notice(substr($rex[0], 1), $rex[2], $args);
+}
+
+# Handle OPERTYPE
+sub raw_opertype {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $user = substr($rex[0], 1);
+	$uid{$user}{'oper'} = $rex[2];
 }
 
 1;

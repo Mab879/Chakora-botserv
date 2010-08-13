@@ -146,4 +146,59 @@ sub hook_part_del {
 	undef $hook_part{$handler};
 }
 
+### PRIVMSG ###
+our (%hook_privmsg);
+
+# When users send a message, execute all privmsg hooks.
+sub event_privmsg {
+	my ($user, $target, $msg) = @_;
+	my ($hook);
+	foreach $hook (%hook_privmsg) {
+		eval
+		{
+			&{ $hook }($user, $target, $msg);
+		};
+	}
+}
+
+# Add a hook to the privmsg event.
+sub hook_privmsg_add {
+	my ($handler) = @_;
+	$hook_privmsg{$handler} = $handler;
+}
+
+# Delete a hook from the privmsg event.
+sub hook_privmsg_del {
+	my ($handler) = @_;
+	undef $hook_privmsg{$handler};
+}
+
+### NOTICE ###
+our (%hook_notice);
+
+# When users send a message, execute all notice hooks.
+sub event_notice {
+	my ($user, $target, $msg) = @_;
+	my ($hook);
+	foreach $hook (%hook_notice) {
+		eval
+		{
+			&{ $hook }($user, $target, $msg);
+		};
+	}
+}
+
+# Add a hook to the notice event.
+sub hook_notice_add {
+	my ($handler) = @_;
+	$hook_notice{$handler} = $handler;
+}
+
+# Delete a hook from the notice event.
+sub hook_notice_del {
+	my ($handler) = @_;
+	undef $hook_notice{$handler};
+}
+
+
 1;
