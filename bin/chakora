@@ -130,7 +130,10 @@ if (!-e "$ROOT_ETC/data/chans") {
 	$SVSDB->do("CREATE TABLE chans (id INT, name TEXT, date INT, mlock TEXT, flags TEXT, entrymsg TEXT, ts TEXT)");
 }
 if (!-e "$ROOT_ETC/data/vhosts") {
-	$SVSDB->do("CREATE TABLE vhosts (id INT, accountname TEXT, host TEXT, date INT, setby TEXT)");
+	$SVSDB->do("CREATE TABLE vhosts (id INT, user TEXT, host TEXT, date INT, setby TEXT)");
+}
+if (!-e "$ROOT_ETC/data/flags") {
+	$SVSDB->do("CREATE TABLE flags (chan TEXT, user TEXT, flags TEXT)");
 }
 
 # Fork into the background unless --debug was specified
