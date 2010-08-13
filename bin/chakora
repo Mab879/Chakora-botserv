@@ -123,7 +123,7 @@ if (!-d "$ROOT_ETC/data") {
 our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "Unable to open database: ".$DBI::errstr);
 
 # Prepare the database
-if (!-e "$ROOT_ETC/data/nicks") {
+if (!-e "$ROOT_ETC/data/accounts") {
 	$SVSDB->do("CREATE TABLE nicks (id INT, accountname TEXT, nick TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
 }
 if (!-e "$ROOT_ETC/data/chans") {
