@@ -126,6 +126,12 @@ our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "U
 if (!-e "$ROOT_ETC/data/nicks") {
 	$SVSDB->do("CREATE TABLE nicks (id INT, accountname TEXT, nick TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
 }
+if (!-e "$ROOT_ETC/data/chans") {
+	$SVSDB->do("CREATE TABLE chans (id INT, name TEXT, date INT, mlock TEXT, flags TEXT, entrymsg TEXT, ts TEXT)");
+}
+if (!-e "$ROOT_ETC/data/vhosts") {
+	$SVSDB->do("CREATE TABLE vhosts (id INT, accountname TEXT, host TEXT, date INT, setby TEXT)");
+}
 
 # Fork into the background unless --debug was specified
 unless ($options{debug}) {
