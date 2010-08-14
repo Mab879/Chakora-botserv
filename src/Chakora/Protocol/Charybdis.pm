@@ -40,6 +40,13 @@ our %rawcmds = (
 	'ERROR' => {
 		handler => \&raw_error,
 	},
+        'PRIVMSG' => {
+                handler => \&raw_privmsg,
+        },
+        'NOTICE' => {
+                handler => \&raw_notice,
+        },
+
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -263,5 +270,27 @@ sub raw_error {
         for ($i = 2; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	svsflog("chakora", "[Server Error] ".$args);
 }
+
+# Handle PRIVMSG
+sub raw_privmsg {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $args = substr($rex[3], 1);
+        my ($i);
+    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        event_privmsg(substr($rex[0], 1), $rex[2], $args);
+}
+
+# Handle NOTICE
+sub raw_notice {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $args = substr($rex[3], 1);
+        my ($i);
+    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        event_notice(substr($rex[0], 1), $rex[2], $args);
+}
+
+
 
 1;
