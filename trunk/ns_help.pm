@@ -15,6 +15,12 @@ sub init_ns_help {
 	cmd_add("nickserv/help", "NO_HELP_ENTRY", "NO_HELP_ENTRY", \&svs_ns_help);
 }
 
+sub void_ns_help {
+	delete_sub 'init_ns_help';
+	delete_sub 'svs_ns_help';
+	cmd_del("nickserv/help");
+}
+
 sub svs_ns_help {
     my ($raw) = @_;
 	my @rex = split(' ', $raw);
