@@ -1,11 +1,7 @@
-# /  __ \ |         | |
-# | /  \/ |__   __ _| | _____  _ __ __ _ 
-# | |   | '_ \ / _` | |/ / _ \| '__/ _` |
-# | \__/\ | | | (_| |   < (_) | | | (_| |
-#  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
-#             nickserv/help
+# nickserv/help by The Chakora Project. Adds help functions to NickServ.
 #
-# Adds a HELP command to NickServ.
+# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 use strict;
 use warnings;
 

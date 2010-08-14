@@ -1,10 +1,4 @@
-# /  __ \ |         | |                  
-# | /  \/ |__   __ _| | _____  _ __ __ _ 
-# | |   | '_ \ / _` | |/ / _ \| '__/ _` |
-# | \__/\ | | | (_| |   < (_) | | | (_| |
-#  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
-#    InspIRCd 1.2/2.0 Linking Module
-#	   Chakora::Protocol::InspIRCd
+# protocol/inspircd by The Chakora Project. Link with InspIRCd 1.2/2.0.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)

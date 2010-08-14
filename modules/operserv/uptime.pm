@@ -1,10 +1,4 @@
-# /  __ \ |         | |
-# | /  \/ |__   __ _| | _____  _ __ __ _ 
-# | |   | '_ \ / _` | |/ / _ \| '__/ _` |
-# | \__/\ | | | (_| |   < (_) | | | (_| |
-#  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
-#    Operserv Uptime Module
-#          Modules::operserv::uptime
+# operserv/uptime by The Chakora Project. Adds UPTIME to OperServ, will return the uptime of services.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
@@ -14,7 +8,7 @@ use warnings;
 module_init("operserv/uptime", "The Chakora Project", "0.1", \&init_os_uptime, \&void_os_uptime, "all");
 
 sub init_os_uptime {
-	cmd_add("operserv/uptime", "Uptime", "Display\nservices\nuptime", \&svs_os_uptime);
+	cmd_add("operserv/uptime", "Display services uptime.", "Display when services were started, and how long they've been running.", \&svs_os_uptime);
 }
 
 sub void_os_uptime {
