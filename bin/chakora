@@ -335,7 +335,7 @@ sub svsflog {
 }
 
 sub module_init {
-    my ($name, $author, $version, $handler, $ircd) = @_;
+    my ($name, $author, $version, $init_handler, $void_handler, $ircd) = @_;
     print("[MODULES] Attempting to load module: ".$name." v".$version." by ".$author."\n");
     svsflog("chakora", "[MODULES] Attempting to load module: ".$name." v".$version." by ".$author);
     $ircd = lc($ircd);
@@ -345,7 +345,7 @@ sub module_init {
     } else {
         eval
         {
-            &{ $handler }();
+            &{ $init_handler }();
             print("[MODULES] ".$name.": Module successfully loaded.\n");
             svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
             1;	
