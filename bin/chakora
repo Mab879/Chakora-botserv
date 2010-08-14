@@ -363,6 +363,11 @@ sub cmd_add {
     $COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
 }
 
+sub cmd_del {
+	my ($service, $cmd) = @_;
+	undef $COMMANDS{$service}{$cmd};
+}
+
 sub count {
 	my (@array) = @_;
 	my ($i, $ai);
