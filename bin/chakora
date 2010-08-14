@@ -117,6 +117,10 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 };
 require Chakora::Server::Events;
 
+if (config('services', 'allow_taint')) {
+	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
+}
+
 # Create database operator
 if (!-d "$ROOT_ETC/data") {
 	`mkdir $ROOT_ETC/data`;
@@ -181,9 +185,7 @@ foreach $sac (@sab) {
     eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; }; 
 }
 
-while ($data = <$socket>) 
-{
-
+while ($data = <$socket>) {
     chomp($data);
     undef $ex;
     @ex = split(' ', $data);
@@ -192,9 +194,9 @@ while ($data = <$socket>)
     $USER = substr($ex[0], 1);
 
     if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
-        # stop if m_invisible is loaded, this will not be removed - so don't ask
+        # taint if m_invisible is loaded, this will not be removed - so don't ask
         if ($data =~ m/m_invisible.so/) {
-            error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
+            taint("InspIRCd: m_invisible is loaded.");
         }
         # check for m_services_account
         if ($data =~ m/m_services_account.so/) {
@@ -380,4 +382,16 @@ sub count {
 		$i += 1;
 	}
 	return $i;
+}
+
+sub taint {
+	my ($str) = @_;
+	my $msg = "TAINTED: ".$str;
+	if (config('services', 'allow_taint')) {
+		$msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
+		print("[WARNING] ".$msg."\n");
+	} else {
+		$msg .= " - Aborting. . .";
+		error("chakora", $msg);
+	}	
 }
