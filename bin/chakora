@@ -104,7 +104,7 @@ my $conf = Config::Scoped->new(
 my $settings = $conf->parse;
 
 # Create some variables for later use
-our (%rawcmds, %PROTO_SETTINGS, %COMMANDS);
+our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	print("[MODULES] Loading protocol: InspIRCd 1.2/2.0\n");
@@ -364,15 +364,16 @@ sub cmd_add {
     my ($name, $shelp, $fhelp, $handler) = @_;
     my @rname = split('/', $name);
     $COMMANDS{$rname[0]}{$rname[1]}{name} = $name;
-    $COMMANDS{$rname[0]}{$rname[1]}{shelp} = $shelp;
-    $COMMANDS{$rname[0]}{$rname[1]}{fhelp} = $fhelp;
     $COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
+    $HELP{$name}{shelp} = $shelp;
+    $HELP{$name}{fhelp} = $fhelp;
 }
 
 sub cmd_del {
 	my ($cmd) = @_;
 	my @scmd = split('/', $cmd);
 	undef $COMMANDS{$scmd[0]}{$scmd[1]};
+	undef $HELP{$cmd};
 }
 
 sub count {

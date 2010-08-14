@@ -48,11 +48,13 @@ sub svs_ns_help {
 		serv_notice("ns", $user, "\002/msg ".config('nickserv', 'nick')." HELP <command>\002");
 		serv_notice("ns", $user, "\002\002");
 		serv_notice("ns", $user, "The following commands are available:");
-		my (%command, $command);
-		foreach $command ($Chakora::COMMANDS{nickserv}) {
-			unless ($command{shelp} eq "NO_HELP_ENTRY") {
-				my @cmd = split('/', $command{name});
-				serv_notice("ns", $user, "\002".uc($cmd[1])."\002   -   ".$command{shelp});
+		my %commands = %Chakora::HELP;
+		foreach my $key (sort keys %commands) {
+			my @skey = split('/', $key);
+			if (lc($skey[0]) eq 'nickserv') {
+				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY") {
+					serv_notice("ns", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
+				}
 			}
 		}
 		serv_notice("ns", $user, "\002\002");
