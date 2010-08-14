@@ -123,7 +123,7 @@ if (!-d "$ROOT_ETC/data") {
 }
 our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "Unable to open database: ".$DBI::errstr);
 
- Prepare the database
+# Prepare the database
 if (!-e "$ROOT_ETC/data/accounts") {
 	$SVSDB->do("CREATE TABLE accounts (id INT, accountname TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
 }
@@ -252,7 +252,7 @@ while ($data = <$socket>)
     }
     # Charybdis: ERROR
     elsif ($ex[0] eq 'ERROR' and lc(config('server', 'ircd')) eq 'charybdis') {
-	raw_error($data);
+		raw_error($data);
     }
 
     # Handle a server command, if a handler is defined in the protocol module
