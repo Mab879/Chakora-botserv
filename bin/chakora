@@ -252,7 +252,7 @@ while ($data = <$socket>)
     }
     # Charybdis: ERROR
     elsif ($ex[0] eq 'ERROR' and lc(config('server', 'ircd')) eq 'charybdis') {
-	raw_error($data);
+		raw_error($data);
     }
 
     # Handle a server command, if a handler is defined in the protocol module
