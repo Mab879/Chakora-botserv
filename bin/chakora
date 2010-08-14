@@ -24,6 +24,7 @@ use DBD::CSV;
 use SQL::Statement;
 use Text::CSV_XS;
 use Sub::Delete;
+use Digest::SHA256;
 
 my ($ROOT_SRC, $ROOT_ETC);
 if (!(-d "src/")) {
