@@ -186,7 +186,19 @@ foreach $sac (@sab) {
     eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; }; 
 }
 
-while ($data = <$socket>) {
+while (1) {
+	$data = <$socket>;
+	unless (defined($data)) {
+		 # There is no connection! Lets reconnect!
+		 sleep 3;
+		 $socket = IO::Socket::INET->new(
+				Proto => "tcp",
+				LocalAddr => config('server', 'vhost'),
+				PeerAddr => config('server', 'host'),
+				PeerPort => config('server', 'port'),
+		) or die("Connection to ".config('server', 'host')." failed.\n");
+		irc_connect();
+	}
     chomp($data);
     undef $ex;
     @ex = split(' ', $data);
