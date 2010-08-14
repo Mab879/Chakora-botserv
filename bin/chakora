@@ -104,7 +104,7 @@ my $conf = Config::Scoped->new(
 my $settings = $conf->parse;
 
 # Create some variables for later use
-our (%rawcmds, %PROTO_SETTINGS, %COMMANDS);
+our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	print("[MODULES] Loading protocol: InspIRCd 1.2/2.0\n");
@@ -116,6 +116,10 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
     error("chakora", "This protocol isn't supported by Chakora.");
 };
 require Chakora::Server::Events;
+
+if (config('services', 'allow_taint')) {
+	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
+}
 
 # Create database operator
 if (!-d "$ROOT_ETC/data") {
@@ -181,9 +185,7 @@ foreach $sac (@sab) {
     eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; }; 
 }
 
-while ($data = <$socket>) 
-{
-
+while ($data = <$socket>) {
     chomp($data);
     undef $ex;
     @ex = split(' ', $data);
@@ -192,9 +194,9 @@ while ($data = <$socket>)
     $USER = substr($ex[0], 1);
 
     if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
-        # stop if m_invisible is loaded, this will not be removed - so don't ask
+        # taint if m_invisible is loaded, this will not be removed - so don't ask
         if ($data =~ m/m_invisible.so/) {
-            error("chakora", "We forbid the use of Chakora with InspIRCd with m_invisible.so loaded, please unload it then try again!");
+            taint("InspIRCd: m_invisible is loaded.");
         }
         # check for m_services_account
         if ($data =~ m/m_services_account.so/) {
@@ -362,15 +364,16 @@ sub cmd_add {
     my ($name, $shelp, $fhelp, $handler) = @_;
     my @rname = split('/', $name);
     $COMMANDS{$rname[0]}{$rname[1]}{name} = $name;
-    $COMMANDS{$rname[0]}{$rname[1]}{shelp} = $shelp;
-    $COMMANDS{$rname[0]}{$rname[1]}{fhelp} = $fhelp;
     $COMMANDS{$rname[0]}{$rname[1]}{handler} = $handler;
+    $HELP{$name}{shelp} = $shelp;
+    $HELP{$name}{fhelp} = $fhelp;
 }
 
 sub cmd_del {
 	my ($cmd) = @_;
 	my @scmd = split('/', $cmd);
 	undef $COMMANDS{$scmd[0]}{$scmd[1]};
+	undef $HELP{$cmd};
 }
 
 sub count {
@@ -380,4 +383,16 @@ sub count {
 		$i += 1;
 	}
 	return $i;
+}
+
+sub taint {
+	my ($str) = @_;
+	my $msg = "TAINTED: ".$str;
+	if (config('services', 'allow_taint')) {
+		$msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
+		print("[WARNING] ".$msg."\n");
+	} else {
+		$msg .= " - Aborting. . .";
+		error("chakora", $msg);
+	}	
 }
