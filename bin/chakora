@@ -364,8 +364,9 @@ sub cmd_add {
 }
 
 sub cmd_del {
-	my ($service, $cmd) = @_;
-	undef $COMMANDS{$service}{$cmd};
+	my ($cmd) = @_;
+	my @scmd = split('/', $cmd);
+	undef $COMMANDS{$scmd[0]}{$scmd[1]};
 }
 
 sub count {
