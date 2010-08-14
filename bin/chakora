@@ -24,17 +24,17 @@ use DBD::CSV;
 use SQL::Statement;
 use Text::CSV_XS;
 
-my ($ROOT_LIB, $ROOT_ETC);
-if (!(-d "lib/")) {
-    if (!(-d "../lib/")) {
-        error("chakora", "Unable to locate lib/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
+my ($ROOT_SRC, $ROOT_ETC);
+if (!(-d "src/")) {
+    if (!(-d "../src/")) {
+        error("chakora", "Unable to locate src/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
     } else {
-        $ROOT_LIB = "../lib";
-        use lib "../lib";
+        $ROOT_SRC = "../src";
+        use lib "../src";
     }
 } else {
-    $ROOT_LIB = "lib";
-    use lib "lib";
+    $ROOT_SRC = "src";
+    use lib "src";
 }
 
 if (!(-d "etc/")) {
@@ -114,7 +114,7 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 } else {
     error("chakora", "This protocol isn't supported by Chakora.");
 };
-require Chakora::Protocol::Events;
+require Chakora::Server::Events;
 
 # Create database operator
 if (!-d "$ROOT_ETC/data") {
@@ -177,7 +177,7 @@ my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac); 
 foreach $sac (@sab) { 
-    eval { require $ROOT_LIB."/Modules/".lc($sac).".pm"; }; 
+    eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; }; 
 }
 
 while ($data = <$socket>) 
