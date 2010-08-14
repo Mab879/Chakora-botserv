@@ -255,8 +255,8 @@ sub raw_chghost {
 	$uid{$ruid}{'mask'} = $rex[2];
 }
 
-# Handle ERROR
-sub raw_error {
+# Handle ERROR without a soruce server
+sub raw_nosrcerror {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $args = substr($rex[1], 1);
@@ -264,6 +264,17 @@ sub raw_error {
         for ($i = 2; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	svsflog("chakora", "[Server Error] ".$args);
 }
+
+# Handle ERROR with a source server
+sub raw_error {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $args = substr($rex[2], 1);
+        my $i;
+        for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        svsflog("chakora", "[Server Error] ".$args);
+}
+
 
 # Handle PRIVMSG
 sub raw_privmsg {

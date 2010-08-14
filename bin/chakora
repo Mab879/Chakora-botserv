@@ -252,9 +252,9 @@ while ($data = <$socket>) {
     elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis') {
         raw_ping($data);
     }
-    # Charybdis: ERROR
+    # Error without a source
     elsif ($ex[0] eq 'ERROR' and lc(config('server', 'ircd')) eq 'charybdis') {
-		raw_error($data);
+		raw_nosrcerror($data);
     }
 
     # Handle a server command, if a handler is defined in the protocol module
