@@ -254,7 +254,7 @@ while ($data = <$socket>) {
         raw_ping($data);
     }
     # Error without a source
-    elsif ($ex[0] eq 'ERROR' and lc(config('server', 'ircd')) eq 'charybdis') {
+    elsif ($ex[0] eq 'ERROR') {
 		raw_nosrcerror($data);
     }
 
