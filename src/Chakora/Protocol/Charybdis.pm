@@ -31,6 +31,15 @@ our %rawcmds = (
 	'JOIN' => {
 		handler => \&raw_join,
 	},
+	'NICK' => {
+		handler => \&raw_nick,
+	},
+	'CHGHOST' => {
+		handler => \&raw_chghost,
+	},
+	'ERROR' => {
+		handler => \&raw_error,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -226,6 +235,33 @@ sub raw_ping {
 	my (@rex);
 	@rex = split(' ', $raw);
 	send_sock(":".svsUID("chakora::server")." PONG ".$rex[1]);
+}
+
+# Handle NICK
+sub raw_nick {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $ruid = substr($rex[0], 1);
+        $uid{$ruid}{'nick'} = $rex[2];
+        event_nick($ruid, $rex[2]);
+}
+
+# Handle CHGHOST
+sub raw_chghost {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = $rex[1];
+	$uid{$ruid}{'mask'} = $rex[2];
+}
+
+# Handle ERROR
+sub raw_error {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $args = substr($rex[1], 1);
+	my $i;
+        for ($i = 2; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	svsflog("chakora", "[Server Error] ".$args);
 }
 
 1;
