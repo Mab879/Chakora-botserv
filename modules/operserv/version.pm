@@ -18,7 +18,9 @@ sub init_os_version {
 }
 
 sub void_os_version {
-
+	delete_sub 'init_os_version';
+	delete_sub 'svs_os_version';
+	cmd_del("operserv/version");
 }
 
 sub svs_os_version {
