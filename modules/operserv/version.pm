@@ -11,10 +11,14 @@
 use strict;
 use warnings;
 
-module_init("operserv/version", "The Chakora Project", "0.1", \&init_os_version, "all");
+module_init("operserv/version", "The Chakora Project", "0.1", \&init_os_version, \&void_os_version, "all");
 
 sub init_os_version {
 	cmd_add("operserv/version", "Version", "Display\nservices\nversion", \&svs_os_version);
+}
+
+sub void_os_version {
+
 }
 
 sub svs_os_version {

@@ -11,10 +11,14 @@
 use strict;
 use warnings;
 
-module_init("operserv/uptime", "The Chakora Project", "0.1", \&init_os_uptime, "all");
+module_init("operserv/uptime", "The Chakora Project", "0.1", \&init_os_uptime, \&void_os_uptime, "all");
 
 sub init_os_uptime {
 	cmd_add("operserv/uptime", "Uptime", "Display\nservices\nuptime", \&svs_os_uptime);
+}
+
+sub void_os_uptime {
+
 }
 
 sub svs_os_uptime {
