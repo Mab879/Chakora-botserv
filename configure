@@ -118,6 +118,13 @@ eval {
 	1;
 } or print("Not Found (install Term::Prompt)\n") and $die = 1;
 
+print("Checking for Sub::Delete..... ");
+eval {
+        require Sub::Delete;
+        print "OK\n";
+        1;
+} or print("Not Found (install Sub::Delete)\n") and $die = 1;
+
 print("\n");
 
 if ($die) {

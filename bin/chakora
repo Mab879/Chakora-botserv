@@ -23,6 +23,7 @@ use DBD::File;
 use DBD::CSV;
 use SQL::Statement;
 use Text::CSV_XS;
+use Sub::Delete;
 
 my ($ROOT_SRC, $ROOT_ETC);
 if (!(-d "src/")) {
