@@ -22,8 +22,9 @@ sub svs_ns_help {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	if (defined($rex[4])) {
-		if (defined($Chakora::COMMANDS{nickserv}{lc($rex[4])}{fhelp}) and $Chakora::COMMANDS{nickserv}{lc($rex[4])}{fhelp} ne "NO_HELP_ENTRY") {
-			my @fhelp = split('\n', $Chakora::COMMANDS{nickserv}{lc($rex[4])}{fhelp});
+		my $hcmd = "nickserv/".lc($rex[4]);
+		if (defined($Chakora::HELP{$hcmd}{fhelp}) and $Chakora::HELP{$hcmd}{fhelp} ne "NO_HELP_ENTRY") {
+			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
 			my ($help);
 			serv_notice("ns", $user, "\002***** NickServ Help *****\002");
 			serv_notice("ns", $user, "Help for \002".uc($rex[4])."\002:");
