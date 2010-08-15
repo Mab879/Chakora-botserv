@@ -2,8 +2,6 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
-#
-
 use strict;
 use warnings;
 use lib "../lib";
@@ -34,13 +32,12 @@ our %rawcmds = (
 	'ERROR' => {
 		handler => \&raw_error,
 	},
-        'PRIVMSG' => {
-                handler => \&raw_privmsg,
-        },
-        'NOTICE' => {
-                handler => \&raw_notice,
-        },
-
+	'PRIVMSG' => {
+		handler => \&raw_privmsg,
+	},
+	'NOTICE' => {
+		handler => \&raw_notice,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
