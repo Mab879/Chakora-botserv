@@ -63,6 +63,7 @@ sub irc_connect {
 	send_sock("CAPAB QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC");
 	send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
 	send_sock("SVINFO 6 6 0 ".time());
+	raw_endsync();
 }
 
 # Get service UID
@@ -207,6 +208,7 @@ sub raw_euid {
 	$uid{$ruid}{'ip'} = $rex[8];
 	$uid{$ruid}{'uid'} = $rex[9];
 	$uid{$ruid}{'host'} = $rex[10];
+	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services."); }
 }
 
 # Handle SJOIN
