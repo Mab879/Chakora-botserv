@@ -29,7 +29,9 @@ sub void_os_userlog {
 
 sub svs_os_joinlog {
         my ($user, $chan) = @_;
-        serv_privmsg("os", config('log', 'logchan'), "\2JOIN\2: ".uidInfo($user, 1)." -> ".$chan);
+	if ($Chakora::synced) {
+	        serv_privmsg("os", config('log', 'logchan'), "\2JOIN\2: ".uidInfo($user, 1)." -> ".$chan);
+	}
 }
 
 sub svs_os_partlog {
@@ -44,5 +46,7 @@ sub svs_os_nicklog {
 
 sub svs_os_connectlog {
 	my ($uid, $nick, $user, $host, $mask, $ip) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2CONNECT\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
+	if ($Chakora::synced) {
+		serv_privmsg("os", config('log', 'logchan'), "\2CONNECT\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
+	}
 }
