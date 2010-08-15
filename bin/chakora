@@ -262,7 +262,7 @@ while (1) {
         raw_endsync();
     }
     # Charybdis: Respond to PING's
-    elsif ($ex[0] eq 'PING' and $synced ne 0 and lc(config('server', 'ircd')) eq 'charybdis') {
+    elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config('server', 'ircd')) eq 'charybdis') {
         raw_ping($data);
     }
     # Error without a source
