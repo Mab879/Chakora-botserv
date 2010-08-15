@@ -87,8 +87,10 @@ $conf->append("\tlogchanf = \"error soper request register\"\n");
 
 $conf->append("}\n\nservices {\n");
 my $email = prompt('x', 'What is the admin email?', '', '');
-$conf->append("email = \'".$email."\'\n");
-$conf->append("autoload = \"\"\n}\n\n");
+$conf->append("\temail = \'".$email."\'\n");
+my $allow_taint = prompt('y', 'Do you want to allow tainting?', 'Allowing tainting loses your support rights', 'n');
+$conf->append("\tallow_taint = ".$allow_taint."\n");
+$conf->append("\tautoload = \"\"\n}\n\n");
 
 my $svs = 'ChanServ';
 $conf->append(lc($svs)." {\n");
