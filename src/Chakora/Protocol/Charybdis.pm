@@ -209,6 +209,8 @@ sub raw_sjoin {
 	# [IRC] :48X SJOIN 1280086561 #services +nt :@48XAAAAAB
 	my $chan = $rex[3];
 	$channel{$chan}{'ts'} = $rex[2];
+	my $user = substr($rex[5], 1);
+	$user =~ s/[@+]//;
 	event_join(substr($rex[5], 2), $rex[3]);
 }
 
