@@ -38,6 +38,9 @@ our %rawcmds = (
 	'NOTICE' => {
 		handler => \&raw_notice,
 	},
+	'PART' => {
+		handler => \&raw_part,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -241,6 +244,17 @@ sub raw_join {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	event_join(substr($rex[0], 1), $rex[3]);
+}
+
+# Handle PART
+sub raw_part {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $user = substr($rex[0], 1);
+        my $args = substr($rex[3], 1);
+        my ($i);
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	event_part($user, $rex[2], $args);
 }
 
 # Handle PING
