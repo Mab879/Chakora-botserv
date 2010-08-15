@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Welcome to Chakora's module retriever"
+
+yes | cpan -if Term::Prompt IO::Socket Sub::Delete Term::Prompt SQL::Statement Getopt::Long DBI DBD::CSV Term::ANSIColor DBD::File Text::CSV_XS Config::Scoped Digest::SHA256
+
+echo "Modules installed"
