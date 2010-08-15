@@ -230,6 +230,10 @@ sub raw_quit {
 	my @rex = split(' ', $raw);
 	my $ruid = substr($rex[0], 1);
 	undef $uid{$ruid};
+	my ($i);
+        my $args = substr($rex[2], 1);
+        for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	event_quit($ruid, $args);
 }
 
 # Handle JOIN
@@ -269,7 +273,7 @@ sub raw_nosrcerror {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $args = substr($rex[1], 1);
-	my $i;
+	my ($i);
         for ($i = 2; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	svsflog("chakora", "[Server Error] ".$args);
 }
@@ -279,7 +283,7 @@ sub raw_error {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
         my $args = substr($rex[2], 1);
-        my $i;
+        my ($i);
         for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         svsflog("chakora", "[Server Error] ".$args);
 }
@@ -291,7 +295,7 @@ sub raw_privmsg {
         my @rex = split(' ', $raw);
         my $args = substr($rex[3], 1);
         my ($i);
-    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         event_privmsg(substr($rex[0], 1), $rex[2], $args);
 }
 
@@ -301,7 +305,7 @@ sub raw_notice {
         my @rex = split(' ', $raw);
         my $args = substr($rex[3], 1);
         my ($i);
-    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         event_notice(substr($rex[0], 1), $rex[2], $args);
 }
 
