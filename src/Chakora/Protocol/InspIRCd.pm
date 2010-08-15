@@ -234,7 +234,7 @@ sub raw_uid {
 	$uid{$ruid}{'user'} = $rex[7];
 	$uid{$ruid}{'ip'} = $rex[8];
 	$uid{$ruid}{'pnick'} = 0;
-	serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services."); }
+	serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services.");
 	event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8]);
 }
 
@@ -276,7 +276,7 @@ sub raw_nick {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $ruid = substr($rex[0], 1);
-	$uid{$ruid}{'pnick} = uidInfo($ruid, 1);
+	$uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
 	$uid{$ruid}{'nick'} = $rex[2];
 	event_nick($ruid, $rex[2]);
 }
@@ -287,12 +287,12 @@ sub raw_part {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	my $args = 0;
-	if ($args[3) {
+	if ($rex[3]) {
 		my $args = substr($rex[3], 1);
 		my ($i);
-    		for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	}
-    	event_part($user, $rex[2], $args);
+    event_part($user, $rex[2], $args);
 }
 
 # Handle FHOST
