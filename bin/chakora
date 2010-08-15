@@ -196,7 +196,7 @@ while (1) {
 	$data = <$socket>;
 	unless (defined($data)) {
 		 # There is no connection! Lets reconnect!
-		 sleep 3;
+		 sleep 2;
 		 $socket = IO::Socket::INET->new(
 				Proto => "tcp",
 				LocalAddr => config('server', 'vhost'),
@@ -362,7 +362,12 @@ sub svsflog {
 
 sub svsilog {
 	my ($service, $user, $cmd, $args) = @_;
-	serv_privmsg($service, config('log', 'logchan'), "\002".uidInfo($user, 1)."\002: \002".$cmd."\002: ".$args);
+	if (length($args) == 0) {
+		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".$cmd."\002");
+	}
+	else {
+		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".$cmd."\002: ".$args);
+	}
 }
 
 sub module_init {
