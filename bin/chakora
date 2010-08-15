@@ -175,7 +175,7 @@ my $socket = IO::Socket::INET->new(
 
 # Create some variables for later use
 my ($data, $ex, @ex);
-my $synced = 0;
+our $synced = 0;
 my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
 
 # Connect!

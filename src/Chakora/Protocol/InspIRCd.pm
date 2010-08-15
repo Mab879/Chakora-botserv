@@ -361,4 +361,9 @@ sub raw_error {
         svsflog("chakora", "[Server Error] ".$args);
 }
 
+# Handle ENDBURST
+sub raw_endburst {
+	$Chakora::synced = 1;
+}
+
 1;
