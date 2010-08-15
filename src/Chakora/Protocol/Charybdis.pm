@@ -211,7 +211,7 @@ sub raw_sjoin {
 	$channel{$chan}{'ts'} = $rex[2];
 	my $user = substr($rex[5], 1);
 	$user =~ s/[@+]//;
-	event_join(substr($rex[5], 2), $rex[3]);
+	event_join($user, $rex[3]);
 }
 
 # Handle QUIT
