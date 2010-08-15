@@ -145,8 +145,14 @@ if (!-e "$ROOT_ETC/data/flags") {
 	$SVSDB->do("CREATE TABLE flags (chan TEXT, user TEXT, flags TEXT)");
 }
 
+# If we're in debug mode, set a variable letting Chakora know that.
+if ($options{debug}) {
+	my $IN_DEBUG = 1;
+}
+
 # Fork into the background unless --debug was specified
 unless ($options{debug}) {
+    my $IN_DEUBG = 0;
     print("Becoming a daemon...\n");
     open STDIN, '/dev/null'   or error("chakora", "Can't read /dev/null: $!");
     open STDOUT, '>>/dev/null' or error("chakora", "Can't write to /dev/null: $!");
