@@ -93,7 +93,7 @@ if ($options{help}) {
 
 # Don't allow Chakora to run as root
 if (`whoami` eq "root\n") { 
-    error("chakora", "We forbid the running of Chakora as root."); 
+    error("chakora", "We forbid running Chakora as root."); 
 }
 
 # If we're in debug mode, set a variable letting Chakora know that.
