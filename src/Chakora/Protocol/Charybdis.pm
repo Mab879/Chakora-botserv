@@ -171,6 +171,12 @@ sub serv_quit {
 	send_sock(":".svsUID($svs)." QUIT :".$msg);
 }
 
+# Handle WALLOPS
+sub serv_wallops {
+	my ($msg) = @_;
+	send_sock(":".svsUID('chakora::server')." WALLOPS :".$msg);
+}
+
 ######### Receiving data #########
 
 # Handle END SYNC
@@ -187,6 +193,7 @@ sub raw_endsync {
 	serv_join('ms', config('log', 'logchan'));
 	serv_join('ns', config('log', 'logchan'));
 	serv_join('os', config('log', 'logchan'));
+	if ($Chakora::IN_DEBUG) { serv_wallops("Services are in debug mode - be careful when sending messages to services."); }
 }
 
 # Handle EUID
