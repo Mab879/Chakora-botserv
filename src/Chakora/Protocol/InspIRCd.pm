@@ -218,7 +218,6 @@ sub raw_capabend {
 	serv_join('ms', config('log', 'logchan'));
 	serv_join('ns', config('log', 'logchan'));
 	serv_join('os', config('log', 'logchan'));
-        if ($Chakora::IN_DEBUG) { serv_wallops("Services are in debug mode - be careful when sending messages to services."); }
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 
