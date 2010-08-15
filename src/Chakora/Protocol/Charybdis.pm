@@ -239,11 +239,11 @@ sub raw_quit {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $ruid = substr($rex[0], 1);
-	undef $uid{$ruid};
-	my ($i);
+        my ($i);
         my $args = substr($rex[2], 1);
         for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_quit($ruid, $args);
+	undef $uid{$ruid};
 }
 
 # Handle JOIN
