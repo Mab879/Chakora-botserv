@@ -92,6 +92,8 @@ sub uidInfo {
 		return $uid{$ruid}{'mask'};
 	} elsif ($section == 5) {
 		return $uid{$ruid}{'ip'};
+	} elsif ($section == 6) {
+		return $uid{$ruid}{'pnick'};
 	} else {
 		return 0;
 	}
@@ -211,6 +213,7 @@ sub raw_euid {
 	$uid{$ruid}{'ip'} = $rex[8];
 	$uid{$ruid}{'uid'} = $rex[9];
 	$uid{$ruid}{'host'} = $rex[10];
+	$uid{$ruid}{'pnick'} = 0;
 	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8]);
 	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services."); }
 }
@@ -251,9 +254,12 @@ sub raw_part {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
         my $user = substr($rex[0], 1);
-        my $args = substr($rex[3], 1);
-        my ($i);
-    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my $args = 0;
+	if ($rex[3]) {
+        	my $args = substr($rex[3], 1);
+        	my ($i);
+    		for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	}
     	event_part($user, $rex[2], $args);
 }
 
@@ -270,6 +276,7 @@ sub raw_nick {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
         my $ruid = substr($rex[0], 1);
+	$uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
         $uid{$ruid}{'nick'} = $rex[2];
         event_nick($ruid, $rex[2]);
 }
