@@ -285,8 +285,8 @@ sub raw_part {
 	my $user = substr($rex[0], 1);
 	my $args = substr($rex[3], 1);
 	my ($i);
-    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-    event_part($user, $rex[2], $args);
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	event_part($user, $rex[2], $args);
 }
 
 # Handle FHOST
@@ -327,7 +327,7 @@ sub raw_privmsg {
 	my @rex = split(' ', $raw);
 	my $args = substr($rex[3], 1);
 	my ($i);
-    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_privmsg(substr($rex[0], 1), $rex[2], $args);
 }
 
@@ -337,7 +337,7 @@ sub raw_notice {
 	my @rex = split(' ', $raw);
 	my $args = substr($rex[3], 1);
 	my ($i);
-    for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_notice(substr($rex[0], 1), $rex[2], $args);
 }
 
