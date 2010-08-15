@@ -287,9 +287,12 @@ sub raw_part {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
-	my $args = substr($rex[3], 1);
-	my ($i);
-    	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my $args = 0;
+	if ($args[3) {
+		my $args = substr($rex[3], 1);
+		my ($i);
+    		for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	}
     	event_part($user, $rex[2], $args);
 }
 
