@@ -13,6 +13,7 @@ sub init_os_userlog {
 	hook_part_add(\&svs_os_partlog);
 	hook_nick_add(\&svs_os_nicklog);
 	hook_uid_add(\&svs_os_connectlog);
+	hook_quit_add(\&svs_os_quitlog);
 }
 
 sub void_os_userlog {
@@ -21,10 +22,12 @@ sub void_os_userlog {
 	delete_sub 'svs_os_partlog';
 	delete_sub 'svs_os_nicklog';
 	delete_sub 'svs_os_connectlog';
+	delete_sub 'svs_os_quitlog';
 	hook_join_del(\&svs_os_joinlog);	
 	hook_part_del(\&svs_os_partlog);
 	hook_nick_del(\&svs_os_nicklog);
 	hook_uid_del(\&svs_os_connectlog);
+	hook_quit_del(\&svs_os_quitlog);
 }
 
 sub svs_os_joinlog {
@@ -49,4 +52,9 @@ sub svs_os_connectlog {
 	if ($Chakora::synced) {
 		serv_privmsg("os", config('log', 'logchan'), "\2CONNECT\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
 	}
+}
+
+sub svs_os_quitlog {
+	my ($user, $msg) = @_;
+	serv_privmsg("os", config('log', 'logchan'), "\2QUIT\2: ".uidInfo($user, 1)." Reason: ".$msg);
 }
