@@ -20,5 +20,7 @@ sub void_os_joinlog {
 
 sub svs_os_joinlog {
 	my ($user, $chan) = @_;
-	serv_privmsg("os", "#services", "JOIN: ".$user." -> ".$chan);
+	if ($synced) {
+		serv_privmsg("os", config('log', 'logchan'), "JOIN: ".uidInfo($user, 1)." -> ".$chan);
+	}
 }
