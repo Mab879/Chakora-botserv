@@ -12,6 +12,7 @@ sub init_os_userlog {
 	hook_join_add(\&svs_os_joinlog);
 	hook_part_add(\&svs_os_partlog);
 	hook_nick_add(\&svs_os_nicklog);
+	hook_uid_add(\&svs_os_connectlog);
 }
 
 sub void_os_userlog {
@@ -19,9 +20,11 @@ sub void_os_userlog {
 	delete_sub 'svs_os_joinlog';
 	delete_sub 'svs_os_partlog';
 	delete_sub 'svs_os_nicklog';
+	delete_sub 'svs_os_connectlog';
 	hook_join_del(\&svs_os_joinlog);	
 	hook_part_del(\&svs_os_partlog);
 	hook_nick_del(\&svs_os_nicklog);
+	hook_uid_del(\&svs_os_connectlog);
 }
 
 sub svs_os_joinlog {
@@ -37,4 +40,9 @@ sub svs_os_partlog {
 sub svs_os_nicklog {
 	my ($user, $newnick) = @_;
 	serv_privmsg("os", config('log', 'logchan'), "\2NICK\2: ".uidInfo($user, 6)." -> ".$newnick);
+}
+
+sub svs_os_connectlog {
+	my ($uid, $nick, $user, $host, $mask, $ip) = @_;
+	serv_privmsg("os", config('log', 'logchan'), "\2CONNECT\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
 }
