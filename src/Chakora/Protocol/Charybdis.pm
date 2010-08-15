@@ -204,6 +204,7 @@ sub raw_endsync {
 	serv_join('ns', config('log', 'logchan'));
 	serv_join('os', config('log', 'logchan'));
 	if ($Chakora::IN_DEBUG) { serv_wallops("Services are in debug mode - be careful when sending messages to services."); }
+	$Chakora::synced = 1;
 }
 
 # Handle EUID
