@@ -58,11 +58,11 @@ GetOptions("help" => \$options{help},
 );
 
 # Define our version
-$SERVICES_VERSION = 'Chakora 1.0-dev';
+$SERVICES_VERSION = 'Chakora 1.1-dev';
 
 # Okay! Here we go!
 print color 'bold red';
-print("Chakora IRC Services Version 1.0-dev\n");
+print("Chakora IRC Services Version 1.1-dev\n");
 print color 'bold green';
 print("\n");
 print("By continuing you are hereby stating that\n"); 
