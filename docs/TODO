@@ -36,7 +36,7 @@
 	[ ] Group
 	[ ] Request
 [ ] Core
-	[ ] Add module_unload
+	[!] Add module_void
 	[ ] Improve CTCP handling
 	[ ] Add is_oper
 
