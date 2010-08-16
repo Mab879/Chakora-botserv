@@ -206,6 +206,13 @@ sub serv_accountname
 	send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname :".$name);
 }
 
+# Handle when a user logs out of nickserv
+sub serv_logout {
+        my ($user) = @_;
+        send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname");
+}
+
+
 ######### Receiving data #########
 
 # Handle CAPAB END

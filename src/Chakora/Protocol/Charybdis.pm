@@ -189,6 +189,12 @@ sub serv_accountname {
 	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user." ".$name);
 }
 
+# Handle when a user logs out of nickserv
+sub serv_logout {
+	my ($user) = @_;
+	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user);
+}
+
 ######### Receiving data #########
 
 # Our Bursting
