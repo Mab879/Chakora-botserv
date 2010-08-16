@@ -1,0 +1,43 @@
+/  __ \ |         | |
+| /  \/ |__   __ _| | _____  _ __ __ _
+| |   | '_ \ / _` | |/ / _ \| '__/ _` |
+| \__/\ | | | (_| |   < (_) | | | (_| |
+ \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
+
+                 TODO
+----------------------------------------
+
+[ ] Global
+	[ ] send_global sub
+[ ] NickServ
+	[!] Register
+	[ ] Group
+	[ ] Identify
+	[ ] Drop
+[ ] ChanServ
+	[ ] Register
+	[ ] Drop
+[ ] MemoServ
+	[ ] Send
+	[ ] List
+	[ ] Read
+	[ ] Delete
+[ ] OperServ
+	[ ] Restart
+	[ ] Shutdown
+	[ ] Rehash
+	[ ] Module management
+	[ ] AKill
+[ ] HostServ
+	[ ] Set vHosts
+	[ ] Delete vHost
+	[ ] Group
+	[ ] Request
+[ ] Core
+	[ ] Add module_unload
+
+Key: 
+	X = Done
+	! = In development
+	? = Still being questioned whether it should be in Chakora or not
+	
