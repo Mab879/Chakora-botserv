@@ -200,6 +200,12 @@ sub serv_wallops {
         send_sock(":".svsUID('chakora::server')." WALLOPS :".$msg);
 }
 
+# Set account name
+sub serv_accountname
+	my ($user, $name) = @_
+	send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname :".$name);
+}
+
 ######### Receiving data #########
 
 # Handle CAPAB END
