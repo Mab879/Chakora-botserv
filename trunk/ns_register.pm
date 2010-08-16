@@ -1,3 +1,4 @@
+
 # nickserv/register by The Chakora Project. Allows users to register their nickname with services.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
@@ -9,6 +10,12 @@ module_init("nickserv/register", "The Chakora Project", "0.1", \&init_ns_registe
 
 sub init_ns_register {
 	cmd_add("nickserv/register", "Register a nickname with services.", "This will allow you to register your current nickname with ".config('nickserv', 'nick').".\nBy doing this you are creating an identity for yourself on the network,\nand allowing yourself to be added to access lists. ".config('nickserv', 'nick')." will also\nwarn users when using your nick, make them go unidentified if they don't\nidentify, and allow you to kill ghosts. The password is a case sensitive\npassword that you make up. Please write it down or memorize it! You will\nneed it to identify or change settings later on.\n[T]\nSyntax: REGISTER <password> <email-address>", \&svs_ns_register);
+}
+
+sub void_ns_register {
+	delete_sub 'init_ns_register';
+	delete_sub 'svs_ns_register';
+	cmd_del("nickserv/register");
 }
 
 sub svs_ns_register {
