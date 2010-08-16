@@ -128,8 +128,6 @@ if (config('services', 'allow_taint')) {
 	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
 
-# Create encryption operator
-our $encrypt = Digest->new("SHA-512");
 
 # Create database operator
 if (!-d "$ROOT_ETC/data") {
