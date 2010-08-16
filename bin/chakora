@@ -213,9 +213,9 @@ while (1) {
     @ex = split(' ', $data);
     $mtext = substr($data,index($data,":",index($data,":")+1)+1);
    
-   if (lc($ex[3]) eq ":register") {
+    if (lc($ex[3]) eq ":register") {
 	print("[IRC]: REGISTER ".substr($ex[0], 1)."[".uidInfo(substr($ex[0], 1), 1)."] to ".$ex[5]."\n");
-   }	
+    }	
     else {
 	 print("[IRC] ".$data."\n");
     }
@@ -275,14 +275,13 @@ while (1) {
     if ($ex[0] eq 'PING' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
 	raw_endsync();
     }
-
     # Charybdis: Respond to PING's
     elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config('server', 'ircd')) eq 'charybdis') {
         raw_ping($data);
     }
     # Error without a source
     elsif ($ex[0] eq 'ERROR') {
-		raw_nosrcerror($data);
+	raw_nosrcerror($data);
     }
  
     # Handle a server command, if a handler is defined in the protocol module
@@ -294,7 +293,7 @@ while (1) {
             &{ $sub_ref }($data);
         };
     }
-    # Handle CTCP's
+    # Handle CTCPs
     if ($mtext =~ /^\001.+\001/ and $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
     	$data =~ s/\001//g;
     	$mtext =~ s/\001//g;
@@ -463,3 +462,4 @@ sub handle_ctcp {
 		send_sock(":".$svsuid." NOTICE ".$user." :\001VERSION ".$SERVICES_VERSION."\001");
 	}
 }
+
