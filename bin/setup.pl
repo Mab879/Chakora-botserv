@@ -95,8 +95,8 @@ $conf->append("\tautoload = \"\"\n}\n\n");
 
 $conf->append("encryption {\n");
 my $key = prompt('x', 'What do you want to use for the encryption key', 'This needs to be unique to your IRC network, make sure this strong and random', '');
-$conf->append("\t"."key = '".$key."'\n");
-$conf->append("}\n");
+$conf->append("\t".'key = "'.$key."\"\n");
+$conf->append("}\n\n");
 
 my $svs = 'ChanServ';
 $conf->append(lc($svs)." {\n");
