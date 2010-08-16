@@ -19,13 +19,17 @@ sub svs_ns_register {
 	my $nick = uidInfo($user, 1);
 	my $password = $rex[4];
 	my $email = $rex[5];
+	my $en = Digest::HMAC->new(config('encryption', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
 		unless (length($password) < 5) {
 			@semail = split('@', $email);
 			unless ($semail[0] =~ m/![A-Z|a-z|0-9]/) {
 				
 			} else { serv_notice("ns", $user, 'Invalid email address.'); }
+			$en->add($password);
+			my $pass = $en->hexdigest;
 			svsilog("ns", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
+			serv_notice("ns", $user, "Your password is ".$pass." encrypted.");
 		} else { serv_notice("ns", $user, 'Your password must be at least 5 characters long.'); }
 	} else { serv_notice("ns", $user, 'Not enough parameters. Syntax: REGISTER <password> <email-address>'); }
 }
