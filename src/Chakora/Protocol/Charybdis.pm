@@ -209,6 +209,7 @@ sub serv_kill {
 # Handle jupes
 sub serv_jupe {
 	my ($server, $reason) = @_;
+	send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
 	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
 }
 
