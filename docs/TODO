@@ -8,7 +8,7 @@
 ----------------------------------------
 
 [ ] Global
-	[ ] send_global sub
+	[ ] send_global sub (Use a foreach statement for $uid's to send a NOTICE to each user)
 [ ] NickServ
 	[!] Register
 	[ ] Group
@@ -26,7 +26,7 @@
 	[ ] Restart
 	[ ] Shutdown
 	[ ] Rehash
-	[ ] Module management
+	[ ] Module management (list, info, load, unload)
 	[ ] AKill
 [ ] HostServ
 	[ ] Set vHosts
@@ -35,6 +35,7 @@
 	[ ] Request
 [ ] Core
 	[ ] Add module_unload
+	[ ] Improve CTCP handline
 
 Key: 
 	X = Done
