@@ -210,8 +210,13 @@ while (1) {
     chomp($data);
     undef $ex;
     @ex = split(' ', $data);
-
-    print("[IRC] ".$data."\n");
+	
+    if (lc($ex[3]) eq ":register") {
+	print("[IRC]: REGISTER ".substr($ex[0], 1)."[".uidInfo(substr($ex[0], 1), 1)."] to ".$ex[5]."\n");
+   }	
+    else {
+	 print("[IRC] ".$data."\n");
+    }
     $USER = substr($ex[0], 1);
 
     if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
