@@ -2,6 +2,6 @@
 
 echo "Welcome to Chakora's module retriever"
 
-yes | cpan -if Term::Prompt IO::Socket Sub::Delete SQL::Statement Getopt::Long DBI DBD::CSV Term::ANSIColor DBD::File Text::CSV_XS Config::Scoped Digest::SHA256 File::Data
+yes | cpan -if Term::Prompt IO::Socket Sub::Delete SQL::Statement Getopt::Long DBI DBD::CSV Term::ANSIColor DBD::File Text::CSV_XS Config::Scoped File::Data Digest::Whirlpool Digest::HMAC
 
 echo "Modules installed"
