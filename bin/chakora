@@ -111,7 +111,7 @@ my $conf = Config::Scoped->new(
 my $settings = $conf->parse;
 
 # Create some variables for later use
-our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP, $MODULES);
+our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	print("[MODULES] Loading protocol: InspIRCd 1.2/2.0\n");
@@ -395,28 +395,50 @@ sub module_init {
     if ($ircd ne 'all' and $ircd ne lc(config('server', 'ircd'))) {
         print("[MODULES] Module ".$name." refusing to load: Protocol not supported.\n");
         svsflog("chakora", "[MODULES] Module ".$name." refusing to load: Protocol not supported.");
+        return "MODLOAD_BADPROTO";
     } else {
         eval
         {
             &{ $init_handler }();
             print("[MODULES] ".$name.": Module successfully loaded.\n");
             svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
-            $MODULES .= ' '.$name;
+            return "MODLOAD_SUCCESS";
+            $MODULE{$name}{name} = $name;
+            $MODULE{$name}{void} = $void_handler;
             1;	
-        } or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.");
+        } or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.") and return "MODLOAD_FAIL";
     }
 }
 
 sub module_exists {
 	my ($module) = @_;
-	my @modules = split(' ', $MODULES);
 	my $exists = 0;
-	foreach my $mod (@modules) {
+	foreach my $mod (keys %MODULE) {
 		if ($mod eq $module) {
 			$exists = 1;
 		}
 	}
 	return $exists;
+}
+
+sub module_void {
+	my ($module) = @_;
+	svsflog("chakora", "[MODULES] ".$module.": Attempting to unload module. . .");
+	if (defined($MODULE{$module})) {
+		my $void_handler = $MODULE{$module}{void};
+		eval
+        {
+            &{ $void_handler }();
+            print("[MODULES] ".$module.": Module successfully unloaded.\n");
+            svsflog("chakora", "[MODULES] ".$module.": Module successfully unloaded.");
+			undef $MODULE{$module};
+			1;	
+        } or print("[MODULES] ".$module.": Module failed to unload.\n") and svsflog("chakora", "[MODULES] ".$module.": Module failed to unload.") and return "MODUNLOAD_FAIL";
+	} else {
+		print("[MODULES] ".$module.": Module failed to unload. No such module?\n");
+		svsflog("chakora", "[MODULES] ".$module.": Module failed to unload. No such module?");
+		return "MODUNLOAD_NOEXIST";
+	}	
 }
 
 sub cmd_add {
