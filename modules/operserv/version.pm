@@ -22,7 +22,6 @@ sub svs_os_version {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	serv_notice("os", $user, $Chakora::SERVICES_VERSION." - Developed by starcoder, MattB, chazz, cooper, and Freelancer");
-	svsilog("os", $user, "VERSION", "");
 }
 
 1;
