@@ -92,6 +92,11 @@ my $allow_taint = prompt('y', 'Do you want to allow tainting?', 'Allowing tainti
 $conf->append("\tallow_taint = ".$allow_taint."\n");
 $conf->append("\tautoload = \"\"\n}\n\n");
 
+
+$conf->append("encryption {\n");
+my $key = prompt('x', 'What do you want to use for the encryption key', 'This needs to be unique to your IRC network, make sure this strong and random', '');
+$conf->append("\tkey = ".$key."\n}\n");
+
 my $svs = 'ChanServ';
 $conf->append(lc($svs)." {\n");
 
