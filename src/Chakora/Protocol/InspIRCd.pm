@@ -212,6 +212,16 @@ sub serv_logout {
         send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname");
 }
 
+# Handle KILL
+sub serv_kill {
+        my ($svs, $user, $reason) = @_;
+        if (length($reason) == 0) {
+                send_sock(":".svsUID($svs)." KILL ".$user);
+        }
+        else {
+                send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
+        }
+}
 
 ######### Receiving data #########
 

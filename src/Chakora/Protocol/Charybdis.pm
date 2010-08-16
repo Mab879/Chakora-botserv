@@ -195,6 +195,17 @@ sub serv_logout {
 	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user);
 }
 
+# Handle KILL
+sub serv_kill {
+	my ($svs, $user, $reason) = @_; 
+	if (length($reason) == 0) {
+		send_sock(":".svsUID($svs)." KILL ".$user);
+	}
+	else {
+		send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
+	}
+}
+
 ######### Receiving data #########
 
 # Our Bursting
