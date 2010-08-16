@@ -16,8 +16,9 @@
 	[ ] Drop
 	[ ] Enforce
 	[ ] Set
-	[X] Account name
-	[ ]  
+	[ ] Ghost
+	[ ] Release
+	[X] Account name 
 [ ] ChanServ
 	[ ] Register
 	[ ] Drop
@@ -32,15 +33,22 @@
 	[ ] Rehash
 	[ ] Module management (list, info, load, unload)
 	[ ] AKill
+	[ ] Jupe
 [ ] HostServ
 	[ ] Set vHosts
 	[ ] Delete vHost
 	[ ] Group
 	[ ] Request
 [ ] Core
-	[!] Add module_void
+	[X] Add module_void
 	[ ] Improve CTCP handling
 	[ ] Add is_oper
+[ ] Protocols
+	[ ] Add serv_kill
+	[ ] Add serv_enforce
+	[ ] Add function to hold nicknames
+	[ ] Charybdis: find a way to properly tell if a user is an oper
+	[ ] Add serv_jupe
 
 Key: 
 	X = Done
