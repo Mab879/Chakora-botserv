@@ -22,7 +22,7 @@ sub svs_ns_register {
 	unless (!defined($email) or !defined($password)) {
 		unless (length($password) < 5) {
 			@semail = split('@', $email);
-			unless ($semail[0] =~ m/![A-Z|a-z|0-9|/) {
+			unless ($semail[0] =~ m/![A-Z|a-z|0-9]/) {
 				
 			} else { serv_notice("ns", $user, 'Invalid email address.'); }
 			svsilog("ns", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
