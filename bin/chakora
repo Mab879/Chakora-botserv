@@ -24,7 +24,8 @@ use DBD::CSV;
 use SQL::Statement;
 use Text::CSV_XS;
 use Sub::Delete;
-use Digest::SHA256;
+use Digest::Whirlpool;
+use Digest::HMAC;
 
 my ($ROOT_SRC, $ROOT_ETC);
 if (!(-d "src/")) {
@@ -126,6 +127,9 @@ require Chakora::Server::Events;
 if (config('services', 'allow_taint')) {
 	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
+
+# Create encryption operator
+our $encrypt = Digest->new("SHA-512");
 
 # Create database operator
 if (!-d "$ROOT_ETC/data") {
