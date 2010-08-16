@@ -8,12 +8,14 @@
 ----------------------------------------
 
 [ ] Global
-	[ ] send_global sub (Use a foreach statement for $uid's to send a NOTICE to each user)
+	[ ] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user)
 [ ] NickServ
 	[!] Register
 	[ ] Group
 	[ ] Identify
 	[ ] Drop
+	[ ] Enforce
+	[ ] Set
 [ ] ChanServ
 	[ ] Register
 	[ ] Drop
@@ -35,7 +37,8 @@
 	[ ] Request
 [ ] Core
 	[ ] Add module_unload
-	[ ] Improve CTCP handline
+	[ ] Improve CTCP handling
+	[ ] Add is_oper
 
 Key: 
 	X = Done
