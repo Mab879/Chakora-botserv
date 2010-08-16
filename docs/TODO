@@ -44,11 +44,11 @@
 	[ ] Improve CTCP handling
 	[ ] Add is_oper
 [ ] Protocols
-	[ ] Add serv_kill
+	[X] Add serv_kill
 	[ ] Add serv_enforce
 	[ ] Add function to hold nicknames
 	[ ] Charybdis: find a way to properly tell if a user is an oper
-	[ ] Add serv_jupe
+	[!] Add serv_jupe
 
 Key: 
 	X = Done
