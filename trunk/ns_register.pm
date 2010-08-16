@@ -13,6 +13,7 @@ sub init_ns_register {
 
 sub svs_ns_register {
 	my ($raw) = @_;
+	my (@semail);
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	my $nick = uidInfo($user, 1);
@@ -20,7 +21,7 @@ sub svs_ns_register {
 	my $email = $rex[5];
 	unless (!defined($email) or !defined($password)) {
 		unless (length($password) < 5) {
-			$semail = split('@', $email);
+			@semail = split('@', $email);
 			unless ($semail[0] =~ m/![A-Z|a-z|0-9|/) {
 				
 			} else { serv_notice("ns", $user, 'Invalid email address.'); }
