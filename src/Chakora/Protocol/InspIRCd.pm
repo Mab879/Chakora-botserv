@@ -69,7 +69,12 @@ $svsuid{'os'} = config('me', 'sid')."AAAAAE";
 $svsuid{'g'} = config('me', 'sid')."AAAAAF";
 
 sub irc_connect {
+        if (length(config('me', 'sid')) != 3) {
+                error('chakora', 'Services SID have to be 3 characters');
+        }
+        else {
 	send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
+	}
 }
 
 # Get service UID

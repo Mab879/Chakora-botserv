@@ -62,11 +62,16 @@ $svsuid{'os'} = config('me', 'sid')."AAAAAE";
 $svsuid{'g'} = config('me', 'sid')."AAAAAF";
 
 sub irc_connect {
-	send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
-	send_sock("CAPAB QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
-	send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
-	send_sock("SVINFO 6 6 0 ".time());
-	raw_bursting();
+	if (length(config('me', 'sid')) != 3) {
+		error('chakora', 'Services SID have to be 3 characters');
+	}
+	else {
+		send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
+		send_sock("CAPAB QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
+		send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
+		send_sock("SVINFO 6 6 0 ".time());
+		raw_bursting();
+	}
 }
 
 # Get service UID
