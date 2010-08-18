@@ -206,7 +206,7 @@ sub serv_wallops {
 }
 
 # Set account name
-sub serv_accountname
+sub serv_accountname {
 	my ($user, $name) = @_;
 	send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname :".$name);
 }
