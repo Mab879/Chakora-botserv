@@ -26,6 +26,7 @@ use Text::CSV_XS;
 use Sub::Delete;
 use Digest::Whirlpool;
 use Digest::HMAC;
+our $OSNAME = $^O;
 
 my ($ROOT_SRC, $ROOT_ETC);
 if (!(-d "src/")) {
@@ -58,6 +59,14 @@ GetOptions("help" => \$options{help},
     "debug" => \$options{debug},
 );
 
+# Handle --help
+if ($options{help}) {
+    print("**Chakora Help**\n");
+    print("--debug = Run in debug mode\n");
+    print("--help = Return this help menu\n");
+    exit;
+}
+
 # Define our version
 $SERVICES_VERSION = 'Chakora 1.0-dev';
 
@@ -84,12 +93,8 @@ print("Chakora IRC Services started at ".time()."\n"); sleep 1;
 $SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
 
-# Handle --help
-if ($options{help}) {
-    print("**Chakora Help**\n");
-    print("--debug = Run in debug mode\n");
-    print("--help = Return this help menu\n");
-    exit;
+if ($OSNAME =~ /win/i) {
+	taint("Operating System: Windows is not supported by Chakora.");
 }
 
 # Don't allow Chakora to run as root
