@@ -317,19 +317,19 @@ while (1) {
 
     # Handle services commands, if it exists
     elsif ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
-	if ($ex[2] eq svsUID('cs')) {
+	if ($ex[2] eq svsUID('cs') or $ex[2] eq config('chanserv', 'nick')) {
             $SERVICES_MSGSERVICE = "ChanServ";
             $SERVICES_MSGSERVICEA = "cs";
-        } elsif ($ex[2] eq svsUID('hs')) {
+        } elsif ($ex[2] eq svsUID('hs') or $ex[2] eq config('hostserv', 'nick')) {
             $SERVICES_MSGSERVICE = "HostServ";
             $SERVICES_MSGSERVICEA = "hs";
-        } elsif ($ex[2] eq svsUID('ms')) {
+        } elsif ($ex[2] eq svsUID('ms') or $ex[2] eq config('memoserv', 'nick')) {
             $SERVICES_MSGSERVICE = "MemoServ";
             $SERVICES_MSGSERVICEA = "ms";
-        } elsif ($ex[2] eq svsUID('ns')) {
+        } elsif ($ex[2] eq svsUID('ns') or $ex[2] eq config('nickserv', 'nick')) {
             $SERVICES_MSGSERVICE = "NickServ";
             $SERVICES_MSGSERVICEA = "ns";
-        } elsif ($ex[2] eq svsUID('os')) {
+        } elsif ($ex[2] eq svsUID('os') or $ex[2] eq config('operserv', 'nick')) {
             $SERVICES_MSGSERVICE = "OperServ";
             $SERVICES_MSGSERVICEA = "os";
         }
