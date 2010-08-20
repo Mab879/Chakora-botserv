@@ -233,6 +233,7 @@ sub raw_bursting {
 	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+oS", config('memoserv', 'real'));
 	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+oS", config('nickserv', 'real'));
 	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+oS", config('operserv', 'real'));
+	send_sock(":".svsUID('chakora::server')." EOB");
 }	
 
 # Handle END SYNC
@@ -372,6 +373,7 @@ sub raw_eob {
         serv_join('ms', config('log', 'logchan'));
         serv_join('ns', config('log', 'logchan'));
         serv_join('os', config('log', 'logchan'));
+	send_sock(":".svsUID('chakora::server')." EOBACK");
 	$Chakora::synced = 1;
 }
 
