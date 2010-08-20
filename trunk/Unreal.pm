@@ -4,18 +4,22 @@
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 use strict;
 use warnings;
+use MIME::Base64;
 use lib "../lib";
 
 ######### Core #########
 our %rawcmds = (
-	'UNICK' => {
-		handler => \&raw_unick,
+	'NICK' => {
+		handler => \&raw_nick,
+	},
+	'SJOIN' => {
+		handler => \&raw_sjoin,
+	},
+	'EOS' => {
+		handler => \&raw_eos,
 	},
 	'PING' => {
 		handler => \&raw_ping,
-	},
-	'NJOIN' => {
-		handler => \&raw_njoin,
 	},
 	'QUIT' => {
 		handler => \&raw_quit,
@@ -23,8 +27,8 @@ our %rawcmds = (
 	'JOIN' => {
 		handler => \&raw_join,
 	},
-	'NICK' => {
-		handler => \&raw_nick,
+	'CHGHOST' => {
+		handler => \&raw_chghost,
 	},
 	'ERROR' => {
 		handler => \&raw_error,
@@ -38,56 +42,38 @@ our %rawcmds = (
 	'PART' => {
 		handler => \&raw_part,
 	},
-	'EOB' => {
-		handler => \&raw_eob,
-	},
 );
 our %PROTO_SETTINGS = (
-	name => 'IRCd 2.11',
-	owner => '-',
-	admin => '-',
+	name => 'Unreal IRCd 3.2.x',
+	owner => 'q',
+	admin => 'a',
 	op => 'o',
-	halfop => '-',
+	halfop => 'h',
 	voice => 'v',
-	mute => '-',
+	mute => '+b ~q',
 	bexecpt => 'e',
 	iexcept => 'I',
 );
 my (%svsuid, %uid, $uid, %channel, $channel);
-$svsuid{'cs'} = config('me', 'sid')."AAAAA";
-$svsuid{'hs'} = config('me', 'sid')."AAAAB";
-$svsuid{'ms'} = config('me', 'sid')."AAAAC";
-$svsuid{'ns'} = config('me', 'sid')."AAAAD";
-$svsuid{'os'} = config('me', 'sid')."AAAAE";
-$svsuid{'g'} = config('me', 'sid')."AAAAF";
-
-# A cheap hack for jupes
-my $jupe = 999;
-
-sub get_flags {
-	my $flags = 'aEFJKMQRsTu';
-	if ($Chakora::IN_DEBUG) {
-		$flags .= 'D';
-	}
-	return $flags;
-}
+$svsuid{'cs'} = config('chanserv', 'nick');
+$svsuid{'hs'} = config('hostserv', 'nick');
+$svsuid{'ms'} = config('memoserv', 'nick');
+$svsuid{'ns'} = config('nickserv', 'nick');
+$svsuid{'os'} = config('operserv', 'nick');
+$svsuid{'g'} = config('global', 'nick');
 
 sub irc_connect {
-	if (length(config('me', 'sid')) != 4) {
-		error('chakora', 'Services SID have to be 4 characters');
-	}
-	else {
-		send_sock("PASS ".config('server', 'password')." 0211 IRC|".get_flags());
-		send_sock("SERVER ".config('me', 'name')." 1 ".config('me', 'sid')." :".config('me', 'info'));
+		send_sock("PASS :".config('server', 'password'));
+		send_sock("PROTOCTL NICKv2 NICKIP UMODE2 SJOIN SJOIN2 SJ3 NOQUIT TKLEXT");
+		send_sock("SERVER ".config('me', 'name')." 1 :".config('me', 'info'));
 		raw_bursting();
-	}
 }
 
 # Get service UID
 sub svsUID {
 	my ($svs) = @_;
 	if (lc($svs) eq 'chakora::server') {
-		return config('me', 'sid');
+		return config('me', 'name');
 	} else {
 		return $svsuid{$svs};
 	}
@@ -130,8 +116,8 @@ sub nickUID {
 
 # Handle client creation
 sub serv_add {
-	my ($ruid, $user, $nick, $host, $modes, $real) = @_;
-	send_sock(":".svsUID('chakora::server')." UNICK ".$nick." ".$ruid." ".$user." ".$host." 0.0.0.0 ".$modes." :".$real);
+	my (undef, $user, $nick, $host, $modes, $real) = @_;
+	send_sock("NICK ".$nick." 1 ".time()." ".$user." ".$host." ".svsUID('chakora::server')." * ".$modes." ".$host." :".$real);
 }
 
 # Handle PRIVMSG
@@ -149,13 +135,16 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	send_sock(":".svsUID('chakora::server')." NJOIN ".$chan." :@".svsUID($svs));
+		if (!$channel{$chan}{'ts'}) {
+			$channel{$chan}{'ts'} = time();
+        }
+	send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." + :@".svsUID($svs));
 }
 
-# Handle TMODE
+# Handle MODE
 sub serv_mode {
 	my ($svs, $chan, $modes) = @_;
-	send_sock(":".svsUID($svs)." MODE ".$chan." ".$modes);
+	send_sock(":".svsUID('chakora::server')." MODE ".$chan." ".$modes);
 }
 
 # Handle ERROR
@@ -197,11 +186,13 @@ sub serv_wallops {
 # Set account name
 sub serv_accountname {
 	my ($user, $name) = @_;
+	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user." ".$name);
 }
 
 # Handle when a user logs out of nickserv
 sub serv_logout {
 	my ($user) = @_;
+	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user);
 }
 
 # Handle KILL
@@ -218,9 +209,8 @@ sub serv_kill {
 # Handle jupes
 sub serv_jupe {
 	my ($server, $reason) = @_;
-	$jupe++;
 	send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
-	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 ".$jupe." 0211 :(JUPED) ".$reason);
+	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
 }
 
 ######### Receiving data #########
@@ -233,7 +223,7 @@ sub raw_bursting {
 	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+oS", config('memoserv', 'real'));
 	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+oS", config('nickserv', 'real'));
 	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+oS", config('operserv', 'real'));
-	send_sock(":".svsUID('chakora::server')." EOB");
+	send_sock("EOS");
 }	
 
 # Handle END SYNC
@@ -246,31 +236,37 @@ sub raw_endsync {
 	serv_join('os', config('log', 'logchan'));
 }
 
-# Handle UNICK
-sub raw_unick {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $ruid = $rex[2];
-	$uid{$ruid}{'nick'} = $rex[2];
-	$uid{$ruid}{'user'} = $rex[4];
-	$uid{$ruid}{'mask'} = $rex[5];
-	$uid{$ruid}{'ip'} = $rex[6];
-	$uid{$ruid}{'uid'} = $rex[3];
-	$uid{$ruid}{'host'} = $rex[5];
-	$uid{$ruid}{'pnick'} = 0;
-	event_uid($ruid, $rex[2], $rex[4], $rex[5], $rex[5], $rex[6]);
-	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services."); }
+# Handle EOS
+sub raw_eos {
+	$Chakora::synced = 1;
+	raw_endsync();
 }
 
-# Handle NJOIN
-sub raw_njoin {
+# Handle NICK
+sub raw_nick {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	# [IRC] :000A NJOIN #services :@48XAAAAAB
-	my $chan = $rex[2];
-	my $user = substr($rex[3], 1);
-	$user =~ s/[@+]//;
-	event_join($user, $rex[2]);
+	if ($rex[5]) {
+	# [IRC] NICK lol2 1 1282320638 MattB localhost dev.matt-tech.info 0 +iowghaAxNt lol fwAAAQ== :Matthew - Laptop
+		my $ruid = $rex[1];
+		$uid{$ruid}{'nick'} = $rex[1];
+		$uid{$ruid}{'user'} = $rex[4];
+		$uid{$ruid}{'mask'} = $rex[9];
+		$uid{$ruid}{'ip'} = decode_base64($rex[10]);
+		$uid{$ruid}{'uid'} = '';
+		$uid{$ruid}{'host'} = $rex[5];
+		$uid{$ruid}{'pnick'} = 0;
+		event_uid($ruid, $rex[1], $rex[4], $rex[5], $rex[9], decode_base64($rex[10]));
+		if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services."); }
+	}
+	else {
+		my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $ruid = substr($rex[0], 1);
+	    $uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
+        $uid{$ruid}{'nick'} = $rex[2];
+        event_nick($ruid, $rex[2]);
+	}
 }
 
 # Handle QUIT
@@ -283,6 +279,20 @@ sub raw_quit {
         for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_quit($ruid, $args);
 	undef $uid{$ruid};
+}
+
+# Handle SJOIN
+sub raw_sjoin {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	#[IRC] :dev.matt-tech.info SJOIN 1282321194 #services :@lol2 
+	my $chan = $rex[3];
+	$channel{$chan}{'ts'} = $rex[2];
+	if ($Chakora::synced) { 
+		my $user = substr($rex[5], 1);
+        $user =~ s/[@+]//;
+		event_join($user, $rex[3]);
+	}
 }
 
 # Handle JOIN
@@ -311,17 +321,15 @@ sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	send_sock(":".svsUID("chakora::server")." PONG ".config('me', 'name')." ".substr($rex[1], 1));
+	send_sock(":".svsUID("chakora::server")." PONG ".$rex[1]);
 }
 
-# Handle NICK
-sub raw_nick {
-        my ($raw) = @_;
-        my @rex = split(' ', $raw);
-        my $ruid = substr($rex[0], 1);
-	$uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
-        $uid{$ruid}{'nick'} = $rex[2];
-        event_nick($ruid, $rex[2]);
+# Handle CHGHOST
+sub raw_chghost {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = $rex[1];
+	$uid{$ruid}{'mask'} = $rex[2];
 }
 
 # Handle ERROR without a soruce server
@@ -365,16 +373,6 @@ sub raw_notice {
         event_notice(substr($rex[0], 1), $rex[2], $args);
 }
 
-# Handle EOB
-sub raw_eob {
-        serv_join('g', config('log', 'logchan'));
-        serv_join('cs', config('log', 'logchan'));
-        serv_join('hs', config('log', 'logchan'));
-        serv_join('ms', config('log', 'logchan'));
-        serv_join('ns', config('log', 'logchan'));
-        serv_join('os', config('log', 'logchan'));
-	send_sock(":".svsUID('chakora::server')." EOBACK");
-	$Chakora::synced = 1;
-}
+
 
 1;
