@@ -335,7 +335,7 @@ sub raw_nosrcerror {
 	my $args = substr($rex[1], 1);
 	my ($i);
         for ($i = 2; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-	svsflog("chakora", "[Server Error] ".$args);
+	error("chakora", "[Server Error] ".$args);
 }
 
 # Handle ERROR with a source server
