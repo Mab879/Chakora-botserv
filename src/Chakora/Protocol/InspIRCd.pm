@@ -228,6 +228,13 @@ sub serv_kill {
         }
 }
 
+# Handle jupes
+sub serv_jupe {
+        my ($server, $reason) = @_;
+        # Note: fix jupe later
+}
+
+
 ######### Receiving data #########
 
 # Handle CAPAB END
