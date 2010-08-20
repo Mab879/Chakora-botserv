@@ -1,0 +1,16 @@
+/  __ \ |         | |
+| /  \/ |__   __ _| | _____  _ __ __ _
+| |   | '_ \ / _` | |/ / _ \| '__/ _` |
+| \__/\ | | | (_| |   < (_) | | | (_| |
+ \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
+
+                README
+---------------------------------------
+
+1. IRCd
+
+To use Chakora with IRCd you need to define a H: line like so:
+
+H:*::chakoras.name::
+
+Obviously, you need to define a N and C line also, but that's pretty well explained.
