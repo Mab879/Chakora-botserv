@@ -441,6 +441,7 @@ sub module_void {
 		eval
         {
             &{ $void_handler }();
+            delete_sub $void_handler;
             print("[MODULES] ".$module.": Module successfully unloaded.\n");
             svsflog("chakora", "[MODULES] ".$module.": Module successfully unloaded.");
             return "MODUNLOAD_SUCCESS";
