@@ -124,9 +124,6 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 } elsif (lc(config('server', 'ircd')) eq 'charybdis') {
 	print("[MODULES] Loading protocol: Charybdis\n");
     require Chakora::Protocol::Charybdis or error("chakora", "Protocol module failed to load: $!");
-} elsif (lc(config('server', 'ircd')) eq 'ircd') {
-	print("[MODULES] Loading protocol: IRCd 2.11\n");
-    require Chakora::Protocol::IRCd or error("chakora", "Protocol module failed to load: $!");
 } else {
     error("chakora", "This protocol isn't supported by Chakora.");
 };
