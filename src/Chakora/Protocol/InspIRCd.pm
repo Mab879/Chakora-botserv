@@ -390,7 +390,7 @@ sub raw_opertype {
 	$uid{$user}{'oper'} = $rex[2];
 }
 
-# Handle ERROR without a soruce server
+# Handle ERROR without a source server
 sub raw_nosrcerror {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
