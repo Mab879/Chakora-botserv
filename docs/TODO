@@ -8,7 +8,7 @@
 ----------------------------------------
 
 [ ] Global
-	[ ] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user)
+	[ ] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user?)
 [ ] NickServ
 	[!] Register
 	[ ] Group
@@ -49,6 +49,7 @@
 	[ ] Add function to hold nicknames
 	[ ] Charybdis: find a way to properly tell if a user is an oper
 	[!] Add serv_jupe
+	[ ] InspIRCd: strip modes on a user in FJOIN
 
 Key: 
 	X = Done
