@@ -76,7 +76,7 @@ sub irc_connect {
                 error('chakora', 'Services SID have to be 3 characters');
         }
         else {
-	send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
+		send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
 	}
 }
 
@@ -414,13 +414,13 @@ sub raw_error {
 
 # Handle ENDBURST
 sub raw_endburst {
-	$Chakora::synced = 1;
         serv_join('g', config('log', 'logchan'));
         serv_join('cs', config('log', 'logchan'));
         serv_join('hs', config('log', 'logchan'));
         serv_join('ms', config('log', 'logchan'));
         serv_join('ns', config('log', 'logchan'));
         serv_join('os', config('log', 'logchan'));
+	$Chakora::synced = 1;
 }
 
 1;
