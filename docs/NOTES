@@ -8,7 +8,7 @@
 ---------------------------------------
 
 1. IRCd
-
+# NOTE IRCD IS NO LONGER IN DEVELOPMENT, TO USE IT YOU HAVE TO EDIT CHAKORA'S EXECUTABLE
 To use Chakora with IRCd you need to define a H: line like so:
 
 H:*::chakoras.name::
