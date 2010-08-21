@@ -243,7 +243,7 @@ sub serv_jupe {
 # Handle CAPAB END
 sub raw_capabend {
 	send_sock(":".config('me', 'sid')." BURST");
-	send_sock(":".config('me', 'sid')." VERSION :Chakora-1.0-dev ".config('me', 'sid'));
+	send_sock(":".config('me', 'sid')." VERSION :".$Chakora::SERVICES_VERSION." ".config('me', 'sid'));
 	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+iok", config('global', 'real'));
 	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+iok", config('chanserv', 'real'));
 	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+iok", config('hostserv', 'real'));
