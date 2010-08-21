@@ -48,6 +48,9 @@ our %rawcmds = (
 	'ERROR' => {
 		handler => \&raw_error,
 	},
+	'ENDBURST' => {
+		handler => \&raw_endburst,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd',
@@ -60,7 +63,7 @@ our %PROTO_SETTINGS = (
 	bexcept => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid, %sid, $sid);
+my (%svsuid, %uid, $uid, %sid, $sid, %channel);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -247,12 +250,6 @@ sub raw_capabend {
 	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+iok", config('memoserv', 'real'));
 	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+iok", config('nickserv', 'real'));
 	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+iok", config('operserv', 'real'));
-	serv_join('g', config('log', 'logchan'));
-	serv_join('cs', config('log', 'logchan'));
-	serv_join('hs', config('log', 'logchan'));
-	serv_join('ms', config('log', 'logchan'));
-	serv_join('ns', config('log', 'logchan'));
-	serv_join('os', config('log', 'logchan'));
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 
@@ -297,11 +294,14 @@ sub raw_quit {
 sub raw_fjoin {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
+	my $chan = $rex[2];
+        $channel{$chan}{'ts'} = $rex[3];
 	my ($args, $i, @users, $juser, @rjuser);
 	for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
 	@users = split(' ', $args);
+	# We need to strip the modes on users, that's now on TODO
 	foreach $juser (@users) {
-		@rjuser = split(',', $juser);
+		@rjuser = split(',', $juser);			
 		event_join($rjuser[1], $rex[2]);
 	}
 }
@@ -413,6 +413,12 @@ sub raw_error {
 # Handle ENDBURST
 sub raw_endburst {
 	$Chakora::synced = 1;
+        serv_join('g', config('log', 'logchan'));
+        serv_join('cs', config('log', 'logchan'));
+        serv_join('hs', config('log', 'logchan'));
+        serv_join('ms', config('log', 'logchan'));
+        serv_join('ns', config('log', 'logchan'));
+        serv_join('os', config('log', 'logchan'));
 }
 
 1;
