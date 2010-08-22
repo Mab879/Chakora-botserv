@@ -29,8 +29,6 @@ use Digest::HMAC;
 use FindBin qw($Bin);
 use lib "$Bin/../src";
 
-our $OSNAME = $^O;
-
 our $ROOT_SRC = "$Bin/../src";
 our $ROOT_ETC = "$Bin/../etc";
 
@@ -76,7 +74,7 @@ print("Chakora IRC Services started at ".time()."\n"); sleep 1;
 $SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
 
-if ($OSNAME =~ /win/i) {
+if ($^O =~ /win/i) {
 	taint("Operating System: Windows is not supported by Chakora.");
 }
 
