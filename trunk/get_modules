@@ -1,7 +1,9 @@
 #!/bin/bash
 
 echo "Welcome to Chakora's module retriever"
+echo "Just sit back and relax for now, this will take a bit"
 
 yes | cpan -if Term::Prompt IO::Socket Sub::Delete SQL::Statement Getopt::Long DBI DBD::CSV Term::ANSIColor DBD::File Text::CSV_XS Config::Scoped File::Data Digest::Whirlpool Digest::HMAC
 
 echo "Modules installed"
+echo "Thanks for using Chakora :)"
