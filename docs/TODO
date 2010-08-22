@@ -8,7 +8,7 @@
 ----------------------------------------
 
 [ ] Global
-	[ ] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
+	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
 [ ] NickServ
 	[!] Register
 	[ ] Group

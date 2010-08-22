@@ -115,6 +115,14 @@ sub nickUID {
 	}
 }
 
+# Send global messages
+sub send_global {
+	my ($msg) = @_;
+	foreach my $key (keys %uid) {
+		serv_notice("g", $uid{$key}{'uid'}, $msg);
+	}
+}
+
 ######### Sending data #########
 
 # Handle client creation
