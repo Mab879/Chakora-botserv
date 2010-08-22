@@ -145,7 +145,7 @@ sub serv_notice {
 # Handle JOIN/FJOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	# If a channel has no ts, we're obviously creating this channel, set ts to current time --Matthew
+	# If a channel has no ts, we're obviously creating that channel, set ts to current time --Matthew
         if (!$channel{$chan}{'ts'}) {
                 $channel{$chan}{'ts'} = time();
         } 
