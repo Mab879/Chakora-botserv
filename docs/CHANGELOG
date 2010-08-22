@@ -16,3 +16,4 @@ Current
 	- InspIRCd: m_servprotect is no longer required
 	- Module API: Store module author and version for module listing
 	- API: Added ctcp_reply
+	- Setup: We no longer provide a config generator, we now provide an example config for you to edit
