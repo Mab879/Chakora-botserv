@@ -53,7 +53,7 @@ our %rawcmds = (
 	},
 );
 our %PROTO_SETTINGS = (
-	name => 'InspIRCd',
+	name => 'InspIRCd 1.2/2.0',
 	owner => '-',
 	admin => '-',
 	op => 'o',
@@ -63,6 +63,7 @@ our %PROTO_SETTINGS = (
 	bexcept => 'e',
 	iexcept => 'I',
 );
+
 my (%svsuid, %uid, $uid, %sid, $sid, %channel);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
