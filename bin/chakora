@@ -26,30 +26,13 @@ use Text::CSV_XS;
 use Sub::Delete;
 use Digest::Whirlpool;
 use Digest::HMAC;
+use FindBin qw($Bin);
+use lib "$Bin/../src";
+
 our $OSNAME = $^O;
 
-my ($ROOT_SRC, $ROOT_ETC);
-if (!(-d "src/")) {
-    if (!(-d "../src/")) {
-        error("chakora", "Unable to locate src/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
-    } else {
-        $ROOT_SRC = "../src";
-        use lib "../src";
-    }
-} else {
-    $ROOT_SRC = "src";
-    use lib "src";
-}
-
-if (!(-d "etc/")) {
-    if (!(-d "../etc/")) {
-        error("chakora", "Unable to locate etc/ directory. Please make sure you're running ./chakora from the bin/ or top directories.");
-    } else {
-        $ROOT_ETC = "../etc";
-    }
-} else {
-    $ROOT_ETC = "etc";
-}
+our $ROOT_SRC = "$Bin/../src";
+our $ROOT_ETC = "$Bin/../etc";
 
 my (%options, %svsuid);
 our ($SERVICES_STARTTIME, $SERVICES_VERSION);
