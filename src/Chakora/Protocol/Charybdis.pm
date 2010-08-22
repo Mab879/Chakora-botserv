@@ -67,6 +67,7 @@ sub irc_connect {
 	}
 	else {
 		send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
+		# Some of these may not be needed, but let's keep them for now just in case --Matthew
 		send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
 		send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
 		send_sock("SVINFO 6 6 0 ".time());
@@ -154,7 +155,7 @@ sub serv_mode {
 	send_sock(":".svsUID($svs)." TMODE ".$channel{$target}{'ts'}." ".$target." ".$modes);
 }
 
-# Handle Client MODE (This is only used for user mode changes in Charybdis)
+# Handle Client MODE (This is basically only used for user mode changes in Charybdis --Matthew)
 sub serv_cmode {
 	my ($svs, $target, $modes) = @_;
 	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
@@ -172,7 +173,7 @@ sub serv_invite {
 	send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
 }
 
-# Handle KICK
+# Handle KICK 
 sub serv_kick {
 	my ($svs, $chan, $user, $msg) = @_;
 	send_sock(":".svsUID($svs)." KICK ".$chan." ".$user." :".$msg);
