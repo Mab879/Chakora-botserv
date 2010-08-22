@@ -48,7 +48,7 @@
 	[ ] Add serv_enforce
 	[ ] Add function to hold nicknames
 	[ ] Charybdis: find a way to properly tell if a user is an oper
-	[!] Add serv_jupe
+	[!] Add serv_jupe (InspIRCd still lacks this, developers who can create some sort of SID generator and check if its in us, go for it)
 	[X] InspIRCd: strip modes on a user in FJOIN
 
 Key: 
