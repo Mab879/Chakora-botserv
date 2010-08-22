@@ -145,6 +145,6 @@ if ($die) {
 	die("Required modules missing! Please install these then try again!\n");
 }
 
-print("All required modules were found.\nStarting configuration generator...\n\n"); sleep 2;
+print("All required modules were found.\nPlease edit etc/chakora.conf.example and rename it to chakora.conf now...\n\n"); 
 
-do './bin/setup.pl';
+
