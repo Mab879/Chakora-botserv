@@ -271,9 +271,9 @@ while (1) {
             error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
         }
         if (!$INSPIRCD_SERVICE_PROTECT_MOD) {
-            print("[PROTOCOL] m_servprotect.sp isn't loaded, it isn't required, but is recommended.\n");
-            raw_capabend();
+            print("[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n");
         }
+        raw_capabend();
     }
     # Charybdis: syncing done
     if ($ex[0] eq 'PING' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
