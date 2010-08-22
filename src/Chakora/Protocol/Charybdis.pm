@@ -149,7 +149,17 @@ sub serv_join {
 # Handle TMODE
 sub serv_mode {
 	my ($svs, $chan, $modes) = @_;
+	# This should never happen, but just in case, have a check.
+        if (!$channel{$chan}{'ts'}) {
+                $channel{$chan}{'ts'} = time();
+        }
 	send_sock(":".svsUID($svs)." TMODE ".$channel{$chan}{'ts'}." ".$chan." ".$modes);
+}
+
+# Handle Client MODE (This is only used for user mode changes in Charybdis)
+sub serv_cmode {
+	my ($svs, $target, $modes) = @_;
+	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
 }
 
 # Handle ERROR

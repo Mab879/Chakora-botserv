@@ -150,10 +150,20 @@ sub serv_join {
 	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".$channel{$chan}{'ts'}." + :o,".svsUID($svs));
 }
 
-# Handle MODE
-sub serv_mode {
+# Handle Client MODE
+sub serv_cmode {
 	my ($svs, $target, $modes) = @_;
 	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
+}
+
+# Handle FMODE
+sub serv_mode {
+	my ($svs, $target, $modes) = @_;
+        # This should never happen, but just in case, have a check.
+        if (!$channel{$target}{'ts'}) {
+                $channel{$target}{'ts'} = time();
+        }
+	send_sock(":".svsUID($svs)." FMODE ".$target." ".$channel{$target}{'ts'}." ".$modes);
 }
 
 # Handle ERROR
