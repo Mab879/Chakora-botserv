@@ -7,5 +7,11 @@
                  CHANGELOG
 ---------------------------------------
 
-Version 1.0
-
+Current
+	- InspIRCd: Join after the ircd is done bursting to us
+	- InspIRCd: Store TS
+	- InspIRCd: Use FJOIN properly
+	- All: Fixed a few memory possible small memory leaks
+	- Protocols: Added serv_cmode, for a regular MODE command
+	- InspIRCd: m_servprotect is no longer required
+	- Module API: Store module author and version for module listing
