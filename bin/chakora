@@ -494,7 +494,11 @@ sub taint {
 sub handle_ctcp {
 	my ($user, $svsuid, $ctcp) = @_;
 	if (lc($ctcp) eq "version") {
-		send_sock(":".$svsuid." NOTICE ".$user." :\001VERSION ".$SERVICES_VERSION."\001");
+		ctcp_reply($svsuid, $user, "VERSION", $SERVICES_VERSION);
 	}
 }
 
+sub ctcp_reply {
+	my ($svsuid, $user, $ctcp, $reply) = @_;
+	send_sock(":".$svsuid." NOTICE ".$user." :\001".$ctcp." ".$reply."\001");
+}
