@@ -137,6 +137,7 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
+        # If a channel has no ts, we're obviously creating this channel, set ts to current time --Matthew
 	if (!$channel{$chan}{'ts'}) {
 		$channel{$chan}{'ts'} = time();
 	}
@@ -261,7 +262,7 @@ sub raw_euid {
 	$uid{$ruid}{'host'} = $rex[10];
 	$uid{$ruid}{'pnick'} = 0;
 	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8]);
-	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode - be careful when sending messages to services."); }
+	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services."); }
 }
 
 # Handle SJOIN
