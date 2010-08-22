@@ -302,8 +302,8 @@ sub raw_fjoin {
 	for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
 	@users = split(' ', $args);
 	foreach $juser (@users) {
-		@rjuser = split(',', $juser);			
-		event_join($rjuser[1], $rex[2]);
+		undef, @rjuser = split(',', $juser);			
+		event_join($rjuser[0], $rex[2]);
 	}
 }
 
