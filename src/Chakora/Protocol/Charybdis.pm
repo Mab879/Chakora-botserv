@@ -104,9 +104,6 @@ sub uidInfo {
 	}
 }
 
-# Get a data from a UID or nick
-
-
 # Find UID by nick
 sub nickUID {
 	my ($nick) = @_;
