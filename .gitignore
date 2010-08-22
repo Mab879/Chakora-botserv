@@ -1,6 +1,7 @@
 *.log
 *.conf
-etc/*
+etc/*.conf
+etc/data/*
 var/*
-etc.old/*
+
 
