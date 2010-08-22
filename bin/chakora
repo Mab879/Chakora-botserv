@@ -413,6 +413,8 @@ sub module_init {
             svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
             return "MODLOAD_SUCCESS";
             $MODULE{$name}{name} = $name;
+	    $MODULE{$name}{author} = $author;
+	    $MODULE{$name}{version} = $version;
             $MODULE{$name}{void} = $void_handler;
             1;	
         } or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.") and return "MODLOAD_FAIL";
