@@ -183,7 +183,8 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex, $mtext);
 our $synced = 0;
-my ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
+our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD);
+my ($SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
 
 # Connect!
 irc_connect();
