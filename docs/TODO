@@ -8,7 +8,7 @@
 ----------------------------------------
 
 [ ] Global
-	[ ] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user?)
+	[ ] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
 [ ] NickServ
 	[!] Register
 	[ ] Group
@@ -22,6 +22,8 @@
 [ ] ChanServ
 	[ ] Register
 	[ ] Drop
+	[ ] Set (Founder, Successor, Restricted, Topiclock)
+	[ ] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
 	[ ] Send
 	[ ] List
@@ -34,11 +36,14 @@
 	[ ] Module management (list, info, load, unload)
 	[ ] AKill
 	[ ] Jupe
+	[ ] Global (Obviously we need to finish send_global first)
+	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew)
 [ ] HostServ
 	[ ] Set vHosts
 	[ ] Delete vHost
 	[ ] Group
 	[ ] Request
+	[?] On/Off 
 [ ] Core
 	[X] Add module_void
 	[X] Add ctcp_reply
@@ -49,7 +54,7 @@
 	[X] Add serv_kill
 	[ ] Add serv_enforce
 	[ ] Add function to hold nicknames
-	[ ] Charybdis: find a way to properly tell if a user is an oper 
+ 	[ ] Charybdis: find a way to properly tell if a user is an oper 
 	[!] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in us, go for it --Matthew)
 	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew)
 
