@@ -67,7 +67,7 @@ sub irc_connect {
 	}
 	else {
 		send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
-		send_sock("CAPAB QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
+		send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
 		send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
 		send_sock("SVINFO 6 6 0 ".time());
 		raw_bursting();
