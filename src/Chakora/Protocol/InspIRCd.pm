@@ -256,14 +256,16 @@ sub serv_jupe {
 
 # Handle CAPAB END
 sub raw_capabend {
+	my $modes = '+io';
+	if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
 	send_sock(":".config('me', 'sid')." BURST");
 	send_sock(":".config('me', 'sid')." VERSION :".$Chakora::SERVICES_VERSION." ".config('me', 'sid'));
-	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+iok", config('global', 'real'));
-	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+iok", config('chanserv', 'real'));
-	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+iok", config('hostserv', 'real'));
-	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+iok", config('memoserv', 'real'));
-	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+iok", config('nickserv', 'real'));
-	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+iok", config('operserv', 'real'));
+	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), $modes, config('global', 'real'));
+	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), $modes, config('chanserv', 'real'));
+	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), $modes, config('hostserv', 'real'));
+	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), $modes, config('memoserv', 'real'));
+	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), $modes, config('nickserv', 'real'));
+	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), $modes, config('operserv', 'real'));
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 
