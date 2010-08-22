@@ -137,7 +137,7 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-        # If a channel has no ts, we're obviously creating this channel, set ts to current time --Matthew
+        # If a channel has no ts, we're obviously creating that channel, set ts to current time --Matthew
 	if (!$channel{$chan}{'ts'}) {
 		$channel{$chan}{'ts'} = time();
 	}
@@ -147,7 +147,7 @@ sub serv_join {
 # Handle TMODE
 sub serv_mode {
 	my ($svs, $target, $modes) = @_;
-	# This should never happen, but just in case, have a check.
+	# This should never happen, but just in case, have a check. --Matthew
         if (!$channel{$target}{'ts'}) {
                 $channel{$target}{'ts'} = time();
         }
@@ -230,12 +230,12 @@ sub serv_jupe {
 
 # Our Bursting
 sub raw_bursting {
-	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+oS", config('global', 'real'));
-	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+oS", config('chanserv', 'real'));
-	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+oS", config('hostserv', 'real'));
-	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+oS", config('memoserv', 'real'));
-	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+oS", config('nickserv', 'real'));
-	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+oS", config('operserv', 'real'));
+	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+ioS", config('global', 'real'));
+	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+ioS", config('chanserv', 'real'));
+	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+ioS", config('hostserv', 'real'));
+	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+ioS", config('memoserv', 'real'));
+	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+ioS", config('nickserv', 'real'));
+	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+ioS", config('operserv', 'real'));
 }	
 
 # Handle END SYNC
