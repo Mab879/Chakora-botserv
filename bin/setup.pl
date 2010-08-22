@@ -27,13 +27,13 @@ my $info = prompt('x', 'What should be the description for this server?', '', 'C
 print("\n");
 $conf->append("\t".'info = "'.$info."\"\n");
 
-my $sid = prompt('x', 'What should be the SID for this server?', 'If your using inspircd or charybdis, this needs to be 3 characters, otherwise 4.', '34R');
+my $sid = prompt('x', 'What should be the SID for this server?', 'If your using inspircd or charybdis, this needs to be 3 characters.', '34R');
 print("\n");
 $conf->append("\tsid = ".$sid."\n");
 
 $conf->append("}\n\nserver {\n");
 
-my $ircd = prompt('a', 'What is the IRCd of the remote server?', 'inspircd, charybdis, or ircd', 'inspircd');
+my $ircd = prompt('a', 'What is the IRCd of the remote server?', 'inspircd, charybdis', 'inspircd');
 print("\n");
 $conf->append("\tircd = ".$ircd."\n");
 
