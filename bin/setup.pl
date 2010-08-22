@@ -55,7 +55,7 @@ $conf->append("\tpassword = ".$pass."\n");
 
 $conf->append("}\n\nnetwork {\n");
 
-my $name = prompt('x', 'What is the name of the network we are linking to?', '', 'freenode');
+my $name = prompt('x', 'What is the name of the network we are linking to?', '', 'technoirc');
 print("\n");
 $conf->append("\t".'name = "'.$name."\"\n");
 
@@ -223,7 +223,7 @@ print("\n");
 $conf->append("operators {\n\tsra = \"".$sras."\"\n}\n\n");
 
 $conf->append("xmlrpc {\n");
-my $xmlrpc_use = prompt('y', 'Do you want to use the XML-RPC', 'Good for web services and remote control for services', 'y');
+my $xmlrpc_use = prompt('y', 'Do you want to use the XML-RPC', 'Good for web services and remote control of services', 'y');
 print ("\n");
 $conf->append("\tuse = ".$xmlrpc_use."\n");
 if ($xmlrpc_use) {
