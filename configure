@@ -139,13 +139,6 @@ eval {
         1;
 } or print("Not Found (install Digest::HMAC)\n") and $die = 1;
 
-print("Checking for MIME::Base64..... ");
-eval {
-        require MIME::Base64;
-        print "OK\n";
-        1;
-} or print("Not Found (install MIME::Base64)\n") and $die = 1;
-
 print("\n");
 
 if ($die) {
