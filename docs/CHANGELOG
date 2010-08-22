@@ -15,3 +15,4 @@ Current
 	- Protocols: Added serv_cmode, for a regular MODE command
 	- InspIRCd: m_servprotect is no longer required
 	- Module API: Store module author and version for module listing
+	- API: Added ctcp_reply
