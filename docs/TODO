@@ -49,7 +49,7 @@
 	[ ] Add function to hold nicknames
 	[ ] Charybdis: find a way to properly tell if a user is an oper
 	[!] Add serv_jupe
-	[ ] InspIRCd: strip modes on a user in FJOIN
+	[X] InspIRCd: strip modes on a user in FJOIN
 
 Key: 
 	X = Done

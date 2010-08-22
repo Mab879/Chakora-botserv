@@ -301,7 +301,6 @@ sub raw_fjoin {
 	my ($args, $i, @users, $juser, @rjuser);
 	for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
 	@users = split(' ', $args);
-	# We need to strip the modes on users, that's now on TODO
 	foreach $juser (@users) {
 		@rjuser = split(',', $juser);			
 		event_join($rjuser[1], $rex[2]);
