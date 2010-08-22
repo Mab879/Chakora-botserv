@@ -15,6 +15,18 @@ TABLE OF CONTENTS
   4. Getting support
   5. Reporting bugs
 
+0. ATTENTION
+------------
+
+As Chakora continues to progress in its development, we are
+beginning to need more help, so, if you'd like to help us out,
+please consider becoming a contributor/developer.
+
+You should have the following before contacting us on this:
+
+* A fair knowledge of Perl.
+* Be able to use proper English, grammar, etc. to a good degree.
+
 1. CREDITS
 ----------
 
@@ -29,7 +41,6 @@ Clay "Freelancer" Freeman - Developer
 
 If you are interested in becoming a developer for Chakora,
 please contact Elijah at elijah@technoirc.org
-
 
 2. DESCRIPTION
 --------------
