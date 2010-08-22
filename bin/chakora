@@ -267,13 +267,12 @@ while (1) {
     }
     # InspIRCd: CAPAB END recieved
     elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config('server', 'ircd')) eq 'inspircd') {
-        if ($INSPIRCD_SERVICES_ACCOUNT_MOD != 1) {
+        if (!$INSPIRCD_SERVICES_ACCOUNT_MOD) {
             error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
         }
-        if ($INSPIRCD_SERVICE_PROTECT_MOD != 1) {
-            error("chakora", "When using Chakora with InspIRCd, m_servprotect.so is needed, please load it and try again!");
-        }
-        raw_capabend();
+        if (!$INSPIRCD_SERVICE_PROTECT_MOD) {
+            print("[PROTOCOL] m_servprotect.sp isn't loaded, it isn't required, but is recommended.\n");
+            raw_capabend();
     }
 
     # Charybdis: syncing done
