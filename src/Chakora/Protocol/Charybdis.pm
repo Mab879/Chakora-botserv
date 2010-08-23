@@ -313,6 +313,7 @@ sub raw_mode {
 	my @rex = split(' ', $raw);
 	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-.o/) {
 		undef $uid{$rex[2]}{'oper'};
+		event_deoper($rex[2]);
 	}
 	if ($rex[3] =~ m/\+.o/) {
 		$uid{$rex[2]}{'oper'} = 1;
