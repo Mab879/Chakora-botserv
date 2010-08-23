@@ -277,6 +277,7 @@ sub raw_euid {
 	$uid{$ruid}{'pnick'} = 0;
 	if ($rex[5] =~ m/o/) {
 		$uid{$ruid}{'oper'} = 1;
+		event_oper($ruid);
 	}
 	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8]);
 	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services."); }
@@ -312,7 +313,6 @@ sub raw_mode {
 	my @rex = split(' ', $raw);
 	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-.o/) {
 		undef $uid{$rex[2]}{'oper'};
-		event_oper($rex[2]);
 	}
 	if ($rex[3] =~ m/\+.o/) {
 		$uid{$rex[2]}{'oper'} = 1;

@@ -425,7 +425,7 @@ sub raw_opertype {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	$uid{$user}{'oper'} = 1;
-	if ($Chakora::synced) { event_oper($user); }
+	event_oper($user);
 }
 
 # Handle ERROR without a source server
