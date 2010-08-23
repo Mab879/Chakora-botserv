@@ -347,7 +347,7 @@ sub raw_nick {
 sub raw_mode {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-o/) {
+	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-.o/) {
 		undef $uid{$rex[2]}{'oper'};
 		svsilog('g', $rex[2], 'OPER', "User is no longer an IRC Operator.");
 	}
