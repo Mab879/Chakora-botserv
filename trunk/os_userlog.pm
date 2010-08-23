@@ -14,6 +14,7 @@ sub init_os_userlog {
 	hook_nick_add(\&svs_os_nicklog);
 	hook_uid_add(\&svs_os_connectlog);
 	hook_quit_add(\&svs_os_quitlog);
+	hook_oper_add(\&svs_os_operlog);
 }
 
 sub void_os_userlog {
@@ -28,6 +29,7 @@ sub void_os_userlog {
 	hook_nick_del(\&svs_os_nicklog);
 	hook_uid_del(\&svs_os_connectlog);
 	hook_quit_del(\&svs_os_quitlog);
+	hook_oper_del(\&svs_os_operlog);
 }
 
 sub svs_os_joinlog {
@@ -57,4 +59,9 @@ sub svs_os_connectlog {
 sub svs_os_quitlog {
 	my ($user, $msg) = @_;
 	serv_privmsg("os", config('log', 'logchan'), "\2QUIT\2: ".uidInfo($user, 1)." Reason: ".$msg);
+}
+
+sub svs_os_operlog {
+	my ($user) = @_;
+	serv_privmsg("os", config('log', 'logchan'), "\2OPER\2: ".uidInfo($user, 1));
 }
