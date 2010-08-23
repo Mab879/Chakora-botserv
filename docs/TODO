@@ -49,7 +49,7 @@
 	[X] Add ctcp_reply
 	[ ] Add module_is_loadable (check if the file exists perhaps?)
 	[ ] Improve CTCP handling (make add_ctcp_handler and del_ctcp_handler perhaps?)
-	[ ] Add is_oper (This is easy in InspIRCd, not in Charybdis)
+	[O] Add is_oper (This is easy in InspIRCd, not in Charybdis)
 [ ] Protocols
 	[X] Add serv_kill
 	[ ] Add serv_enforce
@@ -64,4 +64,4 @@ Key:
 	X = Done
 	! = In development
 	? = Still being questioned whether it should be in Chakora or not
-	
+	O = This didn't make the cut, this could be added later though	
