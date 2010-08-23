@@ -44,6 +44,9 @@ our %rawcmds = (
 	'MODE' => {
 		handler => \&raw_mode,
 	},
+	'SID' => {
+		handler => \&raw_sid
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -56,7 +59,7 @@ our %PROTO_SETTINGS = (
 	bexecpt => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid, %channel, $channel);
+my (%svsuid, %uid, $uid, %channel, $channel, %sid);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -409,6 +412,19 @@ sub raw_notice {
         event_notice(substr($rex[0], 1), $rex[2], $args);
 }
 
+# Handle SID
+sub raw_sid {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] :48X SID dev.server 2 42X :Development server
+	$sid{$rex[4]}{'name'} = $rex[2];
+	$sid{$rex[4]}{'numeric'} = $rex[4];
+	$sid{$rex[4]}{'hub'} = substr($rex[0], 1);
+        my $args = substr($rex[5], 1);
+        my ($i);
+        for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        $sid{$rex[4]}{'info'} = $args;
+}
 
 
 1;
