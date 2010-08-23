@@ -203,7 +203,7 @@ sub hook_notice_del {
 ### OPER ###
 our (%hook_oper);
 
-# When a user opers, execute all notice hooks.
+# When a user opers, execute all oper hooks.
 sub event_oper {
         my ($user) = @_;
         my ($hook);
