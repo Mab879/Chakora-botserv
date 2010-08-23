@@ -349,7 +349,7 @@ sub raw_mode {
 	my @rex = split(' ', $raw);
 	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-.o/) {
 		undef $uid{$rex[2]}{'oper'};
-		svsilog('g', $rex[2], 'OPER', "User is no longer an IRC Operator.");
+		event_oper($rex[2]);
 	}
 }
 
@@ -425,7 +425,7 @@ sub raw_opertype {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	$uid{$user}{'oper'} = 1;
-	if ($Chakora::synced) { svsilog('g', $user, 'OPER', "User is now an IRC Operator."); }
+	if ($Chakora::synced) { event_oper($user); }
 }
 
 # Handle ERROR without a source server

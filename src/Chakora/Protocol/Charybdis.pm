@@ -312,11 +312,11 @@ sub raw_mode {
 	my @rex = split(' ', $raw);
 	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-.o/) {
 		undef $uid{$rex[2]}{'oper'};
-		svsilog('g', $rex[2], 'OPER', "User is no longer an IRC Operator.");
+		event_oper($rex[2]);
 	}
 	if ($rex[3] =~ m/\+.o/) {
 		$uid{$rex[2]}{'oper'} = 1;
-		svsilog('g', $rex[2], 'OPER', "User is now an IRC Operator.");
+		event_oper($rex[2]);
 	}
 }
 
