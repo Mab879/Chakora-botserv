@@ -200,5 +200,31 @@ sub hook_notice_del {
 	undef $hook_notice{$handler};
 }
 
+### OPER ###
+our (%hook_oper);
+
+# When a user opers, execute all notice hooks.
+sub event_oper {
+        my ($user) = @_;
+        my ($hook);
+        foreach $hook (%hook_oper) {
+                eval
+                {
+                        &{ $hook }($user);
+                };
+        }
+}
+
+# Add a hook to the oper event.
+sub hook_oper_add {
+        my ($handler) = @_;
+        $hook_oper{$handler} = $handler;
+}
+
+# Delete a hook from the oper event.
+sub hook_oper_del {
+        my ($handler) = @_;
+        undef $hook_oper{$handler};
+}
 
 1;
