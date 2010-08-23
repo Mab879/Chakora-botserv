@@ -227,4 +227,31 @@ sub hook_oper_del {
         undef $hook_oper{$handler};
 }
 
+### DEOPER ###
+our (%hook_deoper);
+
+# When a user deopers, execute all deoper hooks.
+sub event_deoper {
+        my ($user) = @_;
+        my ($hook);
+        foreach $hook (%hook_deoper) {
+                eval
+                {
+                        &{ $hook }($user);
+                };
+        }
+}
+
+# Add a hook to the deoper event.
+sub hook_deoper_add {
+        my ($handler) = @_;
+        $hook_deoper{$handler} = $handler;
+}
+
+# Delete a hook from the deoper event.
+sub hook_deoper_del {
+        my ($handler) = @_;
+        undef $hook_deoper{$handler};
+}
+
 1;
