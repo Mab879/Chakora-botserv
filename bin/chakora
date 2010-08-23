@@ -484,3 +484,45 @@ sub ctcp_reply {
 	my ($svsuid, $user, $ctcp, $reply) = @_;
 	send_sock(":".$svsuid." NOTICE ".$user." :\001".$ctcp." ".$reply."\001");
 }
+
+sub parse_mode {
+	my ($modes, $key, $mode) = @_;
+	if ($key eq '+') {
+		my @kmodes = split('\+', $modes);
+		my (@mmodes);
+		foreach my $lmodes (@kmodes) {
+			my @nmodes = split('-', $lmodes);
+			if (defined $nmodes[0]) {
+				push(@mmodes, $nmodes[0]);
+			} else {
+				push(@mmodes, $lmodes);
+			}
+		}
+		my $ei = 0;
+		foreach my $omodes (@mmodes) {
+			if ($omodes =~ m/($mode)/) {
+				$ei = 1;
+			}
+		}
+		return $ei;
+	}
+	elsif ($key eq '-') {
+		my @kmodes = split('-', $modes);
+		my (@mmodes);
+		foreach my $lmodes (@kmodes) {
+			my @nmodes = split('\+', $lmodes);
+			if (defined $nmodes[0]) {
+				push(@mmodes, $nmodes[0]);
+			} else {
+				push(@mmodes, $lmodes);
+			}
+		}
+		my $ei = 0;
+		foreach my $omodes (@mmodes) {
+			if ($omodes =~ m/($mode)/) {
+				$ei = 1;
+			}
+		}
+		return $ei;
+	}
+}
