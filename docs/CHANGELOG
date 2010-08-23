@@ -17,3 +17,4 @@ Current
 	- Module API: Store module author and version for module listing
 	- API: Added ctcp_reply
 	- Setup: We no longer provide a config generator, we now provide an example config for you to edit
+	- InspIRCd/Charybdis: Properly handle whether or not a user is an oper.

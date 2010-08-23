@@ -45,6 +45,9 @@ our %rawcmds = (
 	'OPERTYPE' => {
 		handler => \&raw_opertype,
 	},
+	'MODE' => {
+		handler => \&raw_mode,
+	},
 	'ERROR' => {
 		handler => \&raw_error,
 	},
@@ -106,6 +109,8 @@ sub uidInfo {
 		return $uid{$ruid}{'ip'};
 	} elsif ($section == 6) {
 		return $uid{$ruid}{'pnick'};
+	} elsif ($section == 7) {
+		return $uid{$ruid}{'oper'};
 	} else {
 		return 0;
 	}
@@ -145,10 +150,10 @@ sub serv_notice {
 # Handle JOIN/FJOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-	# If a channel has no ts, we're obviously creating that channel, set ts to current time --Matthew
-        if (!$channel{$chan}{'ts'}) {
-                $channel{$chan}{'ts'} = time();
-        } 
+	# If a channel has no TS, we're obviously creating that channel, set TS to current time --Matthew
+	if (!$channel{$chan}{'ts'}) {
+		$channel{$chan}{'ts'} = time();
+	} 
 	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".$channel{$chan}{'ts'}." + :o,".svsUID($svs));
 }
 
@@ -161,10 +166,10 @@ sub serv_cmode {
 # Handle FMODE
 sub serv_mode {
 	my ($svs, $target, $modes) = @_;
-        # This should never happen, but just in case, have a check.
-        if (!$channel{$target}{'ts'}) {
-                $channel{$target}{'ts'} = time();
-        }
+	# This should never happen, but just in case, have a check.
+	if (!$channel{$target}{'ts'}) {
+		$channel{$target}{'ts'} = time();
+	}
 	send_sock(":".svsUID($svs)." FMODE ".$target." ".$channel{$target}{'ts'}." ".$modes);
 }
 
@@ -338,6 +343,16 @@ sub raw_nick {
 	event_nick($ruid, $rex[2]);
 }
 
+# Handle MODE
+sub raw_mode {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-o/) {
+		undef $uid{$rex[2]}{'oper'};
+		svsilog('g', $rex[2], 'OPER', "User is no longer an IRC Operator.");
+	}
+}
+
 # Handle PART
 sub raw_part {
 	my ($raw) = @_;
@@ -409,7 +424,8 @@ sub raw_opertype {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
-	$uid{$user}{'oper'} = $rex[2];
+	$uid{$user}{'oper'} = 1;
+	if ($Chakora::synced) { svsilog('g', $user, 'OPER', "User is now an IRC Operator."); }
 }
 
 # Handle ERROR without a source server
