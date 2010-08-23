@@ -262,9 +262,18 @@ while (1) {
     if ($ex[0] eq 'PING' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
 	raw_endsync();
     }
+    # Charybdis: Handle the SERVER while linking
+    elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
+	raw_server($data);
+    }
+    # Charybdis: Handle the SERVER while linking
+    elsif ($ex[0] eq 'PASS' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
+        raw_pass($data);
+    }
     # Charybdis: Respond to PING's
     elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config('server', 'ircd')) eq 'charybdis') {
-        raw_ping($data);
+	my @rex = split(' ', $data);
+	send_sock(":".config('me', 'sid')." PONG ".$rex[1]);        
     }
     # IRCd: Respond to PING's
     elsif ($ex[0] eq 'PING' and lc(config('server', 'ircd')) eq 'ircd') {

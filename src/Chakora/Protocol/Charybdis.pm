@@ -59,7 +59,7 @@ our %PROTO_SETTINGS = (
 	bexecpt => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid, %channel, $channel, %sid);
+my (%svsuid, %uid, $uid, %channel, $channel, %sid, $sid, $hub);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -108,6 +108,8 @@ sub uidInfo {
 		return $uid{$ruid}{'pnick'};
 	} elsif ($section == 7) {
 		return $uid{$ruid}{'oper'};
+	} elsif ($section == 8) {
+		return $uid{$ruid}{'server'};
 	} else {
 		return 0;
 	}
@@ -277,6 +279,7 @@ sub raw_euid {
 	$uid{$ruid}{'ip'} = $rex[8];
 	$uid{$ruid}{'uid'} = $rex[9];
 	$uid{$ruid}{'host'} = $rex[10];
+	$uid{$ruid}{'server'} = substr($rex[0], 1);
 	$uid{$ruid}{'pnick'} = 0;
 	if ($rex[5] =~ m/o/) {
 		$uid{$ruid}{'oper'} = 1;
@@ -350,7 +353,7 @@ sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	send_sock(":".svsUID("chakora::server")." PONG ".$rex[1]);
+	send_sock(":".svsUID("chakora::server")." PONG :".$rex[2]);
 }
 
 # Handle NICK
@@ -425,6 +428,26 @@ sub raw_sid {
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $sid{$rex[4]}{'info'} = $args;
 }
+# Handle PASS
+sub raw_pass {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] PASS linkage TS 6 :48X
+	$hub = substr($rex[4], 1);
+	$sid{$hub}{'numeric'} = $hub;
+}
 
+# Handle SERVER 
+sub raw_server {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] SERVER lol.server 1 :lolserver
+	$sid{$hub}{'name'} = $rex[1];
+	$sid{$hub}{'hub'} = 0;
+	my $args = substr($rex[3], 1);
+        my ($i);
+        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        $sid{$hub}{'info'} = $args;
+}
 
 1;
