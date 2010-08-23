@@ -117,7 +117,7 @@ sub uidInfo {
 
 # Get SID info 
 sub sidInfo {
-	my ($section, $id) = @_;
+	my ($id, $section) = @_;
 	if ($section == 1) {
 		return $sid{$id}{'name'};
 	} elsif ($section == 2) {
