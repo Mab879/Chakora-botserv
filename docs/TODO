@@ -58,7 +58,7 @@
 	[!] Charybdis: find a way to properly tell if a user is an oper 
 	[!] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in us, go for it --Matthew)
 	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew)
-	[ ] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
+	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 [ ] Docs
 	[ ] Add docs for the module api
 
