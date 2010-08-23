@@ -68,14 +68,14 @@ sub svs_os_quitlog {
 sub svs_os_operlog {
 	my ($user) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg("os", config('log', 'logchan'), "\2OPER\2: ".uidInfo($user, 1));
+		serv_privmsg("os", config('log', 'logchan'), "\2OPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
 	}
 }
 
 sub svs_os_deoperlog {
         my ($user) = @_;
 	if ($Chakora::synced) {
-        	serv_privmsg("os", config('log', 'logchan'), "\2DEOPER\2: ".uidInfo($user, 1));
+        	serv_privmsg("os", config('log', 'logchan'), "\2DEOPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
 	}
 }
 
