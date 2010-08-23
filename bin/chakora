@@ -74,10 +74,6 @@ print("Chakora IRC Services started at ".time()."\n"); sleep 1;
 $SERVICES_STARTTIME = time();
 svsflog("chakora", "Chakora IRC Services started.");
 
-if ($^O =~ /win/i) {
-	taint("Operating System: Windows is not supported by Chakora.");
-}
-
 # Don't allow Chakora to run as root
 if (`whoami` eq "root\n") { 
     error("chakora", "We forbid running Chakora as root."); 
@@ -95,6 +91,11 @@ my $conf = Config::Scoped->new(
 
 # Put them into variables	
 my $settings = $conf->parse;
+
+# We do not support Windows
+if ($^O =~ /win/i) {
+	taint("Operating System: Windows is not supported by Chakora.");
+}
 
 # Create some variables for later use
 our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE);
