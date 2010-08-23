@@ -25,6 +25,8 @@ sub void_os_userlog {
 	delete_sub 'svs_os_nicklog';
 	delete_sub 'svs_os_connectlog';
 	delete_sub 'svs_os_quitlog';
+	delete_sub 'svs_os_operlog';
+	delete_sub 'svs_os_deoperlog';
 	hook_join_del(\&svs_os_joinlog);	
 	hook_part_del(\&svs_os_partlog);
 	hook_nick_del(\&svs_os_nicklog);
