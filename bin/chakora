@@ -358,11 +358,11 @@ sub error {
 sub svsflog {
     my ($type, $str) = @_;
     my $file = $type.".log";
-    unless (-d "../var") {
-        `mkdir ../var`;
+    unless (-d "$Bin/../var") {
+        `mkdir $Bin/../var`;
     }
-    `touch ../var/$file`;
-    open FILE, ">>../var/$file" or print("[FATAL] $file: Unable to open log file! Abort!\n") and exit;
+    `touch $Bin/../var/$file`;
+    open FILE, ">>$Bin/../var/$file" or print("[FATAL] $file: Unable to open log file! Abort!\n") and exit;
     print FILE "(".scalar(localtime(time())).") ".$str."\n"; 
     close FILE; 
 }
