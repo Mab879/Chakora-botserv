@@ -21,6 +21,7 @@ module_load("service/name"); # Loads specified module
 
 Core API
 -------------------------
+send_sock("data"); # Send raw data to the socket
 is_soper("uid") # Returns true if the specified user is a soper, else returns false
 
 Protocol API
