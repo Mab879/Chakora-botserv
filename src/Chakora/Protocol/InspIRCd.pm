@@ -403,8 +403,6 @@ sub raw_setident {
 sub raw_version {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	$sid{substr($rex[0], 1)}{'sid'} = substr($rex[0], 1);
-	$sid{substr($rex[0], 1)}{'name'} = $rex[3];
 }
 
 # Handle SERVER
