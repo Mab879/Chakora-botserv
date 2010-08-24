@@ -389,10 +389,10 @@ sub svsflog {
 sub svsilog {
 	my ($service, $user, $cmd, $args) = @_;
 	if (length($args) == 0) {
-		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".$cmd."\002");
+		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".uc($cmd)."\002");
 	}
 	else {
-		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".$cmd."\002: ".$args);
+		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".uc($cmd)."\002: ".$args);
 	}
 }
 
