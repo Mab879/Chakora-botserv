@@ -458,9 +458,9 @@ sub module_void {
             delete_sub $void_handler;
             print("[MODULES] ".$module.": Module successfully unloaded.\n");
             svsflog("chakora", "[MODULES] ".$module.": Module successfully unloaded.");
+	    undef $MODULE{$module};
             return "MODUNLOAD_SUCCESS";
-			undef $MODULE{$module};
-			1;	
+	    1;	
         } or print("[MODULES] ".$module.": Module failed to unload.\n") and svsflog("chakora", "[MODULES] ".$module.": Module failed to unload.") and return "MODUNLOAD_FAIL";
 	} else {
 		print("[MODULES] ".$module.": Module failed to unload. No such module?\n");
