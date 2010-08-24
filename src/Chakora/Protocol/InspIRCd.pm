@@ -111,6 +111,8 @@ sub uidInfo {
 		return $uid{$ruid}{'pnick'};
 	} elsif ($section == 7) {
 		return $uid{$ruid}{'oper'};
+	} elsif ($section == 8) {
+		return $uid{$ruid}{'server'};
 	} else {
 		return 0;
 	}
@@ -309,6 +311,7 @@ sub raw_uid {
 	$uid{$ruid}{'mask'} = $rex[6];
 	$uid{$ruid}{'user'} = $rex[7];
 	$uid{$ruid}{'ip'} = $rex[8];
+	$uid{$ruid}{'server'} = substr($rex[0], 1);
 	$uid{$ruid}{'pnick'} = 0;
 	serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services.");
 	event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8]);
