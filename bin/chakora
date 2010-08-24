@@ -279,6 +279,10 @@ while (1) {
     elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config('server', 'ircd')) eq 'charybdis') {
 	my @rex = split(' ', $data);
 	send_sock(":".config('me', 'sid')." PONG ".$rex[1]);        
+    }  
+    # Charybdis: Local SQUIT's
+    elsif ($ex[0] eq 'SQUIT' and lc(config('server', 'ircd')) eq 'charybdis') {
+	raw_lsquit($data);
     }
     # IRCd: Respond to PING's
     elsif ($ex[0] eq 'PING' and lc(config('server', 'ircd')) eq 'ircd') {
@@ -390,6 +394,11 @@ sub svsilog {
 	else {
 		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".$cmd."\002: ".$args);
 	}
+}
+
+sub logchan {
+	my ($service, $text) = @_;
+	serv_privmsg($service, config('log', 'logchan'), $text);
 }
 
 sub module_init {
