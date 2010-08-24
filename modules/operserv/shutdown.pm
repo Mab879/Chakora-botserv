@@ -8,7 +8,7 @@ use warnings;
 module_init("operserv/shutdown", "The Chakora Project", "0.1", \&init_os_shutdown, \&void_os_shutdown, "all");
 
 sub init_os_shutdown {
-	cmd_add("operserv/shutdown", "Services shutdown", "Shuts down all of chakora.", \&svs_os_shutdown);
+	cmd_add("operserv/shutdown", "Shutdown services.", "Shuts down all of Chakora.", \&svs_os_shutdown);
 }
 
 sub void_os_shutdown {
@@ -23,7 +23,7 @@ sub svs_os_shutdown {
 	my $user = substr($rex[0], 1);
 	if (is_soper($user)) {
 		serv_notice("os", $user, "Shutting down.");
-		svsilog("os", $user, "Shutdown", "");
+		svsilog("os", $user, "shutdown", "");
 		serv_quit("cs", "Shutting down");
 		send_sock("SQUIT ".config('me', 'sid')." :Shutdown by ".uidInfo($user, 1));
 		exit;
