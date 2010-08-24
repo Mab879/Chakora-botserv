@@ -64,8 +64,8 @@
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] Add serv_accoutname
 [ ] Docs
-	[ ] Add docs for the module api
-
+	[X] Add docs for the module api
+	[ ] Improve module api docs (add sidInfo and uidInfo for one)
 Key: 
 	X = Done
 	! = In development
