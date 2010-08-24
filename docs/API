@@ -62,3 +62,22 @@ UID - uid, nick, user, host, mask, ip, source server sid # Connection
 PART - user, chan, msg # PART
 PRIVMSG - user, target, msg # PRIVMSG
 NOTICE - user, target, msg # NOTICE
+
+Info API
+--------------------------
+uidInfo("uid", "section"); 
+	Sections:
+		1 - nickname
+		2 - ident
+		3 - host
+		4 - mask
+		5 - ip
+		6 - previous nick
+		7 - is oper (true/false)
+		8 - server sid 
+sidInfo("sid", "section");
+	Sections:
+		1 - name 
+		2 - server info
+		3 - sid
+		4 - hub
