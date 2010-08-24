@@ -323,7 +323,7 @@ sub raw_uid {
 	$uid{$ruid}{'server'} = substr($rex[0], 1);
 	$uid{$ruid}{'pnick'} = 0;
 	$uid{$ruid}{'away'} = 0;
-	serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services.");
+	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services."); }
 	event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8], substr($rex[0], 1));
 }
 
