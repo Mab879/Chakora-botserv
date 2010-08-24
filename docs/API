@@ -43,3 +43,22 @@ serv_logout("uid"); # Unsets a users account name
 serv_cmode("service alias", "target", "modes"); # Sends a regular MODE, usually you don't use this
 send_global("global"); # Sends a global
 nickUID("uid"); # Gets the associated nick with the uid
+
+Hooks API
+------------------------
+Hooks can be added with hook_NAME_add(handler) hook_NAME_del(handler)
+The following hooks are available, with what are sent next to them
+
+AWAY - uid, reason # Going away
+BACK - uid # Return from away
+netsplit - sid, reason, source server # Netsplit
+SID - name, info # Server introduction
+OPER - uid # OPER
+deoper - uid # DEOPER
+JOIN - uid, channel # JOIN
+QUIT - uid, reason # QUIT
+NICK - uid, newnick # NICK
+UID - uid, nick, user, host, mask, ip, source server sid # Connection
+PART - user, chan, msg # PART
+PRIVMSG - user, target, msg # PRIVMSG
+NOTICE - user, target, msg # NOTICE
