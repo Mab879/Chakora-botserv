@@ -514,6 +514,7 @@ sub raw_squit {
 # Handle netsplits
 sub netsplit {
         my ($server, $source) = @_;
+	event_netsplit($server, $source);
         foreach my $key (keys %uid) {
                 if ($uid{$key}{'server'} eq $server) {
                         #logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
