@@ -549,3 +549,13 @@ sub parse_mode {
 		return $ei;
 	}
 }
+
+sub is_soper {
+	my ($uid) = @_;
+	if (uidInfo($uid, 7)) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
