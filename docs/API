@@ -13,14 +13,14 @@ cmd_add("service/command", "Short help", "Long help", command_handler); # Adds a
 cmd_del("service/command"); # Deletes a command
 
 Module API
--------------------------
+------------------------
 module_init("service/name", "author", "version", init_handler, void_handler, "protocol"); # Adds a module, protocol can be: inspircd, charybdis, or all
 module_void("service/name"); # Unloads a module
 module_exists("service/name"); # Returns true if the specified module exists, else returns false
 module_load("service/name"); # Loads specified module
 
 Core API
--------------------------
+------------------------
 send_sock("data"); # Send raw data to the socket
 config("block", "option"); # Gets option from config
 error("type", "info"); # Critical error in Chakora - Generally type is chakora
@@ -32,7 +32,7 @@ count(@array); # Returns the number of elements in chakora
 is_soper("uid") # Returns true if the specified user is a soper, else returns false
 
 Protocol API
--------------------------
+------------------------
 serv_add("uid", "ident", "nick", "host", "modes", "real name"); # Adds a service
 serv_privmsg("service alias", "uid", "text"); # PRIVMSG's a user
 serv_notice("service alias", "uid", "text"); # Notice's a user
@@ -72,7 +72,7 @@ PRIVMSG - user, target, msg # PRIVMSG
 NOTICE - user, target, msg # NOTICE
 
 Info API
---------------------------
+------------------------
 uidInfo("uid", "section"); 
 	Sections:
 		1 - nickname
