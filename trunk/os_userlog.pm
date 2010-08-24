@@ -66,9 +66,9 @@ sub svs_os_nicklog {
 }
 
 sub svs_os_connectlog {
-	my ($uid, $nick, $user, $host, $mask, $ip) = @_;
+	my ($uid, $nick, $user, $host, $mask, $ip, $server) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg("os", config('log', 'logchan'), "\2CONNECT\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
+		serv_privmsg("os", config('log', 'logchan'), "\2CONNECT on ".sidInfo($server, 1)."\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
 	}
 }
 
