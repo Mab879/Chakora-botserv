@@ -19,19 +19,20 @@ Current
 	- Setup: We no longer provide a config generator, we now provide an example config for you to edit
 	- InspIRCd/Charybdis: Properly handle whether or not a user is an oper. 
 	- Module API: added event_deoper and event_oper (meaning you can add hooks for them)
-	- Trunk: Updated os_userlog to handle opers and deopers
+	- Contrib - mattwb65: Updated os_userlog to handle opers and deopers
 	- InspIRCd/Charybdis: Track linked servers
 	- Module API: added sidInfo
 	- Module API: added event_sid and event_netsplit (meaning you can add hooks for them)
-	- Trunk: Updated os_userlog to log server introductions and splits
+	- Contrib - mattwb65: Updated os_userlog to log server introductions and splits
 	- InspIRCd/Charybdis: Track users away status
 	- Module API: added event_away and event_back (meaning you can add hooks for them)
-	- Trunk: Updated os_userlog to log when a user goes away and returns
+	- Contrib - mattwb65: Updated os_userlog to log when a user goes away and returns
 	- Module API: event_uid now includes the server a user is connecting from
-	- Trunk: Updated os_userlog to log what server a user is quitting/connecting from
+	- Contrib - mattwb65: Updated os_userlog to log what server a user is quitting/connecting from
 	- API: Added is_soper
 	- Modules: Added operserv/shutdown and operserv/global
 	- API: added module_load
 	- Modules: Added operserv/modlist and operserv/modload
-	- Contrib: Added testing operserv/modunload
+	- Contrib - mattwb65: Added testing operserv/modunload
 	- API fix: Fixed a bug in module_void
+	- Contrib - mattwb65: Added chanserv/lol (for an example command) and chanserv/away (for an example hook module) 
