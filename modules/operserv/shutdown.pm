@@ -29,7 +29,7 @@ sub svs_os_shutdown {
 		exit;
 	}
 	else {
-		serv_notice("os", $user, "Access denied");
+		serv_notice("os", $user, "Access denied.");
 	}
 }
 1;
