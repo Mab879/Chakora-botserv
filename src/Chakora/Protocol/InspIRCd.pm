@@ -54,6 +54,12 @@ our %rawcmds = (
 	'ENDBURST' => {
 		handler => \&raw_endburst,
 	},
+	'SQUIT' => {
+		handler => \&raw_squit,
+	},
+	'RSQUIT' => {
+		handler => \&raw_squit,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd 1.2/2.0',
@@ -496,6 +502,25 @@ sub raw_endburst {
         serv_join('ns', config('log', 'logchan'));
         serv_join('os', config('log', 'logchan'));
 	$Chakora::synced = 1;
+}
+
+# Handle SQUIT/RSQUIT
+sub raw_squit {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        netsplit($rex[2]);
+}
+
+# Handle netsplits
+sub netsplit {
+        my ($server) = @_;
+        foreach my $key (keys %uid) {
+                if ($uid{$key}{'server'} eq $server) {
+                        #logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting");
+                        undef $uid{$key};
+                }
+        }
+        undef $sid{$server};
 }
 
 1;
