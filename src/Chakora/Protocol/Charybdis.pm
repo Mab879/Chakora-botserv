@@ -45,7 +45,10 @@ our %rawcmds = (
 		handler => \&raw_mode,
 	},
 	'SID' => {
-		handler => \&raw_sid
+		handler => \&raw_sid,
+	},
+	'SQUIT' => {
+		handler => \&raw_squit,
 	},
 );
 our %PROTO_SETTINGS = (
@@ -467,6 +470,34 @@ sub raw_server {
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $sid{$hub}{'info'} = $args;
 	event_sid($rex[1], $args);
+}
+
+# Handle remote SQUIT
+sub raw_squit {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] :48X SQUIT 42X :by MattB_: lol
+	netsplit($rex[2]);
+}
+
+# Handle local SQUIT
+sub raw_lsquit {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        # [IRC] SQUIT 42X :by MattB_: lol
+        netsplit($rex[1]);
+}
+
+# Handle netsplits
+sub netsplit {
+	my ($server) = @_;
+	foreach my $key (keys %uid) {
+  		if ($uid{$key}{'server'} eq $server) {
+			#logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting");
+    			undef $uid{$key};
+  		}
+	}
+	undef $sid{$server};
 }
 
 1;
