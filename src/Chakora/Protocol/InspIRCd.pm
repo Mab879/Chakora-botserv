@@ -124,7 +124,7 @@ sub sidInfo {
         } elsif ($section == 2) {
                 return $sid{$id}{'info'};
         } elsif ($section == 3) {
-                return $sid{$id}{'numeric'};
+                return $sid{$id}{'sid'};
         } elsif ($section == 4) {
                 return $sid{$id}{'hub'};
         } else {
@@ -403,7 +403,7 @@ sub raw_setident {
 sub raw_version {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	$sid{substr($rex[0], 1)}{'uid'} = substr($rex[0], 1);
+	$sid{substr($rex[0], 1)}{'sid'} = substr($rex[0], 1);
 	$sid{substr($rex[0], 1)}{'name'} = $rex[3];
 }
 
@@ -411,7 +411,7 @@ sub raw_version {
 sub raw_server {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	$sid{substr($rex[0], 1)}{'uid'} = $rex[5];
+	$sid{substr($rex[0], 1)}{'sid'} = $rex[5];
 	$sid{substr($rex[0], 1)}{'name'} = $rex[2];
 }
 

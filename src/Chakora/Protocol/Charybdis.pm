@@ -123,7 +123,7 @@ sub sidInfo {
 	} elsif ($section == 2) {
 		return $sid{$id}{'info'};
 	} elsif ($section == 3) {
-		return $sid{$id}{'numeric'};
+		return $sid{$id}{'sid'};
 	} elsif ($section == 4) {
 		return $sid{$id}{'hub'};
 	} else {
@@ -437,7 +437,7 @@ sub raw_sid {
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SID dev.server 2 42X :Development server
 	$sid{$rex[4]}{'name'} = $rex[2];
-	$sid{$rex[4]}{'numeric'} = $rex[4];
+	$sid{$rex[4]}{'sid'} = $rex[4];
 	$sid{$rex[4]}{'hub'} = substr($rex[0], 1);
         my $args = substr($rex[5], 1);
         my ($i);
@@ -450,7 +450,7 @@ sub raw_pass {
 	my @rex = split(' ', $raw);
 	# [IRC] PASS linkage TS 6 :48X
 	$hub = substr($rex[4], 1);
-	$sid{$hub}{'numeric'} = $hub;
+	$sid{$hub}{'sid'} = $hub;
 }
 
 # Handle SERVER 
