@@ -308,7 +308,7 @@ sub raw_euid {
 		$uid{$ruid}{'oper'} = 1;
 		event_oper($ruid);
 	}
-	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8]);
+	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8], substr($rex[0], 1));
 	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services."); }
 }
 

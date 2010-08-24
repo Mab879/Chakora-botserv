@@ -97,12 +97,12 @@ our (%hook_uid);
 
 # When users connect, execute all UID hooks.
 sub event_uid {
-	my ($uid, $nick, $user, $host, $mask, $ip) = @_;
+	my ($uid, $nick, $user, $host, $mask, $ip, $server) = @_;
 	my ($hook);
 	foreach $hook (%hook_uid) {
 		eval
 		{
-			&{ $hook }($uid, $nick, $user, $host, $mask, $ip);
+			&{ $hook }($uid, $nick, $user, $host, $mask, $ip, $server);
 		};
 	}
 }
