@@ -60,6 +60,9 @@ our %rawcmds = (
 	'RSQUIT' => {
 		handler => \&raw_squit,
 	},
+	'AWAY' => {
+		handler => \&raw_away,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd 1.2/2.0',
@@ -319,6 +322,7 @@ sub raw_uid {
 	$uid{$ruid}{'ip'} = $rex[8];
 	$uid{$ruid}{'server'} = substr($rex[0], 1);
 	$uid{$ruid}{'pnick'} = 0;
+	$uid{$ruid}{'away'} = 0;
 	serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services.");
 	event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8]);
 }
@@ -523,5 +527,29 @@ sub netsplit {
         }
         undef $sid{$server};
 }
+
+# Handle AWAY
+sub raw_away {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $user = substr($rex[0], 1);
+        # Going away: [IRC] :42XAAAAAC AWAY :bbiab
+        if ($rex[2]) {
+                my $args = substr($rex[2], 1);
+                my ($i);
+                for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+                $uid{$user}{'away'} = 1; # We don't want someone to return away 500 times and log flood --Matthew
+                event_away($user, $args);
+        }
+        else {
+                # Returning [IRC] :42XAAAAAC AWAY
+                if ($uid{$user}{'away'}) {
+                        event_back($user);
+                        $uid{$user}{'away'} = 0;
+                }
+        }
+}
+
+
 
 1;

@@ -50,6 +50,9 @@ our %rawcmds = (
 	'SQUIT' => {
 		handler => \&raw_squit,
 	},
+	'AWAY' => {
+		handler => \&raw_away,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -300,6 +303,7 @@ sub raw_euid {
 	$uid{$ruid}{'host'} = $rex[10];
 	$uid{$ruid}{'server'} = substr($rex[0], 1);
 	$uid{$ruid}{'pnick'} = 0;
+	$uid{$ruid}{'away'} = 0;
 	if ($rex[5] =~ m/o/) {
 		$uid{$ruid}{'oper'} = 1;
 		event_oper($ruid);
@@ -499,6 +503,28 @@ sub netsplit {
   		}
 	}
 	undef $sid{$server};
+}
+
+# Handle AWAY
+sub raw_away {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $user = substr($rex[0], 1);
+	# Going away: [IRC] :42XAAAAAC AWAY :bbiab
+	if ($rex[2]) {
+		my $args = substr($rex[2], 1);
+        	my ($i);
+        	for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+		$uid{$user}{'away'} = 1; # We don't want someone to return away 500 times and log flood --Matthew
+		event_away($user, $args);
+	}
+	else {
+		# Returning [IRC] :42XAAAAAC AWAY
+		if ($uid{$user}{'away'}) {
+			event_back($user);
+			$uid{$user}{'away'} = 0;
+		}
+	}
 }
 
 1;
