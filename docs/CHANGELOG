@@ -33,3 +33,5 @@ Current
 	- Modules: Added operserv/shutdown and operserv/global
 	- API: added module_load
 	- Modules: Added operserv/modlist and operserv/modload
+	- Contrib: Added testing operserv/modunload
+	- API fix: Fixed a bug in module_void
