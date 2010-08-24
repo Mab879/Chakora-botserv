@@ -58,11 +58,11 @@ services {
 	# If you want to allow tainting, set this to 1, but you will lose your support
 	allow_taint = 0
 	# Module autoload
-	autoload = "operserv/version operserv/uptime operserv/help nickserv/help"
+	autoload = "operserv/version operserv/uptime operserv/help nickserv/help operserv/global operserv/shutdown"
 }
 
 encryption {
-	# !!CHANGE THIS!! This NEEDS to be unique!!
+	# !!CHANGE THIS!! This NEEDS to be unique!! !!DO NOT LOSE THIS, IF YOU LOSE IT, DBS CANNOT BE DECRYPTED!!
 	key = "key"
 }
 
