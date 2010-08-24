@@ -17,6 +17,13 @@ Current
 	- Module API: Store module author and version for module listing
 	- API: Added ctcp_reply
 	- Setup: We no longer provide a config generator, we now provide an example config for you to edit
-	- InspIRCd/Charybdis: Properly handle whether or not a user is an oper.
+	- InspIRCd/Charybdis: Properly handle whether or not a user is an oper. 
 	- Module API: added event_deoper and event_oper (meaning you can add hooks for them)
 	- Trunk: Updated os_userlog to handle opers and deopers
+	- InspIRCd/Charybdis: Track linked servers
+	- Module API: added sidInfo
+	- Module API: added event_sid and event_netsplit (meaning you can add hooks for them)
+	- Trunk: Updated os_userlog to log server introductions and splits
+	- InspIRCd/Charybdis: Track users away status
+	- Module API: added event_away and event_back (meaning you can add hooks for them)
+	- Trunk: Updated os_userlog to log when a user goes away and returns
