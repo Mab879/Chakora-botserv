@@ -116,6 +116,22 @@ sub uidInfo {
 	}
 }
 
+# Get SID info 
+sub sidInfo {
+        my ($id, $section) = @_;
+        if ($section == 1) {
+                return $sid{$id}{'name'};
+        } elsif ($section == 2) {
+                return $sid{$id}{'info'};
+        } elsif ($section == 3) {
+                return $sid{$id}{'numeric'};
+        } elsif ($section == 4) {
+                return $sid{$id}{'hub'};
+        } else {
+                return 0;
+        }
+}
+
 # Find UID by nick
 sub nickUID {
 	my ($nick) = @_;
