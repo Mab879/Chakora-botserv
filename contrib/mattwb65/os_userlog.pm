@@ -74,7 +74,7 @@ sub svs_os_connectlog {
 
 sub svs_os_quitlog {
 	my ($user, $msg) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2QUIT\2: ".uidInfo($user, 1)." on ".uidInfo($user, 8)." Reason: ".$msg);
+	serv_privmsg("os", config('log', 'logchan'), "\2QUIT\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1)." Reason: ".$msg);
 }
 
 sub svs_os_operlog {
