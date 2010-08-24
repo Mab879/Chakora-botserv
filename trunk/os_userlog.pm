@@ -18,6 +18,8 @@ sub init_os_userlog {
 	hook_deoper_add(\&svs_os_deoperlog);
 	hook_away_add(\&svs_os_awaylog);
 	hook_back_add(\&svs_os_backlog);
+	hook_sid_add(\&svs_os_sidlog);
+	hook_netsplit_add(\&svs_os_netsplit);
 }
 
 sub void_os_userlog {
@@ -31,6 +33,8 @@ sub void_os_userlog {
 	delete_sub 'svs_os_deoperlog';
 	delete_sub 'svs_os_awaylog';
 	delete_sub 'svs_os_backlog';
+	delete_sub 'svs_os_sidlog';
+	delete_sub 'svs_os_netsplit';
 	hook_join_del(\&svs_os_joinlog);	
 	hook_part_del(\&svs_os_partlog);
 	hook_nick_del(\&svs_os_nicklog);
@@ -40,6 +44,8 @@ sub void_os_userlog {
 	hook_deoper_del(\&svs_os_deoperlog);
 	hook_away_del(\&svs_os_awaylog);
 	hook_back_del(\&svs_os_backlog);
+	hook_sid_del(\&svs_os_sidlog);
+	hook_netsplit_del(\&svs_os_netsplit);
 }
 
 sub svs_os_joinlog {
@@ -95,4 +101,16 @@ sub svs_os_awaylog {
 sub svs_os_backlog {
 	my ($user) = @_;
 	serv_privmsg("os", config('log', 'logchan'), "\2BACK\2: ".uidInfo($user, 1));
+}
+
+sub svs_os_sidlog {
+	my ($server, $info) = @_;
+	if ($Chakora::synced) {
+		serv_privmsg("os", config('log', 'logchan'), "\2Server Introduction\2: ".$server." (Server Information - ".$info.")");
+	}
+}
+
+sub svs_os_netsplit {
+	my ($server, $reason, $source) = @_;
+	serv_privmsg("os", config('log', 'logchan'), "\2Netsplit\2: ".sidInfo($server, 1)." split from ".sidInfo($source, 1)." (Reason - ".$reason.")");
 }
