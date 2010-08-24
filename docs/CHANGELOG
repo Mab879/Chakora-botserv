@@ -36,3 +36,4 @@ Current
 	- Contrib - mattwb65: Added testing operserv/modunload
 	- API fix: Fixed a bug in module_void
 	- Contrib - mattwb65: Added chanserv/lol (for an example command) and chanserv/away (for an example hook module) 
+	- Docs: Added API docs
