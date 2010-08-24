@@ -40,7 +40,7 @@ sub svs_os_help {
 		}
 	} else {
 		serv_notice("os", $user, "\002***** OperServ Help *****\002");
-		serv_notice("os", $user, "\002OperServ\002 allows opers to better control services. a nickname");
+		serv_notice("os", $user, "\002OperServ\002 allows opers to better control services.");
 		serv_notice("os", $user, "\002\002");
 		serv_notice("os", $user, "For more information on a command, please type:");
 		serv_notice("os", $user, "\002/msg ".config('operserv', 'nick')." HELP <command>\002");
