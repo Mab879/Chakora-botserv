@@ -376,7 +376,7 @@ sub raw_nick {
 sub raw_mode {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	if ($uid{$rex[2]}{'oper'} and $rex[3] =~ m/-.o/) {
+	if ($uid{$rex[2]}{'oper'} and parse_mode($rex[3], '-', 'o')) {
 		undef $uid{$rex[2]}{'oper'};
 		event_deoper($rex[2]);
 	}
