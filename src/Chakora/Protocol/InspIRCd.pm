@@ -409,8 +409,28 @@ sub raw_version {
 sub raw_server {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	$sid{substr($rex[0], 1)}{'sid'} = $rex[5];
-	$sid{substr($rex[0], 1)}{'name'} = $rex[2];
+        # :490 SERVER test.server password 0 491 :test server
+	$sid{$rex[5]}{'sid'} = $rex[5];
+	$sid{$rex[5]}{'name'} = $rex[2];
+	$sid{$rex[5]}{'hub'} = substr($rex[0], 1);
+        my $args = substr($rex[6], 1);
+        my ($i);
+        for ($i = 7; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        $sid{$rex[5]}{'info'} = $args;
+}
+
+# Handle SERVER while linking
+sub raw_lserver {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# SERVER test.server password 0 491 :test server
+	$sid{$rex[4]}{'sid'} = $rex[4];
+	$sid{$rex[4]}{'name'} = $rex[1];
+	$sid{$rex[4]}{'hub'} = 0;
+	my $args = substr($rex[5], 1);
+        my ($i);
+        for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	$sid{$rex[4]}{'info'} = $args;
 }
 
 # Handle PRIVMSG
