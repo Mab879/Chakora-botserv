@@ -481,7 +481,10 @@ sub raw_squit {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SQUIT 42X :by MattB_: lol
-	netsplit($rex[2], substr($rex[0], 1));
+	my $args = substr($rex[3], 1);
+        my ($i);
+        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	netsplit($rex[2], $args, substr($rex[0], 1));
 }
 
 # Handle local SQUIT
@@ -489,16 +492,19 @@ sub raw_lsquit {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
         # [IRC] SQUIT 42X :by MattB_: lol
-        netsplit($rex[1], $hub);
+        my $args = substr($rex[2], 1);
+        my ($i);
+        for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        netsplit($rex[1], $args, $hub);
 }
 
 # Handle netsplits
 sub netsplit {
-	my ($server, $source) = @_;
-	event_netsplit($server, $source);
+	my ($server, $reason, $source) = @_;
+	event_netsplit($server, $reason, $source);
 	foreach my $key (keys %uid) {
   		if ($uid{$key}{'server'} eq $server) {
-			logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
+			#logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
     			undef $uid{$key};
   		}
 	}

@@ -286,12 +286,12 @@ our (%hook_netsplit);
 
 # When a server splits, execute all netsplit hooks.
 sub event_netsplit {
-        my ($server, $source) = @_;
+        my ($server, $reason, $source) = @_;
         my ($hook);
         foreach $hook (%hook_netsplit) {
                 eval
                 {
-                        &{ $hook }($server, $source);
+                        &{ $hook }($server, $reason, $source);
                 };
         }
 }
