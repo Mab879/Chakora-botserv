@@ -27,3 +27,5 @@ Current
 	- InspIRCd/Charybdis: Track users away status
 	- Module API: added event_away and event_back (meaning you can add hooks for them)
 	- Trunk: Updated os_userlog to log when a user goes away and returns
+	- Module API: event_uid now includes the server a user is connecting from
+	- Trunk: Updated os_userlog to log what server a user is quitting/connecting from
