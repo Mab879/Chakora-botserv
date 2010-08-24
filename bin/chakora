@@ -173,7 +173,7 @@ irc_connect();
 
 if (config('xmlrpc', 'use'))
 {
-	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignoring.\n");
+	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignorinng.\n");
 }
 my $saa = config('services', 'autoload'); 
 my @sab = split(' ', $saa);
@@ -416,11 +416,11 @@ sub module_init {
             &{ $init_handler }();
             print("[MODULES] ".$name.": Module successfully loaded.\n");
             svsflog("chakora", "[MODULES] ".$name.": Module successfully loaded.");
-            return "MODLOAD_SUCCESS";
             $MODULE{$name}{name} = $name;
-			$MODULE{$name}{author} = $author;
-			$MODULE{$name}{version} = $version;
+            $MODULE{$name}{author} = $author;
+            $MODULE{$name}{version} = $version;
             $MODULE{$name}{void} = $void_handler;
+            return "MODLOAD_SUCCESS";
             1;	
         } or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.") and return "MODLOAD_FAIL";
     }
@@ -435,6 +435,16 @@ sub module_exists {
 		}
 	}
 	return $exists;
+}
+
+sub module_load {
+	my ($module) = @_;
+	if (-f $ROOT_SRC."/../modules/".lc($module).".pm") {
+		require $ROOT_SRC."/../modules/".lc($module).".pm" and return 1 or return 0;
+	}
+	else {
+		return 0;
+	}
 }
 
 sub module_void {

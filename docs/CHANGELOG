@@ -31,3 +31,5 @@ Current
 	- Trunk: Updated os_userlog to log what server a user is quitting/connecting from
 	- API: Added is_soper
 	- Modules: Added operserv/shutdown and operserv/global
+	- API: added module_load
+	- Modules: Added operserv/modlist and operserv/modload
