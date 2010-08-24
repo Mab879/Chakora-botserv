@@ -173,7 +173,7 @@ irc_connect();
 
 if (config('xmlrpc', 'use'))
 {
-	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignorning.\n");
+	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignoring.\n");
 }
 my $saa = config('services', 'autoload'); 
 my @sab = split(' ', $saa);
