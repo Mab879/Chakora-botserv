@@ -16,6 +16,8 @@ sub init_os_userlog {
 	hook_quit_add(\&svs_os_quitlog);
 	hook_oper_add(\&svs_os_operlog);
 	hook_deoper_add(\&svs_os_deoperlog);
+	hook_away_add(\&svs_os_awaylog);
+	hook_back_add(\&svs_os_backlog);
 }
 
 sub void_os_userlog {
@@ -27,6 +29,8 @@ sub void_os_userlog {
 	delete_sub 'svs_os_quitlog';
 	delete_sub 'svs_os_operlog';
 	delete_sub 'svs_os_deoperlog';
+	delete_sub 'svs_os_awaylog';
+	delete_sub 'svs_os_backlog';
 	hook_join_del(\&svs_os_joinlog);	
 	hook_part_del(\&svs_os_partlog);
 	hook_nick_del(\&svs_os_nicklog);
@@ -34,6 +38,8 @@ sub void_os_userlog {
 	hook_quit_del(\&svs_os_quitlog);
 	hook_oper_del(\&svs_os_operlog);
 	hook_deoper_del(\&svs_os_deoperlog);
+	hook_away_del(\&svs_os_awaylog);
+	hook_back_del(\&svs_os_backlog);
 }
 
 sub svs_os_joinlog {
@@ -79,3 +85,14 @@ sub svs_os_deoperlog {
 	}
 }
 
+sub svs_os_awaylog {
+	my ($user, $reason) = @_;
+	if ($Chakora::synced) {
+		serv_privmsg("os", config('log', 'logchan'), "\2AWAY\2: ".uidInfo($user, 1)." - ".$reason);
+	}
+}
+
+sub svs_os_backlog {
+	my ($user) = @_;
+	serv_privmsg("os", config('log', 'logchan'), "\2BACK\2: ".uidInfo($user, 1));
+}
