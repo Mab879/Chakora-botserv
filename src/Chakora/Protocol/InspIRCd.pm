@@ -508,15 +508,15 @@ sub raw_endburst {
 sub raw_squit {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
-        netsplit($rex[2]);
+        netsplit($rex[2], substr($rex[0], 1));
 }
 
 # Handle netsplits
 sub netsplit {
-        my ($server) = @_;
+        my ($server, $source) = @_;
         foreach my $key (keys %uid) {
                 if ($uid{$key}{'server'} eq $server) {
-                        #logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting");
+                        #logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
                         undef $uid{$key};
                 }
         }
