@@ -1,0 +1,45 @@
+/  __ \ |         | |
+| /  \/ |__   __ _| | _____  _ __ __ _
+| |   | '_ \ / _` | |/ / _ \| '__/ _` |
+| \__/\ | | | (_| |   < (_) | | | (_| |
+ \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
+
+                 API
+----------------------------------------
+
+Command API
+------------------------
+cmd_add("service/command", "Short help", "Long help", command_handler); # Adds a command
+cmd_del("service/command"); # Deletes a command
+
+Module API
+-------------------------
+module_init("service/name", "author", "version", init_handler, void_handler, "protocol"); # Adds a module, protocol can be: inspircd, charybdis, or all
+module_void("service/name"); # Unloads a module
+module_exists("service/name"); # Returns true if the specified module exists, else returns false
+module_load("service/name"); # Loads specified module
+
+Core API
+-------------------------
+is_soper("uid") # Returns true if the specified user is a soper, else returns false
+
+Protocol API
+-------------------------
+serv_add("uid", "ident", "nick", "host", "modes", "real name"); # Adds a service
+serv_privmsg("service alias", "uid", "text"); # PRIVMSG's a user
+serv_notice("service alias", "uid", "text"); # Notice's a user
+serv_join("service alias", "channel"); # Joins a channel
+serv_mode("service alias", "channel", "modes"); # Sets a() channel mode(s)
+serv_part("service alias", "channel", "reason"); # Parts a channel
+serv_quit("service alias", "reason"); # Makes a service quit
+serv_invite("service alias", "channel", "uid"); # Invites a user 
+serv_kick("service alias", "channel", "uid", "reason"); # Kicks a user
+serv_error("error"); # Sends an ERROR to the server
+serv_jupe("server"); # Jupiters a server 
+serv_wallops("wallop"); # Sends a wallop
+serv_kill("service alias", "uid", "reason"); # Kills a user
+serv_accountname("uid", "name"); # Sets a users accout name
+serv_logout("uid"); # Unsets a users account name
+serv_cmode("service alias", "target", "modes"); # Sends a regular MODE, usually you don't use this
+send_global("global"); # Sends a global
+nickUID("uid"); # Gets the associated nick with the uid
