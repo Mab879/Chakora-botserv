@@ -8,7 +8,7 @@ use warnings;
 module_init("operserv/modload", "The Chakora Project", "0.1", \&init_os_modload, \&void_os_modload, "all");
 
 sub init_os_modload {
-	cmd_add("operserv/modload", "Unloads a module", "Unloads a module from Chakora.", \&svs_os_modload);
+	cmd_add("operserv/modload", "Loads a module", "Loads a module from Chakora.", \&svs_os_modload);
 }
 
 sub void_os_modload {
