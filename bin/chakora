@@ -267,9 +267,13 @@ while (1) {
     elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
 	raw_server($data);
     }
-    # Charybdis: Handle the SERVER while linking
+    # Charybdis: Handle the PASS while linking
     elsif ($ex[0] eq 'PASS' and $synced != 1 and lc(config('server', 'ircd')) eq 'charybdis') {
         raw_pass($data);
+    }
+    # InspIRCd: Handle the SERVER while linking
+    elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config('server', 'ircd')) eq 'inspircd') {
+	raw_lserver($data);
     }
     # Charybdis: Respond to PING's
     elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config('server', 'ircd')) eq 'charybdis') {
