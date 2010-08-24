@@ -23,17 +23,18 @@ sub svs_os_global {
 	my $user = substr($rex[0], 1);
 	if (is_soper($user)) {
 		if ($rex[4]) {
-			my ($i, $args);
-			for ($i = 4; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
-			svsilog("os", $user, "Global", $args);
+			my $i;
+			my $args = $rex[4];
+			for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+			svsilog("os", $user, "global", $args);
 			send_global("[Global - ".uidInfo($user, 1)."] ".$args);
 		}
 		else {
-			serv_notice("os", $user, "Syntax: GLOBAL <global>");
+			serv_notice("os", $user, "Not enough parameters. Syntax: GLOBAL <message>");
 		}
 	}
 	else {
-		serv_notice("os", $user, "Access denied");
+		serv_notice("os", $user, "Access denied.");
 	}
 }
 1;
