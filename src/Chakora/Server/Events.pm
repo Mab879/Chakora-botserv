@@ -1,4 +1,4 @@
-# /  __ \ |         | |                  
+a# /  __ \ |         | |                  
 # | /  \/ |__   __ _| | _____  _ __ __ _ 
 # | |   | '_ \ / _` | |/ / _ \| '__/ _` |
 # | \__/\ | | | (_| |   < (_) | | | (_| |
@@ -307,5 +307,61 @@ sub hook_netsplit_del {
         my ($handler) = @_;
         undef $hook_netsplit{$handler};
 }
+
+### AWAY ###
+our (%hook_away);
+
+# When a user goes away, execute all away hooks.
+sub event_away {
+        my ($user, $reason) = @_;
+        my ($hook);
+        foreach $hook (%hook_away) {
+                eval
+                {
+                        &{ $hook }($user, $reason);
+                };
+        }
+}
+
+# Add a hook to the away event.
+sub hook_away_add {
+        my ($handler) = @_;
+        $hook_away{$handler} = $handler;
+}
+
+# Delete a hook from the away event.
+sub hook_away_del {
+        my ($handler) = @_;
+        undef $hook_away{$handler};
+}
+
+### Return from AWAY ###
+our (%hook_back);
+
+# When a user returns from away, execute all back hooks.
+sub event_back {
+        my ($user) = @_;
+        my ($hook);
+        foreach $hook (%hook_back) {
+                eval
+                {
+                        &{ $hook }($user);
+                };
+        }
+}
+
+# Add a hook to the back event.
+sub hook_back_add {
+        my ($handler) = @_;
+        $hook_back{$handler} = $handler;
+}
+
+# Delete a hook from the back event.
+sub hook_back_del {
+        my ($handler) = @_;
+        undef $hook_back{$handler};
+}
+
+
 
 1;
