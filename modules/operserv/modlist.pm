@@ -28,7 +28,7 @@ sub svs_os_modlist {
 		serv_notice("os", $user, "\002*** Module List ***\002");
 		foreach my $key (sort keys %MODULE) {
 			$count++;
-                	serv_notice("os", $user, $count.": ".$MODULE{$key}{name}." v".$MODULE{$key}{version}." By ".$MODULE{$key}{author});
+                	serv_notice("os", $user, $count.": ".$MODULE{$key}{name}." v".$MODULE{$key}{version}." by ".$MODULE{$key}{author});
         	} 
 		serv_notice("os", $user, "\002*** End Module List ***\002");
 		svsilog("os", $user, "modlist", "");
