@@ -254,4 +254,31 @@ sub hook_deoper_del {
         undef $hook_deoper{$handler};
 }
 
+## SERVER/SID ###
+our (%hook_sid);
+
+# When a server links, execute all SID hooks.
+sub event_sid {
+        my ($server, $info) = @_;
+        my ($hook);
+        foreach $hook (%hook_sid) {
+                eval
+                {
+                        &{ $hook }($server, $info);
+                };
+        }
+}
+
+# Add a hook to the SID event.
+sub hook_sid_add {
+        my ($handler) = @_;
+        $hook_sid{$handler} = $handler;
+}
+
+# Delete a hook from the SID event.
+sub hook_sid_del {
+        my ($handler) = @_;
+        undef $hook_sid{$handler};
+}
+
 1;

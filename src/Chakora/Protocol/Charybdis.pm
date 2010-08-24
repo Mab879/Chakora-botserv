@@ -443,7 +443,9 @@ sub raw_sid {
         my ($i);
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $sid{$rex[4]}{'info'} = $args;
+	event_sid($rex[2], $args);
 }
+
 # Handle PASS
 sub raw_pass {
 	my ($raw) = @_;
@@ -464,6 +466,7 @@ sub raw_server {
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $sid{$hub}{'info'} = $args;
+	event_sid($rex[1], $args);
 }
 
 1;

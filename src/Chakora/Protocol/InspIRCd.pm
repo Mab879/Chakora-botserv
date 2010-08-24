@@ -417,6 +417,7 @@ sub raw_server {
         my ($i);
         for ($i = 7; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $sid{$rex[5]}{'info'} = $args;
+	event_sid($rex[2], $args);
 }
 
 # Handle SERVER while linking
@@ -431,6 +432,7 @@ sub raw_lserver {
         my ($i);
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	$sid{$rex[4]}{'info'} = $args;
+	event_sid($rex[1], $args);
 }
 
 # Handle PRIVMSG
