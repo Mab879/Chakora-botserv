@@ -33,8 +33,8 @@
 	[ ] Restart
 	[X] Shutdown
 	[ ] Rehash
-	[!] Module management (list, info, load, unload)
-	[ ] Make modload, modunload and protocls - unloadable
+	[!] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
+	[ ] Make modload, modunload and protocols - unloadable
 	[ ] Improve the error messages in modload, if the file doesn't exist say that.
 	[ ] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew)
 	[ ] AKill
@@ -52,14 +52,14 @@
 	[X] Add ctcp_reply
 	[ ] Add module_is_loadable (check if the file exists perhaps?)
 	[ ] Improve CTCP handling (make add_ctcp_handler and del_ctcp_handler perhaps?)
-	[O] Add is_oper (This is easy in InspIRCd, not in Charybdis)
+	[O] Add is_oper
 [ ] Protocols
 	[X] Add serv_kill
 	[ ] Add serv_enforce
 	[ ] Add function to hold nicknames
  	[X] InspIRCd: find a way to properly tell if a user is an oper
-	[!] Charybdis: find a way to properly tell if a user is an oper 
-	[!] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in us, go for it --Matthew)
+	[X] Charybdis: find a way to properly tell if a user is an oper 
+	[!] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew)
 	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew)
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] Add serv_accoutname
