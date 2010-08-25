@@ -23,13 +23,13 @@ Core API
 ------------------------
 send_sock("data"); # Send raw data to the socket
 config("block", "option"); # Gets option from config
-error("type", "info"); # Critical error in Chakora - Generally type is chakora
-svsflog("type", "info"); # Send to logfile - Generally type is chakora
+error("type", "info"); # Critical error in Chakora - Generally type is Chakora
+svsflog("type", "info"); # Send to logfile - Generally type is Chakora
 svsilog("service alias", "uid", "command", "args or null"); # Send to logchan
 logchan("service alias", "info"); # Sends raw text to logchan
 taint("reason"); # Taints Chakora
-count(@array); # Returns the number of elements in chakora
-is_soper("uid") # Returns true if the specified user is a soper, else returns false
+count(@array); # Returns the number of elements in the given array
+is_soper("uid") # Returns true if the specified user is an soper, else returns false
 
 Protocol API
 ------------------------
