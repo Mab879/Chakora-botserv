@@ -37,3 +37,4 @@ Current
 	- API fix: Fixed a bug in module_void
 	- Contrib - mattwb65: Added chanserv/lol (for an example command) and chanserv/away (for an example hook module) 
 	- Docs: Added API docs
+	- Core: We no longer censor register
