@@ -36,7 +36,7 @@
 	[!] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
 	[ ] Make modload, modunload and protocols - unloadable
 	[ ] Improve the error messages in modload, if the file doesn't exist say that.
-	[ ] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew)
+	[X] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew)
 	[ ] AKill
 	[ ] Jupe
 	[X] Global
