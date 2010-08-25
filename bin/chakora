@@ -38,7 +38,6 @@ our ($SERVICES_STARTTIME, $SERVICES_VERSION);
 # Get command line options
 GetOptions("help" => \$options{help},
     "debug" => \$options{debug},
-    "dun-fork-into-lolbackground" => \$options{debug},
 );
 
 # Handle --help
