@@ -6,6 +6,11 @@ use strict;
 use warnings;
 use lib "../lib";
 
+# This is a cheap hack, but it'll work --Matthew
+$Chakora::MODULE{protocol}{name} = 'protocol/InspIRCd';
+$Chakora::MODULE{protocol}{version} = '0.7';
+$Chakora::MODULE{protocol}{author} = 'The Chakora Project';
+
 ######### Core #########
 
 our %rawcmds = (
