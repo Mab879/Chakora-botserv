@@ -4,7 +4,6 @@
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 use strict;
 use warnings;
-use lib "../lib";
 
 # This is a cheap hack, but it'll work --Matthew
 $Chakora::MODULE{protocol}{name} = 'protocol/InspIRCd';
@@ -510,7 +509,7 @@ sub raw_endburst {
         serv_join('ms', config('log', 'logchan'));
         serv_join('ns', config('log', 'logchan'));
         serv_join('os', config('log', 'logchan'));
-	$Chakora::synced = 1;
+		$Chakora::synced = 1;
 }
 
 # Handle SQUIT/RSQUIT

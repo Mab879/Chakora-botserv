@@ -4,7 +4,6 @@
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 use strict;
 use warnings;
-use lib "../lib";
 
 # This is a cheap hack, but it'll work --Matthew
 $Chakora::MODULE{protocol}{name} = 'protocol/Charybdis';
