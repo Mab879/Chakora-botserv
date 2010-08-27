@@ -8,6 +8,7 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+package Events;
 use strict;
 use warnings;
 

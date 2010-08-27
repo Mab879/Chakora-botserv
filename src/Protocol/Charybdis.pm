@@ -2,6 +2,7 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+package Protocol;
 use strict;
 use warnings;
 
@@ -69,7 +70,7 @@ our %PROTO_SETTINGS = (
 	bexecpt => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid, %channel, $channel, %sid, $sid, $hub);
+our (%svsuid, %uid, $uid, %channel, $channel, %sid, $sid, $hub);
 $svsuid{'cs'} = config('me', 'sid')."AAAAAA";
 $svsuid{'hs'} = config('me', 'sid')."AAAAAB";
 $svsuid{'ms'} = config('me', 'sid')."AAAAAC";
@@ -82,11 +83,11 @@ sub irc_connect {
 		error('chakora', 'Services SID have to be 3 characters');
 	}
 	else {
-		send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
+		Chakora::send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
 		# Some of these may not be needed, but let's keep them for now just in case --Matthew
-		send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
-		send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
-		send_sock("SVINFO 6 6 0 ".time());
+		Chakora::send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
+		Chakora::send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
+		Chakora::send_sock("SVINFO 6 6 0 ".time());
 		raw_bursting();
 	}
 }
@@ -164,19 +165,19 @@ sub send_global {
 # Handle client creation
 sub serv_add {
 	my ($ruid, $user, $nick, $host, $modes, $real) = @_;
-	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);
+	Chakora::send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);
 }
 
 # Handle PRIVMSG
 sub serv_privmsg {
 	my ($svs, $target, $msg) = @_;
-	send_sock(":".svsUID($svs)." PRIVMSG ".$target." :".$msg);
+	Chakora::send_sock(":".svsUID($svs)." PRIVMSG ".$target." :".$msg);
 }
 
 # Handle NOTICE
 sub serv_notice {
 	my ($svs, $target, $msg) = @_;
-	send_sock(":".svsUID($svs)." NOTICE ".$target." :".$msg);
+	Chakora::send_sock(":".svsUID($svs)." NOTICE ".$target." :".$msg);
 }
 
 # Handle JOIN
@@ -186,7 +187,7 @@ sub serv_join {
 	if (!$channel{$chan}{'ts'}) {
 		$channel{$chan}{'ts'} = time();
 	}
-	send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
+	Chakora::send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
 }
 
 # Handle TMODE
@@ -196,79 +197,79 @@ sub serv_mode {
         if (!$channel{$target}{'ts'}) {
                 $channel{$target}{'ts'} = time();
         }
-	send_sock(":".svsUID($svs)." TMODE ".$channel{$target}{'ts'}." ".$target." ".$modes);
+	Chakora::send_sock(":".svsUID($svs)." TMODE ".$channel{$target}{'ts'}." ".$target." ".$modes);
 }
 
 # Handle Client MODE (This is basically only used for user mode changes in Charybdis --Matthew)
 sub serv_cmode {
 	my ($svs, $target, $modes) = @_;
-	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
+	Chakora::send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
 }
 
 # Handle ERROR
 sub serv_error {
 	my $error = @_;
-	send_sock(":".svsUID('chakora::server')." ERROR :".$error);
+	Chakora::send_sock(":".svsUID('chakora::server')." ERROR :".$error);
 }
 
 # Handle INVITE
 sub serv_invite {
 	my ($svs, $target, $chan);
-	send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
+	Chakora::send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
 }
 
 # Handle KICK 
 sub serv_kick {
 	my ($svs, $chan, $user, $msg) = @_;
-	send_sock(":".svsUID($svs)." KICK ".$chan." ".$user." :".$msg);
+	Chakora::send_sock(":".svsUID($svs)." KICK ".$chan." ".$user." :".$msg);
 }
 
 # Handle PART
 sub serv_part {
 	my ($svs, $chan, $msg) = @_;
-	send_sock(":".svsUID($svs)." PART ".$chan." :".$msg);
+	Chakora::send_sock(":".svsUID($svs)." PART ".$chan." :".$msg);
 }
 
 # Handle QUIT
 sub serv_quit {
 	my ($svs, $msg) = @_;
-	send_sock(":".svsUID($svs)." QUIT :".$msg);
+	Chakora::send_sock(":".svsUID($svs)." QUIT :".$msg);
 }
 
 # Handle WALLOPS
 sub serv_wallops {
 	my ($msg) = @_;
-	send_sock(":".svsUID('chakora::server')." WALLOPS :".$msg);
+	Chakora::send_sock(":".svsUID('chakora::server')." WALLOPS :".$msg);
 }
 
 # Set account name
 sub serv_accountname {
 	my ($user, $name) = @_;
-	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user." ".$name);
+	Chakora::send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user." ".$name);
 }
 
 # Handle when a user logs out of nickserv
 sub serv_logout {
 	my ($user) = @_;
-	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user);
+	Chakora::send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user);
 }
 
 # Handle KILL
 sub serv_kill {
 	my ($svs, $user, $reason) = @_; 
 	if (length($reason) == 0) {
-		send_sock(":".svsUID($svs)." KILL ".$user);
+		Chakora::send_sock(":".svsUID($svs)." KILL ".$user);
 	}
 	else {
-		send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
+		Chakora::send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
 	}
 }
 
 # Handle jupes
 sub serv_jupe {
 	my ($server, $reason) = @_;
-	send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
-	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
+	Chakora::send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
+	Chakora::send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
 }
 
 ######### Receiving data #########
@@ -380,7 +381,7 @@ sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	send_sock(":".svsUID("chakora::server")." PONG :".$rex[2]);
+	Chakora::send_sock(":".svsUID("chakora::server")." PONG :".$rex[2]);
 }
 
 # Handle NICK
