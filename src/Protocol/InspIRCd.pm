@@ -2,7 +2,6 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
-package Protocol;
 use strict;
 use warnings;
 
@@ -81,20 +80,20 @@ our %PROTO_SETTINGS = (
 	iexcept => 'I',
 );
 
-our (%svsuid, %uid, $uid, %sid, $sid, %channel);
-$svsuid{'cs'} = Chakora::config('me', 'sid')."AAAAAA";
-$svsuid{'hs'} = Chakora::config('me', 'sid')."AAAAAB";
-$svsuid{'ms'} = Chakora::config('me', 'sid')."AAAAAC";
-$svsuid{'ns'} = Chakora::config('me', 'sid')."AAAAAD";
-$svsuid{'os'} = Chakora::config('me', 'sid')."AAAAAE";
-$svsuid{'g'} = Chakora::config('me', 'sid')."AAAAAF";
+my (%svsuid, %uid, $uid, %sid, $sid, %channel);
+$svsuid{'cs'} = config('me', 'sid')."AAAAAA";
+$svsuid{'hs'} = config('me', 'sid')."AAAAAB";
+$svsuid{'ms'} = config('me', 'sid')."AAAAAC";
+$svsuid{'ns'} = config('me', 'sid')."AAAAAD";
+$svsuid{'os'} = config('me', 'sid')."AAAAAE";
+$svsuid{'g'} = config('me', 'sid')."AAAAAF";
 
 sub irc_connect {
-        if (length(Chakora::config('me', 'sid')) != 3) {
-                Chakora::error('chakora', 'Services SID have to be 3 characters');
+        if (length(config('me', 'sid')) != 3) {
+                error('chakora', 'Services SID have to be 3 characters');
         }
         else {
-		Chakora::send_sock("SERVER ".Chakora::config('me', 'name')." ".Chakora::config('server', 'password')." 0 ".Chakora::config('me', 'sid')." :".Chakora::config('me', 'info'));
+		send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
 	}
 }
 
@@ -102,7 +101,7 @@ sub irc_connect {
 sub svsUID {
 	my ($svs) = @_;
 	if (lc($svs) eq 'chakora::server') {
-		return Chakora::config('me', 'sid');
+		return config('me', 'sid');
 	} else {
 		return $svsuid{$svs};
 	}
@@ -163,20 +162,20 @@ sub nickUID {
 # Handle client creation
 sub serv_add {
 	my ($ruid, $user, $nick, $host, $modes, $real) = @_;
-	Chakora::send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
-	Chakora::send_sock(":".$ruid." OPERTYPE Service");
+	send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
+	send_sock(":".$ruid." OPERTYPE Service");
 }
 
 # Handle PRIVMSG
 sub serv_privmsg {
 	my ($svs, $target, $msg) = @_;
-	Chakora::send_sock(":".svsUID($svs)." PRIVMSG ".$target." :".$msg);
+	send_sock(":".svsUID($svs)." PRIVMSG ".$target." :".$msg);
 }
 
 # Handle NOTICE
 sub serv_notice {
 	my ($svs, $target, $msg) = @_;
-	Chakora::send_sock(":".svsUID($svs)." NOTICE ".$target." :".$msg);
+	send_sock(":".svsUID($svs)." NOTICE ".$target." :".$msg);
 }
 
 # Handle JOIN/FJOIN
@@ -186,13 +185,13 @@ sub serv_join {
 	if (!$channel{$chan}{'ts'}) {
 		$channel{$chan}{'ts'} = time();
 	} 
-	Chakora::send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".$channel{$chan}{'ts'}." + :o,".svsUID($svs));
+	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".$channel{$chan}{'ts'}." + :o,".svsUID($svs));
 }
 
 # Handle Client MODE
 sub serv_cmode {
 	my ($svs, $target, $modes) = @_;
-	Chakora::send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
+	send_sock(":".svsUID($svs)." MODE ".$target." ".$modes);
 }
 
 # Handle FMODE
@@ -202,83 +201,83 @@ sub serv_mode {
 	if (!$channel{$target}{'ts'}) {
 		$channel{$target}{'ts'} = time();
 	}
-	Chakora::send_sock(":".svsUID($svs)." FMODE ".$target." ".$channel{$target}{'ts'}." ".$modes);
+	send_sock(":".svsUID($svs)." FMODE ".$target." ".$channel{$target}{'ts'}." ".$modes);
 }
 
 # Handle ERROR
 sub serv_error {
 	my $error = @_;
-	Chakora::send_sock(":".svsUID('chakora::server')." ERROR :".$error);
+	send_sock(":".svsUID('chakora::server')." ERROR :".$error);
 }
 
 # Handle INVITE
 sub serv_invite {
         my ($svs, $target, $chan); 
-        Chakora::send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
+        send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
 }
 
 # Handle KICK
 sub serv_kick {
 	my ($svs, $chan, $user, $msg) = @_;
-	Chakora::send_sock(":".svsUID($svs)." KICK ".$chan." ".$user." :".$msg);
+	send_sock(":".svsUID($svs)." KICK ".$chan." ".$user." :".$msg);
 }
 
 # Handle PART
 sub serv_part {
 	my ($svs, $chan, $msg) = @_;
-	Chakora::send_sock(":".svsUID($svs)." PART ".$chan." :".$msg);
+	send_sock(":".svsUID($svs)." PART ".$chan." :".$msg);
 }
 
 # Handle QUIT
 sub serv_quit {
 	my ($svs, $msg) = @_;
-	Chakora::send_sock(":".svsUID($svs)." QUIT :".$msg);
+	send_sock(":".svsUID($svs)." QUIT :".$msg);
 }
 
 # Handle CHGHOST
 sub serv_chghost {
 	my ($user, $newhost) = @_;
-	Chakora::send_sock(":".svsUID('chakora::server')." CHGHOST ".$user." ".$newhost);
+	send_sock(":".svsUID('chakora::server')." CHGHOST ".$user." ".$newhost);
 }
 
 # Handle CHGIDENT
 sub serv_chgident {
 	my ($user, $newident) = @_;
-	Chakora::send_sock(":".svsUID('chakora::server')." CHGIDENT ".$user." ".$newident);
+	send_sock(":".svsUID('chakora::server')." CHGIDENT ".$user." ".$newident);
 }	
 
 # Handle CHGNAME
 sub serv_chgname {
 	my ($user, $newname) = @_;
-	Chakora::send_sock(":".svsUID('chakora::server')." CHGNAME ".$user." :".$newname);
+	send_sock(":".svsUID('chakora::server')." CHGNAME ".$user." :".$newname);
 }	
 
 # Handle WALLOPS
 sub serv_wallops {
         my ($msg) = @_;
-        Chakora::send_sock(":".svsUID('chakora::server')." WALLOPS :".$msg);
+        send_sock(":".svsUID('chakora::server')." WALLOPS :".$msg);
 }
 
 # Set account name
 sub serv_accountname {
 	my ($user, $name) = @_;
-	Chakora::send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname :".$name);
+	send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname :".$name);
 }
 
 # Handle when a user logs out of nickserv
 sub serv_logout {
         my ($user) = @_;
-        Chakora::send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname");
+        send_sock(":".svsUID('chakora::server')." METADATA ".$user." accountname");
 }
 
 # Handle KILL
 sub serv_kill {
         my ($svs, $user, $reason) = @_;
         if (length($reason) == 0) {
-                Chakora::send_sock(":".svsUID($svs)." KILL ".$user);
+                send_sock(":".svsUID($svs)." KILL ".$user);
         }
         else {
-                Chakora::send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
+                send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
         }
 }
 
@@ -302,15 +301,15 @@ sub send_global {
 sub raw_capabend {
 	my $modes = '+io';
 	if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
-	Chakora::send_sock(":".Chakora::config('me', 'sid')." BURST");
-	Chakora::send_sock(":".Chakora::config('me', 'sid')." VERSION :".$Chakora::SERVICES_VERSION." ".Chakora::config('me', 'sid'));
-	serv_add(svsUID('g'), Chakora::config('global', 'user'), Chakora::config('global', 'nick'), Chakora::config('global', 'host'), $modes, Chakora::config('global', 'real'));
-	serv_add(svsUID('cs'), Chakora::config('chanserv', 'user'), Chakora::config('chanserv', 'nick'), Chakora::config('chanserv', 'host'), $modes, Chakora::config('chanserv', 'real'));
-	serv_add(svsUID('hs'), Chakora::config('hostserv', 'user'), Chakora::config('hostserv', 'nick'), Chakora::config('hostserv', 'host'), $modes, Chakora::config('hostserv', 'real'));
-	serv_add(svsUID('ms'), Chakora::config('memoserv', 'user'), Chakora::config('memoserv', 'nick'), Chakora::config('memoserv', 'host'), $modes, Chakora::config('memoserv', 'real'));
-	serv_add(svsUID('ns'), Chakora::config('nickserv', 'user'), Chakora::config('nickserv', 'nick'), Chakora::config('nickserv', 'host'), $modes, Chakora::config('nickserv', 'real'));
-	serv_add(svsUID('os'), Chakora::config('operserv', 'user'), Chakora::config('operserv', 'nick'), Chakora::config('operserv', 'host'), $modes, Chakora::config('operserv', 'real'));
-	Chakora::send_sock(":".Chakora::config('me', 'sid')." ENDBURST");
+	send_sock(":".config('me', 'sid')." BURST");
+	send_sock(":".config('me', 'sid')." VERSION :".$Chakora::SERVICES_VERSION." ".config('me', 'sid'));
+	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), $modes, config('global', 'real'));
+	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), $modes, config('chanserv', 'real'));
+	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), $modes, config('hostserv', 'real'));
+	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), $modes, config('memoserv', 'real'));
+	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), $modes, config('nickserv', 'real'));
+	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), $modes, config('operserv', 'real'));
+	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 
 # Handle UID
@@ -329,7 +328,7 @@ sub raw_uid {
 	$uid{$ruid}{'pnick'} = 0;
 	$uid{$ruid}{'away'} = 0;
 	if ($Chakora::IN_DEBUG) { serv_notice('g', $ruid, "Services are in debug mode, be careful when sending messages to services."); }
-	Events::event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8], substr($rex[0], 1));
+	event_uid($ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8], substr($rex[0], 1));
 }
 
 # Handle PING
@@ -337,7 +336,7 @@ sub raw_ping {
 	my ($raw) = @_;
 	my (@rex);
 	@rex = split(' ', $raw);
-	Chakora::send_sock(":".svsUID("chakora::server")." PONG ".$rex[3]." ".$rex[2]);
+	send_sock(":".svsUID("chakora::server")." PONG ".$rex[3]." ".$rex[2]);
 }
 
 # Handle QUIT
@@ -348,7 +347,7 @@ sub raw_quit {
         my ($i);
         my $args = substr($rex[2], 1);
         for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-        Events::event_quit($ruid, $args);
+        event_quit($ruid, $args);
         undef $uid{$ruid};
 }
 
@@ -363,7 +362,7 @@ sub raw_fjoin {
 	@users = split(' ', $args);
 	foreach $juser (@users) {
 		undef, @rjuser = split(',', $juser);			
-		Events::event_join($rjuser[0], $rex[2]);
+		event_join($rjuser[0], $rex[2]);
 	}
 }
 
@@ -374,7 +373,7 @@ sub raw_nick {
 	my $ruid = substr($rex[0], 1);
 	$uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
 	$uid{$ruid}{'nick'} = $rex[2];
-	Events::event_nick($ruid, $rex[2]);
+	event_nick($ruid, $rex[2]);
 }
 
 # Handle MODE
@@ -383,7 +382,7 @@ sub raw_mode {
 	my @rex = split(' ', $raw);
 	if ($uid{$rex[2]}{'oper'} and parse_mode($rex[3], '-', 'o')) {
 		undef $uid{$rex[2]}{'oper'};
-		Events::event_deoper($rex[2]);
+		event_deoper($rex[2]);
 	}
 }
 
@@ -398,7 +397,7 @@ sub raw_part {
 		my ($i);
     	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	}
-    Events::event_part($user, $rex[2], $args);
+    event_part($user, $rex[2], $args);
 }
 
 # Handle FHOST
@@ -435,7 +434,7 @@ sub raw_server {
         my ($i);
         for ($i = 7; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $sid{$rex[5]}{'info'} = $args;
-	Events::event_sid($rex[2], $args);
+	event_sid($rex[2], $args);
 }
 
 # Handle SERVER while linking
@@ -450,7 +449,7 @@ sub raw_lserver {
         my ($i);
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	$sid{$rex[4]}{'info'} = $args;
-	Events::event_sid($rex[1], $args);
+	event_sid($rex[1], $args);
 }
 
 # Handle PRIVMSG
@@ -460,7 +459,7 @@ sub raw_privmsg {
 	my $args = substr($rex[3], 1);
 	my ($i);
     	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-	Events::event_privmsg(substr($rex[0], 1), $rex[2], $args);
+	event_privmsg(substr($rex[0], 1), $rex[2], $args);
 }
 
 # Handle NOTICE
@@ -470,7 +469,7 @@ sub raw_notice {
 	my $args = substr($rex[3], 1);
 	my ($i);
     	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-	Events::event_notice(substr($rex[0], 1), $rex[2], $args);
+	event_notice(substr($rex[0], 1), $rex[2], $args);
 }
 
 # Handle OPERTYPE
@@ -479,7 +478,7 @@ sub raw_opertype {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	$uid{$user}{'oper'} = 1;
-	Events::event_oper($user);
+	event_oper($user);
 }
 
 # Handle ERROR without a source server
@@ -489,7 +488,7 @@ sub raw_nosrcerror {
         my $args = substr($rex[1], 1);
         my $i;
         for ($i = 2; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-        Chakora::error("chakora", "[Server Error] ".$args);
+        error("chakora", "[Server Error] ".$args);
 }
 
 # Handle ERROR with a source server
@@ -504,12 +503,12 @@ sub raw_error {
 
 # Handle ENDBURST
 sub raw_endburst {
-        serv_join('g', Chakora::config('log', 'logchan'));
-        serv_join('cs', Chakora::config('log', 'logchan'));
-        serv_join('hs', Chakora::config('log', 'logchan'));
-        serv_join('ms', Chakora::config('log', 'logchan'));
-        serv_join('ns', Chakora::config('log', 'logchan'));
-        serv_join('os', Chakora::config('log', 'logchan'));
+        serv_join('g', config('log', 'logchan'));
+        serv_join('cs', config('log', 'logchan'));
+        serv_join('hs', config('log', 'logchan'));
+        serv_join('ms', config('log', 'logchan'));
+        serv_join('ns', config('log', 'logchan'));
+        serv_join('os', config('log', 'logchan'));
 		$Chakora::synced = 1;
 }
 
@@ -526,7 +525,7 @@ sub raw_squit {
 # Handle netsplits
 sub netsplit {
         my ($server, $reason, $source) = @_;
-		Events::event_netsplit($server, $reason, $source);
+	event_netsplit($server, $reason, $source);
         foreach my $key (keys %uid) {
                 if ($uid{$key}{'server'} eq $server) {
                         #logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
@@ -547,12 +546,12 @@ sub raw_away {
                 my ($i);
                 for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
                 $uid{$user}{'away'} = 1; # We don't want someone to return away 500 times and log flood --Matthew
-                Events::event_away($user, $args);
+                event_away($user, $args);
         }
         else {
                 # Returning [IRC] :42XAAAAAC AWAY
                 if ($uid{$user}{'away'}) {
-                        Events::event_back($user);
+                        event_back($user);
                         $uid{$user}{'away'} = 0;
                 }
         }
