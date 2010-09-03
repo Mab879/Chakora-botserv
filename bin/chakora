@@ -579,7 +579,7 @@ sub TERM_handler {
 	logchan("operserv", "\002!!!\002 Caught \002SIGTERM\002; terminating");
 	svsflog("chakora", "Exiting on SIGTERM");
 	serv_quit("chanserv", "Shutting down");
- 	send_sock("SQUIT ".config('me', 'sid')." :Caught SIGTERM");
+ 	serv_squit(config('me', 'sid'), "Caught SIGTERM");
 	sleep 1;
 	exit(0);
 }
@@ -588,7 +588,7 @@ sub INT_handler {
 	logchan("operserv", "\002!!!\002 Caught \002SIGINT\002; terminating");
 	svsflog("chakora", "Exiting on SIGINT");
 	serv_quit("chanserv", "Shutting down");
- 	send_sock("SQUIT ".config('me', 'sid')." :Caught SIGINT");
+ 	serv_squit(config('me', 'sid'), "Caught SIGINT");
 	sleep 1;
 	exit(0);
 }

@@ -281,6 +281,12 @@ sub serv_kill {
         }
 }
 
+# Handle SQUIT
+sub serv_squit {
+	my ($server, $reason) = @_;
+	send_sock(":".svsUID("chakora::server")." SQUIT $server :$reason");
+}
+
 # Handle jupes
 sub serv_jupe {
         my ($server, $reason) = @_;

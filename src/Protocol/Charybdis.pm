@@ -271,6 +271,12 @@ sub serv_jupe {
 	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
 }
 
+# Handle SQUIT
+sub serv_squit {
+	my ($server, $reason) = @_;
+	send_sock(":".svsUID("chakora::server")." SQUIT $server :$reason");
+}
+
 ######### Receiving data #########
 
 # Our Bursting

@@ -46,3 +46,5 @@ Current
 	- Modules: nickserv/register now writes to the db and checks if the nickname is already registered
 	- Core: killed src/Chakora/Protocol and src/Chakora/Server.
 	- API: Changed the way of sending data in services. Use full services names such as 'chanserv' instead of 'cs'.
+	- Modules: Fixed official modules to follow the rules of the updated API.
+	- API: Added serv_squit()

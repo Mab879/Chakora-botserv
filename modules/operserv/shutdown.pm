@@ -22,15 +22,15 @@ sub svs_os_shutdown {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	if (is_soper($user)) {
-		serv_notice("os", $user, "Shutting down.");
-		svsilog("os", $user, "shutdown", "");
-		svdflog("chakora", "Shutting down due to SHUTDOWN by ".uidInfo($user, 1));
-		serv_quit("cs", "Shutting down");
+		serv_notice("operserv", $user, "Shutting down.");
+		svsilog("operserv", $user, "shutdown", "");
+		svsflog("chakora", "Shutting down due to SHUTDOWN by ".uidInfo($user, 1));
+		serv_quit("chanserv", "Shutting down");
 		send_sock("SQUIT ".config('me', 'sid')." :Shutdown by ".uidInfo($user, 1));
 		exit;
 	}
 	else {
-		serv_notice("os", $user, "Access denied.");
+		serv_notice("operserv", $user, "Access denied.");
 	}
 }
 1;

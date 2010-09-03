@@ -26,39 +26,39 @@ sub svs_ns_help {
 		if (defined($Chakora::HELP{$hcmd}{fhelp}) and $Chakora::HELP{$hcmd}{fhelp} ne "NO_HELP_ENTRY") {
 			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
 			my ($help);
-			serv_notice("ns", $user, "\002***** NickServ Help *****\002");
-			serv_notice("ns", $user, "Help for \002".uc($rex[4])."\002:");
-			serv_notice("ns", $user, "\002\002");
+			serv_notice("nickserv", $user, "\002***** NickServ Help *****\002");
+			serv_notice("nickserv", $user, "Help for \002".uc($rex[4])."\002:");
+			serv_notice("nickserv", $user, "\002\002");
 			foreach $help (@fhelp) {
 				$help =~ s/\[T\]/     /g;
-				serv_notice("ns", $user, $help);
+				serv_notice("nickserv", $user, $help);
 			}
-			serv_notice("ns", $user, "\002\002");
-			serv_notice("ns", $user, "\002***** End of Help *****\002");
+			serv_notice("nickserv", $user, "\002\002");
+			serv_notice("nickserv", $user, "\002***** End of Help *****\002");
 		} else {
-			serv_notice("ns", $user, "No help available for \002".uc($rex[4])."\002.");
+			serv_notice("nickserv", $user, "No help available for \002".uc($rex[4])."\002.");
 		}
 	} else {
-		serv_notice("ns", $user, "\002***** NickServ Help *****\002");
-		serv_notice("ns", $user, "\002NickServ\002 allows users to '\002register\002' a nickname, and stop");
-		serv_notice("ns", $user, "others from using that nick.  \002NickServ\002 allows the owner of a");
-		serv_notice("ns", $user, "nickname to disconnect a user from the network that is using their");
-		serv_notice("ns", $user, "nickname.");
-		serv_notice("ns", $user, "\002\002");
-		serv_notice("ns", $user, "For more information on a command, please type:");
-		serv_notice("ns", $user, "\002/msg ".config('nickserv', 'nick')." HELP <command>\002");
-		serv_notice("ns", $user, "\002\002");
-		serv_notice("ns", $user, "The following commands are available:");
+		serv_notice("nickserv", $user, "\002***** NickServ Help *****\002");
+		serv_notice("nickserv", $user, "\002NickServ\002 allows users to '\002register\002' a nickname, and stop");
+		serv_notice("nickserv", $user, "others from using that nick.  \002NickServ\002 allows the owner of a");
+		serv_notice("nickserv", $user, "nickname to disconnect a user from the network that is using their");
+		serv_notice("nickserv", $user, "nickname.");
+		serv_notice("nickserv", $user, "\002\002");
+		serv_notice("nickserv", $user, "For more information on a command, please type:");
+		serv_notice("nickserv", $user, "\002/msg ".config('nickserv', 'nick')." HELP <command>\002");
+		serv_notice("nickserv", $user, "\002\002");
+		serv_notice("nickserv", $user, "The following commands are available:");
 		my %commands = %Chakora::HELP;
 		foreach my $key (sort keys %commands) {
 			my @skey = split('/', $key);
 			if (lc($skey[0]) eq 'nickserv') {
 				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY") {
-					serv_notice("ns", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
+					serv_notice("nickserv", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
 				}
 			}
 		}
-		serv_notice("ns", $user, "\002\002");
-		serv_notice("ns", $user, "\002***** End of Help *****\002");
+		serv_notice("nickserv", $user, "\002\002");
+		serv_notice("nickserv", $user, "\002***** End of Help *****\002");
 	}
 }

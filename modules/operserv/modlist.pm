@@ -25,16 +25,16 @@ sub svs_os_modlist {
 	if (is_soper($user)) {
 		my %MODULE = %Chakora::MODULE;
 		my $count;
-		serv_notice("os", $user, "\002*** Module List ***\002");
+		serv_notice("operserv", $user, "\002*** Module List ***\002");
 		foreach my $key (sort keys %MODULE) {
 			$count++;
-                	serv_notice("os", $user, $count.": ".$MODULE{$key}{name}." v".$MODULE{$key}{version}." by ".$MODULE{$key}{author});
+                	serv_notice("operserv", $user, $count.": ".$MODULE{$key}{name}." v".$MODULE{$key}{version}." by ".$MODULE{$key}{author});
         	} 
-		serv_notice("os", $user, "\002*** End Module List ***\002");
-		svsilog("os", $user, "modlist", "");
+		serv_notice("operserv", $user, "\002*** End Module List ***\002");
+		svsilog("operserv", $user, "modlist", "");
 	}
 	else {
-		serv_notice("os", $user, "Access denied.");
+		serv_notice("operserv", $user, "Access denied.");
 	}
 }
 

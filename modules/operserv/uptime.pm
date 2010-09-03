@@ -38,8 +38,8 @@ sub svs_os_uptime {
 		$days = $days + 1;
 	}
 	my $user = substr($rex[0], 1);
-	serv_notice("os", $user, "Services were started at: ".$sdate);
-	serv_notice("os", $user, "Services have been up for: ".int($days)." days, ".int($hours).":".int($minutes).":".int($uptime));
+	serv_notice("operserv", $user, "Services were started at: ".$sdate);
+	serv_notice("operserv", $user, "Services have been up for: ".int($days)." days, ".int($hours).":".int($minutes).":".int($uptime));
 }
 
 1;

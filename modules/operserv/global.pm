@@ -26,15 +26,15 @@ sub svs_os_global {
 			my $i;
 			my $args = $rex[4];
 			for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-			svsilog("os", $user, "global", $args);
+			svsilog("operserv", $user, "global", $args);
 			send_global("[Global - ".uidInfo($user, 1)."] ".$args);
 		}
 		else {
-			serv_notice("os", $user, "Not enough parameters. Syntax: GLOBAL <message>");
+			serv_notice("operserv", $user, "Not enough parameters. Syntax: GLOBAL <message>");
 		}
 	}
 	else {
-		serv_notice("os", $user, "Access denied.");
+		serv_notice("operserv", $user, "Access denied.");
 	}
 }
 1;

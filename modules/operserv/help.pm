@@ -26,36 +26,36 @@ sub svs_os_help {
 		if (defined($Chakora::HELP{$hcmd}{fhelp}) and $Chakora::HELP{$hcmd}{fhelp} ne "NO_HELP_ENTRY") {
 			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
 			my ($help);
-			serv_notice("os", $user, "\002***** OperServ Help *****\002");
-			serv_notice("os", $user, "Help for \002".uc($rex[4])."\002:");
-			serv_notice("os", $user, "\002\002");
+			serv_notice("operserv", $user, "\002***** OperServ Help *****\002");
+			serv_notice("operserv", $user, "Help for \002".uc($rex[4])."\002:");
+			serv_notice("operserv", $user, "\002\002");
 			foreach $help (@fhelp) {
 				$help =~ s/\[T\]/     /g;
-				serv_notice("os", $user, $help);
+				serv_notice("operserv", $user, $help);
 			}
-			serv_notice("os", $user, "\002\002");
-			serv_notice("os", $user, "\002***** End of Help *****\002");
+			serv_notice("operserv", $user, "\002\002");
+			serv_notice("operserv", $user, "\002***** End of Help *****\002");
 		} else {
-			serv_notice("os", $user, "No help available for \002".uc($rex[4])."\002.");
+			serv_notice("operserv", $user, "No help available for \002".uc($rex[4])."\002.");
 		}
 	} else {
-		serv_notice("os", $user, "\002***** OperServ Help *****\002");
-		serv_notice("os", $user, "\002OperServ\002 allows opers to better control services.");
-		serv_notice("os", $user, "\002\002");
-		serv_notice("os", $user, "For more information on a command, please type:");
-		serv_notice("os", $user, "\002/msg ".config('operserv', 'nick')." HELP <command>\002");
-		serv_notice("os", $user, "\002\002");
-		serv_notice("os", $user, "The following commands are available:");
+		serv_notice("operserv", $user, "\002***** OperServ Help *****\002");
+		serv_notice("operserv", $user, "\002OperServ\002 allows opers to better control services.");
+		serv_notice("operserv", $user, "\002\002");
+		serv_notice("operserv", $user, "For more information on a command, please type:");
+		serv_notice("operserv", $user, "\002/msg ".config('operserv', 'nick')." HELP <command>\002");
+		serv_notice("operserv", $user, "\002\002");
+		serv_notice("operserv", $user, "The following commands are available:");
 		my %commands = %Chakora::HELP;
 		foreach my $key (sort keys %commands) {
 			my @skey = split('/', $key);
 			if (lc($skey[0]) eq 'operserv') {
 				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY") {
-					serv_notice("os", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
+					serv_notice("operserv", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
 				}
 			}
 		}
-		serv_notice("os", $user, "\002\002");
-		serv_notice("os", $user, "\002***** End of Help *****\002");
+		serv_notice("operserv", $user, "\002\002");
+		serv_notice("operserv", $user, "\002***** End of Help *****\002");
 	}
 }
