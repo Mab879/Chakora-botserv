@@ -34,7 +34,7 @@ Chakora is developed by The Chakora Project Development
 Team, a team managed by TechnoDevs.
 
 Elijah "starcoder" Perrault - Head Developer
-Matthew "MattB/MattWB" Barksdale - Developer
+Matthew "MattB/MattWB" Barksdale - Co-Head Developer
 Chazz Wolcott - Developer
 Clay "Freelancer" Freeman - Developer
 
@@ -44,8 +44,8 @@ please contact Elijah at elijah@technoirc.org
 2. DESCRIPTION
 --------------
 
-Chakora Services are IRC Services coded in Perl for the InspIRCd 
-1.2/2.0, Charybdis (TS6), and DarkHex (Modified TS6) Linking Protocols. It comes with; 
+Chakora Services are modular IRC Services coded in Perl for the InspIRCd 
+1.2/2.0, Charybdis any any other ircd based off it (TS6). It comes with; 
 ChanServ, NickServ, OperServ, HostServ, MemoServ and Global.
 
 ATTENTION: By using this software, you are stating
