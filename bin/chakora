@@ -315,7 +315,7 @@ while (1) {
 
     # Handle services commands, if it exists
     elsif ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
-		foreach my $key (keys %Chakora::svsuid) {
+		foreach my $key (keys %svsuid) {
 			if (svsUID($key) eq $ex[2]) {
 				$SERVICES_MSGSERVICE = $key;
 			}
