@@ -105,14 +105,14 @@ our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE);
 
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	print("[MODULES] Loading protocol: InspIRCd 1.2/2.0\n");
-    require Chakora::Protocol::InspIRCd or error("chakora", "Protocol module failed to load: $!");
+    require Protocol::InspIRCd or error("chakora", "Protocol module failed to load: $!");
 } elsif (lc(config('server', 'ircd')) eq 'charybdis') {
 	print("[MODULES] Loading protocol: Charybdis\n");
-    require Chakora::Protocol::Charybdis or error("chakora", "Protocol module failed to load: $!");
+    require Protocol::Charybdis or error("chakora", "Protocol module failed to load: $!");
 } else {
     error("chakora", "This protocol isn't supported by Chakora.");
 };
-require Chakora::Server::Events;
+require Server::Events;
 
 if (config('services', 'allow_taint')) {
 	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
