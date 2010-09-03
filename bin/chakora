@@ -97,6 +97,9 @@ if ($^O =~ /win/i) {
 	taint("Operating System: Windows is not supported by Chakora.");
 }
 
+# Define SIG handlers
+$SIG{'INT'} = \&INT_handler;
+
 # Create some variables for later use
 our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE);
 
@@ -563,4 +566,10 @@ sub is_soper {
 	else {
 		return 0;
 	}
+}
+
+sub INT_handler {
+	serv_quit("cs", "Caught SIGINT");
+ 	send_sock("SQUIT ".config('me', 'sid')." :SIGINT");
+	exit(0);
 }
