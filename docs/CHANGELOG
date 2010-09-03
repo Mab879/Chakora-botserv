@@ -51,3 +51,5 @@ Current
 	- Modules: Fixed nickserv/register to follow the rules of the updated API and disabled email checker until it is fixed.
 	- Core: Updated the config to look nicer.
 	- Core: Deleted the ID's in databases
+	- API: You can now create custom services clients with serv_add()
+	- Core/Modules: HostServ and MemoServ are no longer default services.

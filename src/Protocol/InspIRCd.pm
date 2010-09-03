@@ -81,12 +81,7 @@ our %PROTO_SETTINGS = (
 );
 
 our (%svsuid, %uid, %channel, %sid);
-$Chakora::svsuid{'chanserv'} = config('me', 'sid')."AAAAAA";
-$Chakora::svsuid{'hostserv'} = config('me', 'sid')."AAAAAB";
-$Chakora::svsuid{'memoserv'} = config('me', 'sid')."AAAAAC";
-$Chakora::svsuid{'nickserv'} = config('me', 'sid')."AAAAAD";
-$Chakora::svsuid{'operserv'} = config('me', 'sid')."AAAAAE";
-$Chakora::svsuid{'global'} = config('me', 'sid')."AAAAAF";
+my $lastid = 0;
 
 sub irc_connect {
         if (length(config('me', 'sid')) != 3) {
@@ -161,9 +156,20 @@ sub nickUID {
 
 # Handle client creation
 sub serv_add {
-	my ($ruid, $user, $nick, $host, $modes, $real) = @_;
+	my ($svs, $user, $nick, $host, $modes, $real) = @_;
+	$svs = lc($svs);
+	my $calc = 6 - length($lastid);
+	my ($ap);
+	while ($calc != 0) {
+		$ap .= '0';
+		$calc -= 1;
+	}
+	$lastid += 1;
+	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
+	my $ruid = config('me', 'sid').$ap.$lastid;
 	send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
 	send_sock(":".$ruid." OPERTYPE Service");
+	if ($Chakora::synced) { serv_join($ruid, config('log', 'logchan')); }
 }
 
 # Handle PRIVMSG
@@ -309,9 +315,10 @@ sub raw_capabend {
 	if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
 	send_sock(":".config('me', 'sid')." BURST");
 	send_sock(":".config('me', 'sid')." VERSION :".$Chakora::SERVICES_VERSION." ".config('me', 'sid'));
-	foreach my $key (sort keys %Chakora::svsuid) {
-		serv_add(svsUID($key), config($key, 'user'), config($key, 'nick'), config($key, 'host'), $modes, config($key, 'real'));
-	}
+	serv_add('global', config('global', 'user'), config('global', 'nick'), config('global', 'host'), $modes, config('global', 'real'));
+	serv_add('chanserv', config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), $modes, config('chanserv', 'real'));
+	serv_add('nickserv', config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), $modes, config('nickserv', 'real'));
+	serv_add('operserv', config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), $modes, config('operserv', 'real'));
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 

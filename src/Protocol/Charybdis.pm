@@ -70,12 +70,7 @@ our %PROTO_SETTINGS = (
 	iexcept => 'I',
 );
 our (%svsuid, %uid, %channel, %sid, $hub);
-$Chakora::svsuid{'chanserv'} = config('me', 'sid')."AAAAAA";
-$Chakora::svsuid{'hostserv'} = config('me', 'sid')."AAAAAB";
-$Chakora::svsuid{'memoserv'} = config('me', 'sid')."AAAAAC";
-$Chakora::svsuid{'nickserv'} = config('me', 'sid')."AAAAAD";
-$Chakora::svsuid{'operserv'} = config('me', 'sid')."AAAAAE";
-$Chakora::svsuid{'global'} = config('me', 'sid')."AAAAAF";
+my $lastid = 0;
 
 sub irc_connect {
 	if (length(config('me', 'sid')) != 3) {
@@ -163,8 +158,19 @@ sub send_global {
 
 # Handle client creation
 sub serv_add {
-	my ($ruid, $user, $nick, $host, $modes, $real) = @_;
+	my ($svs, $user, $nick, $host, $modes, $real) = @_;
+	$svs = lc($svs);
+	my $calc = 6 - length($lastid);
+	my ($ap);
+	while ($calc != 0) {
+		$ap .= '0';
+		$calc -= 1;
+	}
+	$lastid += 1;
+	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
+	my $ruid = config('me', 'sid').$ap.$lastid;
 	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);
+	if ($Chakora::synced) { serv_join($ruid, config('log', 'logchan')); }
 }
 
 # Handle PRIVMSG
@@ -281,9 +287,10 @@ sub serv_squit {
 
 # Our Bursting
 sub raw_bursting {
-	foreach my $key (sort keys %Chakora::svsuid) {
-		serv_add(svsUID($key), config($key, 'user'), config($key, 'nick'), config($key, 'host'), '+ioS', config($key, 'real'));
-	}
+	serv_add('global', config('global', 'user'), config('global', 'nick'), config('global', 'host'), '+ioS', config('global', 'real'));
+	serv_add('chanserv', config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), '+ioS', config('chanserv', 'real'));
+	serv_add('nickserv', config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), '+ioS', config('nickserv', 'real'));
+	serv_add('operserv', config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), '+ioS', config('operserv', 'real'));
 }	
 
 # Handle END SYNC
