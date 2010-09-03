@@ -576,7 +576,7 @@ sub is_registered {
 }
 
 sub TERM_handler {
-	logchan("global", "\002!!!\002 Caught \002SIGTERM\002; terminating");
+	logchan("operserv", "\002!!!\002 Caught \002SIGTERM\002; terminating");
 	svsflog("chakora", "Exiting on SIGTERM");
 	serv_quit("chanserv", "Shutting down");
  	send_sock("SQUIT ".config('me', 'sid')." :Caught SIGTERM");
@@ -585,7 +585,7 @@ sub TERM_handler {
 }
 
 sub INT_handler {
-	logchan("global", "\002!!!\002 Caught \002SIGINT\002; terminating");
+	logchan("operserv", "\002!!!\002 Caught \002SIGINT\002; terminating");
 	svsflog("chakora", "Exiting on SIGINT");
 	serv_quit("chanserv", "Shutting down");
  	send_sock("SQUIT ".config('me', 'sid')." :Caught SIGINT");
