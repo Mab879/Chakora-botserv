@@ -41,8 +41,12 @@ sub svs_ns_register {
 			serv_notice("ns", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
 			serv_notice("ns", $user, "Thank you for registering with ".config('network', 'name'));
 			$count = `wc -l < $Chakora::ROOT_ETC/data/accounts`;
-			$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES($count,'$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::svsdb->errstr();
+			$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES($count,'$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
 			$register->execute() or print "Cannot execute " . $register->errstr();
+                        $count = `wc -l < $Chakora::ROOT_ETC/data/nicks`;
+                        $register = $Chakora::SVSDB->prepare("INSERT INTO nicks VALUES($count,'$nick','$nick')") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
+                        $register->execute() or print "Cannot execute " . $register->errstr();
+
 		} else { serv_notice("ns", $user, 'Your password must be at least 5 characters long.'); }
 	} else { serv_notice("ns", $user, 'Not enough parameters. Syntax: REGISTER <password> <email address>'); }
 }
