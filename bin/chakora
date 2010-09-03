@@ -571,5 +571,6 @@ sub is_soper {
 sub INT_handler {
 	serv_quit("cs", "Caught SIGINT");
  	send_sock("SQUIT ".config('me', 'sid')." :SIGINT");
+	svsflog("chakora", "Exiting on SIGINT");
 	exit(0);
 }
