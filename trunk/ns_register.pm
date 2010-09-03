@@ -1,4 +1,3 @@
-
 # nickserv/register by The Chakora Project. Allows users to register their nickname with services.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
@@ -37,7 +36,7 @@ sub svs_ns_register {
 			my $pass = $en->hexdigest;
 			svsilog("ns", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
 			serv_notice("ns", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
-			serv_notice("ns", $user, "Thanks for register with ".config('network', 'name'));
+			serv_notice("ns", $user, "Thanks for registering with ".config('network', 'name'));
 		} else { serv_notice("ns", $user, 'Your password must be at least 5 characters long.'); }
 	} else { serv_notice("ns", $user, 'Not enough parameters. Syntax: REGISTER <password> <email-address>'); }
 }
