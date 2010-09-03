@@ -127,7 +127,7 @@ our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "U
 
 # Prepare the database
 if (!-e "$ROOT_ETC/data/accounts") {
-	$SVSDB->do("CREATE TABLE accounts (id INT, accountname TEXT, pass TEXT, email VARCHAR(100), date INT, lasthost TEXT, lastseen INT, flags TEXT)");
+	$SVSDB->do("CREATE TABLE accounts (id INT, accountname TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
 }
 if (!-e "$ROOT_ETC/data/nicks") {
 	$SVSDB->do("CREATE TABLE nicks (id INT, accountname TEXT, nick TEXT)");
