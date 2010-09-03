@@ -27,7 +27,7 @@ sub svs_ns_register {
 	my $email = $rex[5];
 	my $regtime = time();
 	my $host = uidInfo($user, 3);
-	my ($register, $count);
+	my ($register);
 	my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
 		unless (is_registered($nick)) {
@@ -39,11 +39,9 @@ sub svs_ns_register {
 					svsilog("nickserv", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
 					serv_notice("nickserv", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
 					serv_notice("nickserv", $user, "Thank you for registering with ".config('network', 'name')."!");
-					$count = `wc -l < $Chakora::ROOT_ETC/data/accounts`;
-					$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES($count,'$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
+					$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES('$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
 					$register->execute() or print "Cannot execute " . $register->errstr();
-					$count = `wc -l < $Chakora::ROOT_ETC/data/nicks`;
-					$register = $Chakora::SVSDB->prepare("INSERT INTO nicks VALUES($count,'$nick','$nick')") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
+					$register = $Chakora::SVSDB->prepare("INSERT INTO nicks VALUES('$nick','$nick')") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
 					$register->execute() or print "Cannot execute " . $register->errstr();
 					$register->finish;
 				} else { serv_notice("nickserv", $user, 'Invalid email address.'); }

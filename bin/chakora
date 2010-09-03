@@ -136,16 +136,16 @@ our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "U
 
 # Prepare the database
 if (!-e "$ROOT_ETC/data/accounts") {
-	$SVSDB->do("CREATE TABLE accounts (id INT, accountname TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
+	$SVSDB->do("CREATE TABLE accounts (accountname TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
 }
 if (!-e "$ROOT_ETC/data/nicks") {
-	$SVSDB->do("CREATE TABLE nicks (id INT, accountname TEXT, nick TEXT)");
+	$SVSDB->do("CREATE TABLE nicks (accountname TEXT, nick TEXT)");
 }
 if (!-e "$ROOT_ETC/data/chans") {
-	$SVSDB->do("CREATE TABLE chans (id INT, name TEXT, date INT, mlock TEXT, flags TEXT, entrymsg TEXT, ts TEXT)");
+	$SVSDB->do("CREATE TABLE chans (name TEXT, date INT, mlock TEXT, flags TEXT, entrymsg TEXT, ts TEXT)");
 }
 if (!-e "$ROOT_ETC/data/vhosts") {
-	$SVSDB->do("CREATE TABLE vhosts (id INT, user TEXT, host TEXT, date INT, setby TEXT)");
+	$SVSDB->do("CREATE TABLE vhosts (user TEXT, host TEXT, date INT, setby TEXT)");
 }
 if (!-e "$ROOT_ETC/data/flags") {
 	$SVSDB->do("CREATE TABLE flags (chan TEXT, user TEXT, flags TEXT)");

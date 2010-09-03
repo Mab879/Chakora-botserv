@@ -50,3 +50,4 @@ Current
 	- API: Added serv_squit()
 	- Modules: Fixed nickserv/register to follow the rules of the updated API and disabled email checker until it is fixed.
 	- Core: Updated the config to look nicer.
+	- Core: Deleted the ID's in databases
