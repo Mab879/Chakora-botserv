@@ -127,7 +127,7 @@ our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "U
 
 # Prepare the database
 if (!-e "$ROOT_ETC/data/accounts") {
-	$SVSDB->do("CREATE TABLE accounts (id INT, accountname TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
+	$SVSDB->do("CREATE TABLE accounts (id INT, accountname TEXT, pass TEXT, email VARCHAR(100), date INT, lasthost TEXT, lastseen INT, flags TEXT)");
 }
 if (!-e "$ROOT_ETC/data/nicks") {
 	$SVSDB->do("CREATE TABLE nicks (id INT, accountname TEXT, nick TEXT)");
@@ -568,9 +568,25 @@ sub is_soper {
 	}
 }
 
+sub is_registered {
+	my ($nick) = @_;
+	my $check = $SVSDB->prepare("SELECT * from nicks WHERE nick='$nick'") or print "Cannot prepare: ".$SVSDB->errstr;
+        $check->execute() or print "Cannot execute ".$check->errstr();
+        print $check->rows();
+	if ($check->rows != 0) 
+	{
+		return 1;
+	}
+	else 
+	{
+		return 0;
+	}
+}
+
 sub INT_handler {
 	serv_quit("cs", "Caught SIGINT");
  	send_sock("SQUIT ".config('me', 'sid')." :SIGINT");
 	svsflog("chakora", "Exiting on SIGINT");
 	exit(0);
 }
+

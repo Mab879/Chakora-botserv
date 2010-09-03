@@ -27,26 +27,28 @@ sub svs_ns_register {
 	my $email = $rex[5];
 	my $regtime = time();
 	my $host = uidInfo($user, 3);
-	my ($register, $count);
+	my ($register, $count, $ref, %ref);
 	my $en = Digest::HMAC->new(config('encryption', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
-		unless (length($password) < 5) {
-			@semail = split('@', $email);
-			unless ($semail[0] =~ m/![A-Z|a-z|0-9]/) {
-				
-			} else { serv_notice("ns", $user, 'Invalid email address.'); }
-			$en->add($password);
-			my $pass = $en->hexdigest;
-			svsilog("ns", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
-			serv_notice("ns", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
-			serv_notice("ns", $user, "Thank you for registering with ".config('network', 'name'));
-			$count = `wc -l < $Chakora::ROOT_ETC/data/accounts`;
-			$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES($count,'$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
-			$register->execute() or print "Cannot execute " . $register->errstr();
-                        $count = `wc -l < $Chakora::ROOT_ETC/data/nicks`;
-                        $register = $Chakora::SVSDB->prepare("INSERT INTO nicks VALUES($count,'$nick','$nick')") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
-                        $register->execute() or print "Cannot execute " . $register->errstr();
-
-		} else { serv_notice("ns", $user, 'Your password must be at least 5 characters long.'); }
+		unless (is_registered($nick)) {
+			unless (length($password) < 5) {
+				@semail = split('@', $email);
+				unless ($semail[0] =~ m/![A-Z|a-z|0-9]/) {
+					
+				} else { serv_notice("ns", $user, 'Invalid email address.'); }
+				$en->add($password);
+				my $pass = $en->hexdigest;
+				svsilog("ns", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
+				serv_notice("ns", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
+				serv_notice("ns", $user, "Thank you for registering with ".config('network', 'name'));
+				$count = `wc -l < $Chakora::ROOT_ETC/data/accounts`;
+				$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES($count,'$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
+				$register->execute() or print "Cannot execute " . $register->errstr();
+                        	$count = `wc -l < $Chakora::ROOT_ETC/data/nicks`;
+                        	$register = $Chakora::SVSDB->prepare("INSERT INTO nicks VALUES($count,'$nick','$nick')") or print "Cannot prepare: " . $Chakora::SVSDB->errstr();
+                        	$register->execute() or print "Cannot execute " . $register->errstr();
+				$register->finish;
+			} else { serv_notice("ns", $user, 'Your password must be at least 5 characters long.'); }
+		} else { serv_notice("ns", $user, 'This nickname is already registered.'); }
 	} else { serv_notice("ns", $user, 'Not enough parameters. Syntax: REGISTER <password> <email address>'); }
 }
