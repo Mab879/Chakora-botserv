@@ -25,6 +25,9 @@ sub svs_ns_register {
 	my $nick = uidInfo($user, 1);
 	my $password = $rex[4];
 	my $email = $rex[5];
+	my $regtime = time();
+	my $host = uidInfo($user, 3);
+	my ($register, $count);
 	my $en = Digest::HMAC->new(config('encryption', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
 		unless (length($password) < 5) {
@@ -36,7 +39,10 @@ sub svs_ns_register {
 			my $pass = $en->hexdigest;
 			svsilog("ns", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
 			serv_notice("ns", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
-			serv_notice("ns", $user, "Thanks for registering with ".config('network', 'name'));
+			serv_notice("ns", $user, "Thank you for registering with ".config('network', 'name'));
+			$count = `wc -l < $Chakora::ROOT_ETC/data/accounts`;
+			$register = $Chakora::SVSDB->prepare("INSERT INTO accounts VALUES($count,'$nick','$pass','$email',$regtime,'$host',$regtime,0)") or print "Cannot prepare: " . $Chakora::svsdb->errstr();
+			$register->execute() or print "Cannot execute " . $register->errstr();
 		} else { serv_notice("ns", $user, 'Your password must be at least 5 characters long.'); }
-	} else { serv_notice("ns", $user, 'Not enough parameters. Syntax: REGISTER <password> <email-address>'); }
+	} else { serv_notice("ns", $user, 'Not enough parameters. Syntax: REGISTER <password> <email address>'); }
 }
