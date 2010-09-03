@@ -27,7 +27,7 @@ sub svs_ns_register {
 	my $email = $rex[5];
 	my $regtime = time();
 	my $host = uidInfo($user, 3);
-	my ($register, $count, $ref, %ref);
+	my ($register, $count);
 	my $en = Digest::HMAC->new(config('encryption', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
 		unless (is_registered($nick)) {
