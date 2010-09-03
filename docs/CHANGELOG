@@ -48,3 +48,5 @@ Current
 	- API: Changed the way of sending data in services. Use full services names such as 'chanserv' instead of 'cs'.
 	- Modules: Fixed official modules to follow the rules of the updated API.
 	- API: Added serv_squit()
+	- Modules: Fixed nickserv/register to follow the rules of the updated API and disabled email checker until it is fixed.
+	- Core: Updated the config to look nicer.

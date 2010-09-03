@@ -61,8 +61,8 @@ services {
 	autoload = "operserv/version operserv/uptime operserv/help nickserv/help operserv/global operserv/shutdown"
 }
 
-encryption {
-	# !!CHANGE THIS!! This NEEDS to be unique!! !!DO NOT LOSE THIS, IF YOU LOSE IT, DBS CANNOT BE DECRYPTED!!
+enc {
+	# !!CHANGE THIS!! This NEEDS to be unique!! !!DO NOT LOSE THIS, IF YOU LOSE IT, DATABASES CANNOT BE DECRYPTED!!
 	key = "key"
 }
 
