@@ -38,7 +38,9 @@ Current
 	- Contrib - mattwb65: Added chanserv/lol (for an example command) and chanserv/away (for an example hook module) 
 	- Docs: Added API docs
 	- Core: We no longer censor register
-	- Core: Formatted the time chakora was started in the "Chakor was started" message
+	- Core: Formatted the time chakora was started in the "Chakora was started" message
 	- Chakora: Unbreak - lib files were misplaced
 	- Core: Added SIGINT handling
 	- Modules: Made operserv/shutdown log to the logfile
+	- API: Added is_registered
+	- Modules: nickserv/register now writes to the db and checks if the nickname is already registered
