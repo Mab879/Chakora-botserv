@@ -24,6 +24,7 @@ sub svs_os_shutdown {
 	if (is_soper($user)) {
 		serv_notice("os", $user, "Shutting down.");
 		svsilog("os", $user, "shutdown", "");
+		svdflog("chakora", "Shutting down due to SHUTDOWN by ".uidInfo($user, 1));
 		serv_quit("cs", "Shutting down");
 		send_sock("SQUIT ".config('me', 'sid')." :Shutdown by ".uidInfo($user, 1));
 		exit;
