@@ -53,3 +53,4 @@ Current
 	- Core: Deleted the ID's in databases
 	- API: You can now create custom services clients with serv_add()
 	- Core/Modules: HostServ and MemoServ are no longer default services.
+	- Modules: protocol/inspircd and protocol/charybdis are now version 0.8.

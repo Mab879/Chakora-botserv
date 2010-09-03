@@ -7,7 +7,7 @@ use warnings;
 
 # This is a cheap hack, but it'll work --Matthew
 $Chakora::MODULE{protocol}{name} = 'protocol/inspircd';
-$Chakora::MODULE{protocol}{version} = '0.7';
+$Chakora::MODULE{protocol}{version} = '0.8';
 $Chakora::MODULE{protocol}{author} = 'The Chakora Project';
 
 ######### Core #########
