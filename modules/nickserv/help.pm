@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("nickserv/help", "The Chakora Project", "0.1", \&init_ns_help, \&void_ns_register, "all");
+module_init("nickserv/help", "The Chakora Project", "0.1", \&init_ns_help, \&void_ns_help, "all");
 
 sub init_ns_help {
 	cmd_add("nickserv/help", "NO_HELP_ENTRY", "NO_HELP_ENTRY", \&svs_ns_help);
