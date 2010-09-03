@@ -69,7 +69,7 @@ our %PROTO_SETTINGS = (
 	bexecpt => 'e',
 	iexcept => 'I',
 );
-our (%svsuid, %uid, %channel, %sid, $hub);
+our (%uid, %channel, %sid, $hub);
 my $lastid = 0;
 
 sub irc_connect {
