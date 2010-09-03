@@ -26,7 +26,7 @@ sub svs_os_shutdown {
 		svsilog("operserv", $user, "shutdown", "");
 		svsflog("chakora", "Shutting down due to SHUTDOWN by ".uidInfo($user, 1));
 		serv_quit("chanserv", "Shutting down");
-		send_sock("SQUIT ".config('me', 'sid')." :Shutdown by ".uidInfo($user, 1));
+		serv_squit(config('me', 'sid'), "Shutdown by ".uidInfo($user, 1));
 		exit;
 	}
 	else {
