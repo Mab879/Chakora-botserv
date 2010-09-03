@@ -23,20 +23,20 @@ sub svs_os_modunload {
 	my $user = substr($rex[0], 1);
 	if (is_soper($user)) {
 		if ($rex[4]) {
-			serv_notice("os", $user, "Attempting to unload ".$rex[4]);
-			if (!module_exists($rex[4])) { serv_notice("os", $user, "Module not loaded"); }
+			serv_notice("operserv", $user, "Attempting to unload ".$rex[4]);
+			if (!module_exists($rex[4])) { serv_notice("operserv", $user, "Module not loaded"); }
 			elsif (module_void($rex[4]) eq "MODUNLOAD_SUCCESS") {
-				serv_notice("os", $user, "Module unloaded");
-				svsilog("os", $user, "modunload", $rex[4]); 
+				serv_notice("operserv", $user, "Module unloaded");
+				svsilog("operserv", $user, "modunload", $rex[4]); 
 			}
-			else { serv_notice("os", $user, "Module unloading failed"); }
+			else { serv_notice("operserv", $user, "Module unloading failed"); }
 		}
 		else {
-			serv_notice("os", $user, "Not enough parameters. Syntax: MODUNLOAD <module>");
+			serv_notice("operserv", $user, "Not enough parameters. Syntax: MODUNLOAD <module>");
 		}
 	}
 	else {
-		serv_notice("os", $user, "Access denied.");
+		serv_notice("operserv", $user, "Access denied.");
 	}
 }
 1;
