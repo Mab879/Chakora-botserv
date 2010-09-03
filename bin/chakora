@@ -178,7 +178,7 @@ my $socket = IO::Socket::INET->new(
 my ($data, $ex, @ex, $mtext);
 our $synced = 0;
 our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD);
-my ($SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICE);
+my ($SERVICES_MSGSERVICE, $USER);
 
 # Connect!
 irc_connect();
@@ -412,7 +412,7 @@ sub module_init {
             $MODULE{$name}{void} = $void_handler;
             return "MODLOAD_SUCCESS";
             1;	
-        } or print("[MODULES] ".$name.": Module failed to load.\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.") and return "MODLOAD_FAIL";
+        } or print("[MODULES] ".$name.": Module failed to load. $@\n") and svsflog("chakora", "[MODULES] ".$name.": Module failed to load.") and return "MODLOAD_FAIL";
     }
 }
 
@@ -430,7 +430,12 @@ sub module_exists {
 sub module_load {
 	my ($module) = @_;
 	if (-e $ROOT_SRC."/../modules/".lc($module).".pm") {
-		require $ROOT_SRC."/../modules/".lc($module).".pm" and return 1 or return 0;
+		eval 
+		{ 
+			require $ROOT_SRC."/../modules/".lc($module).".pm";
+			return 1;
+			1;
+		} or return 0;
 	}
 	else {
 		return 0;
