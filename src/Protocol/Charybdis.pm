@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 # This is a cheap hack, but it'll work --Matthew
-$Chakora::MODULE{protocol}{name} = 'protocol/Charybdis';
+$Chakora::MODULE{protocol}{name} = 'protocol/charybdis';
 $Chakora::MODULE{protocol}{version} = '0.7';
 $Chakora::MODULE{protocol}{author} = 'The Chakora Project'; 
 
@@ -69,13 +69,13 @@ our %PROTO_SETTINGS = (
 	bexecpt => 'e',
 	iexcept => 'I',
 );
-my (%svsuid, %uid, $uid, %channel, $channel, %sid, $sid, $hub);
-$svsuid{'cs'} = config('me', 'sid')."AAAAAA";
-$svsuid{'hs'} = config('me', 'sid')."AAAAAB";
-$svsuid{'ms'} = config('me', 'sid')."AAAAAC";
-$svsuid{'ns'} = config('me', 'sid')."AAAAAD";
-$svsuid{'os'} = config('me', 'sid')."AAAAAE";
-$svsuid{'g'} = config('me', 'sid')."AAAAAF";
+our (%svsuid, %uid, %channel, %sid, $hub);
+$Chakora::svsuid{'chanserv'} = config('me', 'sid')."AAAAAA";
+$Chakora::svsuid{'hostserv'} = config('me', 'sid')."AAAAAB";
+$Chakora::svsuid{'memoserv'} = config('me', 'sid')."AAAAAC";
+$Chakora::svsuid{'nickserv'} = config('me', 'sid')."AAAAAD";
+$Chakora::svsuid{'operserv'} = config('me', 'sid')."AAAAAE";
+$Chakora::svsuid{'global'} = config('me', 'sid')."AAAAAF";
 
 sub irc_connect {
 	if (length(config('me', 'sid')) != 3) {
@@ -97,7 +97,7 @@ sub svsUID {
 	if (lc($svs) eq 'chakora::server') {
 		return config('me', 'sid');
 	} else {
-		return $svsuid{$svs};
+		return $Chakora::svsuid{$svs};
 	}
 }
 
@@ -105,21 +105,21 @@ sub svsUID {
 sub uidInfo {
 	my ($ruid, $section) = @_;
 	if ($section == 1) {
-		return $uid{$ruid}{'nick'};
+		return $Chakora::uid{$ruid}{'nick'};
 	} elsif ($section == 2) {
-		return $uid{$ruid}{'user'};
+		return $Chakora::uid{$ruid}{'user'};
 	} elsif ($section == 3) {
-		return $uid{$ruid}{'host'};
+		return $Chakora::uid{$ruid}{'host'};
 	} elsif ($section == 4) {
-		return $uid{$ruid}{'mask'};
+		return $Chakora::uid{$ruid}{'mask'};
 	} elsif ($section == 5) {
-		return $uid{$ruid}{'ip'};
+		return $Chakora::uid{$ruid}{'ip'};
 	} elsif ($section == 6) {
-		return $uid{$ruid}{'pnick'};
+		return $Chakora::uid{$ruid}{'pnick'};
 	} elsif ($section == 7) {
-		return $uid{$ruid}{'oper'};
+		return $Chakora::uid{$ruid}{'oper'};
 	} elsif ($section == 8) {
-		return $uid{$ruid}{'server'};
+		return $Chakora::uid{$ruid}{'server'};
 	} else {
 		return 0;
 	}
@@ -129,13 +129,13 @@ sub uidInfo {
 sub sidInfo {
 	my ($id, $section) = @_;
 	if ($section == 1) {
-		return $sid{$id}{'name'};
+		return $Chakora::sid{$id}{'name'};
 	} elsif ($section == 2) {
-		return $sid{$id}{'info'};
+		return $Chakora::sid{$id}{'info'};
 	} elsif ($section == 3) {
-		return $sid{$id}{'sid'};
+		return $Chakora::sid{$id}{'sid'};
 	} elsif ($section == 4) {
-		return $sid{$id}{'hub'};
+		return $Chakora::sid{$id}{'hub'};
 	} else {
 		return 0;
 	}
@@ -145,8 +145,8 @@ sub sidInfo {
 sub nickUID {
 	my ($nick) = @_;
 	foreach (%uid) {
-		if (lc($uid{'nick'}) eq lc($nick)) {
-			return $uid{'uid'};
+		if (lc($Chakora::uid{'nick'}) eq lc($nick)) {
+			return $Chakora::uid{'uid'};
 		}
 	}
 }
@@ -155,7 +155,7 @@ sub nickUID {
 sub send_global {
 	my ($msg) = @_;
 	foreach my $key (keys %uid) {
-		serv_notice("g", $uid{$key}{'uid'}, $msg);
+		serv_notice("global", $Chakora::uid{$key}{'uid'}, $msg);
 	}
 }
 
@@ -183,20 +183,20 @@ sub serv_notice {
 sub serv_join {
 	my ($svs, $chan) = @_;
         # If a channel has no ts, we're obviously creating that channel, set ts to current time --Matthew
-	if (!$channel{$chan}{'ts'}) {
-		$channel{$chan}{'ts'} = time();
+	if (!$Chakora::channel{$chan}{'ts'}) {
+		$Chakora::channel{$chan}{'ts'} = time();
 	}
-	send_sock(":".svsUID('chakora::server')." SJOIN ".$channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
+	send_sock(":".svsUID('chakora::server')." SJOIN ".$Chakora::channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
 }
 
 # Handle TMODE
 sub serv_mode {
 	my ($svs, $target, $modes) = @_;
 	# This should never happen, but just in case, have a check. --Matthew
-        if (!$channel{$target}{'ts'}) {
-                $channel{$target}{'ts'} = time();
+        if (!$Chakora::channel{$target}{'ts'}) {
+                $Chakora::channel{$target}{'ts'} = time();
         }
-	send_sock(":".svsUID($svs)." TMODE ".$channel{$target}{'ts'}." ".$target." ".$modes);
+	send_sock(":".svsUID($svs)." TMODE ".$Chakora::channel{$target}{'ts'}." ".$target." ".$modes);
 }
 
 # Handle Client MODE (This is basically only used for user mode changes in Charybdis --Matthew)
@@ -275,22 +275,16 @@ sub serv_jupe {
 
 # Our Bursting
 sub raw_bursting {
-	serv_add(svsUID('g'), config('global', 'user'), config('global', 'nick'), config('global', 'host'), "+ioS", config('global', 'real'));
-	serv_add(svsUID('cs'), config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), "+ioS", config('chanserv', 'real'));
-	serv_add(svsUID('hs'), config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), "+ioS", config('hostserv', 'real'));
-	serv_add(svsUID('ms'), config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), "+ioS", config('memoserv', 'real'));
-	serv_add(svsUID('ns'), config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), "+ioS", config('nickserv', 'real'));
-	serv_add(svsUID('os'), config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), "+ioS", config('operserv', 'real'));
+	foreach my $key (sort keys %Chakora::svsuid) {
+		serv_add(svsUID($key), config($key, 'user'), config($key, 'nick'), config($key, 'host'), '+ioS', config($key, 'real'));
+	}
 }	
 
 # Handle END SYNC
 sub raw_endsync {
-	serv_join('g', config('log', 'logchan'));
-	serv_join('cs', config('log', 'logchan'));
-	serv_join('hs', config('log', 'logchan'));
-	serv_join('ms', config('log', 'logchan'));
-	serv_join('ns', config('log', 'logchan'));
-	serv_join('os', config('log', 'logchan'));
+	foreach my $key (sort keys %Chakora::svsuid) {
+		serv_join($key, config('log', 'logchan'));
+	}
 	$Chakora::synced = 1;
 }
 
@@ -299,17 +293,17 @@ sub raw_euid {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $ruid = $rex[9];
-	$uid{$ruid}{'nick'} = $rex[2];
-	$uid{$ruid}{'user'} = $rex[6];
-	$uid{$ruid}{'mask'} = $rex[7];
-	$uid{$ruid}{'ip'} = $rex[8];
-	$uid{$ruid}{'uid'} = $rex[9];
-	$uid{$ruid}{'host'} = $rex[10];
-	$uid{$ruid}{'server'} = substr($rex[0], 1);
-	$uid{$ruid}{'pnick'} = 0;
-	$uid{$ruid}{'away'} = 0;
+	$Chakora::uid{$ruid}{'nick'} = $rex[2];
+	$Chakora::uid{$ruid}{'user'} = $rex[6];
+	$Chakora::uid{$ruid}{'mask'} = $rex[7];
+	$Chakora::uid{$ruid}{'ip'} = $rex[8];
+	$Chakora::uid{$ruid}{'uid'} = $rex[9];
+	$Chakora::uid{$ruid}{'host'} = $rex[10];
+	$Chakora::uid{$ruid}{'server'} = substr($rex[0], 1);
+	$Chakora::uid{$ruid}{'pnick'} = 0;
+	$Chakora::uid{$ruid}{'away'} = 0;
 	if ($rex[5] =~ m/o/) {
-		$uid{$ruid}{'oper'} = 1;
+		$Chakora::uid{$ruid}{'oper'} = 1;
 		event_oper($ruid);
 	}
 	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8], substr($rex[0], 1));
@@ -322,7 +316,7 @@ sub raw_sjoin {
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SJOIN 1280086561 #services +nt :@48XAAAAAB
 	my $chan = $rex[3];
-	$channel{$chan}{'ts'} = $rex[2];
+	$Chakora::channel{$chan}{'ts'} = $rex[2];
 	my $user = substr($rex[5], 1);
 	$user =~ s/[@+]//;
 	event_join($user, $rex[3]);
@@ -337,19 +331,19 @@ sub raw_quit {
         my $args = substr($rex[2], 1);
         for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_quit($ruid, $args);
-	undef $uid{$ruid};
+	undef $Chakora::uid{$ruid};
 }
 
 # Handle MODE
 sub raw_mode {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	if ($uid{$rex[2]}{'oper'} and parse_mode($rex[3], '-', 'o')) {
-		undef $uid{$rex[2]}{'oper'};
+	if ($Chakora::uid{$rex[2]}{'oper'} and parse_mode($rex[3], '-', 'o')) {
+		undef $Chakora::uid{$rex[2]}{'oper'};
 		event_deoper($rex[2]);
 	}
 	if (parse_mode($rex[3], '+', 'o')) {
-		$uid{$rex[2]}{'oper'} = 1;
+		$Chakora::uid{$rex[2]}{'oper'} = 1;
 		event_oper($rex[2]);
 	}
 }
@@ -388,8 +382,8 @@ sub raw_nick {
         my ($raw) = @_;
         my @rex = split(' ', $raw);
         my $ruid = substr($rex[0], 1);
-	$uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
-        $uid{$ruid}{'nick'} = $rex[2];
+	$Chakora::uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
+        $Chakora::uid{$ruid}{'nick'} = $rex[2];
         event_nick($ruid, $rex[2]);
 }
 
@@ -398,7 +392,7 @@ sub raw_chghost {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $ruid = $rex[1];
-	$uid{$ruid}{'mask'} = $rex[2];
+	$Chakora::uid{$ruid}{'mask'} = $rex[2];
 }
 
 # Handle ERROR without a source server
@@ -447,13 +441,13 @@ sub raw_sid {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SID dev.server 2 42X :Development server
-	$sid{$rex[4]}{'name'} = $rex[2];
-	$sid{$rex[4]}{'sid'} = $rex[4];
-	$sid{$rex[4]}{'hub'} = substr($rex[0], 1);
+	$Chakora::sid{$rex[4]}{'name'} = $rex[2];
+	$Chakora::sid{$rex[4]}{'sid'} = $rex[4];
+	$Chakora::sid{$rex[4]}{'hub'} = substr($rex[0], 1);
         my $args = substr($rex[5], 1);
         my ($i);
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-        $sid{$rex[4]}{'info'} = $args;
+        $Chakora::sid{$rex[4]}{'info'} = $args;
 	event_sid($rex[2], $args);
 }
 
@@ -463,7 +457,7 @@ sub raw_pass {
 	my @rex = split(' ', $raw);
 	# [IRC] PASS linkage TS 6 :48X
 	$hub = substr($rex[4], 1);
-	$sid{$hub}{'sid'} = $hub;
+	$Chakora::sid{$hub}{'sid'} = $hub;
 }
 
 # Handle SERVER 
@@ -471,12 +465,12 @@ sub raw_server {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	# [IRC] SERVER lol.server 1 :lolserver
-	$sid{$hub}{'name'} = $rex[1];
-	$sid{$hub}{'hub'} = 0;
+	$Chakora::sid{$hub}{'name'} = $rex[1];
+	$Chakora::sid{$hub}{'hub'} = 0;
 	my $args = substr($rex[3], 1);
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-        $sid{$hub}{'info'} = $args;
+        $Chakora::sid{$hub}{'info'} = $args;
 	event_sid($rex[1], $args);
 }
 
@@ -507,12 +501,12 @@ sub netsplit {
 	my ($server, $reason, $source) = @_;
 	event_netsplit($server, $reason, $source);
 	foreach my $key (keys %uid) {
-  		if ($uid{$key}{'server'} eq $server) {
-			#logchan("os", "Deleting user ".uidInfo($uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
-    			undef $uid{$key};
+  		if ($Chakora::uid{$key}{'server'} eq $server) {
+			#logchan("os", "Deleting user ".uidInfo($Chakora::uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
+    			undef $Chakora::uid{$key};
   		}
 	}
-	undef $sid{$server};
+	undef $Chakora::sid{$server};
 }
 
 # Handle AWAY
@@ -525,14 +519,14 @@ sub raw_away {
 		my $args = substr($rex[2], 1);
         	my ($i);
         	for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-		$uid{$user}{'away'} = 1; # We don't want someone to return away 500 times and log flood --Matthew
+		$Chakora::uid{$user}{'away'} = 1; # We don't want someone to return away 500 times and log flood --Matthew
 		event_away($user, $args);
 	}
 	else {
 		# Returning [IRC] :42XAAAAAC AWAY
-		if ($uid{$user}{'away'}) {
+		if ($Chakora::uid{$user}{'away'}) {
 			event_back($user);
-			$uid{$user}{'away'} = 0;
+			$Chakora::uid{$user}{'away'} = 0;
 		}
 	}
 }

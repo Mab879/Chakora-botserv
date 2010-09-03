@@ -99,10 +99,13 @@ if ($^O =~ /win/i) {
 
 # Define SIG handlers
 $SIG{'INT'} = \&INT_handler;
+$SIG{'TERM'} = \&TERM_handler;
 
 # Create some variables for later use
 our (%rawcmds, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE);
 
+# Load the modules
+require Server::Events;
 if (lc(config('server', 'ircd')) eq 'inspircd') {
 	print("[MODULES] Loading protocol: InspIRCd 1.2/2.0\n");
     require Protocol::InspIRCd or error("chakora", "Protocol module failed to load: $!");
@@ -112,8 +115,14 @@ if (lc(config('server', 'ircd')) eq 'inspircd') {
 } else {
     error("chakora", "This protocol isn't supported by Chakora.");
 };
-require Server::Events;
+my $saa = config('services', 'autoload'); 
+my @sab = split(' ', $saa);
+my ($sac); 
+foreach $sac (@sab) { 
+    eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; }; 
+}
 
+# Void support if ALLOW_TAINT is enabled
 if (config('services', 'allow_taint')) {
 	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
@@ -169,7 +178,7 @@ my $socket = IO::Socket::INET->new(
 my ($data, $ex, @ex, $mtext);
 our $synced = 0;
 our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD);
-my ($SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICEA);
+my ($SERVICES_MSGSERVICE, $USER, $SERVICES_MSGSERVICE);
 
 # Connect!
 irc_connect();
@@ -177,12 +186,6 @@ irc_connect();
 if (config('xmlrpc', 'use'))
 {
 	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignorinng.\n");
-}
-my $saa = config('services', 'autoload'); 
-my @sab = split(' ', $saa);
-my ($sac); 
-foreach $sac (@sab) { 
-    eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; }; 
 }
 
 while (1) {
@@ -311,23 +314,12 @@ while (1) {
     }
 
     # Handle services commands, if it exists
-    elsif ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
-	if ($ex[2] eq svsUID('cs') or $ex[2] eq config('chanserv', 'nick')) {
-            $SERVICES_MSGSERVICE = "ChanServ";
-            $SERVICES_MSGSERVICEA = "cs";
-        } elsif ($ex[2] eq svsUID('hs') or $ex[2] eq config('hostserv', 'nick')) {
-            $SERVICES_MSGSERVICE = "HostServ";
-            $SERVICES_MSGSERVICEA = "hs";
-        } elsif ($ex[2] eq svsUID('ms') or $ex[2] eq config('memoserv', 'nick')) {
-            $SERVICES_MSGSERVICE = "MemoServ";
-            $SERVICES_MSGSERVICEA = "ms";
-        } elsif ($ex[2] eq svsUID('ns') or $ex[2] eq config('nickserv', 'nick')) {
-            $SERVICES_MSGSERVICE = "NickServ";
-            $SERVICES_MSGSERVICEA = "ns";
-        } elsif ($ex[2] eq svsUID('os') or $ex[2] eq config('operserv', 'nick')) {
-            $SERVICES_MSGSERVICE = "OperServ";
-            $SERVICES_MSGSERVICEA = "os";
-        }
+    if ($ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/) {
+		foreach my $key (keys %Chakora::svsuid) {
+			if (svsUID($key) eq $ex[2]) {
+				$SERVICES_MSGSERVICE = $key;
+			}
+		}
         if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
             my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
             eval 
@@ -335,7 +327,7 @@ while (1) {
                 &{ $sub_ref }($data);
             };
         } else {
-            serv_notice($SERVICES_MSGSERVICEA, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
+            serv_notice($SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
         }
     }
 }
@@ -583,10 +575,21 @@ sub is_registered {
 	}
 }
 
+sub TERM_handler {
+	logchan("global", "\002!!!\002 Caught \002SIGTERM\002; terminating");
+	svsflog("chakora", "Exiting on SIGTERM");
+	serv_quit("chanserv", "Shutting down");
+ 	send_sock("SQUIT ".config('me', 'sid')." :Caught SIGTERM");
+	sleep 1;
+	exit(0);
+}
+
 sub INT_handler {
-	serv_quit("cs", "Caught SIGINT");
- 	send_sock("SQUIT ".config('me', 'sid')." :SIGINT");
+	logchan("global", "\002!!!\002 Caught \002SIGINT\002; terminating");
 	svsflog("chakora", "Exiting on SIGINT");
+	serv_quit("chanserv", "Shutting down");
+ 	send_sock("SQUIT ".config('me', 'sid')." :Caught SIGINT");
+	sleep 1;
 	exit(0);
 }
 
