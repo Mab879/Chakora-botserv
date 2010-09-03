@@ -65,7 +65,7 @@
 	[X] Add serv_accoutname
 [ ] Docs
 	[X] Add docs for the module api
-	[ ] Improve module api docs (add sidInfo and uidInfo for one)
+	[!] Improve module api docs (add sidInfo and uidInfo for one)
 [ ] Other
 	[ ] Allow custom services to be made and handled like others
 Key: 
