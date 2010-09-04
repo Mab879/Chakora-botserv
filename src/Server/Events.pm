@@ -387,4 +387,32 @@ sub hook_eos_del {
 	undef $hook_eos{$handler};
 }
 
+### KILL ###
+our (%hook_kill);
+
+# When users is killed, execute all kill hooks.
+sub event_kill {
+        my ($user, $target, $reason) = @_;
+        my ($hook);
+        foreach $hook (%hook_kill) {
+                eval
+                {
+                        &{ $hook }($user, $target, $reason);
+                };
+        }
+}
+
+# Add a hook to the kill event.
+sub hook_kill_add {
+        my ($handler) = @_;
+        $hook_kill{$handler} = $handler;
+}
+
+# Delete a hook from the kill event.
+sub hook_kill_del {
+        my ($handler) = @_;
+        undef $hook_kill{$handler};
+}
+
+
 1;
