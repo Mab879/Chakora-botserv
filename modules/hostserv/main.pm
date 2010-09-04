@@ -18,6 +18,7 @@ sub init_hs_main {
 sub void_hs_main {
 	delete_sub 'init_hs_main';
 	delete_sub 'svs_hs_main';
+	serv_del('HostServ');
 }
 
 sub svs_hs_main {
