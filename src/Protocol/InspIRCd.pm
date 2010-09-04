@@ -169,7 +169,7 @@ sub serv_add {
 	my $ruid = config('me', 'sid').$ap.$lastid;
 	send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
 	send_sock(":".$ruid." OPERTYPE Service");
-	if ($Chakora::synced) { serv_join($ruid, config('log', 'logchan')); }
+	if ($Chakora::synced) { serv_join($svs, config('log', 'logchan')); }
 }
 
 # Handle PRIVMSG
@@ -513,10 +513,11 @@ sub raw_error {
 
 # Handle ENDBURST
 sub raw_endburst {
-        foreach my $key (sort keys %Chakora::svsuid) {
-			serv_join($key, config('log', 'logchan'));
-		}
-		$Chakora::synced = 1;
+	foreach my $key (sort keys %Chakora::svsuid) {
+		serv_join($key, config('log', 'logchan'));
+	}
+	$Chakora::synced = 1;
+	event_eos();
 }
 
 # Handle SQUIT/RSQUIT

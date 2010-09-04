@@ -170,7 +170,7 @@ sub serv_add {
 	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
 	my $ruid = config('me', 'sid').$ap.$lastid;
 	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);
-	if ($Chakora::synced) { serv_join($ruid, config('log', 'logchan')); }
+	if ($Chakora::synced) { serv_join($svs, config('log', 'logchan')); }
 }
 
 # Handle PRIVMSG
@@ -299,6 +299,7 @@ sub raw_endsync {
 		serv_join($key, config('log', 'logchan'));
 	}
 	$Chakora::synced = 1;
+	event_eos();
 }
 
 # Handle EUID

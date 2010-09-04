@@ -54,3 +54,5 @@ Current
 	- API: You can now create custom services clients with serv_add()
 	- Core/Modules: HostServ and MemoServ are no longer default services.
 	- Modules: protocol/inspircd and protocol/charybdis are now version 0.8.
+	- Core/Modules/Protocols: Fixed several bugs in the updated API.
+	- Modules: Added hostserv/main.
