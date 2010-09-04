@@ -57,6 +57,9 @@ our %rawcmds = (
 	'AWAY' => {
 		handler => \&raw_away,
 	},
+	'KILL' => {
+		handler => \&raw_kill,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -549,6 +552,17 @@ sub raw_away {
 			$Chakora::uid{$user}{'away'} = 0;
 		}
 	}
+}
+
+# Handle KILL
+sub raw_kill {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+ 	my $user = substr($rex[0], 1);
+	my $target = $rex[2];
+        my ($i, $args);
+        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	event_kill($user, $target, $args);
 }
 
 1;
