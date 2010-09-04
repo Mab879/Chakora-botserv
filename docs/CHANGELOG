@@ -61,3 +61,5 @@ Current
 	- Contrib - mattwb65: os_userlog now allows you to choose between OperServ or a custom service logging
 	- Protocols: Added serv_sethost
 	- Protocols - InspIRCd: check for m_chghost
+	- Modules: Fixed a bug in hostserv/main where, it wouldn't create HostServ if we're already synced.
+	- API: Added serv_del() for deleting services clients.
