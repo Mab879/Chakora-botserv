@@ -58,3 +58,6 @@ Current
 	- Modules: Added hostserv/main.
 	- Events: Added event_eos for when we finish syncing.
 	- Protocols: Fixed a bug where, after 10 services clients, services would break.
+	- Contrib - mattwb65: os_userlog now allows you to choose between OperServ or a custom service logging
+	- Protocols: Added serv_sethost
+	- Protocols - InspIRCd: check for m_chghost
