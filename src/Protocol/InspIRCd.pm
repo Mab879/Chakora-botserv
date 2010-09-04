@@ -67,6 +67,9 @@ our %rawcmds = (
 	'AWAY' => {
 		handler => \&raw_away,
 	},
+	'KILL' => {
+		handler => \&raw_kill,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd 1.2/2.0',
@@ -572,6 +575,16 @@ sub raw_away {
         }
 }
 
-
+# Handle KILL
+sub raw_kill {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $user = substr($rex[0], 1);
+	my $target = $rex[2];
+        my $args = substr($rex[3], 1);
+        my ($i);
+        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	event_kill($user, $target, "(".$args.")");
+}
 
 1;
