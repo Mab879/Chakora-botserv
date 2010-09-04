@@ -179,10 +179,10 @@ sub serv_add {
 # Handle client deletion
 sub serv_del {
 	my ($svs) = @_;
-	if (defined $Chakora::svsuid{$svs}) {
+	if (defined $Chakora::svsuid{lc($svs)}) {
 		logchan('operserv', "\002!!!\002 Deleting service: \002$svs\002");
-		serv_quit($svs, "Service unloaded");
-		delete $Chakora::svsuid{$svs};
+		serv_quit(lc($svs), "Service unloaded");
+		delete $Chakora::svsuid{lc($svs)};
 	}
 }
 
