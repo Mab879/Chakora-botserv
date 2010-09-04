@@ -146,14 +146,6 @@ sub nickUID {
 	}
 }
 
-# Send global messages
-sub send_global {
-	my ($msg) = @_;
-	foreach my $key (keys %uid) {
-		serv_notice("global", $Chakora::uid{$key}{'uid'}, $msg);
-	}
-}
-
 ######### Sending data #########
 
 # Handle client creation
@@ -287,6 +279,14 @@ sub serv_squit {
 sub serv_sethost {
 	my ($user, $host) = @_;
         send_sock(":".svsUID("chakora::server")." CHGHOST ".$user." ".$host);
+}
+
+# Send global messages
+sub send_global {
+        my ($msg) = @_;
+        foreach my $key (keys %uid) {
+                serv_notice("global", $Chakora::uid{$key}{'uid'}, $msg);
+        }
 }
 
 ######### Receiving data #########
