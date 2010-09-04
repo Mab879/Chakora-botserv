@@ -9,6 +9,9 @@ module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&voi
 
 sub init_hs_main {
 	hook_eos_add(\&svs_hs_main);
+	if (!-e "$Chakora::ROOT_ETC/data/vhosts") {
+        	$Chakora::SVSDB->do("CREATE TABLE vhosts (account TEXT, host TEXT)");
+	}
 }
 
 sub void_hs_main {
