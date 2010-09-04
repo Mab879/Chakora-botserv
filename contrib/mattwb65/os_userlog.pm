@@ -51,6 +51,8 @@ sub init_os_userlog {
 	hook_back_add(\&svs_os_backlog);
 	hook_sid_add(\&svs_os_sidlog);
 	hook_netsplit_add(\&svs_os_netsplit);
+	hook_eos_add(\&svs_os_eoslog);
+	hook_kill_add(\&svs_os_killlog);
 }
 
 sub void_os_userlog {
@@ -66,6 +68,8 @@ sub void_os_userlog {
 	delete_sub 'svs_os_backlog';
 	delete_sub 'svs_os_sidlog';
 	delete_sub 'svs_os_netsplit';
+	delete_sub 'svs_os_eoslog';
+	delete_sub 'svs_os_killlog';
 	hook_join_del(\&svs_os_joinlog);	
 	hook_part_del(\&svs_os_partlog);
 	hook_nick_del(\&svs_os_nicklog);
@@ -77,6 +81,9 @@ sub void_os_userlog {
 	hook_back_del(\&svs_os_backlog);
 	hook_sid_del(\&svs_os_sidlog);
 	hook_netsplit_del(\&svs_os_netsplit);
+	hook_eos_del(\&svs_os_eoslog);
+	hook_kill_del(\&svs_os_killlog);
+	serv_del("logserv");
 }
 
 sub svs_os_joinlog {
@@ -144,4 +151,13 @@ sub svs_os_sidlog {
 sub svs_os_netsplit {
 	my ($server, $reason, $source) = @_;
 	serv_privmsg($service, config('log', 'logchan'), "\2Netsplit\2: ".sidInfo($server, 1)." split from ".sidInfo($source, 1)." (Reason - ".$reason.")");
+}
+
+sub svs_os_eoslog {
+	serv_privmsg($service, config('log', 'logchan'), "\2End of sync\2: ".config('me', 'name')." -> ".config('server', 'host')." syncing complete");
+}
+
+sub svs_os_killlog {
+	my ($user, $target, $reason) = @_;
+	serv_privmsg($service, config('log', 'logchan'), "\2Kill\2: ".uidInfo($user, 1)." killed ".uidInfo($target, 1)." -> ".$reason);
 }
