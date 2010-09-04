@@ -8,9 +8,10 @@ use warnings;
 module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&void_hs_main, "all");
 
 sub init_hs_main {
-	hook_eos_add(\&svs_hs_main);
+	if (!$Chakora::synced) { hook_eos_add(\&svs_hs_main); }
+	else { svs_hs_main(); }
 	if (!-e "$Chakora::ROOT_ETC/data/vhosts") {
-        	$Chakora::SVSDB->do("CREATE TABLE vhosts (account TEXT, host TEXT)");
+        $Chakora::SVSDB->do("CREATE TABLE vhosts (account TEXT, host TEXT)");
 	}
 }
 
