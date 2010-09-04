@@ -6,9 +6,40 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+use strict;
+use warnings;
+
 module_init("operserv/userlog", "The Chakora Project", "0.1", \&init_os_userlog, \&void_os_userlog, "all");
 
+# Set this to 0 and verify it has a block in the config to make userlog use its own service
+my $use_operserv = 1;
+my $service;
+
 sub init_os_userlog {
+
+	if (!$use_operserv) {
+		if (!config('logserv', 'user')) {
+			print("A block for logserv doesn't appear to be in your config, please create one. Using OperServ instead...\n");
+			$use_operserv = 1;
+			$service = 'operserv';
+		}
+		else {
+                	my $modes = '+io';
+                	if (lc(config('server', 'ircd')) eq 'inspircd') {
+                        	if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) {
+                                	$modes .= 'k';
+                        	}
+                		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {
+                        		$modes .= 'S';
+ 			}
+			serv_add('logserv', config('logserv', 'user'), config('logserv', 'nick'), config('logserv', 'host'), $modes, config('logserv', 'real'));
+			$service = 'logserv';
+		}
+	}	
+	else {
+		$service = 'operserv';
+	}
+
 	hook_join_add(\&svs_os_joinlog);
 	hook_part_add(\&svs_os_partlog);
 	hook_nick_add(\&svs_os_nicklog);
@@ -51,66 +82,66 @@ sub void_os_userlog {
 sub svs_os_joinlog {
         my ($user, $chan) = @_;
 	if ($Chakora::synced) {
-	        serv_privmsg("os", config('log', 'logchan'), "\2JOIN\2: ".uidInfo($user, 1)." -> ".$chan);
+	        serv_privmsg($service, config('log', 'logchan'), "\2JOIN\2: ".uidInfo($user, 1)." -> ".$chan);
 	}
 }
 
 sub svs_os_partlog {
 	my ($user, $chan) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2PART\2: ".uidInfo($user, 1)." -> ".$chan);
+	serv_privmsg($service, config('log', 'logchan'), "\2PART\2: ".uidInfo($user, 1)." -> ".$chan);
 }
 
 sub svs_os_nicklog {
 	my ($user, $newnick) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2NICK\2: ".uidInfo($user, 6)." -> ".$newnick);
+	serv_privmsg($service, config('log', 'logchan'), "\2NICK\2: ".uidInfo($user, 6)." -> ".$newnick);
 }
 
 sub svs_os_connectlog {
 	my ($uid, $nick, $user, $host, $mask, $ip, $server) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg("os", config('log', 'logchan'), "\2CONNECT on ".sidInfo($server, 1)."\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
+		serv_privmsg($service, config('log', 'logchan'), "\2CONNECT on ".sidInfo($server, 1)."\2: ".$nick."!".$user."@".$host." (Mask: ".$mask." IP: ".$ip.")");
 	}
 }
 
 sub svs_os_quitlog {
 	my ($user, $msg) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2QUIT\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1)." Reason: ".$msg);
+	serv_privmsg($service, config('log', 'logchan'), "\2QUIT\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1)." Reason: ".$msg);
 }
 
 sub svs_os_operlog {
 	my ($user) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg("os", config('log', 'logchan'), "\2OPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
+		serv_privmsg($service, config('log', 'logchan'), "\2OPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
 	}
 }
 
 sub svs_os_deoperlog {
         my ($user) = @_;
 	if ($Chakora::synced) {
-        	serv_privmsg("os", config('log', 'logchan'), "\2DEOPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
+        	serv_privmsg($service, config('log', 'logchan'), "\2DEOPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
 	}
 }
 
 sub svs_os_awaylog {
 	my ($user, $reason) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg("os", config('log', 'logchan'), "\2AWAY\2: ".uidInfo($user, 1)." - ".$reason);
+		serv_privmsg($service, config('log', 'logchan'), "\2AWAY\2: ".uidInfo($user, 1)." - ".$reason);
 	}
 }
 
 sub svs_os_backlog {
 	my ($user) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2BACK\2: ".uidInfo($user, 1));
+	serv_privmsg($service, config('log', 'logchan'), "\2BACK\2: ".uidInfo($user, 1));
 }
 
 sub svs_os_sidlog {
 	my ($server, $info) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg("os", config('log', 'logchan'), "\2Server Introduction\2: ".$server." (Server Information - ".$info.")");
+		serv_privmsg($service, config('log', 'logchan'), "\2Server Introduction\2: ".$server." (Server Information - ".$info.")");
 	}
 }
 
 sub svs_os_netsplit {
 	my ($server, $reason, $source) = @_;
-	serv_privmsg("os", config('log', 'logchan'), "\2Netsplit\2: ".sidInfo($server, 1)." split from ".sidInfo($source, 1)." (Reason - ".$reason.")");
+	serv_privmsg($service, config('log', 'logchan'), "\2Netsplit\2: ".sidInfo($server, 1)." split from ".sidInfo($source, 1)." (Reason - ".$reason.")");
 }
