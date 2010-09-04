@@ -362,4 +362,29 @@ sub hook_back_del {
         undef $hook_back{$handler};
 }
 
+### End of Sync ###
+our (%hook_eos);
+
+# When we finish syncing, execute all end of sync hooks.
+sub event_eos {
+	foreach my $hook (%hook_eos) {
+		eval
+		{
+			&{ $hook }();
+		};
+	}
+}
+
+# Add a hook to the end of sync event.
+sub hook_eos_add {
+	my ($handler) = @_;
+	$hook_eos{$handler} = $handler;
+}
+
+# Delete a hook from the end of sync event.
+sub hook_eos_del {
+	my ($handler) = @_;
+	undef $hook_eos{$handler};
+}
+
 1;
