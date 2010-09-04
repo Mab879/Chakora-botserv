@@ -283,6 +283,12 @@ sub serv_squit {
 	send_sock(":".svsUID("chakora::server")." SQUIT $server :$reason");
 }
 
+# Handle setting vHosts
+sub serv_sethost {
+	my ($user, $host) = @_;
+        send_sock(":".svsUID("chakora::server")." CHGHOST ".$user." ".$host);
+}
+
 ######### Receiving data #########
 
 # Our Bursting
