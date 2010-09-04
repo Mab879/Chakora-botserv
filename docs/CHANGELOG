@@ -57,3 +57,4 @@ Current
 	- Core/Modules/Protocols: Fixed several bugs in the updated API.
 	- Modules: Added hostserv/main.
 	- Events: Added event_eos for when we finish syncing.
+	- Protocols: Fixed a bug where, after 10 services clients, services would break.
