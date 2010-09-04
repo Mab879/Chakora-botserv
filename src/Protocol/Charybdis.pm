@@ -160,13 +160,13 @@ sub send_global {
 sub serv_add {
 	my ($svs, $user, $nick, $host, $modes, $real) = @_;
 	$svs = lc($svs);
+	$lastid += 1;
 	my $calc = 6 - length($lastid);
 	my ($ap);
 	while ($calc != 0) {
 		$ap .= '0';
 		$calc -= 1;
 	}
-	$lastid += 1;
 	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
 	my $ruid = config('me', 'sid').$ap.$lastid;
 	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);

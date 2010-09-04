@@ -158,13 +158,14 @@ sub nickUID {
 sub serv_add {
 	my ($svs, $user, $nick, $host, $modes, $real) = @_;
 	$svs = lc($svs);
+	$lastid += 1;
 	my $calc = 6 - length($lastid);
+	print $calc."\n";
 	my ($ap);
 	while ($calc != 0) {
 		$ap .= '0';
 		$calc -= 1;
 	}
-	$lastid += 1;
 	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
 	my $ruid = config('me', 'sid').$ap.$lastid;
 	send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
