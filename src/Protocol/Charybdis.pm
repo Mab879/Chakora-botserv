@@ -168,6 +168,16 @@ sub serv_add {
 	if ($Chakora::synced) { serv_join($svs, config('log', 'logchan')); }
 }
 
+# Handle client deletion
+sub serv_del {
+	my ($svs) = @_;
+	if (defined $Chakora::svsuid{$svs}) {
+		logchan('operserv', "\002!!!\002 Deleting service: \002$svs\002");
+		serv_quit($svs, "Service unloaded");
+		delete $Chakora::svsuid{$svs};
+	}
+}
+
 # Handle PRIVMSG
 sub serv_privmsg {
 	my ($svs, $target, $msg) = @_;
