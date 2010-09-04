@@ -159,5 +159,5 @@ sub svs_os_eoslog {
 
 sub svs_os_killlog {
 	my ($user, $target, $reason) = @_;
-	serv_privmsg($service, config('log', 'logchan'), "\2Kill\2: ".uidInfo($user, 1)." killed ".uidInfo($target, 1)." -> ".$reason);
+	serv_privmsg($service, config('log', 'logchan'), "\2Kill\2: ".uidInfo($user, 1)." killed ".uidInfo($target, 1)." ".$reason);
 }
