@@ -1,0 +1,8 @@
+serv_(service name, data)
+   Destructive function for sending raw data to the server.
+
+   This will send the given data to the server from the given services client
+   BYPASSING all of Chakora's handlers.  WARNING: This is very dangerous, if
+   there is a serv_* handler for the command you wish to send, PLEASE USE IT
+   INSTEAD, otherwise, you risk desyncing Chakora unless you put it back in
+   sync MANUALLY.

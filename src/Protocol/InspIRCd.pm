@@ -160,6 +160,12 @@ sub nickUID {
 
 ######### Sending data #########
 
+# Send raw data to server in full compliance with the API
+sub serv_ {
+	my ($svs, $data) = @_;
+	send_sock(":".svsUID($svs)." $data");
+}
+
 # Handle client creation
 sub serv_add {
 	my ($svs, $user, $nick, $host, $modes, $real) = @_;
