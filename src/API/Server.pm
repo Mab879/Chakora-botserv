@@ -86,3 +86,5 @@ sub logchan {
 	my ($service, $text) = @_;
 	serv_privmsg($service, config('log', 'logchan'), $text);
 }
+
+1;

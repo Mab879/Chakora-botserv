@@ -31,7 +31,7 @@ sub module_init {
 }
 
 sub module_exists {
-	my ($Chakora::MODULE) = @_;
+	my ($module) = @_;
 	my $exists = 0;
 	foreach my $mod (keys %Chakora::MODULE) {
 		if ($mod eq $Chakora::MODULE) {
@@ -42,23 +42,23 @@ sub module_exists {
 }
 
 sub module_void {
-	my ($Chakora::MODULE) = @_;
-	svsflog("chakora", "[MODULES] ".$Chakora::MODULE.": Attempting to unload module. . .");
-	if (defined($Chakora::MODULE{$Chakora::MODULE})) {
-		my $void_handler = $Chakora::MODULE{$Chakora::MODULE}{void};
+	my ($module) = @_;
+	svsflog("chakora", "[MODULES] ".$module.": Attempting to unload module. . .");
+	if (defined($Chakora::MODULE{$module})) {
+		my $void_handler = $Chakora::MODULE{$module}{void};
 		eval
         {
             &{ $void_handler }();
             delete_sub $void_handler;
-            print("[MODULES] ".$Chakora::MODULE.": Module successfully unloaded.\n");
-            svsflog("chakora", "[MODULES] ".$Chakora::MODULE.": Module successfully unloaded.");
-			delete $Chakora::MODULE{$Chakora::MODULE};
+            print("[MODULES] ".$module.": Module successfully unloaded.\n");
+            svsflog("chakora", "[MODULES] ".$module.": Module successfully unloaded.");
+			delete $Chakora::MODULE{$module};
             return "MODUNLOAD_SUCCESS";
 			1;	
-        } or print("[MODULES] ".$Chakora::MODULE.": Module failed to unload.\n") and svsflog("chakora", "[MODULES] ".$Chakora::MODULE.": Module failed to unload.") and return "MODUNLOAD_FAIL";
+        } or print("[MODULES] ".$module.": Module failed to unload.\n") and svsflog("chakora", "[MODULES] ".$module.": Module failed to unload.") and return "MODUNLOAD_FAIL";
 	} else {
-		print("[MODULES] ".$Chakora::MODULE.": Module failed to unload. No such module?\n");
-		svsflog("chakora", "[MODULES] ".$Chakora::MODULE.": Module failed to unload. No such module?");
+		print("[MODULES] ".$module.": Module failed to unload. No such module?\n");
+		svsflog("chakora", "[MODULES] ".$module.": Module failed to unload. No such module?");
 		return "MODUNLOAD_NOEXIST";
 	}	
 }
@@ -90,3 +90,5 @@ sub delete_cmdtree {
 	$service = lc($service);
 	delete $Chakora::CMDTREE{$service};
 }
+
+1;
