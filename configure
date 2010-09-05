@@ -48,48 +48,6 @@ eval {
 	1;
 } or print("Not Found (install Getopt::Long)\n") and $die = 1;
 
-print("Checking for DBI..... ");
-eval {
-	require DBI;
-	print "OK\n";
-	1;
-} or print("Not Found (install DBI)\n") and $die = 1;
-
-print("Checking for DBD::File..... ");
-eval {
-	require DBD::File;
-	print "OK\n";
-	1;
-} or print("Not Found (install DBD::File)\n") and $die = 1;
-
-print("Checking for DBD::CSV..... ");
-eval {
-	require DBD::CSV;
-	print "OK\n";
-	1;
-} or print("Not Found (install DBD::CSV)\n") and $die = 1;
-
-print("Checking for Text::CSV_XS..... ");
-eval {
-	require Text::CSV_XS;
-	print "OK\n";
-	1;
-} or print("Not Found (install Text::CSV_XS)\n") and $die = 1;
-
-print("Checking for SQL::Statement..... ");
-eval {
-	require SQL::Statement;
-	print "OK\n";
-	1;
-} or print("Not Found (install SQL::Statement)\n") and $die = 1;
-
-print("Checking for DBD::CSV..... ");
-eval {
-	require DBD::CSV;
-	print "OK\n";
-	1;
-} or print("Not Found (install DBD::CSV)\n") and $die = 1;
-
 print("Checking for FindBin..... ");
 eval {
 	require FindBin;

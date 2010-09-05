@@ -18,11 +18,6 @@ use File::Data;
 use Getopt::Long;
 use POSIX qw(setsid strftime);
 use Term::ANSIColor;
-use DBI;
-use DBD::File;
-use DBD::CSV;
-use SQL::Statement;
-use Text::CSV_XS;
 use Sub::Delete;
 use Digest::Whirlpool;
 use Digest::HMAC;
@@ -31,6 +26,12 @@ use lib "$Bin/../src";
 
 our $ROOT_SRC = "$Bin/../src";
 our $ROOT_ETC = "$Bin/../etc";
+
+# We do not support Windows
+if ($^O =~ /win/i) {
+	print("[ERROR] Operating System: Windows is not supported by Chakora.\n");
+	exit;
+}
 
 my (%options);
 our ($SERVICES_STARTTIME, $SERVICES_VERSION);
@@ -92,11 +93,6 @@ my $conf = Config::Scoped->new(
 # Put them into variables	
 my $settings = $conf->parse;
 
-# We do not support Windows
-if ($^O =~ /win/i) {
-	taint("Operating System: Windows is not supported by Chakora.");
-}
-
 # Define SIG handlers
 $SIG{'INT'} = \&INT_handler;
 $SIG{'TERM'} = \&TERM_handler;
@@ -123,29 +119,37 @@ if (config('services', 'allow_taint')) {
 	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
 
-# Create database operator
-if (!-d "$ROOT_ETC/data") {
-	`mkdir $ROOT_ETC/data`;
-}
-our $SVSDB = DBI->connect("DBI:CSV:f_dir=$ROOT_ETC/data") or error("chakora", "Unable to open database: ".$DBI::errstr);
-
-# Prepare the database
-if (!-e "$ROOT_ETC/data/accounts") {
-	$SVSDB->do("CREATE TABLE accounts (accountname TEXT, pass TEXT, email TEXT, date INT, lasthost TEXT, lastseen INT, flags TEXT)");
-}
-if (!-e "$ROOT_ETC/data/nicks") {
-	$SVSDB->do("CREATE TABLE nicks (accountname TEXT, nick TEXT)");
-}
-if (!-e "$ROOT_ETC/data/chans") {
-	$SVSDB->do("CREATE TABLE chans (name TEXT, date INT, mlock TEXT, flags TEXT, entrymsg TEXT, ts TEXT)");
-}
-if (!-e "$ROOT_ETC/data/vhosts") {
-	$SVSDB->do("CREATE TABLE vhosts (user TEXT, host TEXT, date INT, setby TEXT)");
-}
-if (!-e "$ROOT_ETC/data/flags") {
-	$SVSDB->do("CREATE TABLE flags (chan TEXT, user TEXT, flags TEXT)");
-}
-
+# Read the database
+our (%DB_account, %DB_nick, %DB_accdata);
+if (-e "$ROOT_SRC/../etc/chakora.db") {
+	open FILE, "<$ROOT_SRC/../etc/chakora.db";
+	my @lines = <FILE>;
+	foreach my $line (@lines) {
+		chomp($line);
+		my @lsy = split(' ', $line);
+		if ($lsy[0] eq "AI") {
+			# this is an account
+			$DB_account{$lsy[1]}{name} = $lsy[1];
+			$DB_account{$lsy[1]}{pass} = $lsy[2];
+			$DB_account{$lsy[1]}{email} = $lsy[3];
+			$DB_account{$lsy[1]}{regtime} = $lsy[4];
+			$DB_account{$lsy[1]}{lasthost} = $lsy[5];
+			$DB_account{$lsy[1]}{lastseen} = $lsy[6];
+		}
+		elsif ($lsy[0] eq "AN") {
+			$DB_nick{$lsy[1]}{nick} = $lsy[1];
+			$DB_nick{$lsy[1]}{account} = $lsy[2];
+		}
+		elsif ($lsy[0] eq "AD") {
+			$DB_accdata{$lsy[2]}{account} = $lsy[1];
+			$DB_accdata{$lsy[2]}{name} = $lsy[2];
+			my ($i);
+			$DB_accdata{$lsy[2]}{value} = $lsy[3];
+			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$lsy[2]}{value} .= ' '.$lsy[$i]; }
+		}
+	}
+}			
+			
 # Fork into the background unless --debug was specified
 unless ($options{debug}) {
     our $IN_DEUBG = 0;
@@ -440,11 +444,31 @@ sub ctcp_reply {
 	send_sock(":".$svsuid." NOTICE ".$user." :\001".$ctcp." ".$reply."\001");
 }
 
+sub dbflush {
+	unless (-e "$ROOT_SRC/../etc/chakora.db") {
+		`touch $ROOT_SRC/../etc/chakora.db`;
+	}
+	open FILE, ">$ROOT_SRC/../etc/chakora.db" or exit; 
+	my ($dd);
+	foreach my $key (keys %DB_account) {
+		$dd .= "AI ".$key." ".$DB_account{$key}{pass}." ".$DB_account{$key}{email}." ".$DB_account{$key}{regtime}." ".$DB_account{$key}{lasthost}." ".$DB_account{$key}{lastseen}."\n";
+	}
+	foreach my $key (keys %DB_nick) {
+		$dd .= "AN ".$key." ".$DB_nick{$key}{account}."\n";
+	}
+	foreach my $key (keys %DB_accdata) {
+		$dd .= "AD ".$DB_accdata{$key}{account}." ".$DB_accdata{$key}{name}." ".$DB_accdata{$key}{value}."\n";
+	}
+	print FILE $dd;
+	close FILE;
+}
+
 sub TERM_handler {
 	logchan("operserv", "\002!!!\002 Caught \002SIGTERM\002; terminating");
 	svsflog("chakora", "Exiting on SIGTERM");
 	serv_quit("chanserv", "Shutting down");
  	serv_squit(config('me', 'sid'), "Caught SIGTERM");
+ 	dbflush();
 	sleep 1;
 	exit(0);
 }
@@ -454,6 +478,7 @@ sub INT_handler {
 	svsflog("chakora", "Exiting on SIGINT");
 	serv_quit("chanserv", "Shutting down");
  	serv_squit(config('me', 'sid'), "Caught SIGINT");
+ 	dbflush();
 	sleep 1;
 	exit(0);
 }

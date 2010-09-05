@@ -68,3 +68,4 @@ Current
 	- Protocols: Added nick tracking for services on InspIRCd and half-way on Charybdis.
 	- API: Added event_pds for executing hooks during syncing.
 	- Chakora: Added ./man in bin/ for viewing the Chakora API Manual.
+	- Chakora: Created a new flatfile database format for storing data in a different way than before.
