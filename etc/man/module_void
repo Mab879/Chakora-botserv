@@ -1,0 +1,3 @@
+module_void(module name)
+   This will execute the void handler of the given module, then delete all data 
+   associated to that module.
