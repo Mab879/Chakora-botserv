@@ -317,6 +317,7 @@ sub raw_bursting {
 	create_cmdtree("chanserv");
 	create_cmdtree("nickserv");
 	create_cmdtree("operserv");
+	event_pds();
 }	
 
 # Handle END SYNC

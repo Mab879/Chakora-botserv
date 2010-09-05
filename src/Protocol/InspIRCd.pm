@@ -346,6 +346,7 @@ sub raw_capabend {
 	create_cmdtree("chanserv");
 	create_cmdtree("nickserv");
 	create_cmdtree("operserv");
+	event_pds();
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 
