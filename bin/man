@@ -21,7 +21,7 @@ print "CHAKORA API MANUAL\n\n";
 print color 'reset';
 
 if (!defined($ARGV[0])) {
-	print color 'bold white';
+	print color 'bold blue';
 	print "TABLE OF CONTEXT\n";
 	
 	my @files = <$mandir/*>;
@@ -41,7 +41,7 @@ if (!defined($ARGV[0])) {
 			print $line;
 		}
 		print "\n--- Viewing page: ".lc($ARGV[0])." ---\n";
-		print color 'bold white';
+		print color 'bold blue';
 		open FILE, "<$mandir/".lc($ARGV[0]);
 		@lines = <FILE>;
 		foreach my $line (@lines) {
