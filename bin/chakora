@@ -334,10 +334,8 @@ while (1) {
 			# if there is an entry for the service in the command tree, continue
 			if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
 				# if the command exists, execute the handler for it
-				my (@bargv);
-				$bargv[1] = substr($ex[3], 1);
-				my ($i);
-				for ($i = 4; $i < count(@ex); $i++) { $bargv[$i-2] = $ex[$i]; }
+				my (@bargv, $i);
+				for ($i = 4; $i < count(@ex); $i++) { $bargv[$i-3] = $ex[$i]; }
 				my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
 				eval 
 				{	

@@ -34,7 +34,7 @@ sub module_exists {
 	my ($module) = @_;
 	my $exists = 0;
 	foreach my $mod (keys %Chakora::MODULE) {
-		if ($mod eq $Chakora::MODULE) {
+		if ($mod eq $module) {
 			$exists = 1;
 		}
 	}
