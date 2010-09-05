@@ -18,16 +18,14 @@ sub void_ns_help {
 }
 
 sub svs_ns_help {
-    my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
-	if (defined($rex[4])) {
-		my $hcmd = "nickserv/".lc($rex[4]);
+    my ($user, @sargv) = @_;
+	if (defined($sargv[1])) {
+		my $hcmd = "nickserv/".lc($sargv[1]);
 		if (defined($Chakora::HELP{$hcmd}{fhelp}) and $Chakora::HELP{$hcmd}{fhelp} ne "NO_HELP_ENTRY") {
 			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
 			my ($help);
 			serv_notice("nickserv", $user, "\002***** NickServ Help *****\002");
-			serv_notice("nickserv", $user, "Help for \002".uc($rex[4])."\002:");
+			serv_notice("nickserv", $user, "Help for \002".uc($sargv[1])."\002:");
 			serv_notice("nickserv", $user, "\002\002");
 			foreach $help (@fhelp) {
 				$help =~ s/\[T\]/     /g;
@@ -36,7 +34,7 @@ sub svs_ns_help {
 			serv_notice("nickserv", $user, "\002\002");
 			serv_notice("nickserv", $user, "\002***** End of Help *****\002");
 		} else {
-			serv_notice("nickserv", $user, "No help available for \002".uc($rex[4])."\002.");
+			serv_notice("nickserv", $user, "No help available for \002".uc($sargv[1])."\002.");
 		}
 	} else {
 		serv_notice("nickserv", $user, "\002***** NickServ Help *****\002");

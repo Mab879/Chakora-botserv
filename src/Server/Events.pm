@@ -414,5 +414,30 @@ sub hook_kill_del {
         undef $hook_kill{$handler};
 }
 
+### Perform During Sync ###
+our (%hook_pds);
+
+# After we create default services, execute all Perform During Sync hooks.
+sub event_pds {
+	foreach my $hook (%hook_pds) {
+		eval
+		{
+			&{ $hook }();
+		};
+	}
+}
+
+# Add a hook to the Perform During Sync event.
+sub hook_pds_add {
+	my ($handler) = @_;
+	$hook_pds{$handler} = $handler;
+}
+
+# Delete a hook from the Perform During Sync event.
+sub hook_pds_del {
+	my ($handler) = @_;
+	undef $hook_pds{$handler};
+}
+
 
 1;

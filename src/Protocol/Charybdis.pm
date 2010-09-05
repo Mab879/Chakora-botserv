@@ -179,6 +179,7 @@ sub serv_del {
 		logchan('operserv', "\002!!!\002 Deleting service: \002$svs\002");
 		serv_quit(lc($svs), "Service unloaded");
 		delete $Chakora::svsuid{lc($svs)};
+		delete $Chakora::svsnick{lc($svs)};
 	}
 }
 
@@ -317,15 +318,18 @@ sub raw_bursting {
 	create_cmdtree("chanserv");
 	create_cmdtree("nickserv");
 	create_cmdtree("operserv");
+	event_pds();
 }	
 
 # Handle END SYNC
 sub raw_endsync {
-	foreach my $key (sort keys %Chakora::svsuid) {
-		serv_join($key, config('log', 'logchan'));
+	unless ($Chakora::synced) {
+		foreach my $key (sort keys %Chakora::svsuid) {
+			serv_join($key, config('log', 'logchan'));
+		}	
+		$Chakora::synced = 1;
+		event_eos();
 	}
-	$Chakora::synced = 1;
-	event_eos();
 }
 
 # Handle EUID

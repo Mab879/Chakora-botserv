@@ -66,3 +66,4 @@ Current
 	- API: Made Chakora more modular by moving API stuff to separate modules located in src/API.
 	- API: Added create_cmdtree() and delete_cmdtree() for enabling commands on only services clients we want to have commands.
 	- Protocols: Added nick tracking for services on InspIRCd and half-way on Charybdis.
+	- API: Added event_pds for executing hooks during syncing.
