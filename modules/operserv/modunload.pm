@@ -18,16 +18,14 @@ sub void_os_modunload {
 }
 
 sub svs_os_modunload {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
+	my ($user, @sargv) = @_;
 	if (is_soper($user)) {
-		if ($rex[4]) {
-			serv_notice("operserv", $user, "Attempting to unload ".$rex[4]);
-			if (!module_exists($rex[4])) { serv_notice("operserv", $user, "Module not loaded"); }
-			elsif (module_void($rex[4]) eq "MODUNLOAD_SUCCESS") {
+		if ($sargv[1]) {
+			serv_notice("operserv", $user, "Attempting to unload ".$sargv[1]);
+			if (!module_exists($sargv[1])) { serv_notice("operserv", $user, "Module not loaded"); }
+			elsif (module_void($sargv[1]) eq "MODUNLOAD_SUCCESS") {
 				serv_notice("operserv", $user, "Module unloaded");
-				svsilog("operserv", $user, "modunload", $rex[4]); 
+				svsilog("operserv", $user, "modunload", $sargv[1]); 
 			}
 			else { serv_notice("operserv", $user, "Module unloading failed"); }
 		}
