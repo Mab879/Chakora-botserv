@@ -11,9 +11,6 @@ sub init_hs_main {
 	create_cmdtree("hostserv");
 	if (!$Chakora::synced) { hook_pds_add(\&svs_hs_main); }
 	else { svs_hs_main(); }
-	if (!-e "$Chakora::ROOT_ETC/data/vhosts") {
-        $Chakora::SVSDB->do("CREATE TABLE vhosts (account TEXT, host TEXT)");
-	}
 }
 
 sub void_hs_main {
