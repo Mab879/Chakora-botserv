@@ -19,9 +19,7 @@ sub void_os_modlist {
 }
 
 sub svs_os_modlist {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
+	my ($user, @sargv) = @_;
 	if (is_soper($user)) {
 		my %MODULE = %Chakora::MODULE;
 		my $count;
