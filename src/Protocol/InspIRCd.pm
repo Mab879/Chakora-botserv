@@ -340,6 +340,17 @@ sub serv_sethost {
         send_sock(":".svsUID("chakora::server")." CHGHOST ".$user." ".$host);
 }
 
+# Handle SVSNICK
+sub serv_svsnick {
+	my ($user, $newnick) = @_;
+	if (defined $Chakora::uid{$user}{'nick'}) {
+		$Chakora::uid{$user}{'pnick'} = uidInfo($user, 1);
+		send_sock(":".svsUID('chakora::server')." SVSNICK $user $newnick");
+		$Chakora::uid{$user}{'nick'} = $newnick;
+		event_nick($user, $newnick);
+	}
+}
+
 ######### Receiving data #########
 
 # Handle CAPAB END
