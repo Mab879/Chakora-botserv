@@ -102,7 +102,7 @@ $SIG{'INT'} = \&INT_handler;
 $SIG{'TERM'} = \&TERM_handler;
 
 # Create some variables for later use
-our (%rawcmds, %svsuid, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE);
+our (%rawcmds, %svsuid, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE, %CMDTREE);
 
 # Load the modules
 require Server::Events;
@@ -330,15 +330,28 @@ while (1) {
 				$SERVICES_MSGSERVICE = $key;
 			}
 		}
-        if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
-            my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
-            eval 
-            {	
-                &{ $sub_ref }($data);
-            };
-        } else {
-            serv_notice($SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
-        }
+		if ($CMDTREE{lc($SERVICES_MSGSERVICE)}) {
+			# if there is an entry for the service in the command tree, continue
+			if ($COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler}) {
+				# if the command exists, execute the handler for it
+				my (@bargv);
+				$bargv[1] = substr($ex[3], 1);
+				my ($i);
+				for ($i = 4; $i < count(@ex); $i++) { $bargv[$i-2] = $ex[$i]; }
+				my $sub_ref = $COMMANDS{lc($SERVICES_MSGSERVICE)}{lc(substr($ex[3], 1))}{handler};
+				eval 
+				{	
+					&{ $sub_ref }($USER, @bargv);
+				};	
+			} else {
+				if (!config(lc($SERVICES_MSGSERVICE)) {
+					# this usually shouldn't happen, but lets be safe, not sorry
+					serv_notice($SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg $SERVICES_MSGSERVICE HELP for a list of commands.");
+				} else {
+					serv_notice($SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".config(lc($SERVICES_MSGSERVICE), "nick")." HELP for a list of commands.");
+				}
+			}
+		}
     }
 }
 

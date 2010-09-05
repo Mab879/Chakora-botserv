@@ -78,3 +78,15 @@ sub cmd_del {
 	undef $Chakora::COMMANDS{$scmd[0]}{$scmd[1]};
 	undef $Chakora::HELP{$cmd};
 }
+
+sub create_cmdtree {
+	my ($service) = @_;
+	$service = lc($service);
+	$Chakora::CMDTREE{$service} = 1;
+}
+
+sub delete_cmdtree {
+	my ($service) = @_;
+	$service = lc($service);
+	delete $Chakora::CMDTREE{$service};
+}
