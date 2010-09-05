@@ -127,6 +127,8 @@ sub uidInfo {
 		return $Chakora::uid{$ruid}{'oper'};
 	} elsif ($section == 8) {
 		return $Chakora::uid{$ruid}{'server'};
+	} elsif ($section == 9) {
+		return $Chakora::uid{$ruid}{'account'};
 	} else {
 		return 0;
 	}
@@ -571,7 +573,7 @@ sub raw_squit {
 sub netsplit {
         my ($server, $reason, $source) = @_;
 	event_netsplit($server, $reason, $source);
-        foreach my $key (keys %uid) {
+        foreach my $key (keys %Chakora::uid) {
                 if ($Chakora::uid{$key}{'server'} eq $server) {
                         #logchan("os", "Deleting user ".uidInfo($Chakora::uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
                         undef $Chakora::uid{$key};
