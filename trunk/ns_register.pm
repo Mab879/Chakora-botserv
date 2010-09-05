@@ -18,13 +18,12 @@ sub void_ns_register {
 }
 
 sub svs_ns_register {
-	my ($raw) = @_;
+	my ($user, @sargv) = @_;
 	my (@semail);
-	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	my $nick = uidInfo($user, 1);
-	my $password = $rex[4];
-	my $email = $rex[5];
+	my $password = $sargv[1];
+	my $email = $sargv[2];
 	my $regtime = time();
 	my $host = uidInfo($user, 3);
 	my ($register);
