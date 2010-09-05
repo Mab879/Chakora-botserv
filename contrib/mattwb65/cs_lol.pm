@@ -19,9 +19,7 @@ sub void_cs_lol {
 }
 
 sub svs_cs_lol {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1); # Get the UID
+	my ($user, @args) = @_;
 	serv_notice("cs", $user, "LOL ".uidInfo($user, 1)); # Notices the user, "LOL <nickname>"
 	svsilog("cs", $user, "LOL", ""); # Logs it to logchan
 }
