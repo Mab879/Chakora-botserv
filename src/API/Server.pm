@@ -72,6 +72,16 @@ sub is_registered {
 	}
 }
 
+sub is_identified {
+	my ($user) = @_;
+	if (defined $Chakora::uid{$user}{'account'}) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
 sub svsilog {
 	my ($service, $user, $cmd, $args) = @_;
 	if (length($args) == 0) {
