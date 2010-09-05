@@ -197,7 +197,7 @@ if (config('xmlrpc', 'use'))
 }
 
 while (1) {
-	$data = <$socket> or return;
+	$data = <$socket>;
 	unless (defined($data)) {
 		 # There is no connection! Lets reconnect!
 		 sleep 2;
