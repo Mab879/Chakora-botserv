@@ -9,7 +9,7 @@ module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&voi
 
 sub init_hs_main {
 	create_cmdtree("hostserv");
-	if (!$Chakora::synced) { hook_eos_add(\&svs_hs_main); }
+	if (!$Chakora::synced) { hook_pds_add(\&svs_hs_main); }
 	else { svs_hs_main(); }
 	if (!-e "$Chakora::ROOT_ETC/data/vhosts") {
         $Chakora::SVSDB->do("CREATE TABLE vhosts (account TEXT, host TEXT)");
@@ -19,8 +19,9 @@ sub init_hs_main {
 sub void_hs_main {
 	delete_sub 'init_hs_main';
 	delete_sub 'svs_hs_main';
-	delete_cmdtree("hostserv");
+	hook_pds_del(\&svs_hs_main);
 	serv_del('HostServ');
+	delete_cmdtree("hostserv");
 }
 
 sub svs_hs_main {
