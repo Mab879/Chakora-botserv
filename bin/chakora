@@ -120,8 +120,9 @@ if (config('services', 'allow_taint')) {
 }
 
 # Read the database
-our (%DB_account, %DB_nick, %DB_accdata);
+our (%DB_account, %DB_nick, %DB_accdata, %DB_chan);
 our $DBADLAST = 0;
+our $DBCDLAST = 0;
 if (-e "$ROOT_SRC/../etc/chakora.db") {
 	open FILE, "<$ROOT_SRC/../etc/chakora.db";
 	my @lines = <FILE>;
@@ -148,6 +149,21 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			my ($i);
 			$DB_accdata{$DBADLAST}{value} = $lsy[3];
 			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$DBADLAST}{value} .= ' '.$lsy[$i]; }
+		}
+		elsif ($lsy[0] eq "CI") {
+			$DB_chan{lc($lsy[1])}{name} = $lsy[1];
+			$DB_chan{lc($lsy[1])}{founder} = $lsy[2];
+			$DB_chan{lc($lsy[1])}{regtime} = $lsy[3];
+			$DB_chan{lc($lsy[1])}{mlock} = $lsy[4];
+			$DB_chan{lc($lsy[1])}{ts} = $lsy[5];
+		}
+		elsif ($lsy[0] eq "CD") {
+			$DBCDLAST += 1;
+			$DB_accdata{$DBCDLAST}{chan} = lc($lsy[1]);
+			$DB_accdata{$DBCDLAST}{name} = lc($lsy[2]);
+			my ($i);
+			$DB_accdata{$DBCDLAST}{value} = $lsy[3];
+			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$DBCDLAST}{value} .= ' '.$lsy[$i]; }
 		}
 	}
 }			
@@ -460,7 +476,7 @@ sub dbflush {
 		`touch $ROOT_SRC/../etc/chakora.db`;
 	}
 	open FILE, ">$ROOT_SRC/../etc/chakora.db" or exit; 
-	my ($dd);
+	my $dd = "DBV Chakora1.0-Flatfile\n"
 	foreach my $key (keys %DB_account) {
 		$dd .= "AI ".$DB_account{$key}{name}." ".$DB_account{$key}{pass}." ".$DB_account{$key}{email}." ".$DB_account{$key}{regtime}." ".$DB_account{$key}{lasthost}." ".$DB_account{$key}{lastseen}."\n";
 	}
@@ -471,6 +487,12 @@ sub dbflush {
 	}
 	foreach my $key (keys %DB_accdata) {
 		$dd .= "AD ".$DB_accdata{$key}{account}." ".$DB_accdata{$key}{name}." ".$DB_accdata{$key}{value}."\n";
+	}
+	foreach my $key (keys %DB_chan) {
+		$dd .= "CI ".$DB_chan{$key}{name}." ".$DB_chan{$key}{founder}." ".$DB_chan{$key}{regtime}." ".$DB_chan{$key}{mlock}." ".$DB_chan{$key}{ts}."\n";
+	}
+	foreach my $key (keys %DB_chandata) {
+		$dd .= "AD ".$DB_chandata{$key}{chan}." ".$DB_chandata{$key}{name}." ".$DB_chandata{$key}{value}."\n";
 	}
 	print FILE $dd;
 	close FILE;
