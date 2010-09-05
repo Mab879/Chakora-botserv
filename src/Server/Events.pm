@@ -439,5 +439,59 @@ sub hook_pds_del {
 	undef $hook_pds{$handler};
 }
 
+### IDENTIFY ###
+our (%hook_identify);
+
+# When a user identifies, execute all identify hooks.
+sub event_identify {
+        my ($user) = @_;
+        my ($hook);
+        foreach $hook (%hook_identify) {
+                eval
+                {
+                        &{ $hook }($user, $account);
+                };
+        }
+}
+
+# Add a hook to the identify event.
+sub hook_identify_add {
+        my ($handler) = @_;
+        $hook_identify{$handler} = $handler;
+}
+
+# Delete a hook from the identify event.
+sub hook_identify_del {
+        my ($handler) = @_;
+        undef $hook_identify{$handler};
+}
+
+### REGISTER ###
+our (%hook_register);
+
+# When a user registers, execute all register hooks.
+sub event_register {
+        my ($user) = @_;
+        my ($hook);
+        foreach $hook (%hook_register) {
+                eval
+                {
+                        &{ $hook }($user, $email);
+                };
+        }
+}
+
+# Add a hook to the register event.
+sub hook_register_add {
+        my ($handler) = @_;
+        $hook_register{$handler} = $handler;
+}
+
+# Delete a hook from the register event.
+sub hook_register_del {
+        my ($handler) = @_;
+        undef $hook_register{$handler};
+}
+
 
 1;
