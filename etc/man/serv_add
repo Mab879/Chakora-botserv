@@ -1,0 +1,4 @@
+serv_add(service name, ident, nick, host, user modes, realname)
+   This will create a services client with the data given, join it to the logchan and
+   save it to memory for later use.  It can then be used with other serv_* commands
+   with the service name as the client to send the data from. 
