@@ -313,6 +313,7 @@ sub send_global {
         }
 }
 
+
 ######### Receiving data #########
 
 # Our Bursting
@@ -349,6 +350,7 @@ sub raw_euid {
 	$Chakora::uid{$ruid}{'ip'} = $rex[8];
 	$Chakora::uid{$ruid}{'uid'} = $rex[9];
 	$Chakora::uid{$ruid}{'host'} = $rex[10];
+	$Chakora::uid{$ruid}{'ts'} = $rex[4];
 	$Chakora::uid{$ruid}{'server'} = substr($rex[0], 1);
 	$Chakora::uid{$ruid}{'pnick'} = 0;
 	$Chakora::uid{$ruid}{'away'} = 0;

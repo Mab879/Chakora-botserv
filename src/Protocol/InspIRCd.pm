@@ -379,6 +379,7 @@ sub raw_uid {
 	$Chakora::uid{$ruid}{'mask'} = $rex[6];
 	$Chakora::uid{$ruid}{'user'} = $rex[7];
 	$Chakora::uid{$ruid}{'ip'} = $rex[8];
+	$Chakora::uid{$ruid}{'ts'} = $rex[3];
 	$Chakora::uid{$ruid}{'server'} = substr($rex[0], 1);
 	$Chakora::uid{$ruid}{'pnick'} = 0;
 	$Chakora::uid{$ruid}{'away'} = 0;
