@@ -345,7 +345,7 @@ sub serv_svsnick {
 	my ($user, $newnick) = @_;
 	if (defined $Chakora::uid{$user}{'nick'}) {
 		$Chakora::uid{$user}{'pnick'} = uidInfo($user, 1);
-		send_sock(":".svsUID('chakora::server')." SVSNICK $user $newnick");
+		send_sock(":".svsUID('chakora::server')." SVSNICK $user $newnick ".time());
 		$Chakora::uid{$user}{'nick'} = $newnick;
 		event_nick($user, $newnick);
 	}
