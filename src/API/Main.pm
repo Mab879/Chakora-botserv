@@ -103,7 +103,10 @@ sub metadata_add {
 	}
 	# Metadata for a channel.
 	elsif ($type == 2) {
-		# add later
+		$Chakora::DBCDLAST += 1;
+		$Chakora::DB_chandata{$Chakora::DBCDLAST}{name} = lc($name);
+		$Chakora::DB_chandata{$Chakora::DBCDLAST}{chan} = lc($loc);
+		$Chakora::DB_chandata{$Chakora::DBCDLAST}{value} = $value;
 	}
 }
 
@@ -122,7 +125,13 @@ sub metadata_del {
 	}
 	# Metadata for a channel.
 	elsif ($type == 2) {
-		# add later
+		foreach my $key (keys %Chakora::DB_chandata) {
+			if (lc($Chakora::DB_chandata{$key}{name}) eq lc($name)) {
+				if (lc($Chakora::DB_chandata{$key}{chan}) eq lc($loc)) {
+					delete $Chakora::DB_chandata{$key};
+				}
+			}
+		}
 	}
 }
 
@@ -142,7 +151,13 @@ sub metadata {
 	}
 	# Metadata for a channel.
 	elsif ($type == 2) {
-		# add later
+		foreach my $key (keys %Chakora::DB_chandata) {
+			if (lc($Chakora::DB_chandata{$key}{name}) eq lc($name)) {
+				if (lc($Chakora::DB_chandata{$key}{chan}) eq lc($loc)) {
+					return $Chakora::DB_chandata{$key}{value};
+				}
+			}
+		}
 		return 0;
 	}
 	return 0;
