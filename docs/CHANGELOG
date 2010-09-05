@@ -70,3 +70,6 @@ Current
 	- Chakora: Added ./man in bin/ for viewing the Chakora API Manual.
 	- Chakora: Created a new flatfile database format for storing data in a different way than before.
 	- API: Added is_identified
+	- API: Added serv_enforce
+	- Modules: Added nickserv/identify and nickserv/info
+	- API: added event_identify and event_register
