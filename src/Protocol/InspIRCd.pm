@@ -70,6 +70,9 @@ our %rawcmds = (
 	'KILL' => {
 		handler => \&raw_kill,
 	},
+	'SVSNICK' => {
+		handler => \&raw_svsnick,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'InspIRCd 1.2/2.0',
@@ -171,6 +174,7 @@ sub serv_add {
 	}
 	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
 	my $ruid = config('me', 'sid').$ap.$lastid;
+	$Chakora::svsnick{$svs} = $nick;
 	send_sock(":".svsUID('chakora::server')." UID ".$ruid." ".time()." ".$nick." ".$host." ".$host." ".$user." 0.0.0.0 ".time()." ".$modes." :".$real);
 	send_sock(":".$ruid." OPERTYPE Service");
 	if ($Chakora::synced) { serv_join($svs, config('log', 'logchan')); }
@@ -598,6 +602,22 @@ sub raw_kill {
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_kill($user, $target, "(".$args.")");
+}
+
+# Handle SVSNICK
+sub raw_svsnick {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $i = 0;
+	foreach my $key (keys %Chakora::svsuid) {
+		if ($rex[2] eq $Chakora::svsuid{$key}) {
+			$Chakora::svsnick{lc($key)} = $rex[3];
+			$i = 1;
+		}
+	}
+	if ($i == 0) {
+		$Chakora::uid{$rex[2]}{'nick'} = $rex[3];
+	}
 }
 
 1;

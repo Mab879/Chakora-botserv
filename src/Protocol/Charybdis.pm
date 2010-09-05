@@ -164,6 +164,7 @@ sub serv_add {
 	}
 	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
 	my $ruid = config('me', 'sid').$ap.$lastid;
+	$Chakora::svsnick{$svs} = $nick;
 	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);
 	if ($Chakora::synced) { serv_join($svs, config('log', 'logchan')); }
 }
