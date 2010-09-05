@@ -59,7 +59,7 @@ sub is_soper {
 
 sub is_registered {
 	my ($nick) = @_;
-	my $check = $SVSDB->prepare("SELECT * from nicks WHERE nick='$nick'") or print "Cannot prepare: ".$SVSDB->errstr;
+	my $check = $Chakora::SVSDB->prepare("SELECT * from nicks WHERE nick='$nick'") or print "Cannot prepare: ".$Chakora::SVSDB->errstr;
         $check->execute() or print "Cannot execute ".$check->errstr();
         print $check->rows();
 	if ($check->rows != 0) 
