@@ -51,7 +51,7 @@ sub svs_ns_identify {
 		}
 		serv_accountname($user, $account);
 		$Chakora::uid{$user}{'account'} = $account;
-		serv_notice("nickserv", $user, "You are now identified for \002$account\002.");
+		serv_notice("nickserv", $user, "You are now identified as \002$account\002.");
 		svsilog("nickserv", $user, "IDENTIFY", $account);
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
 		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
@@ -84,7 +84,7 @@ sub svs_ns_identify {
 		}
 		serv_accountname($user, $account);
 		$Chakora::uid{$user}{'account'} = $account;
-		serv_notice("nickserv", $user, "You are now identified for \002$account\002.");
+		serv_notice("nickserv", $user, "You are now identified as \002$account\002.");
 		svsilog("nickserv", $user, "IDENTIFY", $account);
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
 		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
