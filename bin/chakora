@@ -344,7 +344,7 @@ while (1) {
 					&{ $sub_ref }($USER, @bargv);
 				};	
 			} else {
-				if (!config(lc($SERVICES_MSGSERVICE))) {
+				if (!defined(config(lc($SERVICES_MSGSERVICE)))) {
 					# this usually shouldn't happen, but lets be safe, not sorry
 					serv_notice($SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg $SERVICES_MSGSERVICE HELP for a list of commands.");
 				} else {
