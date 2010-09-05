@@ -187,6 +187,7 @@ sub serv_del {
 		logchan('operserv', "\002!!!\002 Deleting service: \002$svs\002");
 		serv_quit(lc($svs), "Service unloaded");
 		delete $Chakora::svsuid{lc($svs)};
+		delete $Chakora::svsnick{lc($svs)};
 	}
 }
 
