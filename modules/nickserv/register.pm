@@ -92,6 +92,6 @@ sub ns_enforce {
 	my ($user, $account) = @_;
 	if (!uidInfo($user, 9) or uidInfo($user, 9) ne $account) {
 		serv_notice("nickserv", $user, "You failed to identify in time.");
-		serv_svsnick($user, "Guest-".int(rand(99999)));
+		serv_enforce($user, "Guest-".int(rand(99999)));
 	}
 }

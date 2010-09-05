@@ -340,8 +340,8 @@ sub serv_sethost {
         send_sock(":".svsUID("chakora::server")." CHGHOST ".$user." ".$host);
 }
 
-# Handle SVSNICK
-sub serv_svsnick {
+# Handle enforcement
+sub serv_enforce {
 	my ($user, $newnick) = @_;
 	if (defined $Chakora::uid{$user}{'nick'}) {
 		send_sock(":".svsUID('chakora::server')." SVSNICK $user $newnick ".time());
