@@ -8,7 +8,7 @@ use warnings;
 module_init("nickserv/info", "The Chakora Project", "0.1", \&init_ns_info, \&void_ns_info, "all");
 
 sub init_ns_info {
-	cmd_add("nickserv/info", "Display information about a nickname.", "INFO will display account information such\nasregistration date and time, settings, last host\nand seen time, and other details.\n[T]\nSyntax: INFO <nickname>", \&svs_ns_info);
+	cmd_add("nickserv/info", "Display information about a nickname.", "INFO will display account information such as\nregistration date and time, settings, last host\nand seen time, and other details.\n[T]\nSyntax: INFO <nickname>", \&svs_ns_info);
 }
 
 sub void_ns_info {
