@@ -1,0 +1,63 @@
+#!/usr/bin/perl -w
+#
+# /  __ \ |         | |                  
+# | /  \/ |__   __ _| | _____  _ __ __ _ 
+# | |   | '_ \ / _` | |/ / _ \| '__/ _` |
+# | \__/\ | | | (_| |   < (_) | | | (_| |
+#  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
+#          Chakora IRC Services
+#
+# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+use strict;
+use warnings;
+use Term::ANSIColor;
+use FindBin qw($Bin);
+
+our $mandir = "$Bin/../etc/man";
+
+print color 'bold yellow';
+print "CHAKORA API MANUAL\n\n";
+print color 'reset';
+
+if (!defined($ARGV[0])) {
+	print color 'bold white';
+	print "TABLE OF CONTEXT\n";
+	
+	my @files = <$mandir/*>;
+	my $i = 1;
+	foreach my $file (@files) {
+		my @df = split('etc/man/', $file);
+		print "$i: $df[1]\n";
+		$i += 1;
+	}
+	print color 'reset';
+} else {
+	unless (!-e "$mandir/".lc($ARGV[0])) {
+		print color 'bold green';
+		open FILE, "<$mandir/../man_motd";
+		my @lines = <FILE>;
+		foreach my $line (@lines) {
+			print $line;
+		}
+		print "\n--- Viewing page: ".lc($ARGV[0])." ---\n";
+		print color 'bold white';
+		open FILE, "<$mandir/".lc($ARGV[0]);
+		@lines = <FILE>;
+		foreach my $line (@lines) {
+			print $line;
+		}
+		undef @lines;
+		print color 'bold green';
+		print "--- End of page ---\n";
+		print color 'reset';
+	} else {
+		print color 'bold red';
+		print "No such page: ".lc($ARGV[0])."\n";
+		print color 'reset';
+	}
+}
+
+print color 'bold yellow';
+print "\nEND OF MANUAL\n";
+print color 'reset';
