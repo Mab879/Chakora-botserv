@@ -33,14 +33,14 @@ sub svs_ns_register {
 				unless (0) { # fix later: $semail[0] =~ m/![A-Z|a-z|0-9]/
 					$en->add($password);
 					my $pass = $en->hexdigest;
-					$Chakora::DB_account{$nick}{name} = $nick;
-					$Chakora::DB_account{$nick}{pass} = $pass;
-					$Chakora::DB_account{$nick}{email} = $email;
-					$Chakora::DB_account{$nick}{regtime} = time();
-					$Chakora::DB_account{$nick}{lasthost} = $host;
-					$Chakora::DB_account{$nick}{lastseen} = time();
-					$Chakora::DB_nick{$nick}{nick} = $nick;
-					$Chakora::DB_nick{$nick}{account} = $nick;
+					$Chakora::DB_account{lc($nick)}{name} = $nick;
+					$Chakora::DB_account{lc($nick)}{pass} = $pass;
+					$Chakora::DB_account{lc($nick)}{email} = $email;
+					$Chakora::DB_account{lc($nick)}{regtime} = time();
+					$Chakora::DB_account{lc($nick)}{lasthost} = $host;
+					$Chakora::DB_account{lc($nick)}{lastseen} = time();
+					$Chakora::DB_nick{lc($nick)}{nick} = $nick;
+					$Chakora::DB_nick{lc($nick)}{account} = $nick;
 					serv_accountname($user, $nick);
 					$Chakora::uid{$user}{'account'} = $nick;
 					svsilog("nickserv", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");

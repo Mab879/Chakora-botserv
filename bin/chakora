@@ -451,10 +451,10 @@ sub dbflush {
 	open FILE, ">$ROOT_SRC/../etc/chakora.db" or exit; 
 	my ($dd);
 	foreach my $key (keys %DB_account) {
-		$dd .= "AI ".$key." ".$DB_account{$key}{pass}." ".$DB_account{$key}{email}." ".$DB_account{$key}{regtime}." ".$DB_account{$key}{lasthost}." ".$DB_account{$key}{lastseen}."\n";
+		$dd .= "AI ".$DB_account{$key}{name}." ".$DB_account{$key}{pass}." ".$DB_account{$key}{email}." ".$DB_account{$key}{regtime}." ".$DB_account{$key}{lasthost}." ".$DB_account{$key}{lastseen}."\n";
 	}
 	foreach my $key (keys %DB_nick) {
-		$dd .= "AN ".$key." ".$DB_nick{$key}{account}."\n";
+		$dd .= "AN ".$DB_nick{$key}{nick}." ".$DB_nick{$key}{account}."\n";
 	}
 	foreach my $key (keys %DB_accdata) {
 		$dd .= "AD ".$DB_accdata{$key}{account}." ".$DB_accdata{$key}{name}." ".$DB_accdata{$key}{value}."\n";
