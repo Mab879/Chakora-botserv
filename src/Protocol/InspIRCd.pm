@@ -339,6 +339,9 @@ sub raw_capabend {
 	serv_add('chanserv', config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), $modes, config('chanserv', 'real'));
 	serv_add('nickserv', config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), $modes, config('nickserv', 'real'));
 	serv_add('operserv', config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), $modes, config('operserv', 'real'));
+	create_cmdtree("chanserv");
+	create_cmdtree("nickserv");
+	create_cmdtree("operserv");
 	send_sock(":".config('me', 'sid')." ENDBURST");
 }
 

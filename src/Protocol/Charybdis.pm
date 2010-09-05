@@ -310,6 +310,9 @@ sub raw_bursting {
 	serv_add('chanserv', config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), '+ioS', config('chanserv', 'real'));
 	serv_add('nickserv', config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), '+ioS', config('nickserv', 'real'));
 	serv_add('operserv', config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), '+ioS', config('operserv', 'real'));
+	create_cmdtree("chanserv");
+	create_cmdtree("nickserv");
+	create_cmdtree("operserv");
 }	
 
 # Handle END SYNC
