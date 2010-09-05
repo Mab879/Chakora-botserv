@@ -66,6 +66,11 @@ Host: irc.technoirc.net
 Port: 6667 | SSL: 6697
 Channel: #Chakora
 
+If you need help with the module API, we have included
+a manual.
+
+./man in bin/
+
 5. REPORTING BUGS
 -----------------
 
