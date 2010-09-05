@@ -72,4 +72,5 @@ Current
 	- API: Added is_identified
 	- API: Added serv_enforce
 	- Modules: Added nickserv/identify and nickserv/info
+	- API: added metadata
 	- API: added event_identify and event_register
