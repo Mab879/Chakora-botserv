@@ -60,6 +60,9 @@ our %rawcmds = (
 	'KILL' => {
 		handler => \&raw_kill,
 	},
+	'SAVE' => {
+		handler => \&raw_save,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -164,6 +167,7 @@ sub serv_add {
 	}
 	$Chakora::svsuid{$svs} = config('me', 'sid').$ap.$lastid;
 	my $ruid = config('me', 'sid').$ap.$lastid;
+	$Chakora::svsnick{$svs} = $nick;
 	send_sock(":".svsUID('chakora::server')." EUID ".$nick." 0 ".time()." ".$modes." ".$user." ".$host." 0.0.0.0 ".$ruid." ".config('me', 'name')." * :".$real);
 	if ($Chakora::synced) { serv_join($svs, config('log', 'logchan')); }
 }
@@ -576,6 +580,22 @@ sub raw_kill {
         my ($i, $args);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_kill($user, $target, $args);
+}
+
+# Handle SAVE
+sub raw_save {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $i = 0;
+	foreach my $key (keys %Chakora::svsuid) {
+		if ($rex[2] eq $Chakora::svsuid{$key}) {
+			$Chakora::svsnick{lc($key)} = $rex[2];
+			$i = 1;
+		}
+	}
+	if ($i == 0) {
+		$Chakora::uid{$rex[2]}{'nick'} = $rex[2];
+	}
 }
 
 1;
