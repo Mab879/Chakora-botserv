@@ -1,0 +1,6 @@
+serv_quit(service name, message)
+   Legacy way for deleting services clients.
+
+   This will disconnect the given services client from IRC.  ATTENTION: All data
+   associated to the client will remain, this could potentially desync Chakora.
+   !!! Please use serv_del() instead! !!!
