@@ -1,0 +1,3 @@
+serv_join(service name, channel)
+   This will join the given services client to the given channel in full
+   compliance with TS rules.

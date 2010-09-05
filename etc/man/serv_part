@@ -1,0 +1,3 @@
+serv_part(service name, channel, message)
+   This will part the given services client from the given channel with the
+   given message.
