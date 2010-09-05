@@ -129,23 +129,23 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 		my @lsy = split(' ', $line);
 		if ($lsy[0] eq "AI") {
 			# this is an account
-			$DB_account{$lsy[1]}{name} = $lsy[1];
-			$DB_account{$lsy[1]}{pass} = $lsy[2];
-			$DB_account{$lsy[1]}{email} = $lsy[3];
-			$DB_account{$lsy[1]}{regtime} = $lsy[4];
-			$DB_account{$lsy[1]}{lasthost} = $lsy[5];
-			$DB_account{$lsy[1]}{lastseen} = $lsy[6];
+			$DB_account{lc($lsy[1])}{name} = $lsy[1];
+			$DB_account{lc($lsy[1])}{pass} = $lsy[2];
+			$DB_account{lc($lsy[1])}{email} = $lsy[3];
+			$DB_account{lc($lsy[1])}{regtime} = $lsy[4];
+			$DB_account{lc($lsy[1])}{lasthost} = $lsy[5];
+			$DB_account{lc($lsy[1])}{lastseen} = $lsy[6];
 		}
 		elsif ($lsy[0] eq "AN") {
-			$DB_nick{$lsy[1]}{nick} = $lsy[1];
-			$DB_nick{$lsy[1]}{account} = $lsy[2];
+			$DB_nick{lc($lsy[1])}{nick} = $lsy[1];
+			$DB_nick{lc($lsy[1])}{account} = $lsy[2];
 		}
 		elsif ($lsy[0] eq "AD") {
-			$DB_accdata{$lsy[2]}{account} = $lsy[1];
-			$DB_accdata{$lsy[2]}{name} = $lsy[2];
+			$DB_accdata{lc($lsy[2])}{account} = lc($lsy[1]);
+			$DB_accdata{lc($lsy[2])}{name} = lc($lsy[1]);
 			my ($i);
-			$DB_accdata{$lsy[2]}{value} = $lsy[3];
-			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$lsy[2]}{value} .= ' '.$lsy[$i]; }
+			$DB_accdata{lc($lsy[2])}{value} = $lsy[3];
+			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{lc($lsy[2])}{value} .= ' '.$lsy[$i]; }
 		}
 	}
 }			
