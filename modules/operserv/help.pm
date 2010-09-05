@@ -18,16 +18,14 @@ sub void_os_help {
 }
 
 sub svs_os_help {
-    my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
-	if (defined($rex[4])) {
-		my $hcmd = "operserv/".lc($rex[4]);
+    my ($user, @sargv) = @_;
+	if (defined($sargv[1])) {
+		my $hcmd = "operserv/".lc($sargv[1]);
 		if (defined($Chakora::HELP{$hcmd}{fhelp}) and $Chakora::HELP{$hcmd}{fhelp} ne "NO_HELP_ENTRY") {
 			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
 			my ($help);
 			serv_notice("operserv", $user, "\002***** OperServ Help *****\002");
-			serv_notice("operserv", $user, "Help for \002".uc($rex[4])."\002:");
+			serv_notice("operserv", $user, "Help for \002".uc($sargv[1])."\002:");
 			serv_notice("operserv", $user, "\002\002");
 			foreach $help (@fhelp) {
 				$help =~ s/\[T\]/     /g;
@@ -36,7 +34,7 @@ sub svs_os_help {
 			serv_notice("operserv", $user, "\002\002");
 			serv_notice("operserv", $user, "\002***** End of Help *****\002");
 		} else {
-			serv_notice("operserv", $user, "No help available for \002".uc($rex[4])."\002.");
+			serv_notice("operserv", $user, "No help available for \002".uc($sargv[1])."\002.");
 		}
 	} else {
 		serv_notice("operserv", $user, "\002***** OperServ Help *****\002");
