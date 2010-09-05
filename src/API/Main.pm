@@ -153,12 +153,10 @@ sub timer_add {
 	$Chakora::TIMER{lc($name)}{name} = $name;
 	$Chakora::TIMER{lc($name)}{ttime} = $ttime;
 	$Chakora::TIMER{lc($name)}{handler} = $handler;
-	print time()." - $name $handler $ttime\n";
 }
 
 sub timer_del {
 	my ($name) = @_;
-	print $name."\n";
 	delete $Chakora::TIMER{lc($name)};
 }
 
