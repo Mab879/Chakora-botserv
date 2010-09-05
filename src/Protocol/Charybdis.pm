@@ -63,6 +63,9 @@ our %rawcmds = (
 	'SAVE' => {
 		handler => \&raw_save,
 	},
+	'ENCAP' => {
+		handler => \&raw_encap,
+	},
 );
 our %PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
@@ -436,6 +439,7 @@ sub raw_nick {
         my $ruid = substr($rex[0], 1);
 	$Chakora::uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
         $Chakora::uid{$ruid}{'nick'} = $rex[2];
+	$Chakora::uid{$ruid}{'ts'} = substr($rex[3], 1);
         event_nick($ruid, $rex[2]);
 }
 
@@ -607,6 +611,11 @@ sub raw_save {
 	if ($i == 0) {
 		$Chakora::uid{$rex[2]}{'nick'} = $rex[2];
 	}
+}
+
+# Handle ENCAP
+sub raw_encap {
+
 }
 
 1;
