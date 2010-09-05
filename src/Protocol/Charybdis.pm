@@ -316,6 +316,13 @@ sub send_global {
         }
 }
 
+# Handle forced nick changes
+sub serv_svsnick {
+        my ($user, $newnick) = @_;
+        if (defined $Chakora::uid{$user}{'nick'}) {
+                send_sock(":".svsUID('chakora::server')." ENCAP ".sidInfo($Chakora::uid{$user}{'server'}, 1)." RSFNC ".$user." ".$newnick." ".$Chakora::uid{$user}{'ts'}." ".time());
+        }
+}
 
 ######### Receiving data #########
 
