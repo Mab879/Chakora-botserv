@@ -8,6 +8,7 @@ use warnings;
 module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&void_hs_main, "all");
 
 sub init_hs_main {
+	create_cmdtree("hostserv");
 	if (!$Chakora::synced) { hook_eos_add(\&svs_hs_main); }
 	else { svs_hs_main(); }
 	if (!-e "$Chakora::ROOT_ETC/data/vhosts") {
@@ -18,6 +19,7 @@ sub init_hs_main {
 sub void_hs_main {
 	delete_sub 'init_hs_main';
 	delete_sub 'svs_hs_main';
+	delete_cmdtree("hostserv");
 	serv_del('HostServ');
 }
 
