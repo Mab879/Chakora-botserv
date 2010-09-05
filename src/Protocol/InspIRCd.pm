@@ -429,6 +429,7 @@ sub raw_nick {
 	my $ruid = substr($rex[0], 1);
 	$Chakora::uid{$ruid}{'pnick'} = uidInfo($ruid, 1);
 	$Chakora::uid{$ruid}{'nick'} = $rex[2];
+	$Chakora::uid{$ruid}{'ts'} = substr($rex[3], 1);
 	event_nick($ruid, $rex[2]);
 }
 
