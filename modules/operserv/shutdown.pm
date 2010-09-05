@@ -18,9 +18,7 @@ sub void_os_shutdown {
 }
 
 sub svs_os_shutdown {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
+	my ($user, @sargv) = @_;
 	if (is_soper($user)) {
 		serv_notice("operserv", $user, "Shutting down.");
 		svsilog("operserv", $user, "shutdown", "");
