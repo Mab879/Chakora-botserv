@@ -1,0 +1,3 @@
+serv_del(service name)
+   This will delete the given services client, this includes disconnecting it from
+   IRC and deleting all data associated with it (excluding commands, cmdtrees, etc.).
