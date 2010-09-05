@@ -1,0 +1,3 @@
+module_init(module name, author, version, init handler, void handler, supported ircds)
+   This will initialize the module by first checking the data being passed on, then
+   if all is good, it will execute the init handler.
