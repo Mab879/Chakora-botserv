@@ -9,9 +9,13 @@ module_init("nickserv/register", "The Chakora Project", "0.1", \&init_ns_registe
 
 sub init_ns_register {
 	cmd_add("nickserv/register", "Register a nickname with services.", "This will allow you to register your current nickname with ".config('nickserv', 'nick').".\nBy doing this you are creating an identity for yourself on the network,\nand allowing yourself to be added to access lists. ".config('nickserv', 'nick')." will also\nwarn users when using your nick, make them go unidentified if they don't\nidentify, and allow you to kill ghosts. The password is a case sensitive\npassword that you make up. Please write it down or memorize it! You will\nneed it to identify or change settings later on.\n[T]\nSyntax: REGISTER <password> <email-address>", \&svs_ns_register);
+	hook_uid_add(\&ns_enforce_on_uid);
+	hook_nick_add(\&ns_enforce_on_nick);
 }
 
 sub void_ns_register {
+	hook_uid_del(\&ns_enforce_on_uid);
+	hook_nick_add(\&ns_enforce_on_nick);
 	delete_sub 'init_ns_register';
 	delete_sub 'svs_ns_register';
 	cmd_del("nickserv/register");
@@ -27,7 +31,7 @@ sub svs_ns_register {
 	my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 	my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
-		unless (defined $Chakora::DB_nick{$nick}{account}) {
+		unless (defined $Chakora::DB_nick{lc($nick)}{account}) {
 			unless (length($password) < 5) {
 				@semail = split('@', $email);
 				unless (0) { # fix later: $semail[0] =~ m/![A-Z|a-z|0-9]/
@@ -41,6 +45,8 @@ sub svs_ns_register {
 					$Chakora::DB_account{lc($nick)}{lastseen} = time();
 					$Chakora::DB_nick{lc($nick)}{nick} = $nick;
 					$Chakora::DB_nick{lc($nick)}{account} = $nick;
+					metadata_add(1, $nick, "private:enforce", 1);
+					metadata_add(1, $nick, "private:hidemail", 1);
 					serv_accountname($user, $nick);
 					$Chakora::uid{$user}{'account'} = $nick;
 					svsilog("nickserv", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
@@ -50,4 +56,42 @@ sub svs_ns_register {
 			} else { serv_notice("nickserv", $user, 'Your password must be at least 5 characters long.'); }
 		} else { serv_notice("nickserv", $user, 'This nickname is already registered.'); }
 	} else { serv_notice("nickserv", $user, 'Not enough parameters. Syntax: REGISTER <password> <email address>'); }
+}
+
+sub ns_enforce_on_uid {
+	my ($uid, $nick, $user, $host, $mask, $ip, $server) = @_;
+	
+	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
+		my $account = $Chakora::DB_nick{lc($nick)}{account};
+		if (!metadata(1, $account, "private:enforce")) {
+			return;
+		}
+		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
+		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
+		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
+		timer_add("ns_id_".$uid, time()+config('nickserv', 'enforce_delay'), "ns_enforce($uid, $account)");
+	}
+}
+
+sub ns_enforce_on_nick {
+	my ($uid, $nick) = @_;
+	
+	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
+		my $account = $Chakora::DB_nick{lc($nick)}{account};
+		if (!metadata(1, $account, "private:enforce")) {
+			return;
+		}
+		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
+		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
+		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
+		timer_add("ns_id_".$uid, time()+config('nickserv', 'enforce_delay'), "ns_enforce($uid, $account)");
+	}
+}
+
+sub ns_enforce {
+	my ($user, $account) = @_;
+	if (!uidInfo($user, 9) or uidInfo($user, 9) ne $account) {
+		serv_notice("nickserv", $user, "You failed to identify in time.");
+		serv_svsnick($user, "Guest-".int(rand(99999)));
+	}
 }

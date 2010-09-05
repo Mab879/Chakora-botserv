@@ -91,4 +91,75 @@ sub delete_cmdtree {
 	delete $Chakora::CMDTREE{$service};
 }
 
+sub metadata_add {
+	my ($type, $loc, $name, $value) = @_;
+	
+	# Metadata for an account.
+	if ($type == 1) {
+		$Chakora::DBADLAST += 1;
+		$Chakora::DB_accdata{$Chakora::DBADLAST}{name} = lc($name);
+		$Chakora::DB_accdata{$Chakora::DBADLAST}{account} = lc($loc);
+		$Chakora::DB_accdata{$Chakora::DBADLAST}{value} = $value;
+	}
+	# Metadata for a channel.
+	elsif ($type == 2) {
+		# add later
+	}
+}
+
+sub metadata_del {
+	my ($type, $loc, $name) = @_;
+	
+	# Metadata for an account.
+	if ($type == 1) {
+		foreach my $key (keys %Chakora::DB_accdata) {
+			if (lc($Chakora::DB_accdata{$key}{name}) eq lc($name)) {
+				if (lc($Chakora::DB_accdata{$key}{account}) eq lc($loc)) {
+					delete $Chakora::DB_accdata{$key};
+				}
+			}
+		}
+	}
+	# Metadata for a channel.
+	elsif ($type == 2) {
+		# add later
+	}
+}
+
+sub metadata {
+	my ($type, $loc, $name) = @_;
+	
+	# Metadata for an account.
+	if ($type == 1) {
+		foreach my $key (keys %Chakora::DB_accdata) {
+			if (lc($Chakora::DB_accdata{$key}{name}) eq lc($name)) {
+				if (lc($Chakora::DB_accdata{$key}{account}) eq lc($loc)) {
+					return $Chakora::DB_accdata{$key}{value};
+				}
+			}
+		}
+		return 0;
+	}
+	# Metadata for a channel.
+	elsif ($type == 2) {
+		# add later
+		return 0;
+	}
+	return 0;
+}
+
+sub timer_add {
+	my ($name, $ttime, $handler) = @_;
+	$Chakora::TIMER{lc($name)}{name} = $name;
+	$Chakora::TIMER{lc($name)}{ttime} = $ttime;
+	$Chakora::TIMER{lc($name)}{handler} = $handler;
+	print time()." - $name $handler $ttime\n";
+}
+
+sub timer_del {
+	my ($name) = @_;
+	print $name."\n";
+	delete $Chakora::TIMER{lc($name)};
+}
+
 1;

@@ -98,7 +98,7 @@ $SIG{'INT'} = \&INT_handler;
 $SIG{'TERM'} = \&TERM_handler;
 
 # Create some variables for later use
-our (%rawcmds, %svsuid, %svsnick, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE, %CMDTREE);
+our (%rawcmds, %svsuid, %svsnick, %PROTO_SETTINGS, %COMMANDS, %HELP, %MODULE, %CMDTREE, %TIMER);
 
 # Load the modules
 require Server::Events;
@@ -121,6 +121,7 @@ if (config('services', 'allow_taint')) {
 
 # Read the database
 our (%DB_account, %DB_nick, %DB_accdata);
+our $DBADLAST = 0;
 if (-e "$ROOT_SRC/../etc/chakora.db") {
 	open FILE, "<$ROOT_SRC/../etc/chakora.db";
 	my @lines = <FILE>;
@@ -141,11 +142,12 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			$DB_nick{lc($lsy[1])}{account} = $lsy[2];
 		}
 		elsif ($lsy[0] eq "AD") {
-			$DB_accdata{lc($lsy[2])}{account} = lc($lsy[1]);
-			$DB_accdata{lc($lsy[2])}{name} = lc($lsy[2]);
+			$DBADLAST += 1;
+			$DB_accdata{$DBADLAST}{account} = lc($lsy[1]);
+			$DB_accdata{$DBADLAST}{name} = lc($lsy[2]);
 			my ($i);
-			$DB_accdata{lc($lsy[2])}{value} = $lsy[3];
-			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{lc($lsy[2])}{value} .= ' '.$lsy[$i]; }
+			$DB_accdata{$DBADLAST}{value} = $lsy[3];
+			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$DBADLAST}{value} .= ' '.$lsy[$i]; }
 		}
 	}
 }			
@@ -195,7 +197,7 @@ if (config('xmlrpc', 'use'))
 }
 
 while (1) {
-	$data = <$socket>;
+	$data = <$socket> or return;
 	unless (defined($data)) {
 		 # There is no connection! Lets reconnect!
 		 sleep 2;
@@ -307,6 +309,15 @@ while (1) {
     elsif ($ex[0] eq 'ERROR') {
 	raw_nosrcerror($data);
     }
+    
+    # Handle timers
+    foreach my $key (keys %TIMER) {
+		if ($TIMER{$key}{ttime} eq time()) {
+			my $tsub_ref = $TIMER{$key}{handler};
+			eval($tsub_ref.";");
+			timer_del($key);
+		}
+	}
  
     # Handle a server command, if a handler is defined in the protocol module
     if ($rawcmds{$ex[1]}{handler}) 
