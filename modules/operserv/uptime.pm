@@ -18,9 +18,8 @@ sub void_os_uptime {
 }
 
 sub svs_os_uptime {
-    my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $sdate = scalar(localtime($Chakora::SERVICES_STARTTIME));
+    my ($user, @sargv) = @_;
+    my $sdate = scalar(localtime($Chakora::SERVICES_STARTTIME));
 	my $uptime = time() - $Chakora::SERVICES_STARTTIME;
 	my $minutes = 0;
 	my $hours = 0;
@@ -37,7 +36,6 @@ sub svs_os_uptime {
 		$hours = $hours - 24;
 		$days = $days + 1;
 	}
-	my $user = substr($rex[0], 1);
 	serv_notice("operserv", $user, "Services were started at: ".$sdate);
 	serv_notice("operserv", $user, "Services have been up for: ".int($days)." days, ".int($hours).":".int($minutes).":".int($uptime));
 }

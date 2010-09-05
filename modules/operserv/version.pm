@@ -18,9 +18,7 @@ sub void_os_version {
 }
 
 sub svs_os_version {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
+	my ($user, @sargv) = @_;
 	serv_notice("operserv", $user, $Chakora::SERVICES_VERSION." - Developed by starcoder, MattB, chazz and Freelancer");
 }
 
