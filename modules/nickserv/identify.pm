@@ -54,6 +54,8 @@ sub svs_ns_identify {
 		serv_notice("nickserv", $user, "You are now identified for \002$account\002.");
 		svsilog("nickserv", $user, "IDENTIFY", $account);
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
+		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
+		$Chakora::DB_account{lc($account)}{lasthost} = $host;
 	} 
 	# they wish to identify to their current nick, lets fulfill that
 	else {
@@ -85,5 +87,7 @@ sub svs_ns_identify {
 		serv_notice("nickserv", $user, "You are now identified for \002$account\002.");
 		svsilog("nickserv", $user, "IDENTIFY", $account);
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
+		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
+		$Chakora::DB_account{lc($account)}{lasthost} = $host;
 	}	
 }
