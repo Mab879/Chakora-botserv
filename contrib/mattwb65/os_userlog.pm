@@ -33,6 +33,7 @@ sub init_os_userlog {
                         		$modes .= 'S';
  			}
 			serv_add('logserv', config('logserv', 'user'), config('logserv', 'nick'), config('logserv', 'host'), $modes, config('logserv', 'real'));
+			create_cmdtree('logserv');
 			$service = 'logserv';
 		}
 	}	
@@ -83,6 +84,7 @@ sub void_os_userlog {
 	hook_netsplit_del(\&svs_os_netsplit);
 	hook_eos_del(\&svs_os_eoslog);
 	hook_kill_del(\&svs_os_killlog);
+	delete_cmdtree('logserv');
 	serv_del("logserv");
 }
 
