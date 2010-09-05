@@ -18,14 +18,12 @@ sub void_os_global {
 }
 
 sub svs_os_global {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
+	my ($user, @sargv) = @_;
 	if (is_soper($user)) {
-		if ($rex[4]) {
+		if ($sargv[1]) {
 			my $i;
-			my $args = $rex[4];
-			for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+			my $args = $sargv[1];
+			for ($i = 2; $i < count(@sargv); $i++) { $args .= ' '.$sargv[$i]; }
 			svsilog("operserv", $user, "global", $args);
 			send_global("[Global - ".uidInfo($user, 1)."] ".$args);
 		}
