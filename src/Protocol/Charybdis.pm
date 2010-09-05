@@ -542,13 +542,12 @@ sub raw_lsquit {
 sub netsplit {
 	my ($server, $reason, $source) = @_;
 	event_netsplit($server, $reason, $source);
-	foreach my $key (keys %uid) {
+	foreach my $key (keys %Chakora::uid) {
   		if ($Chakora::uid{$key}{'server'} eq $server) {
-			#logchan("os", "Deleting user ".uidInfo($Chakora::uid{$key}{'uid'}, 1)." due to ".sidInfo($server, 1)." splitting from ".sidInfo($source, 1));
-    			undef $Chakora::uid{$key};
+    			delete $Chakora::uid{$key};
   		}
 	}
-	undef $Chakora::sid{$server};
+	delete $Chakora::sid{$server};
 }
 
 # Handle AWAY
