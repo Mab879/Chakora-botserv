@@ -321,11 +321,13 @@ sub raw_bursting {
 
 # Handle END SYNC
 sub raw_endsync {
-	foreach my $key (sort keys %Chakora::svsuid) {
-		serv_join($key, config('log', 'logchan'));
+	unless ($Chakora::synced) {
+		foreach my $key (sort keys %Chakora::svsuid) {
+			serv_join($key, config('log', 'logchan'));
+		}	
+		$Chakora::synced = 1;
+		event_eos();
 	}
-	$Chakora::synced = 1;
-	event_eos();
 }
 
 # Handle EUID
