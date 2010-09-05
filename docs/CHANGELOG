@@ -69,3 +69,4 @@ Current
 	- API: Added event_pds for executing hooks during syncing.
 	- Chakora: Added ./man in bin/ for viewing the Chakora API Manual.
 	- Chakora: Created a new flatfile database format for storing data in a different way than before.
+	- API: Added is_identified
