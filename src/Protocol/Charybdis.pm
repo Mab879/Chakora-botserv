@@ -148,9 +148,9 @@ sub sidInfo {
 # Find UID by nick
 sub nickUID {
 	my ($nick) = @_;
-	foreach (%uid) {
-		if (lc($Chakora::uid{'nick'}) eq lc($nick)) {
-			return $Chakora::uid{'uid'};
+	foreach my $key (keys %Chakora::uid) {
+		if (lc($Chakora::uid{$key}{'nick'}) eq lc($nick)) {
+			return $Chakora::uid{$key}{'uid'};
 		}
 	}
 }
@@ -207,7 +207,7 @@ sub serv_notice {
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
-        # If a channel has no ts, we're obviously creating that channel, set ts to current time --Matthew
+        # If a channel has no ts, we're obviously creating that channel, set TS to current time --Matthew
 	if (!$Chakora::channel{$chan}{'ts'}) {
 		$Chakora::channel{$chan}{'ts'} = time();
 	}
@@ -378,7 +378,9 @@ sub raw_sjoin {
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SJOIN 1280086561 #services +nt :@48XAAAAAB
 	my $chan = $rex[3];
-	$Chakora::channel{$chan}{'ts'} = $rex[2];
+	if (!defined($Chakora::channel{$chan}{'ts'})) {
+		$Chakora::channel{$chan}{'ts'} = $rex[2];
+	}
 	my $user = substr($rex[5], 1);
 	$user =~ s/[@+]//;
 	event_join($user, $rex[3]);

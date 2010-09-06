@@ -412,7 +412,10 @@ sub raw_fjoin {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $chan = $rex[2];
-        $Chakora::channel{$chan}{'ts'} = $rex[3];
+	if (!defined($Chakora::channel{$chan}{'ts'})) {
+		$Chakora::channel{$chan}{'ts'} = $rex[3];
+	} else {
+		
 	my ($args, $i, @users, $juser, @rjuser);
 	for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
 	@users = split(' ', $args);
