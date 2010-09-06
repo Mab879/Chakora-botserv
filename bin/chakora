@@ -207,11 +207,6 @@ foreach $sac (@sab) {
     eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; };
 }
 
-if (config('xmlrpc', 'use'))
-{
-	print ("XMLRPC: You have specified that you want to use the xmlrpc, however we have not fully finished it. Ignorinng.\n");
-}
-
 while (1) {
 	$data = <$socket>;
 	unless (defined($data)) {

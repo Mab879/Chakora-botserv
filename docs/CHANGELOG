@@ -74,3 +74,4 @@ Current
 	- Modules: Added nickserv/identify and nickserv/info
 	- API: added metadata
 	- API: added event_identify and event_register
+	- XMLRPC: Scrapped XMLRPC, most likely permanently, due to it not working nor will we ever be able to create it at this time.
