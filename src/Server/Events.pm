@@ -444,7 +444,7 @@ our (%hook_identify);
 
 # When a user identifies, execute all identify hooks.
 sub event_identify {
-        my ($user) = @_;
+        my ($user, $account) = @_;
         my ($hook);
         foreach $hook (%hook_identify) {
                 eval
@@ -471,7 +471,7 @@ our (%hook_register);
 
 # When a user registers, execute all register hooks.
 sub event_register {
-        my ($user) = @_;
+        my ($user, $email) = @_;
         my ($hook);
         foreach $hook (%hook_register) {
                 eval
