@@ -153,9 +153,9 @@ sub sidInfo {
 # Find UID by nick
 sub nickUID {
 	my ($nick) = @_;
-	foreach (%uid) {
-		if (lc($Chakora::uid{'nick'}) eq lc($nick)) {
-			return $Chakora::uid{'uid'};
+	foreach my $key (keys %Chakora::uid) {
+		if (lc($Chakora::uid{$key}{'nick'}) eq lc($nick)) {
+			return $Chakora::uid{$key}{'uid'};
 		}
 	}
 }
