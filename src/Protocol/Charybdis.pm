@@ -86,6 +86,9 @@ sub irc_connect {
 		error('chakora', 'Services SID have to be 3 characters');
 	}
 	else {
+		foreach my $key (keys %Chakora::DB_chan) {
+			$Chakora::channel{$key}{'ts'} = $Chakora::DB_chan{$key}{ts};
+		}
 		send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
 		# Some of these may not be needed, but let's keep them for now just in case --Matthew
 		send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK");
@@ -213,7 +216,11 @@ sub serv_join {
 	if (!$Chakora::channel{lc($chan)}{'ts'}) {
 		$Chakora::channel{lc($chan)}{'ts'} = time();
 	}
-	send_sock(":".svsUID('chakora::server')." SJOIN ".$Chakora::channel{lc($chan)}{'ts'}." ".$chan." +nt :@".svsUID($svs));
+	my $modes = '+';
+	if (defined $Chakora::DB_chan{lc($chan)}{mlock}) {
+		$modes = $Chakora::DB_chan{lc($chan)}{mlock};
+	}
+	send_sock(":".svsUID('chakora::server')." SJOIN ".$Chakora::channel{lc($chan)}{'ts'}." ".$chan." $modes :@".svsUID($svs));
 }
 
 # Handle TMODE
@@ -345,6 +352,11 @@ sub raw_endsync {
 	unless ($Chakora::synced) {
 		foreach my $key (sort keys %Chakora::svsuid) {
 			serv_join($key, config('log', 'logchan'));
+		}
+		foreach my $key (keys %Chakora::DB_chan) {
+			unless (!defined($Chakora::DB_chan{$key}{name})) {
+				serv_join("chanserv", $Chakora::DB_chan{$key}{name});
+			}
 		}	
 		$Chakora::synced = 1;
 		event_eos();

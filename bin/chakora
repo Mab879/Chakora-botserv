@@ -133,53 +133,68 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 		my @lsy = split(' ', $line);
 		if ($lsy[0] eq "AI") {
 			# this is an account
-			$DB_account{lc($lsy[1])}{name} = $lsy[1];
-			$DB_account{lc($lsy[1])}{pass} = $lsy[2];
-			$DB_account{lc($lsy[1])}{email} = $lsy[3];
-			$DB_account{lc($lsy[1])}{regtime} = $lsy[4];
-			$DB_account{lc($lsy[1])}{lasthost} = $lsy[5];
-			$DB_account{lc($lsy[1])}{lastseen} = $lsy[6];
+			unless (!defined($lsy[1])) {
+				$DB_account{lc($lsy[1])}{name} = $lsy[1];
+				$DB_account{lc($lsy[1])}{pass} = $lsy[2];
+				$DB_account{lc($lsy[1])}{email} = $lsy[3];
+				$DB_account{lc($lsy[1])}{regtime} = $lsy[4];
+				$DB_account{lc($lsy[1])}{lasthost} = $lsy[5];
+				$DB_account{lc($lsy[1])}{lastseen} = $lsy[6];
+			}
 		}
 		elsif ($lsy[0] eq "AN") {
 			# this is a grouped nick
-			$DB_nick{lc($lsy[1])}{nick} = $lsy[1];
-			$DB_nick{lc($lsy[1])}{account} = $lsy[2];
+			unless (!defined($lsy[1])) {
+				$DB_nick{lc($lsy[1])}{nick} = $lsy[1];
+				$DB_nick{lc($lsy[1])}{account} = $lsy[2];
+			}
 		}
 		elsif ($lsy[0] eq "AD") {
 			# this is account metadata
-			$DBADLAST += 1;
-			$DB_accdata{$DBADLAST}{account} = lc($lsy[1]);
-			$DB_accdata{$DBADLAST}{name} = lc($lsy[2]);
-			my ($i);
-			$DB_accdata{$DBADLAST}{value} = $lsy[3];
-			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$DBADLAST}{value} .= ' '.$lsy[$i]; }
+			unless (!defined($lsy[1])) {
+				$DBADLAST += 1;
+				$DB_accdata{$DBADLAST}{account} = lc($lsy[1]);
+				$DB_accdata{$DBADLAST}{name} = lc($lsy[2]);
+				my ($i);
+				$DB_accdata{$DBADLAST}{value} = $lsy[3];
+				for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$DBADLAST}{value} .= ' '.$lsy[$i]; }
+			}
 		}
 		elsif ($lsy[0] eq "CI") {
 			# this is a channel
-			$DB_chan{lc($lsy[1])}{name} = $lsy[1];
-			$DB_chan{lc($lsy[1])}{founder} = $lsy[2];
-			$DB_chan{lc($lsy[1])}{regtime} = $lsy[3];
-			$DB_chan{lc($lsy[1])}{mlock} = $lsy[4];
-			$DB_chan{lc($lsy[1])}{ts} = $lsy[5];
+			unless (!defined($lsy[1])) {
+				$DB_chan{lc($lsy[1])}{name} = $lsy[1];
+				$DB_chan{lc($lsy[1])}{founder} = $lsy[2];
+				$DB_chan{lc($lsy[1])}{regtime} = $lsy[3];
+				$DB_chan{lc($lsy[1])}{mlock} = $lsy[4];
+				$DB_chan{lc($lsy[1])}{ts} = $lsy[5];
+			}
 		}
 		elsif ($lsy[0] eq "CD") {
 			# this is channel metadata
-			$DBCDLAST += 1;
-			$DB_chandata{$DBCDLAST}{chan} = lc($lsy[1]);
-			$DB_chandata{$DBCDLAST}{name} = lc($lsy[2]);
-			my ($i);
-			$DB_chandata{$DBCDLAST}{value} = $lsy[3];
-			for ($i = 4; $i < count(@lsy); $i++) { $DB_chandata{$DBCDLAST}{value} .= ' '.$lsy[$i]; }
+			unless (!defined($lsy[1])) {
+				$DBCDLAST += 1;
+				$DB_chandata{$DBCDLAST}{chan} = lc($lsy[1]);
+				$DB_chandata{$DBCDLAST}{name} = lc($lsy[2]);
+				my ($i);
+				$DB_chandata{$DBCDLAST}{value} = $lsy[3];
+				for ($i = 4; $i < count(@lsy); $i++) { $DB_chandata{$DBCDLAST}{value} .= ' '.$lsy[$i]; }
+			}
 		}
 		elsif ($lsy[0] eq "CF") {
 			# this is a channel flag entry
-			$DBCFLAST += 1;
-			$DB_chanflags{$DBCFLAST}{chan} = lc($lsy[1]);
-			$DB_chanflags{$DBCFLAST}{account} = $lsy[2];
-			$DB_chanflags{$DBCFLAST}{flags} = $lsy[3];
+			unless (!defined($lsy[1])) {
+				$DBCFLAST += 1;
+				$DB_chanflags{$DBCFLAST}{chan} = lc($lsy[1]);
+				$DB_chanflags{$DBCFLAST}{account} = $lsy[2];
+				$DB_chanflags{$DBCFLAST}{flags} = $lsy[3];
+			}
 		}
 	}
-}			
+}
+
+# Clean the database.
+dbflush();			
 			
 # Fork into the background unless --debug was specified
 unless ($options{debug}) {
@@ -497,7 +512,9 @@ sub dbflush {
 		$dd .= "AD ".$DB_accdata{$key}{account}." ".$DB_accdata{$key}{name}." ".$DB_accdata{$key}{value}."\n";
 	}
 	foreach my $key (keys %DB_chan) {
-		$dd .= "CI ".$DB_chan{$key}{name}." ".$DB_chan{$key}{founder}." ".$DB_chan{$key}{regtime}." ".$DB_chan{$key}{mlock}." ".$DB_chan{$key}{ts}."\n";
+		unless (!defined($DB_chan{$key}{name})) {
+			$dd .= "CI ".$DB_chan{$key}{name}." ".$DB_chan{$key}{founder}." ".$DB_chan{$key}{regtime}." ".$DB_chan{$key}{mlock}." ".$DB_chan{$key}{ts}."\n";
+		}
 	}
 	foreach my $key (keys %DB_chandata) {
 		$dd .= "CD ".$DB_chandata{$key}{chan}." ".$DB_chandata{$key}{name}." ".$DB_chandata{$key}{value}."\n";
