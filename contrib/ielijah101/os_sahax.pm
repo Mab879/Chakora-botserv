@@ -8,6 +8,7 @@ use warnings;
 module_init("operserv/sahax", "Elijah Perrault", "1.0", \&init_os_sahax, \&void_os_sahax, "inspircd");
 
 sub init_os_sahax {
+	taint("Modules: operserv/sahax: Abusive module.");
 	cmd_add("operserv/sahax", "Forcibly join someone into a given amount of channels.", "SAHAX allows opers to forcibly join the target\ninto the given amount of channels, each\nprefixed with the given prefix, all at once.\n[T]\nSyntax: SAHAX <user> <amount-of-channels> <channelname-prefix>", \&svs_os_sahax);
 }
 
@@ -31,7 +32,7 @@ sub svs_os_sahax {
 	
 	my $i = 1;
 	while ($i < $sargv[2] || $i == $sargv[2]) {
-		send_sock(":".svsUID("operserv")." SVSJOIN ".nickUID($sargv[1])." #".$sargv[3].$i);
+		serv_("operserv", "SVSJOIN ".nickUID($sargv[1])." #".$sargv[3].$i);
 		$i += 1;
 	}
 	serv_notice("operserv", nickUID($sargv[1]), "\002Haha! You got pwnt by ".uidInfo($user, 1)."\002");
