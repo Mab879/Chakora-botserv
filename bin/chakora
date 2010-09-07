@@ -21,6 +21,7 @@ use Term::ANSIColor;
 use Sub::Delete;
 use Digest::Whirlpool;
 use Digest::HMAC;
+use Email::Valid;
 use FindBin qw($Bin);
 use lib "$Bin/../src";
 
