@@ -121,7 +121,7 @@ if (config('services', 'allow_taint')) {
 }
 
 # Read the database
-our (%DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata);
+our (%DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata, %DB_chanflags);
 our $DBADLAST = 0;
 our $DBCDLAST = 0;
 if (-e "$ROOT_SRC/../etc/chakora.db") {
@@ -169,6 +169,11 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			my ($i);
 			$DB_chandata{$DBCDLAST}{value} = $lsy[3];
 			for ($i = 4; $i < count(@lsy); $i++) { $DB_chandata{$DBCDLAST}{value} .= ' '.$lsy[$i]; }
+		}
+		elsif ($lsy[0] eq "CF") {
+			$DB_chanflags{lc($lsy[1])}{chan} = lc($lsy[1]);
+			$DB_chanflags{lc($lsy[1])}{account} = $lsy[2];
+			$DB_chanflags{lc($lsy[1])}{flags} = $lsy[3];
 		}
 	}
 }			
@@ -492,7 +497,10 @@ sub dbflush {
 		$dd .= "CI ".$DB_chan{$key}{name}." ".$DB_chan{$key}{founder}." ".$DB_chan{$key}{regtime}." ".$DB_chan{$key}{mlock}." ".$DB_chan{$key}{ts}."\n";
 	}
 	foreach my $key (keys %DB_chandata) {
-		$dd .= "AD ".$DB_chandata{$key}{chan}." ".$DB_chandata{$key}{name}." ".$DB_chandata{$key}{value}."\n";
+		$dd .= "CD ".$DB_chandata{$key}{chan}." ".$DB_chandata{$key}{name}." ".$DB_chandata{$key}{value}."\n";
+	}
+	foreach my $key (keys %DB_chanflags) {
+		$dd .= "CF ".$DB_chanflags{$key}{chan}." ".$DB_chanflags{$key}{account}." ".$DB_chanflags{$key}{flags}."\n";
 	}
 	print FILE $dd;
 	close FILE;
