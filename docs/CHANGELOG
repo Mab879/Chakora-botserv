@@ -78,3 +78,4 @@ Current
 	- Core: we now need Email::Valid for Chakora
 	- Modules: nickserv/register now checks for a valid email address
 	- Modules: added nickserv/logout
+	- API: added event_logout

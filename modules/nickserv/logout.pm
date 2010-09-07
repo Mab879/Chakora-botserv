@@ -24,6 +24,7 @@ sub svs_ns_logout {
 		serv_notice("nickserv", $user, "You're not identified to an account");
 	}
 	else {
+		event_logout($user, uidInfo($user,9));
 		undef $Chakora::uid{$user}{'account'};
 		serv_notice("nickserv", $user, "You have been logged out of services.");
 		svsilog("nickserv", $user, "LOGOUT");

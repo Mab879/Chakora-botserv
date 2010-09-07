@@ -493,5 +493,32 @@ sub hook_register_del {
         undef $hook_register{$handler};
 }
 
+### LOGOUT ###
+our (%hook_logout);
+
+# When a user logs out, execute all logout hooks.
+sub event_logout {
+        my ($user, $account) = @_;
+        my ($hook);
+        foreach $hook (%hook_logout) {
+                eval
+                {
+                        &{ $hook }($user, $account);
+                };
+        }
+}
+
+# Add a hook to the logout event.
+sub hook_logout_add {
+        my ($handler) = @_;
+        $hook_logout{$handler} = $handler;
+}
+
+# Delete a hook from the logout event.
+sub hook_logout_del {
+        my ($handler) = @_;
+        undef $hook_logout{$handler};
+}
+
 
 1;
