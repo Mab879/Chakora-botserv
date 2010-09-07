@@ -33,7 +33,7 @@ sub svs_ns_info {
 	serv_notice("nickserv", $user, "Registered : ".scalar(localtime($Chakora::DB_account{lc($account)}{regtime})));
 	serv_notice("nickserv", $user, "Last addr  : ".$Chakora::DB_account{lc($account)}{lasthost});
 	serv_notice("nickserv", $user, "Last seen  : ".scalar(localtime($Chakora::DB_account{lc($account)}{lastseen})));
-	if (metadata(1, $account, "private:hidemail")) {
+	if (metadata(1, $account, "flag:hidemail")) {
 		if (uidInfo($user, 7) or lc(uidInfo($user, 9)) eq lc($account)) {
 			serv_notice("nickserv", $user, "Email      : ".$Chakora::DB_account{lc($account)}{email}." (hidden)");
 		}
@@ -44,7 +44,7 @@ sub svs_ns_info {
 	my ($flags);
 	foreach my $key (keys %Chakora::DB_accdata) {
 		if (lc($Chakora::DB_accdata{$key}{account}) eq lc($account)) {
-			my @flag = split('private:', $Chakora::DB_accdata{$key}{name});
+			my @flag = split('flag:', $Chakora::DB_accdata{$key}{name});
 			$flags .= ' '.uc($flag[1]);
 		}
 	}
