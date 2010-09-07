@@ -67,7 +67,7 @@ our %rawcmds = (
 		handler => \&raw_encap,
 	},
 );
-our %PROTO_SETTINGS = (
+%Chakora::PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
 	owner => '-',
 	admin => '-',
