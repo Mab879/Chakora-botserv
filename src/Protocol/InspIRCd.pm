@@ -90,10 +90,13 @@ our (%uid, %channel, %sid);
 my $lastid = 0;
 
 sub irc_connect {
-        if (length(config('me', 'sid')) != 3) {
-                error('chakora', 'Services SID have to be 3 characters');
-        }
-        else {
+	if (length(config('me', 'sid')) != 3) {
+		error('chakora', 'Services SID have to be 3 characters');
+	}
+	else {
+		foreach my $key (keys %Chakora::DB_chan) {
+			$Chakora::channel{$key}{'ts'} = $Chakora::DB_chan{$key}{ts};
+		}
 		send_sock("SERVER ".config('me', 'name')." ".config('server', 'password')." 0 ".config('me', 'sid')." :".config('me', 'info'));
 	}
 }
@@ -217,8 +220,12 @@ sub serv_join {
 	# If a channel has no TS, we're obviously creating that channel, set TS to current time --Matthew
 	if (!$Chakora::channel{lc($chan)}{'ts'}) {
 		$Chakora::channel{lc($chan)}{'ts'} = time();
+	}
+	my $modes = '+';
+	if (defined $Chakora::DB_chan{lc($chan)}{mlock}) {
+		$modes = $Chakora::DB_chan{lc($chan)}{mlock};
 	} 
-	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".lc($Chakora::channel{$chan}{'ts'})." + :o,".svsUID($svs));
+	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".$Chakora::channel{lc($chan)}{'ts'}." $modes :o,".svsUID($svs));
 }
 
 # Handle Client MODE
@@ -566,7 +573,12 @@ sub raw_endburst {
 	unless ($Chakora::synced) {
 		foreach my $key (sort keys %Chakora::svsuid) {
 			serv_join($key, config('log', 'logchan'));
-		}	
+		}
+		foreach my $key (keys %Chakora::DB_chan) {
+			unless (!defined($Chakora::DB_chan{$key}{name})) {
+				serv_join("chanserv", $Chakora::DB_chan{$key}{name});
+			}
+		}
 		$Chakora::synced = 1;
 		event_eos();
 	}

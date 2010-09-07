@@ -84,11 +84,13 @@ sub is_identified {
 
 sub svsilog {
 	my ($service, $user, $cmd, $args) = @_;
+	if (!uidInfo($user, 9)) { $user = uidInfo($user, 1); }
+	else { $user = uidInfo($user, 1)." (".uidInfo($user, 9).")"; }
 	if (length($args) == 0) {
-		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".uc($cmd)."\002");
+		serv_privmsg($service, config('log', 'logchan'), "$user: \002".uc($cmd)."\002");
 	}
 	else {
-		serv_privmsg($service, config('log', 'logchan'), uidInfo($user, 1).": \002".uc($cmd)."\002: ".$args);
+		serv_privmsg($service, config('log', 'logchan'), "$user: \002".uc($cmd)."\002: ".$args);
 	}
 }
 
