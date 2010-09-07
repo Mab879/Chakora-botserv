@@ -80,6 +80,7 @@ nickserv {
 	user = NickServ
 	host = technoirc/Services/NickServ
 	real = "Nickname Services"
+	enforce_delay = 30;
 }
 
 operserv {

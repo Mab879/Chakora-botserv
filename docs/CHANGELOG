@@ -81,4 +81,4 @@ Current
 	- API: added event_logout
 	- Modules: use event_identify and event_register in their modules
 	- Modules: added nickserv/set
-	- Config: Added register, identify, info, logout, and set nickserv modules to default autoload
+	- Config: Added register, identify, info, logout, and set nickserv modules to default autoload, along with the config options to go with them
