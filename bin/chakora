@@ -124,6 +124,7 @@ if (config('services', 'allow_taint')) {
 our (%DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata, %DB_chanflags);
 our $DBADLAST = 0;
 our $DBCDLAST = 0;
+our $DBCFLAST = 0;
 if (-e "$ROOT_SRC/../etc/chakora.db") {
 	open FILE, "<$ROOT_SRC/../etc/chakora.db";
 	my @lines = <FILE>;
@@ -172,9 +173,10 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 		}
 		elsif ($lsy[0] eq "CF") {
 			# this is a channel flag entry
-			$DB_chanflags{lc($lsy[1])}{chan} = lc($lsy[1]);
-			$DB_chanflags{lc($lsy[1])}{account} = $lsy[2];
-			$DB_chanflags{lc($lsy[1])}{flags} = $lsy[3];
+			$DBCFLAST += 1;
+			$DB_chanflags{$DBCFLAST}{chan} = lc($lsy[1]);
+			$DB_chanflags{$DBCFLAST}{account} = $lsy[2];
+			$DB_chanflags{$DBCFLAST}{flags} = $lsy[3];
 		}
 	}
 }			
@@ -262,24 +264,24 @@ while (1) {
     }
     # Check for status modes
     elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES' and lc(config('server', 'ircd')) eq 'inspircd') {
-        if ($data =~ m/PREFIX=(qaohv)/) {
+        if ($data =~ m/PREFIX=\(qaohv\)/) {
             $PROTO_SETTINGS{owner} = 'q';
             $PROTO_SETTINGS{admin} = 'a';
             $PROTO_SETTINGS{halfop} = 'h';
-        } elsif ($data =~ m/PREFIX=(aohv)/) {
+        } elsif ($data =~ m/PREFIX=\(aohv\)/) {
             $PROTO_SETTINGS{admin} = 'a';
             $PROTO_SETTINGS{halfop} = 'h';
-        } elsif ($data =~ m/PREFIX=(qohv)/) {
+        } elsif ($data =~ m/PREFIX=\(qohv\)/) {
             $PROTO_SETTINGS{owner} = 'q';
             $PROTO_SETTINGS{halfop} = 'h';
-        } elsif ($data =~ m/PREFIX=(qaov)/) {
+        } elsif ($data =~ m/PREFIX=\(qaov\)/) {
             $PROTO_SETTINGS{owner} = 'q';
             $PROTO_SETTINGS{admin} = 'a';
-        } elsif ($data =~ m/PREFIX=(aov)/) {
+        } elsif ($data =~ m/PREFIX=\(aov\)/) {
             $PROTO_SETTINGS{admin} = 'a';
-        } elsif ($data =~ m/PREFIX=(qov)/) {
+        } elsif ($data =~ m/PREFIX=\(qov\)/) {
             $PROTO_SETTINGS{owner} = 'q';
-        } elsif ($data =~ m/PREFIX=(ohv)/) {
+        } elsif ($data =~ m/PREFIX=\(ohv\)/) {
             $PROTO_SETTINGS{halfop} = 'h';
         } else {
             print("[PROTOCOL] +qah are disabled, we recommend enabling these then restarting services.\n");
