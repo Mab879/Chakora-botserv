@@ -58,7 +58,7 @@ services {
 	# If you want to allow tainting, set this to 1, but you will lose your support
 	allow_taint = 0
 	# Module autoload
-	autoload = "operserv/version operserv/uptime operserv/help nickserv/help operserv/global operserv/shutdown"
+	autoload = "operserv/version operserv/uptime operserv/help nickserv/help operserv/global operserv/shutdown nickserv/register nickserv/info nickserv/logout nickserv/set nickserv/identify"
 }
 
 enc {
