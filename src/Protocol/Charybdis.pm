@@ -210,20 +210,20 @@ sub serv_notice {
 sub serv_join {
 	my ($svs, $chan) = @_;
         # If a channel has no ts, we're obviously creating that channel, set TS to current time --Matthew
-	if (!$Chakora::channel{$chan}{'ts'}) {
-		$Chakora::channel{$chan}{'ts'} = time();
+	if (!$Chakora::channel{lc($chan)}{'ts'}) {
+		$Chakora::channel{lc($chan)}{'ts'} = time();
 	}
-	send_sock(":".svsUID('chakora::server')." SJOIN ".$Chakora::channel{$chan}{'ts'}." ".$chan." +nt :@".svsUID($svs));
+	send_sock(":".svsUID('chakora::server')." SJOIN ".$Chakora::channel{lc($chan)}{'ts'}." ".$chan." +nt :@".svsUID($svs));
 }
 
 # Handle TMODE
 sub serv_mode {
 	my ($svs, $target, $modes) = @_;
 	# This should never happen, but just in case, have a check. --Matthew
-        if (!$Chakora::channel{$target}{'ts'}) {
-                $Chakora::channel{$target}{'ts'} = time();
+        if (!$Chakora::channel{lc($target)}{'ts'}) {
+                $Chakora::channel{lc($target)}{'ts'} = time();
         }
-	send_sock(":".svsUID($svs)." TMODE ".$Chakora::channel{$target}{'ts'}." ".$target." ".$modes);
+	send_sock(":".svsUID($svs)." TMODE ".$Chakora::channel{lc($target)}{'ts'}." ".$target." ".$modes);
 }
 
 # Handle Client MODE (This is basically only used for user mode changes in Charybdis --Matthew)
@@ -380,8 +380,8 @@ sub raw_sjoin {
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SJOIN 1280086561 #services +nt :@48XAAAAAB
 	my $chan = $rex[3];
-	if (!defined($Chakora::channel{$chan}{'ts'})) {
-		$Chakora::channel{$chan}{'ts'} = $rex[2];
+	if (!defined($Chakora::channel{lc($chan)}{'ts'})) {
+		$Chakora::channel{lc($chan)}{'ts'} = $rex[2];
 	}
 	my $user = substr($rex[5], 1);
 	$user =~ s/[@+]//;

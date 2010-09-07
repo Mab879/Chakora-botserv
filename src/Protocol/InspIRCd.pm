@@ -74,7 +74,7 @@ our %rawcmds = (
 		handler => \&raw_svsnick,
 	},
 );
-our %PROTO_SETTINGS = (
+%Chakora::PROTO_SETTINGS = (
 	name => 'InspIRCd 1.2/2.0',
 	owner => '-',
 	admin => '-',
@@ -215,10 +215,10 @@ sub serv_notice {
 sub serv_join {
 	my ($svs, $chan) = @_;
 	# If a channel has no TS, we're obviously creating that channel, set TS to current time --Matthew
-	if (!$Chakora::channel{$chan}{'ts'}) {
-		$Chakora::channel{$chan}{'ts'} = time();
+	if (!$Chakora::channel{lc($chan)}{'ts'}) {
+		$Chakora::channel{lc($chan)}{'ts'} = time();
 	} 
-	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".$Chakora::channel{$chan}{'ts'}." + :o,".svsUID($svs));
+	send_sock(":".svsUID("chakora::server")." FJOIN ".$chan." ".lc($Chakora::channel{$chan}{'ts'})." + :o,".svsUID($svs));
 }
 
 # Handle Client MODE
@@ -231,10 +231,10 @@ sub serv_cmode {
 sub serv_mode {
 	my ($svs, $target, $modes) = @_;
 	# This should never happen, but just in case, have a check.
-	if (!$Chakora::channel{$target}{'ts'}) {
-		$Chakora::channel{$target}{'ts'} = time();
+	if (!$Chakora::channel{lc($target)}{'ts'}) {
+		$Chakora::channel{lc($target)}{'ts'} = time();
 	}
-	send_sock(":".svsUID($svs)." FMODE ".$target." ".$Chakora::channel{$target}{'ts'}." ".$modes);
+	send_sock(":".svsUID($svs)." FMODE ".$target." ".$Chakora::channel{lc($target)}{'ts'}." ".$modes);
 }
 
 # Handle ERROR
@@ -412,8 +412,8 @@ sub raw_fjoin {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $chan = $rex[2];
-	if (!defined($Chakora::channel{$chan}{'ts'})) {
-		$Chakora::channel{$chan}{'ts'} = $rex[3];
+	if (!defined($Chakora::channel{lc($chan)}{'ts'})) {
+		$Chakora::channel{lc($chan)}{'ts'} = $rex[3];
 	}
 			
 	my ($args, $i, @users, $juser, @rjuser);
