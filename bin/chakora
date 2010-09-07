@@ -171,6 +171,7 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			for ($i = 4; $i < count(@lsy); $i++) { $DB_chandata{$DBCDLAST}{value} .= ' '.$lsy[$i]; }
 		}
 		elsif ($lsy[0] eq "CF") {
+			# these are channel flags
 			$DB_chanflags{lc($lsy[1])}{chan} = lc($lsy[1]);
 			$DB_chanflags{lc($lsy[1])}{account} = $lsy[2];
 			$DB_chanflags{lc($lsy[1])}{flags} = $lsy[3];
