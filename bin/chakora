@@ -147,6 +147,7 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			unless (!defined($lsy[1])) {
 				$DB_nick{lc($lsy[1])}{nick} = $lsy[1];
 				$DB_nick{lc($lsy[1])}{account} = $lsy[2];
+				$DB_nick{lc($lsy[1])}{regtime} = $lsy[3];
 			}
 		}
 		elsif ($lsy[0] eq "AD") {
@@ -505,7 +506,7 @@ sub dbflush {
 	}
 	foreach my $key (keys %DB_nick) {
 		unless (!defined($DB_nick{$key}{nick})) { # this is a cheap hack, but it'll work
-			$dd .= "AN ".$DB_nick{$key}{nick}." ".$DB_nick{$key}{account}."\n";
+			$dd .= "AN ".$DB_nick{$key}{nick}." ".$DB_nick{$key}{account}." ".$DB_nick{$key}{regtime}."\n";
 		}
 	}
 	foreach my $key (keys %DB_accdata) {
