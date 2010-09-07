@@ -36,7 +36,7 @@ sub svs_ns_register {
 		unless (defined $Chakora::DB_nick{lc($nick)}{account}) {
 			unless (length($password) < 5) {
 				@semail = split('@', $email);
-				unless (0) { # fix later: $semail[0] =~ m/![A-Z|a-z|0-9]/
+				unless (!Email::Valid->address($email)) { # fix later: $semail[0] =~ m/![A-Z|a-z|0-9]/
 					$en->add($password);
 					my $pass = $en->hexdigest;
 					$Chakora::DB_account{lc($nick)}{name} = $nick;
