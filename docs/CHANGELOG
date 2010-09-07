@@ -80,3 +80,4 @@ Current
 	- Modules: added nickserv/logout
 	- API: added event_logout
 	- Modules: use event_identify and event_register in their modules
+	- Modules: added nickserv/set
