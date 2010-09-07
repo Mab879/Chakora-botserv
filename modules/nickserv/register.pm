@@ -45,8 +45,8 @@ sub svs_ns_register {
 					$Chakora::DB_account{lc($nick)}{lastseen} = time();
 					$Chakora::DB_nick{lc($nick)}{nick} = $nick;
 					$Chakora::DB_nick{lc($nick)}{account} = $nick;
-					metadata_add(1, $nick, "private:enforce", 1);
-					metadata_add(1, $nick, "private:hidemail", 1);
+					metadata_add(1, $nick, "flag:enforce", 1);
+					metadata_add(1, $nick, "flag:hidemail", 1);
 					serv_accountname($user, $nick);
 					$Chakora::uid{$user}{'account'} = $nick;
 					svsilog("nickserv", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
@@ -63,7 +63,7 @@ sub ns_enforce_on_uid {
 	
 	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
 		my $account = $Chakora::DB_nick{lc($nick)}{account};
-		if (!metadata(1, $account, "private:enforce")) {
+		if (!metadata(1, $account, "flag:enforce")) {
 			return;
 		}
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
@@ -78,7 +78,7 @@ sub ns_enforce_on_nick {
 	
 	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
 		my $account = $Chakora::DB_nick{lc($nick)}{account};
-		if (!metadata(1, $account, "private:enforce")) {
+		if (!metadata(1, $account, "flag:enforce")) {
 			return;
 		}
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
