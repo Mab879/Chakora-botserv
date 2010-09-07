@@ -473,7 +473,7 @@ our (%hook_ns_register);
 sub event_ns_register {
         my ($user, $email) = @_;
         my ($hook);
-        foreach $hook (%hook_nsregister) {
+        foreach $hook (%hook_ns_register) {
                 eval
                 {
                         &{ $hook }($user, $email);
