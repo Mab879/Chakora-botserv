@@ -96,6 +96,7 @@ sub metadata_add {
 	
 	# Metadata for an account.
 	if ($type == 1) {
+		metadata_del(1, $loc, $name);
 		$Chakora::DBADLAST += 1;
 		$Chakora::DB_accdata{$Chakora::DBADLAST}{name} = lc($name);
 		$Chakora::DB_accdata{$Chakora::DBADLAST}{account} = lc($loc);
@@ -103,6 +104,7 @@ sub metadata_add {
 	}
 	# Metadata for a channel.
 	elsif ($type == 2) {
+		metadata_del(2, $loc, $name);
 		$Chakora::DBCDLAST += 1;
 		$Chakora::DB_chandata{$Chakora::DBCDLAST}{name} = lc($name);
 		$Chakora::DB_chandata{$Chakora::DBCDLAST}{chan} = lc($loc);
