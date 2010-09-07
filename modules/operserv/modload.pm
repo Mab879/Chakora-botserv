@@ -18,18 +18,16 @@ sub void_os_modload {
 }
 
 sub svs_os_modload {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
+	my ($user, @sargv) = @_;
 	if (is_soper($user)) {
-		if ($rex[4]) {
-			serv_notice("operserv", $user, "Attempting to load ".$rex[4]);
-			if (module_exists($rex[4])) { serv_notice("operserv", $user, "Module already loaded"); }
-			elsif (module_load($rex[4])) {
-				serv_notice("operserv", $user, "Module loaded");
-				svsilog("operserv", $user, "modload", $rex[4]); 
+		if ($sargv[1]) {
+			serv_notice("operserv", $user, "Attempting to load ".$sargv[1]);
+			if (module_exists($sargv[1])) { serv_notice("operserv", $user, "Module already loaded."); }
+			elsif (module_load($sargv[1])) {
+				serv_notice("operserv", $user, "Module loaded.");
+				svsilog("operserv", $user, "modload", $sargv[1]); 
 			}
-			else { serv_notice("operserv", $user, "Module loading failed"); }
+			else { serv_notice("operserv", $user, "Module loading failed."); }
 		}
 		else {
 			serv_notice("operserv", $user, "Not enough parameters. Syntax: MODLOAD <module>");

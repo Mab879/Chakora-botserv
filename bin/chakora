@@ -233,7 +233,7 @@ my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac);
 foreach $sac (@sab) {
-    eval { require $ROOT_SRC."/../modules/".lc($sac).".pm"; };
+	do $ROOT_SRC."/../modules/".lc($sac).".pm";
 }
 
 while (1) {
@@ -450,12 +450,7 @@ sub svsflog {
 sub module_load {
 	my ($module) = @_;
 	if (-e $ROOT_SRC."/../modules/".lc($module).".pm") {
-		eval 
-		{ 
-			require $ROOT_SRC."/../modules/".lc($module).".pm";
-			return 1;
-			1;
-		} or return 0;
+		do $ROOT_SRC."/../modules/".lc($module).".pm" and return 1 or return 0;
 	}
 	else {
 		return 0;
