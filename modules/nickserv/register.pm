@@ -52,6 +52,7 @@ sub svs_ns_register {
 					serv_accountname($user, $nick);
 					$Chakora::uid{$user}{'account'} = $nick;
 					svsilog("nickserv", $user, "REGISTER", "\002".$nick."\002 to \002".$email."\002");
+					event_register($user, $email);
 					serv_notice("nickserv", $user, "\2".$nick."\2 is now registered to \2".$email."\2 with the password \2".$password."\2");
 					serv_notice("nickserv", $user, "Thank you for registering with ".config('network', 'name')."!");
 				} else { serv_notice("nickserv", $user, 'Invalid email address.'); }

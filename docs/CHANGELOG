@@ -79,3 +79,4 @@ Current
 	- Modules: nickserv/register now checks for a valid email address
 	- Modules: added nickserv/logout
 	- API: added event_logout
+	- Modules: use event_identify and event_register in their modules
