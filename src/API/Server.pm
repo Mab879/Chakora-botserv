@@ -49,12 +49,14 @@ sub parse_mode {
 
 sub is_soper {
 	my ($uid) = @_;
-	if (uidInfo($uid, 7)) {
-		return 1;
+	my $return = 0;
+	my @sopers = split(" ", config('operators', 'sra'));
+	foreach my $soper (@sopers) {
+		if (uidInfo($uid, 7) and uidInfo($uid, 9) eq $soper) {
+			$return = 1;
+		}
 	}
-	else {
-		return 0;
-	}
+	return $return;
 }
 
 sub is_registered {
