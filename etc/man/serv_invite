@@ -1,0 +1,2 @@
+serv_invite(service name, user, channel)
+   This will make the given services client INVITE the given user to the given channel

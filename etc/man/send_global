@@ -1,0 +1,2 @@
+send_global(message)
+   This will make Global send a notice to every user connected.

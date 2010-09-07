@@ -1,0 +1,2 @@
+serv_notice(service name, target, message)
+   This will make the given services client NOTICE the given target.
