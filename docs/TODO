@@ -11,17 +11,19 @@
 	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
 [ ] NickServ
 	[!] Register
-		[ ] Check for valid a valid email address
-		[ ] Set default nickserv flags
+		[X] Check for valid a valid email address
+		[X] Set default nickserv flags
 		[ ] Set a limit to the number of accounts a email address can have
 	[ ] Group
-	[ ] Identify
+	[X] Identify
 	[ ] Drop
-	[ ] Enforce
-	[ ] Set
+	[X] Enforce
+	[!] Set
+		[X] Set email, password, hidemail, enforce
+		[ ] Set API
 	[ ] Ghost
 	[ ] Release
-	[!] Account name (Sub done, module not)
+	[X] Account name (Sub done, module not)
 [ ] ChanServ
 	[ ] Register
 	[ ] Drop
@@ -70,7 +72,7 @@
 	[X] Add docs for the module api
 	[!] Improve module api docs (add sidInfo and uidInfo for one)
 [ ] Other
-	[ ] Allow custom services to be made and handled like others
+	[X] Allow custom services to be made and handled like others
 Key: 
 	X = Done
 	! = In development
