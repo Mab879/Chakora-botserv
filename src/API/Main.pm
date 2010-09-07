@@ -177,4 +177,19 @@ sub timer_del {
 	delete $Chakora::TIMER{lc($name)};
 }
 
+sub flags {
+	my ($chan, $user, $flags) = @_;
+	$chan = lc($chan);
+	foreach my $key (keys %Chakora::DB_chanflags) {
+		if ($Chakora::DB_chanflags{$key}{chan} eq $chan and lc($Chakora::DB_chanflags{$key}{account}) eq lc($user)) {
+			$Chakora::DB_chanflags{$key}{flags} = $flags;
+			return;
+		}
+	}
+	$Chakora::DBCFLAST += 1;
+	$Chakora::DB_chanflags{$Chakora::DBCFLAST}{chan} = $chan;
+	$Chakora::DB_chanflags{$Chakora::DBCFLAST}{account} = $user;
+	$Chakora::DB_chanflags{$Chakora::DBCFLAST}{flags} = $flags;
+}
+
 1;
