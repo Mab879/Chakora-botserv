@@ -139,10 +139,12 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			$DB_account{lc($lsy[1])}{lastseen} = $lsy[6];
 		}
 		elsif ($lsy[0] eq "AN") {
+			# this is a grouped nick
 			$DB_nick{lc($lsy[1])}{nick} = $lsy[1];
 			$DB_nick{lc($lsy[1])}{account} = $lsy[2];
 		}
 		elsif ($lsy[0] eq "AD") {
+			# this is account metadata
 			$DBADLAST += 1;
 			$DB_accdata{$DBADLAST}{account} = lc($lsy[1]);
 			$DB_accdata{$DBADLAST}{name} = lc($lsy[2]);
@@ -151,6 +153,7 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			for ($i = 4; $i < count(@lsy); $i++) { $DB_accdata{$DBADLAST}{value} .= ' '.$lsy[$i]; }
 		}
 		elsif ($lsy[0] eq "CI") {
+			# this is a channel
 			$DB_chan{lc($lsy[1])}{name} = $lsy[1];
 			$DB_chan{lc($lsy[1])}{founder} = $lsy[2];
 			$DB_chan{lc($lsy[1])}{regtime} = $lsy[3];
@@ -158,6 +161,7 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 			$DB_chan{lc($lsy[1])}{ts} = $lsy[5];
 		}
 		elsif ($lsy[0] eq "CD") {
+			# this is channel metadata
 			$DBCDLAST += 1;
 			$DB_chandata{$DBCDLAST}{chan} = lc($lsy[1]);
 			$DB_chandata{$DBCDLAST}{name} = lc($lsy[2]);
