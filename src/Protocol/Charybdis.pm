@@ -124,6 +124,8 @@ sub uidInfo {
 		return $Chakora::uid{$ruid}{'oper'};
 	} elsif ($section == 8) {
 		return $Chakora::uid{$ruid}{'server'};
+	} elsif ($section == 9) {
+		return $Chakora::uid{$ruid}{'account'};
 	} else {
 		return 0;
 	}
