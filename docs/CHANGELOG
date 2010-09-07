@@ -77,3 +77,4 @@ Current
 	- XMLRPC: Scrapped XMLRPC, most likely permanently, due to it not working nor will we ever be able to create it at this time.
 	- Core: we now need Email::Valid for Chakora
 	- Modules: nickserv/register now checks for a valid email address
+	- Modules: added nickserv/logout
