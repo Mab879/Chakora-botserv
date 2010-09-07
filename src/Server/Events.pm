@@ -466,14 +466,14 @@ sub hook_identify_del {
         undef $hook_identify{$handler};
 }
 
-### REGISTER ###
-our (%hook_register);
+### NICKSERV REGISTER ###
+our (%hook_ns_register);
 
 # When a user registers, execute all register hooks.
-sub event_register {
+sub event_ns_register {
         my ($user, $email) = @_;
         my ($hook);
-        foreach $hook (%hook_register) {
+        foreach $hook (%hook_nsregister) {
                 eval
                 {
                         &{ $hook }($user, $email);
@@ -482,15 +482,15 @@ sub event_register {
 }
 
 # Add a hook to the register event.
-sub hook_register_add {
+sub hook_ns_register_add {
         my ($handler) = @_;
-        $hook_register{$handler} = $handler;
+        $hook_ns_register{$handler} = $handler;
 }
 
 # Delete a hook from the register event.
-sub hook_register_del {
+sub hook_ns_register_del {
         my ($handler) = @_;
-        undef $hook_register{$handler};
+        undef $hook_ns_register{$handler};
 }
 
 ### LOGOUT ###
