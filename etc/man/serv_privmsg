@@ -1,2 +1,3 @@
 serv_privmsg(service name, target, message)
-   This will make the given services client PRIVMSG the given target.
+   This will make the given services client PRIVMSG the given target with
+   the given message.
