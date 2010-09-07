@@ -30,7 +30,6 @@ sub void_os_userlog {
 sub svs_os_operlog {
 	my ($user) = @_;
 	if ($Chakora::synced) {
-		serv_privmsg($service, config('log', 'logchan'), "\2OPER\2: ".uidInfo($user, 1)." on ".sidInfo(uidInfo($user, 8), 1));
         send_global("IRCOP FLAG TURN ON");
         send_global("$user IZ OPAR'D");
 	}
