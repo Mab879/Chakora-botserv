@@ -512,7 +512,7 @@ sub dbflush {
 	}
 	foreach my $key (keys %DB_chan) {
 		unless (!defined($DB_chan{$key}{name})) {
-			$dd .= "CI ".$DB_chan{$key}{name}." ".$DB_chan{$key}{founder}." ".$DB_chan{$key}{regtime}." ".$DB_chan{$key}{mlock}." ".$DB_chan{$key}{ts}."\n";
+			$dd .= "CI ".$DB_chan{$key}{name}." ".$DB_chan{$key}{founder}." ".$DB_chan{$key}{regtime}." ".$DB_chan{$key}{mlock}." ".$DB_chan{$key}{ts}." ".$DB_chan{$key}{desc}."\n";
 		}
 	}
 	foreach my $key (keys %DB_chandata) {
