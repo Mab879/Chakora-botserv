@@ -169,6 +169,9 @@ if (-e "$ROOT_SRC/../etc/chakora.db") {
 				$DB_chan{lc($lsy[1])}{regtime} = $lsy[3];
 				$DB_chan{lc($lsy[1])}{mlock} = $lsy[4];
 				$DB_chan{lc($lsy[1])}{ts} = $lsy[5];
+				$DB_chan{lc($lsy[1])}{desc} = $lsy[6];
+				my ($i);
+				for ($i = 7; $i < count(@lsy); $i++) { $DB_chan{lc($lsy[1])}{desc} .= ' '.$lsy[$i]; }
 			}
 		}
 		elsif ($lsy[0] eq "CD") {
