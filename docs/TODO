@@ -13,7 +13,7 @@
 	[!] Register
 		[X] Check for valid a valid email address
 		[X] Set default nickserv flags
-		[ ] Set a limit to the number of accounts a email address can have
+		[ ] Set a limit to the number of accounts an email address can have
 	[ ] Group
 	[X] Identify
 	[ ] Drop
@@ -28,7 +28,7 @@
 [ ] ChanServ
 	[ ] Register
 	[ ] Drop
-	[ ] Set (Founder, Successor, Restricted, Topiclock)
+	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[ ] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
 	[ ] Send
@@ -39,7 +39,7 @@
 	[ ] Restart
 	[X] Shutdown
 	[ ] Rehash
-	[!] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
+	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
 	[ ] Make modload, modunload and protocols - unloadable
 	[ ] Improve the error messages in modload, if the file doesn't exist say that.
 	[X] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew)
@@ -61,7 +61,7 @@
 	[O] Add is_oper
 [ ] Protocols
 	[X] Add serv_kill
-	[ ] Add serv_enforce
+	[X] Add serv_enforce
 	[ ] Add function to hold nicknames
  	[X] InspIRCd: find a way to properly tell if a user is an oper
 	[X] Charybdis: find a way to properly tell if a user is an oper 
