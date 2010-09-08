@@ -469,7 +469,7 @@ sub hook_identify_del {
 ### NICKSERV REGISTER ###
 our (%hook_ns_register);
 
-# When a user registers, execute all register hooks.
+# When a user registers, execute all nickserv register hooks.
 sub event_ns_register {
         my ($user, $email) = @_;
         my ($hook);
@@ -481,13 +481,13 @@ sub event_ns_register {
         }
 }
 
-# Add a hook to the register event.
+# Add a hook to the nickserv register event.
 sub hook_ns_register_add {
         my ($handler) = @_;
         $hook_ns_register{$handler} = $handler;
 }
 
-# Delete a hook from the register event.
+# Delete a hook from the nickserv register event.
 sub hook_ns_register_del {
         my ($handler) = @_;
         undef $hook_ns_register{$handler};
@@ -520,5 +520,31 @@ sub hook_logout_del {
         undef $hook_logout{$handler};
 }
 
+### CHANSERV REGISTER ###
+our (%hook_cs_register);
+
+# When a user registers a channel, execute all chanserv register hooks.
+sub event_cs_register {
+        my ($chan, $user, $desc) = @_;
+        my ($hook);
+        foreach $hook (%hook_cs_register) {
+                eval
+                {
+                        &{ $hook }($chan, $user, $desc);
+                };
+        }
+}
+
+# Add a hook to the chanserv register event.
+sub hook_cs_register_add {
+        my ($handler) = @_;
+        $hook_cs_register{$handler} = $handler;
+}
+
+# Delete a hook from the chanserv register event.
+sub hook_cs_register_del {
+        my ($handler) = @_;
+        undef $hook_cs_register{$handler};
+}
 
 1;
