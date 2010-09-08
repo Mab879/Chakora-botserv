@@ -1,0 +1,3 @@
+isonchan(user, channel)
+   This will check whether the given user is on the given channel and return 1
+   if they are, and 0 if they aren't.
