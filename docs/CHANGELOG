@@ -84,3 +84,4 @@ Current
 	- Config: Added register, identify, info, logout, and set nickserv modules to default autoload, along with the config options to go with them
 	- API: Renamed event_register to event_ns_register
 	- API: Added event_cs_register
+	- Protocols: Fixed bugs and added isonchan() for checking whether a user is on a channel or not.
