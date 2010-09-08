@@ -82,3 +82,5 @@ Current
 	- Modules: use event_identify and event_register in their modules
 	- Modules: added nickserv/set
 	- Config: Added register, identify, info, logout, and set nickserv modules to default autoload, along with the config options to go with them
+	- API: Renamed event_register to event_ns_register
+	- API: Added event_cs_register
