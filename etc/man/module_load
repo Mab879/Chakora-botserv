@@ -1,0 +1,4 @@
+module_load(module name)
+   Will load the given module from the modules/ directory.  The module
+   should be in the format of folder/file, .pm will be appended onto it.
+   Returns 1 if successful, else returns 0.
