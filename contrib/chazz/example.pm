@@ -1,70 +1,62 @@
-# /  __ \ |         | |
-# | /  \/ |__   __ _| | _____  _ __ __ _
-# | |   | '_ \ / _` | |/ / _ \| '__/ _` |
-# | \__/\ | | | (_| |   < (_) | | | (_| |
-#  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
-#
-# Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+#!/usr/bin/perl
+
+# example.pm - Example module for Chakora
+# Copyright 2010 Chazz Wolcott <chazz@staticbox.net>
+# Released under the GNU General Public License v2
+
+=head1 NAME
+
+example.pm - Example module for Chakora
+
+=head1 DESCRIPTION
+
+This module serves to illustrate the general concepts of the Chakora API.
+
+=head1 SYNOPSIS
+
+=over 4
+
+    use strict;
+    use warnings;
+
+    module_init( "service/module", "Author Name",
+        "0.0", \&init_command, \&destroy_command, "no fucking clue" );
+
+    sub init_command {
+        hook_example_add( \&example_handler );
+    }
+
+    sub destroy_command {
+        delete_sub 'example_handler';
+        hook_example_del( \&example_handler );
+    }
+    
+    sub example_handler {
+        my ( $user, $channel ) = @_;
+        example("BLAH $user $channel");
+    }
+
+=cut
+
 use strict;
 use warnings;
-
-module_init( "operserv/userlog", "Matthew Barksdale",
+module_init( "operserv/example", "Chazz Wolcott",
     "0.1", \&init_os_userlog, \&void_os_userlog, "all" );
 
-# Set this to 0 and verify it has a block in the config to make userlog use its own service
-my $use_operserv = 1;
-my $service;
-
 sub init_os_userlog {
-
-    if ( !$use_operserv ) {
-        if ( !config( 'logserv', 'user' ) ) {
-            print(
-"A block for logserv doesn't appear to be in your config, please create one. Using OperServ instead...\n"
-            );
-            $use_operserv = 1;
-            $service      = 'operserv';
-        }
-        else {
-            my $modes = '+io';
-            if ( lc( config( 'server', 'ircd' ) ) eq 'inspircd' ) {
-                if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) {
-                    $modes .= 'k';
-                }
-            }
-            elsif ( lc( config( 'server', 'ircd' ) ) eq 'charybdis' ) {
-                $modes .= 'S';
-            }
-            serv_add(
-                'logserv',
-                config( 'logserv', 'user' ),
-                config( 'logserv', 'nick' ),
-                config( 'logserv', 'host' ),
-                $modes,
-                config( 'logserv', 'real' )
-            );
-            create_cmdtree('logserv');
-            $service = 'logserv';
-        }
-    }
-    else {
-        $service = 'operserv';
-    }
-
-    hook_join_add( \&svs_os_joinlog );
-    hook_part_add( \&svs_os_partlog );
-    hook_nick_add( \&svs_os_nicklog );
-    hook_uid_add( \&svs_os_connectlog );
-    hook_quit_add( \&svs_os_quitlog );
-    hook_oper_add( \&svs_os_operlog );
-    hook_deoper_add( \&svs_os_deoperlog );
-    hook_away_add( \&svs_os_awaylog );
-    hook_back_add( \&svs_os_backlog );
-    hook_sid_add( \&svs_os_sidlog );
-    hook_netsplit_add( \&svs_os_netsplit );
-    hook_eos_add( \&svs_os_eoslog );
-    hook_kill_add( \&svs_os_killlog );
+    hook_join_add( \&handle_join );
+    hook_part_add( \&handle_part );
+    hook_nick_add( \&handle_nick );
+    hook_uid_add( \&handle_connect );
+    hook_quit_add( \&handle_quit );
+    hook_oper_add( \&handle_oper );
+    hook_deoper_add( \&handle_deoper );
+    hook_away_add( \&handle_away );
+    hook_back_add( \&handle_back );
+    hook_sid_add( \&handle_servers );
+    hook_netsplit_add( \&handle_netsplit );
+    hook_eos_add( \&handle_eos );
+    hook_kill_add( \&handle_kill );
 }
 
 sub void_os_userlog {
@@ -95,8 +87,6 @@ sub void_os_userlog {
     hook_netsplit_del( \&svs_os_netsplit );
     hook_eos_del( \&svs_os_eoslog );
     hook_kill_del( \&svs_os_killlog );
-    delete_cmdtree('logserv');
-    serv_del("logserv");
 }
 
 sub svs_os_joinlog {
@@ -256,3 +246,8 @@ sub svs_os_killlog {
           . $reason
     );
 }
+
+# vim:cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
+# vim:ts=4
+# vim:sw=4
+# vim:noexpandtab
