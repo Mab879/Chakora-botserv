@@ -90,3 +90,4 @@ Current
 	- Chakora: Use POSIX::RT::Timer.
 	- API: Added flaglist_add flaglist_del and flag_exists
 	- Chakora: Added chanserv/register and full status sync subs, channel and user member of channel trackers and bug fixes.
+	- API: Added event_kick and event_topic
