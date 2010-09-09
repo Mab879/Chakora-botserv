@@ -19,15 +19,10 @@ sub void_hs_main {
 	hook_pds_del(\&svs_hs_main);
 	serv_del('HostServ');
 	delete_cmdtree("hostserv");
-	delete_sub 'void_hs_main';
 }
 
 sub svs_hs_main {
-	if (!$Chakora::INSPIRCD_CHGHOST_MOD and lc(config('server', 'ircd')) eq 'inspircd') {
-		svsflog("modules", "Unable to load HostServ, m_chghost isn't loaded.");
-		if ($Chakora::synced) { logchan("operserv", "\002HostServ\002: Unable to load HostServ, m_chghost isn't laoded."); }
-		module_void("hostserv/main");
-	} elsif (!config('hostserv', 'nick')) {
+	if (!config('hostserv', 'nick')) {
 		svsflog('modules', 'Unable to create HostServ. hostserv:nick is not defined in the config!');
 		if ($Chakora::synced) { logchan('operserv', "\002HostServ\002: Unable to create HostServ. hostserv:nick is not defined in the config!"); }
 		module_void("hostserv/main");

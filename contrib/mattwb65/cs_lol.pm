@@ -16,7 +16,6 @@ sub void_cs_lol {
 	delete_sub 'init_cs_lol';
 	delete_sub 'svs_cs_lol';
 	cmd_del("chanserv/lol");
-	delete_sub 'void_cs_lol';
 }
 
 sub svs_cs_lol {

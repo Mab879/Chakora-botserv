@@ -15,7 +15,6 @@ sub void_os_global {
 	delete_sub 'init_os_global';
 	delete_sub 'svs_os_global';
 	cmd_del("operserv/global");
-	delete_sub 'void_os_global';
 }
 
 sub svs_os_global {

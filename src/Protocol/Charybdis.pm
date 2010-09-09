@@ -724,31 +724,6 @@ sub raw_save {
     }
 }
 
-# Handle TOPIC
-sub raw_topic {
-	my ($raw) = @_;
-	my @rex = split(' ', $raw);
-	my $user = substr($rex[0], 1);
-	my $chan = $rex[2];
-        my $args = substr($rex[3], 1);
-        my ($i);
-        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-	event_topic($user, $chan, $args);
-}
-
-# Handle KICK
-sub raw_kick {
-        my ($raw) = @_;
-        my @rex = split(' ', $raw);
-        my $user = substr($rex[0], 1);
-        my $chan = $rex[2];
-	my $target = $rex[3];
-        my $args = substr($rex[4], 1);
-        my ($i);
-        for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-	event_kick($user, $chan, $target, $args);
-}
-
 # Handle ENCAP
 sub raw_encap {
 

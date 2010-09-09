@@ -86,7 +86,6 @@ sub void_os_userlog {
 	hook_kill_del(\&svs_os_killlog);
 	delete_cmdtree('logserv');
 	serv_del("logserv");
-	delete_sub 'void_os_userlog';
 }
 
 sub svs_os_joinlog {

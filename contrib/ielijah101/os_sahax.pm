@@ -16,7 +16,6 @@ sub void_os_sahax {
 	delete_sub 'init_os_sahax';
 	delete_sub 'svs_os_sahax';
 	cmd_del("operserv/sahax");
-	delete_sub 'void_os_sahax';
 }
 
 sub svs_os_sahax {

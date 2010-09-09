@@ -16,7 +16,6 @@ sub void_os_modlist {
 	delete_sub 'init_os_modlist';
 	delete_sub 'svs_os_modlist';
 	cmd_del("operserv/modlist");
-	delete_sub 'void_os_modlist';
 }
 
 sub svs_os_modlist {

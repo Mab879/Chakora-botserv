@@ -15,7 +15,6 @@ sub void_os_uptime {
 	delete_sub 'init_os_uptime';
 	delete_sub 'svs_os_uptime';
 	cmd_del("operserv/uptime");
-	delete_sub 'void_os_uptime';
 }
 
 sub svs_os_uptime {

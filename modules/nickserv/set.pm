@@ -19,7 +19,6 @@ sub void_ns_set {
 	delete_sub 'ns_set_hidemail';
 	delete_sub 'ns_set_email';
         cmd_del("nickserv/set");
-	delete_sub 'void_ns_set';
 }
 
 sub svs_ns_set {
