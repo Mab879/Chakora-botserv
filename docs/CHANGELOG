@@ -85,3 +85,4 @@ Current
 	- API: Renamed event_register to event_ns_register
 	- API: Added event_cs_register
 	- Protocols: Fixed bugs and added isonchan() for checking whether a user is on a channel or not.
+	- Core: Check for m_muteban in InspIRCd
