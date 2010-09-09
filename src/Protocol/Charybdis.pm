@@ -69,10 +69,7 @@ our %rawcmds = (
 );
 %Chakora::PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
-	owner => '-',
-	admin => '-',
 	op => 'o',
-	halfop => '-',
 	voice => 'v',
 	mute => 'q',
 	bexecpt => 'e',
