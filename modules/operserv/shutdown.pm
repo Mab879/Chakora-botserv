@@ -15,6 +15,7 @@ sub void_os_shutdown {
 	delete_sub 'init_os_shutdown';
 	delete_sub 'svs_os_shutdown';
 	cmd_del("operserv/shutdown");
+	delete_sub 'void_os_shutdown';
 }
 
 sub svs_os_shutdown {

@@ -15,6 +15,7 @@ sub void_os_modunload {
 	delete_sub 'init_os_modunload';
 	delete_sub 'svs_os_modunload';
 	cmd_del("operserv/modunload");
+	delete_sub 'void_os_modunload';
 }
 
 sub svs_os_modunload {

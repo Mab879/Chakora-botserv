@@ -12,22 +12,22 @@ module_init("operserv/soper", "Chazz Wolcott", "4.2", \&init_os_soper, \&void_os
 # Set this to 0 and verify it has a block in the config to make userlog use its own service
 my $service = "operserv";
 
-sub init_os_userlog {
+sub init_os_soper {
 
-	hook_oper_add(\&svs_os_operlog);
+	hook_oper_add(\&svs_os_soper);
 	hook_deoper_add(\&svs_os_deoperlog);
 }
 
-sub void_os_userlog {
+sub void_os_soper {
 
-	delete_sub 'svs_os_operlog';
+	delete_sub 'svs_os_soper';
 	delete_sub 'svs_os_deoperlog';
-	hook_oper_del(\&svs_os_operlog);
+	hook_oper_del(\&svs_os_soper);
 	hook_deoper_del(\&svs_os_deoperlog);
-
+	delete_sub 'void_os_soper';
 }
 
-sub svs_os_operlog {
+sub svs_os_soper {
 	my ($user) = @_;
 	if ($Chakora::synced) {
         send_global("IRCOP FLAG TURN ON");

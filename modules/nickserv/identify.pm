@@ -15,6 +15,7 @@ sub void_ns_identify {
 	delete_sub 'init_ns_identify';
 	delete_sub 'svs_ns_identify';
 	cmd_del("nickserv/identify");
+	delete_sub 'void_ns_identify';
 }
 
 sub svs_ns_identify {

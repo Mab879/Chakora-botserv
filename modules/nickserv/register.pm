@@ -22,6 +22,7 @@ sub void_ns_register {
 	delete_sub 'ns_enforce_on_nick';
 	delete_sub 'ns_enforce';
 	cmd_del("nickserv/register");
+	delete_sub 'void_ns_register';
 }
 
 sub svs_ns_register {
