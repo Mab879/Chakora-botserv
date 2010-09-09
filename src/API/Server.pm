@@ -6,97 +6,106 @@ use strict;
 use warnings;
 
 sub parse_mode {
-	my ($modes, $key, $mode) = @_;
-	if ($key eq '+') {
-		my @kmodes = split('\+', $modes);
-		my (@mmodes);
-		foreach my $lmodes (@kmodes) {
-			my @nmodes = split('-', $lmodes);
-			if (defined $nmodes[0]) {
-				push(@mmodes, $nmodes[0]);
-			} else {
-				push(@mmodes, $lmodes);
-			}
-		}
-		my $ei = 0;
-		foreach my $omodes (@mmodes) {
-			if ($omodes =~ m/($mode)/) {
-				$ei = 1;
-			}
-		}
-		return $ei;
-	}
-	elsif ($key eq '-') {
-		my @kmodes = split('-', $modes);
-		my (@mmodes);
-		foreach my $lmodes (@kmodes) {
-			my @nmodes = split('\+', $lmodes);
-			if (defined $nmodes[0]) {
-				push(@mmodes, $nmodes[0]);
-			} else {
-				push(@mmodes, $lmodes);
-			}
-		}
-		my $ei = 0;
-		foreach my $omodes (@mmodes) {
-			if ($omodes =~ m/($mode)/) {
-				$ei = 1;
-			}
-		}
-		return $ei;
-	}
+    my ( $modes, $key, $mode ) = @_;
+    if ( $key eq '+' ) {
+        my @kmodes = split( '\+', $modes );
+        my (@mmodes);
+        foreach my $lmodes (@kmodes) {
+            my @nmodes = split( '-', $lmodes );
+            if ( defined $nmodes[0] ) {
+                push( @mmodes, $nmodes[0] );
+            }
+            else {
+                push( @mmodes, $lmodes );
+            }
+        }
+        my $ei = 0;
+        foreach my $omodes (@mmodes) {
+            if ( $omodes =~ m/($mode)/ ) {
+                $ei = 1;
+            }
+        }
+        return $ei;
+    }
+    elsif ( $key eq '-' ) {
+        my @kmodes = split( '-', $modes );
+        my (@mmodes);
+        foreach my $lmodes (@kmodes) {
+            my @nmodes = split( '\+', $lmodes );
+            if ( defined $nmodes[0] ) {
+                push( @mmodes, $nmodes[0] );
+            }
+            else {
+                push( @mmodes, $lmodes );
+            }
+        }
+        my $ei = 0;
+        foreach my $omodes (@mmodes) {
+            if ( $omodes =~ m/($mode)/ ) {
+                $ei = 1;
+            }
+        }
+        return $ei;
+    }
 }
 
 sub is_soper {
-	my ($uid) = @_;
-	my $return = 0;
-	my @sopers = split(" ", config('operators', 'sra'));
-	foreach my $soper (@sopers) {
-		if (uidInfo($uid, 9)) {
-			if (uidInfo($uid, 7) and uidInfo($uid, 9) eq $soper) {
-				$return = 1;
-			}
-		}
-	}
-	return $return;
+    my ($uid) = @_;
+    my $return = 0;
+    my @sopers = split( " ", config( 'operators', 'sra' ) );
+    foreach my $soper (@sopers) {
+        if ( uidInfo( $uid, 9 ) ) {
+            if ( uidInfo( $uid, 7 ) and uidInfo( $uid, 9 ) eq $soper ) {
+                $return = 1;
+            }
+        }
+    }
+    return $return;
 }
 
 sub is_registered {
-	my ($nick) = @_;
-	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
-		return 1;
-	}
-	else 
-	{
-		return 0;
-	}
+    my ($nick) = @_;
+    if ( defined $Chakora::DB_nick{ lc($nick) }{account} ) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }
 
 sub is_identified {
-	my ($user) = @_;
-	if (defined $Chakora::uid{$user}{'account'}) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
+    my ($user) = @_;
+    if ( defined $Chakora::uid{$user}{'account'} ) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }
 
 sub svsilog {
-	my ($service, $user, $cmd, $args) = @_;
-	if (!uidInfo($user, 9)) { $user = uidInfo($user, 1); }
-	else { $user = uidInfo($user, 1)." (".uidInfo($user, 9).")"; }
-	if (length($args) == 0) {
-		serv_privmsg($service, config('log', 'logchan'), "$user: \002".uc($cmd)."\002");
-	}
-	else {
-		serv_privmsg($service, config('log', 'logchan'), "$user: \002".uc($cmd)."\002: ".$args);
-	}
+    my ( $service, $user, $cmd, $args ) = @_;
+    if ( !uidInfo( $user, 9 ) ) { $user = uidInfo( $user, 1 ); }
+    else { $user = uidInfo( $user, 1 ) . " (" . uidInfo( $user, 9 ) . ")"; }
+    if ( length($args) == 0 ) {
+        serv_privmsg(
+            $service,
+            config( 'log', 'logchan' ),
+            "$user: \002" . uc($cmd) . "\002"
+        );
+    }
+    else {
+        serv_privmsg(
+            $service,
+            config( 'log', 'logchan' ),
+            "$user: \002" . uc($cmd) . "\002: " . $args
+        );
+    }
 }
 
 sub logchan {
-	my ($service, $text) = @_;
-	serv_privmsg($service, config('log', 'logchan'), $text);
+    my ( $service, $text ) = @_;
+    serv_privmsg( $service, config( 'log', 'logchan' ), $text );
 }
 
 1;
