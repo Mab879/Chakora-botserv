@@ -65,6 +65,7 @@ sub svs_cs_register {
 	for ($i = 3; $i < count(@sargv); $i++) { $Chakora::DB_chan{lc($chan)}{desc} .= ' '.$sargv[$i]; }
 	flags($chan, uidInfo($user, 9), $flags);
 	metadata_add(2, $chan, 'option:guard', 1);
+	metadata_add(2, $chan, 'option:fantasy', 1);
 	serv_join("chanserv", $chan);
 	
 	my $modes = 'o';
