@@ -84,6 +84,14 @@ sub flaglist_add {
 	$Chakora::FLAGS{$flag}{description} = $description;
 }
 
+sub create_core_flags {
+	flaglist_add("F", "Channel founder");
+	flaglist_add("s", "Allows the use of SET");
+	flaglist_add("O", "Auto-op");
+	flaglist_add("S", "Allows the use of SYNC");
+	flaglist_add("b", "Auto kickban");
+}
+
 sub flaglist_del {
 	my ($flag) = @_;
 	if (defined($Chakora::FLAGS{$flag})) {
