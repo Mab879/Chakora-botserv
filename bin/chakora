@@ -226,7 +226,7 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex, $mtext);
 our $synced = 0;
-our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $INSPIRCD_CHGHOST_MOD, $INSPIRCD_MUTEBAN_MOD);
+our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $INSPIRCD_CHGHOST_MOD);
 my ($SERVICES_MSGSERVICE, $USER);
 
 # Load modules in the autoload
@@ -263,8 +263,8 @@ while (1) {
     print("[IRC] ".$data."\n");
     $USER = substr($ex[0], 1);
 
-    if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
-        # taint if m_invisible is loaded, this will not be removed - so don't ask
+	if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config('server', 'ircd')) eq 'inspircd') {
+		# taint if m_invisible is loaded, this will not be removed - so don't ask
         if ($data =~ m/m_invisible.so/) {
             taint("InspIRCd: m_invisible is loaded.");
         }
@@ -276,15 +276,14 @@ while (1) {
         if ($data =~ m/m_servprotect.so/) {
             $INSPIRCD_SERVICE_PROTECT_MOD = 1;
         }
-	# check for m_chghost
-	if ($data =~ m/m_chghost.so/) {
+		# check for m_chghost
+		if ($data =~ m/m_chghost.so/) {
             $INSPIRCD_CHGHOST_MOD = 1;
         }
-	# check for m_muteban
-	if ($data =~ m/m_muteban.so/) {
-	    $INSPIRCD_MUTEBAN_MOD = 1;
-	    $PROTO_SETTINGS{mute} = 'b m:';
-	}
+		# check for m_muteban
+		if ($data =~ m/m_muteban.so/) {
+			$PROTO_SETTINGS{mute} = 'b m:';
+		}
 
     }
     # Check for status modes
