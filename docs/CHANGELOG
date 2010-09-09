@@ -87,3 +87,4 @@ Current
 	- Protocols: Fixed bugs and added isonchan() for checking whether a user is on a channel or not.
 	- Core: Check for m_muteban in InspIRCd
 	- Modules: nickserv/info - Added "<nick> is a Services Operator." if they are identified to an account with soper privs
+	- Chakora: Use POSIX::RT::Timer.
