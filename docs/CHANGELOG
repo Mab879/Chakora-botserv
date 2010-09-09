@@ -92,3 +92,5 @@ Current
 	- Chakora: Added chanserv/register and full status sync subs, channel and user member of channel trackers and bug fixes.
 	- API: Added event_kick and event_topic
 	- Protocols: Track KICK and TOPIC
+	- API: Added create_core_flags
+	- Modules: added chanserv/info and chanserv/flist
