@@ -76,12 +76,8 @@ our %rawcmds = (
 );
 %Chakora::PROTO_SETTINGS = (
 	name => 'InspIRCd 1.2/2.0',
-	owner => '-',
-	admin => '-',
 	op => 'o',
-	halfop => '-',
 	voice => 'v',
-	mute => 'b m:',
 	bexcept => 'e',
 	iexcept => 'I',
 );
@@ -132,6 +128,8 @@ sub uidInfo {
 		return $Chakora::uid{$ruid}{'server'};
 	} elsif ($section == 9) {
 		return $Chakora::uid{$ruid}{'account'};
+	} elsif ($section == 10) {
+		return $Chakora::uid{$ruid}{'chans'};
 	} else {
 		return 0;
 	}
@@ -419,14 +417,25 @@ sub raw_ping {
 
 # Handle QUIT
 sub raw_quit {
-        my ($raw) = @_;
-        my @rex = split(' ', $raw);
-        my $ruid = substr($rex[0], 1);
-        my ($i);
-        my $args = substr($rex[2], 1);
-        for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-        event_quit($ruid, $args);
-        undef $Chakora::uid{$ruid};
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $ruid = substr($rex[0], 1);
+	my ($i);
+	my $args = substr($rex[2], 1);
+	for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my @chns = split(' ', $Chakora::uid{$ruid}{'chans'});
+	foreach my $chn (@chns) {
+		my @members = split(' ', $Chakora::channel{$chn}{'members'});
+		my ($newmem);
+		foreach my $member (@members) {
+			unless ($member eq $ruid) {
+				$newmem .= ' '.$member;
+			}
+		}
+		$Chakora::channel{$chn}{'members'} = $newmem;
+	}
+	event_quit($ruid, $args);
+    undef $Chakora::uid{$ruid};
 }
 
 # Handle FJOIN
@@ -443,8 +452,10 @@ sub raw_fjoin {
 	@users = split(' ', $args);
 	foreach $juser (@users) {
 		undef, @rjuser = split(',', $juser);
-		$Chakora::channel{lc($chan)}{'members'} .= ' '.$rjuser[1];			
+		$Chakora::channel{lc($chan)}{'members'} .= ' '.$rjuser[1];
+		$Chakora::uid{$rjuser[1]}{'chans'} .= ' '.lc($chan);			
 		event_join($rjuser[1], $chan);
+		apply_status($rjuser[1], $chan);
 	}
 }
 
@@ -487,6 +498,14 @@ sub raw_part {
 			$newmem .= ' '.$member;
 		}
 	}
+	my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+	my ($newchns);
+	foreach my $chn (@chns) {
+		unless ($chn eq lc($rex[2])) {
+			$newchns .= ' '.$chn;
+		}
+	}
+	$Chakora::uid{$user}{'chans'} = $newchns;
 	$Chakora::channel{lc($rex[2])}{'members'} = $newmem;
     event_part($user, $rex[2], $args);
 }
@@ -659,9 +678,20 @@ sub raw_kill {
 	my @rex = split(' ', $raw);
 	my $user = substr($rex[0], 1);
 	my $target = $rex[2];
-        my $args = substr($rex[3], 1);
-        my ($i);
-        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my $args = substr($rex[3], 1);
+	my ($i);
+	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+	foreach my $chn (@chns) {
+		my @members = split(' ', $Chakora::channel{$chn}{'members'});
+		my ($newmem);
+		foreach my $member (@members) {
+			unless ($member eq $user) {
+				$newmem .= ' '.$member;
+			}
+		}
+		$Chakora::channel{$chn}{'members'} = $newmem;
+	}
 	event_kill($user, $target, "(".$args.")");
 }
 
