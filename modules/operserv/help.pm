@@ -15,6 +15,7 @@ sub void_os_help {
 	delete_sub 'init_os_help';
 	delete_sub 'svs_os_help';
 	cmd_del("operserv/help");
+	delete_sub 'void_os_help';
 }
 
 sub svs_os_help {

@@ -15,6 +15,7 @@ sub void_ns_info {
 	delete_sub 'init_ns_info';
 	delete_sub 'svs_ns_info';
 	cmd_del("nickserv/info");
+	delete_sub 'void_ns_info';
 }
 
 sub svs_ns_info {

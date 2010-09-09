@@ -13,13 +13,13 @@ module_init( "operserv/soper", "Chazz Wolcott",
 # Set this to 0 and verify it has a block in the config to make userlog use its own service
 my $service = "operserv";
 
-sub init_os_userlog {
+sub init_os_soper {
 
     hook_oper_add( \&svs_os_operlog );
     hook_deoper_add( \&svs_os_deoperlog );
 }
 
-sub void_os_userlog {
+sub void_os_soper {
 
     delete_sub 'svs_os_operlog';
     delete_sub 'svs_os_deoperlog';

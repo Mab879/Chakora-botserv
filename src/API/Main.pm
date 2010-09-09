@@ -109,6 +109,41 @@ sub cmd_del {
     undef $Chakora::HELP{$cmd};
 }
 
+sub flaglist_add {
+	my ($flag, $description) = @_;
+	$Chakora::FLAGS{$flag}{name} = $flag;
+	$Chakora::FLAGS{$flag}{description} = $description;
+}
+
+sub create_core_flags {
+	flaglist_add("F", "Channel founder");
+	flaglist_add("s", "Allows the use of SET");
+	flaglist_add("O", "Auto-op");
+	flaglist_add("S", "Allows the use of SYNC");
+	flaglist_add("b", "Auto kickban");
+}
+
+sub flaglist_del {
+	my ($flag) = @_;
+	if (defined($Chakora::FLAGS{$flag})) {
+		delete $Chakora::FLAGS{$flag} and return 1 or return 0;
+	}
+	else {
+		return 0;
+	}
+}
+
+sub flag_exists {
+	my ($flag) = @_;
+	my $return;
+	foreach my $key (keys %Chakora::FLAGS) {
+		if ($Chakora::FLAGS{$key}{name} eq $flag) {
+			$return = 1;
+		}
+	}
+	return $return;
+}
+		
 sub create_cmdtree {
     my ($service) = @_;
     $service = lc($service);

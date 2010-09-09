@@ -22,11 +22,11 @@ sub void_ns_register {
 	delete_sub 'ns_enforce_on_nick';
 	delete_sub 'ns_enforce';
 	cmd_del("nickserv/register");
+	delete_sub 'void_ns_register';
 }
 
 sub svs_ns_register {
 	my ($user, @sargv) = @_;
-	my (@semail);
 	my $nick = uidInfo($user, 1);
 	my $password = $sargv[1];
 	my $email = $sargv[2];
@@ -36,10 +36,10 @@ sub svs_ns_register {
 	unless (!defined($email) or !defined($password)) {
 		unless (defined $Chakora::DB_nick{lc($nick)}{account}) {
 			unless (length($password) < 5) {
-				@semail = split('@', $email);
 				unless (!Email::Valid->address($email)) {
 					$en->add($password);
 					my $pass = $en->hexdigest;
+					$pass = '$whirl$'.$pass;
 					$Chakora::DB_account{lc($nick)}{name} = $nick;
 					$Chakora::DB_account{lc($nick)}{pass} = $pass;
 					$Chakora::DB_account{lc($nick)}{email} = $email;

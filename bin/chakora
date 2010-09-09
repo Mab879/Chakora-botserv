@@ -22,6 +22,7 @@ use Sub::Delete;
 use Digest::Whirlpool;
 use Digest::HMAC;
 use Email::Valid;
+use POSIX::RT::Timer;
 use FindBin qw($Bin);
 use lib "$Bin/../src";
 
@@ -271,6 +272,7 @@ foreach $sac (@sab) {
 
 # Connect!
 irc_connect();
+create_core_flags();
 
 while (1) {
     $data = <$socket>;
