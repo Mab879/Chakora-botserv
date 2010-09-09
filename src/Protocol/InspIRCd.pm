@@ -163,6 +163,21 @@ sub nickUID {
 	}
 }
 
+# Check if a user is on a channel
+sub isonchan {
+	my ($user, $chan) = @_;
+	$chan = lc($chan);
+	$user = uc($user);
+	my $i = 0;
+	my @members = split(' ', $Chakora::channel{$chan}{'members'});
+    foreach my $member (@members) {
+		if ($member eq $user) {
+			$i = 1;
+		}
+	}
+	return $i;
+}
+
 ######### Sending data #########
 
 # Send raw data to server in full compliance with the API
@@ -427,8 +442,9 @@ sub raw_fjoin {
 	for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i] . ' '; }
 	@users = split(' ', $args);
 	foreach $juser (@users) {
-		undef, @rjuser = split(',', $juser);			
-		event_join($rjuser[0], $rex[2]);
+		undef, @rjuser = split(',', $juser);
+		$Chakora::channel{lc($chan)}{'members'} .= ' '.$rjuser[1];			
+		event_join($rjuser[1], $chan);
 	}
 }
 
@@ -464,6 +480,14 @@ sub raw_part {
 		my ($i);
     	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	}
+    my @members = split(' ', $Chakora::channel{lc($rex[2])}{'members'});
+    my ($newmem);
+    foreach my $member (@members) {
+		unless ($member eq $user) {
+			$newmem .= ' '.$member;
+		}
+	}
+	$Chakora::channel{lc($rex[2])}{'members'} = $newmem;
     event_part($user, $rex[2], $args);
 }
 
