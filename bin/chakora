@@ -66,7 +66,7 @@ print("\n");
 print("Many thanks to the developers of Chakora for\n");
 print("their hard work on this software!\n");
 print("\n");
-print("Developers: starcoder, MattB, chazz, Freelancer\n");
+print("Developers: starcoder, MattB, chazz, Russell, Niall\n");
 print("\n");
 print("If you require support, feel free to join our\n");
 print("official support chatroom!\n");

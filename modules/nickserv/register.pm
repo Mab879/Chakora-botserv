@@ -74,7 +74,10 @@ sub ns_enforce_on_uid {
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
 		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
 		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
-		timer_add("ns_id_".$uid, time()+config('nickserv', 'enforce_delay'), "ns_enforce($uid, $account)");
+		my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
+			my $timer = shift;
+			ns_enforce($uid, $account);
+		});
 	}
 }
 
@@ -89,7 +92,10 @@ sub ns_enforce_on_nick {
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
 		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
 		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
-		timer_add("ns_id_".$uid, time()+config('nickserv', 'enforce_delay'), "ns_enforce($uid, $account)");
+		my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
+			my $timer = shift;
+			ns_enforce($uid, $account);
+		});
 	}
 }
 
