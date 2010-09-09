@@ -1,0 +1,139 @@
+# Chakora configuration file
+
+# Me block is information on this Chakora instance
+me {
+	# Server name
+	name = services.server.tld
+	# Information on the server
+	info = "Chakora IRC Services"
+	# A unique 3 character ID
+	sid = 34R
+}
+
+# The server block is information about the ircd and linking
+server {
+	# inspircd or charybdis
+	ircd = inspircd
+	# The name/ip of our hub
+	host = some.server.tld
+	# IP to bind to, 0.0.0.0 should usually be fine
+	vhost = 0.0.0.0
+	# Port to link on
+	port = 7000
+	# Linking password
+	password = linkage
+}
+
+# The network block is information about the network chakora is linking to
+network {
+	# Network name
+	name = "technoirc"
+	# Network admin
+	admin = "starcoder"
+}
+
+# The log block is information about where/what to log
+log {
+
+
+	# Logging flags:
+	# 	debug - Log all debug
+	# 	commands - Log all command usuage
+	# 	error - Log critical errors
+	# 	set - Log all SET commands for an user/channel
+	#	register - Log all registrations
+	#	soper - Log all service oper usuage
+	#	request - Logs anything thats requested (mainly vHosts)
+
+	# Log channel.
+	logchan = "#services"
+	# Log channel flags.
+	logchanf = "error soper request register"
+}
+
+# The services block is information for operator of services
+services {
+	# Administrator email
+	email = 'admin@email.me'
+	# If you want to allow tainting, set this to 1, but you will lose your support
+	allow_taint = 0
+}
+
+enc {
+	# !!CHANGE THIS!! This NEEDS to be unique!! !!DO NOT LOSE THIS, IF YOU LOSE IT, DATABASES CANNOT BE DECRYPTED!!
+	key = "key"
+}
+
+# Information on services
+
+chanserv {
+	nick = ChanServ
+	user = ChanServ
+	host = technoirc/Services/ChanServ
+	real = "Channel Services"
+}
+
+nickserv {
+	nick = NickServ
+	user = NickServ
+	host = technoirc/Services/NickServ
+	real = "Nickname Services"
+	enforce_delay = 30;
+}
+
+operserv {
+	nick = OperServ
+	user = OperServ
+	host = technoirc/Services/OperServ
+	real = "Oper Services"
+}
+
+hostserv {
+	nick = HostServ
+	user = HostServ
+	host = technoirc/Services/HostServ
+	real = "vHost Services"
+}
+
+memoserv {
+	nick = MemoServ
+	user = MemoServ
+	host = technoirc/Services/MemoServ
+	real = "Memo Services"
+}
+
+global {
+	nick = Global
+	user = Global
+	host = technoirc/Services/Global
+	real = "Global Noticer"
+}
+
+modules {
+	load "hostserv/main";
+	load "nickserv/help";
+}
+
+operprivs {
+	name "oper" {
+		priv omfgoper;
+		oper_only;
+	}
+	name "admin"
+		priv omfgadmin;
+		inherit "oper";
+		oper_only;
+	name "sra" {
+		priv omfgsra;
+		inherit "admin";
+		oper_only;
+	}
+}
+
+# People who have access to managing services
+operators {
+	"starcoder" "sra";
+	"MattB" "sra";
+}
+
+# End configuration file
