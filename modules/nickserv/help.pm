@@ -15,6 +15,7 @@ sub void_ns_help {
 	delete_sub 'init_ns_help';
 	delete_sub 'svs_ns_help';
 	cmd_del("nickserv/help");
+	delete_sub 'void_ns_help';
 }
 
 sub svs_ns_help {

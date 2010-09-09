@@ -19,6 +19,7 @@ sub void_cs_away {
 	delete_sub 'svs_cs_back';
 	hook_away_del(\&svs_cs_away);
 	hook_back_del(\&svs_cs_back);
+	delete_sub 'void_cs_away';
 }
 
 sub svs_cs_away {

@@ -15,6 +15,7 @@ sub void_os_modload {
 	delete_sub 'init_os_modload';
 	delete_sub 'svs_os_modload';
 	cmd_del("operserv/modload");
+	delete_sub 'void_os_modload';
 }
 
 sub svs_os_modload {

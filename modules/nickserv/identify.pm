@@ -15,6 +15,7 @@ sub void_ns_identify {
 	delete_sub 'init_ns_identify';
 	delete_sub 'svs_ns_identify';
 	cmd_del("nickserv/identify");
+	delete_sub 'void_ns_identify';
 }
 
 sub svs_ns_identify {
@@ -33,6 +34,7 @@ sub svs_ns_identify {
 		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
 		$en->add($sargv[2]);
 		my $pass = $en->hexdigest;
+		$pass = '$whirl$'.$pass;
 		my $account = $Chakora::DB_nick{lc($sargv[1])}{account};
 		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
 			serv_notice("nickserv", $user, "Incorrect password.");
@@ -57,6 +59,10 @@ sub svs_ns_identify {
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
 		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 		$Chakora::DB_account{lc($account)}{lasthost} = $host;
+		my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+		foreach my $chn (@chns) {
+			apply_status($user, $chn);
+		}
 	} 
 	# they wish to identify to their current nick, lets fulfill that
 	else {
@@ -67,6 +73,7 @@ sub svs_ns_identify {
 		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
 		$en->add($sargv[1]);
 		my $pass = $en->hexdigest;
+		$pass = '$whirl$'.$pass;
 		my $account = $Chakora::DB_nick{lc(uidInfo($user, 1))}{account};
 		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
 			serv_notice("nickserv", $user, "Incorrect password.");
@@ -91,5 +98,9 @@ sub svs_ns_identify {
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
 		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 		$Chakora::DB_account{lc($account)}{lasthost} = $host;
+		my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+		foreach my $chn (@chns) {
+			apply_status($user, $chn);
+		}
 	}	
 }
