@@ -52,8 +52,10 @@ sub is_soper {
 	my $return = 0;
 	my @sopers = split(" ", config('operators', 'sra'));
 	foreach my $soper (@sopers) {
-		if (uidInfo($uid, 7) and uidInfo($uid, 9) eq $soper) {
-			$return = 1;
+		if (uidInfo($uid, 9)) {
+			if (uidInfo($uid, 7) and uidInfo($uid, 9) eq $soper) {
+				$return = 1;
+			}
 		}
 	}
 	return $return;
