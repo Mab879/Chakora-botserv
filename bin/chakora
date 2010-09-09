@@ -322,9 +322,6 @@ while (1) {
 	if (!$INSPIRCD_CHGHOST_MOD) {
             print("[PROTOCOL] m_chghost.so isn't loaded, which is required for HostServ, HostServ will not load..\n");
         }
-	if (!$INSPIRCD_MUTEBAN_MOD) {
-	    print("[PROTCOL] m_muteban.so isn't loaded, it isn't required, but is needed for setting mutes on users via services.\n");
-	}
         raw_capabend();
     }
     # Charybdis: syncing done
