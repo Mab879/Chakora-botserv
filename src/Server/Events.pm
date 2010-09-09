@@ -419,12 +419,12 @@ our (%hook_kick);
 
 # When a user is kicked from a channel, execute all kick hooks.
 sub event_kick {
-        my ($user, $chan, $reason) = @_;
+        my ($user, $chan, $target, $reason) = @_;
         my ($hook);
         foreach $hook (%hook_kick) {
                 eval
                 {
-                        &{ $hook }($user, $chan, $reason);
+                        &{ $hook }($user, $chan, $target, $reason);
                 };
         }
 }
