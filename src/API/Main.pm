@@ -49,7 +49,6 @@ sub module_void {
 		eval
         {
             &{ $void_handler }();
-            delete_sub $void_handler;
             print("[MODULES] ".$module.": Module successfully unloaded.\n");
             svsflog("chakora", "[MODULES] ".$module.": Module successfully unloaded.");
 			delete $Chakora::MODULE{$module};
@@ -79,6 +78,33 @@ sub cmd_del {
 	undef $Chakora::HELP{$cmd};
 }
 
+sub flaglist_add {
+	my ($flag, $description) = @_;
+	$Chakora::FLAGS{$flag}{name} = $flag;
+	$Chakora::FLAGS{$flag}{description} = $description;
+}
+
+sub flaglist_del {
+	my ($flag) = @_;
+	if (defined($Chakora::FLAGS{$flag})) {
+		delete $Chakora::FLAGS{$flag} and return 1 or return 0;
+	}
+	else {
+		return 0;
+	}
+}
+
+sub flag_exists {
+	my ($flag) = @_;
+	my $return;
+	foreach my $key (keys %Chakora::FLAGS) {
+		if ($Chakora::FLAGS{$key}{name} eq $flag) {
+			$return = 1;
+		}
+	}
+	return $return;
+}
+		
 sub create_cmdtree {
 	my ($service) = @_;
 	$service = lc($service);
