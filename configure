@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
-# /  __ \ |         | |                  
-# | /  \/ |__   __ _| | _____  _ __ __ _ 
+# /  __ \ |         | |
+# | /  \/ |__   __ _| | _____  _ __ __ _
 # | |   | '_ \ / _` | |/ / _ \| '__/ _` |
 # | \__/\ | | | (_| |   < (_) | | | (_| |
 #  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
@@ -22,87 +22,90 @@ print("\n");
 print("Welcome to the Chakora Setup Wizard!\n");
 print("We recommend using this to make sure everything works\n");
 print("properly.\n");
-print("\n"); sleep 2;
-print("Checking for required modules...\n"); sleep 1;
+print("\n");
+sleep 2;
+print("Checking for required modules...\n");
+sleep 1;
 
 my ($die);
 
-print "Checking for IO::Socket..... "; 
+print "Checking for IO::Socket..... ";
 eval {
-	require IO::Socket;
-	print "OK\n";
-	1;
+    require IO::Socket;
+    print "OK\n";
+    1;
 } or print("Not Found (install IO::Socket)\n") and $die = 1;
 
 print("Checking for Config::Scoped..... ");
 eval {
-	require Config::Scoped;
-	print "OK\n";
-	1;
+    require Config::Scoped;
+    print "OK\n";
+    1;
 } or print("Not Found (install Config::Scoped)\n") and $die = 1;
 
 print("Checking for Getopt::Long..... ");
 eval {
-	require Getopt::Long;
-	print "OK\n";
-	1;
+    require Getopt::Long;
+    print "OK\n";
+    1;
 } or print("Not Found (install Getopt::Long)\n") and $die = 1;
 
 print("Checking for FindBin..... ");
 eval {
-	require FindBin;
-	print "OK\n";
-	1;
+    require FindBin;
+    print "OK\n";
+    1;
 } or print("Not Found (install FindBin)\n") and $die = 1;
 
 print("Checking for File::Data..... ");
 eval {
-	require File::Data;
-	print "OK\n";
-	1;
+    require File::Data;
+    print "OK\n";
+    1;
 } or print("Not Found (install File::Data)\n") and $die = 1;
 
 print("Checking for Term::ANSIColor..... ");
 eval {
-	require Term::ANSIColor;
-	print "OK\n";
-	1;
+    require Term::ANSIColor;
+    print "OK\n";
+    1;
 } or print("Not Found (install Term::ANSIColor)\n") and $die = 1;
 
 print("Checking for Sub::Delete..... ");
 eval {
-        require Sub::Delete;
-        print "OK\n";
-        1;
+    require Sub::Delete;
+    print "OK\n";
+    1;
 } or print("Not Found (install Sub::Delete)\n") and $die = 1;
 
 print("Checking for Digest::Whirlpool..... ");
 eval {
-        require Digest::Whirlpool;
-        print "OK\n";
-        1;
+    require Digest::Whirlpool;
+    print "OK\n";
+    1;
 } or print("Not Found (install Digest::Whirlpool)\n") and $die = 1;
 
 print("Checking for Digest::HMAC..... ");
 eval {
-        require Digest::HMAC;
-        print "OK\n";
-        1;
+    require Digest::HMAC;
+    print "OK\n";
+    1;
 } or print("Not Found (install Digest::HMAC)\n") and $die = 1;
 
 print("Checking for Email::Valid..... ");
 eval {
-        require Email::Valid;
-        print "OK\n";
-        1;
+    require Email::Valid;
+    print "OK\n";
+    1;
 } or print("Not Found (install Email::Valid)\n") and $die = 1;
 
 print("\n");
 
 if ($die) {
-	die("Required modules missing! Please install these then try again!\n");
+    die("Required modules missing! Please install these then try again!\n");
 }
 
-print("All required modules were found.\nPlease edit etc/chakora.conf.example and rename it to chakora.conf now...\n\n"); 
-
+print(
+"All required modules were found.\nPlease edit etc/chakora.conf.example and rename it to chakora.conf now...\n\n"
+);
 
