@@ -41,6 +41,7 @@ sub svs_ns_info {
 	else {
 		serv_notice("nickserv", $user, "Email      : ".$Chakora::DB_account{lc($account)}{email});
 	}
+
 	my ($flags);
 	foreach my $key (keys %Chakora::DB_accdata) {
 		if (lc($Chakora::DB_accdata{$key}{account}) eq lc($account)) {
@@ -51,5 +52,10 @@ sub svs_ns_info {
 	unless (!defined($flags)) {
 		serv_notice("nickserv", $user, "Flags      :".$flags);
 	}
+
+        if (is_soper(nickUID($sargv[1]))) {
+                serv_notice("nickserv", $user, $Chakora::DB_nick{lc($sargv[1])}{nick}." is a Services Operator.");
+        }
+
 	serv_notice("nickserv", $user, "\002*** End of Info ***\002");
 }
