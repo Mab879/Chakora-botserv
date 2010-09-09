@@ -8,7 +8,7 @@ use warnings;
 module_init("operserv/update", "The Chakora Project", "0.1", \&init_os_update, \&void_os_update, "all");
 
 sub init_os_update {
-	cmd_add("operserv/update", "Updates the services database.", "UPDATE flushes the query of items waiting to\nbe written tothe services database.", \&svs_os_update);
+	cmd_add("operserv/update", "Updates the services database.", "UPDATE flushes the query of items waiting to\nbe written to the services database.", \&svs_os_update);
 }
 
 sub void_os_update {
