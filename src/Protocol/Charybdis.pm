@@ -126,6 +126,8 @@ sub uidInfo {
 		return $Chakora::uid{$ruid}{'server'};
 	} elsif ($section == 9) {
 		return $Chakora::uid{$ruid}{'account'};
+	} elsif ($section == 10) {
+		return $Chakora::uid{$ruid}{'chans'};
 	} else {
 		return 0;
 	}
@@ -410,7 +412,9 @@ sub raw_sjoin {
 	my $user = substr($rex[5], 1);
 	$user =~ s/[@+]//;
 	$Chakora::channel{lc($chan)}{'members'} .= ' '.$user;
+	$Chakora::uid{$user}{'chans'} .= ' '.lc($chan);
 	event_join($user, $chan);
+	apply_status($user, $chan);
 }
 
 # Handle QUIT
@@ -418,9 +422,20 @@ sub raw_quit {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $ruid = substr($rex[0], 1);
-        my ($i);
-        my $args = substr($rex[2], 1);
-        for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my ($i);
+	my $args = substr($rex[2], 1);
+	for ($i = 3; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my @chns = split(' ', $Chakora::uid{$ruid}{'chans'});
+	foreach my $chn (@chns) {
+		my @members = split(' ', $Chakora::channel{$chn}{'members'});
+		my ($newmem);
+		foreach my $member (@members) {
+			unless ($member eq $ruid) {
+				$newmem .= ' '.$member;
+			}
+		}
+		$Chakora::channel{$chn}{'members'} = $newmem;
+	}
 	event_quit($ruid, $args);
 	undef $Chakora::uid{$ruid};
 }
@@ -465,6 +480,14 @@ sub raw_part {
 		}
 	}
 	$Chakora::channel{lc($rex[2])}{'members'} = $newmem;
+	my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+	my ($newchns);
+	foreach my $chn (@chns) {
+		unless ($chn eq lc($rex[2])) {
+			$newchns .= ' '.$chn;
+		}
+	}
+	$Chakora::uid{$user}{'chans'} = $newchns;
 	event_part($user, $rex[2], $args);
 }
 
@@ -636,8 +659,19 @@ sub raw_kill {
 	my @rex = split(' ', $raw);
  	my $user = substr($rex[0], 1);
 	my $target = $rex[2];
-        my ($i, $args);
-        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my ($i, $args);
+	for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+	foreach my $chn (@chns) {
+		my @members = split(' ', $Chakora::channel{$chn}{'members'});
+		my ($newmem);
+		foreach my $member (@members) {
+			unless ($member eq $user) {
+				$newmem .= ' '.$member;
+			}
+		}
+		$Chakora::channel{$chn}{'members'} = $newmem;
+	}
 	event_kill($user, $target, $args);
 }
 

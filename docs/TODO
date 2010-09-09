@@ -26,7 +26,7 @@
 	[X] Account name (Sub done, module not)
 	[X] Logout
 [ ] ChanServ
-	[ ] Register
+	[X] Register
 	[ ] Drop
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[ ] Access list system (We're going to do a flag system with an XOP adapter)	

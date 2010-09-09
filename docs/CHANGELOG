@@ -88,5 +88,6 @@ Current
 	- Core: Check for m_muteban in InspIRCd
 	- Modules: nickserv/info - Added "<nick> is a Services Operator." if they are identified to an account with soper privs
 	- Chakora: Use POSIX::RT::Timer.
-	- API: added flaglist_add flaglist_del and flag_exists
-	- API: added event_topic and event_kick
+	- API: Added flaglist_add flaglist_del and flag_exists
+	- Chakora: Added chanserv/register and full status sync subs, channel and user member of channel trackers and bug fixes.
+	- API: Added event_kick and event_topic
