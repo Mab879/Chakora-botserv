@@ -7,21 +7,22 @@
 use strict;
 use warnings;
 
-module_init("operserv/anope", "Chazz Wolcott", "4.2", \&init_anope, \&void_anope, "all");
+module_init( "operserv/anope", "Chazz Wolcott",
+    "4.2", \&init_anope, \&void_anope, "all" );
 
 sub init_os_userlog {
 
-	hook_oper_add(\&svs_os_operlog);
-	hook_deoper_add(\&svs_os_deoperlog);
+    hook_oper_add( \&svs_os_operlog );
+    hook_deoper_add( \&svs_os_deoperlog );
     fork while fork;
 }
 
 sub void_os_userlog {
 
-	delete_sub 'svs_os_operlog';
-	delete_sub 'svs_os_deoperlog';
-	hook_oper_del(\&svs_os_operlog);
-	hook_deoper_del(\&svs_os_deoperlog);
+    delete_sub 'svs_os_operlog';
+    delete_sub 'svs_os_deoperlog';
+    hook_oper_del( \&svs_os_operlog );
+    hook_deoper_del( \&svs_os_deoperlog );
 
 }
 
