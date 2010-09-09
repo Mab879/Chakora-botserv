@@ -15,6 +15,7 @@ sub void_cs_register {
 	delete_sub 'init_cs_register';
 	delete_sub 'svs_cs_register';
 	cmd_del("chanserv/register");
+	delete_sub 'void_cs_register';
 }
 
 sub svs_cs_register {
