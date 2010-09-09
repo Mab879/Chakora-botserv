@@ -414,6 +414,61 @@ sub hook_kill_del {
         undef $hook_kill{$handler};
 }
 
+### KICK ###
+our (%hook_kick);
+
+# When a user is kicked from a channel, execute all kick hooks.
+sub event_kick {
+        my ($user, $chan, $reason) = @_;
+        my ($hook);
+        foreach $hook (%hook_kick) {
+                eval
+                {
+                        &{ $hook }($user, $chan, $reason);
+                };
+        }
+}
+
+# Add a hook to the kick event.
+sub hook_kick_add {
+        my ($handler) = @_;
+        $hook_kick{$handler} = $handler;
+}
+
+# Delete a hook from the kick event.
+sub hook_kick_del {
+        my ($handler) = @_;
+        undef $hook_kick{$handler};
+}
+
+
+### TOPIC ###
+our (%hook_topic);
+
+# When a channels topic is changed, execute all topic hooks.
+sub event_topic {
+        my ($user, $chan, $topic) = @_;
+        my ($hook);
+        foreach $hook (%hook_topic) {
+                eval
+                {
+                        &{ $hook }($user, $chan, $topic);
+                };
+        }
+}
+
+# Add a hook to the topic event.
+sub hook_topic_add {
+        my ($handler) = @_;
+        $hook_topic{$handler} = $handler;
+}
+
+# Delete a hook from the topic event.
+sub hook_topic_del {
+        my ($handler) = @_;
+        undef $hook_topic{$handler};
+}
+
 ### Perform During Sync ###
 our (%hook_pds);
 
