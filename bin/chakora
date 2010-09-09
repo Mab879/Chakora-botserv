@@ -226,18 +226,19 @@ my $socket = IO::Socket::INET->new(
 # Create some variables for later use
 my ($data, $ex, @ex, $mtext);
 our $synced = 0;
-our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $INSPIRCD_CHGHOST_MOD);
+our ($INSPIRCD_SERVICES_ACCOUNT_MOD, $INSPIRCD_SERVICE_PROTECT_MOD, $INSPIRCD_CHGHOST_MOD, $INSPIRCD_MUTEBAN_MOD);
 my ($SERVICES_MSGSERVICE, $USER);
 
-# Connect!
-irc_connect();
-
+# Load modules in the autoload
 my $saa = config('services', 'autoload');
 my @sab = split(' ', $saa);
 my ($sac);
 foreach $sac (@sab) {
 	do $ROOT_SRC."/../modules/".lc($sac).".pm";
 }
+
+# Connect!
+irc_connect();
 
 while (1) {
 	$data = <$socket>;
@@ -279,6 +280,11 @@ while (1) {
 	if ($data =~ m/m_chghost.so/) {
             $INSPIRCD_CHGHOST_MOD = 1;
         }
+	# check for m_muteban
+	if ($data =~ m/m_muteban.so/) {
+	    $INSPIRCD_MUTEBAN_MOD = 1;
+	    $PROTO_SETTINGS{mute} = 'b m:';
+	}
 
     }
     # Check for status modes
@@ -317,6 +323,9 @@ while (1) {
 	if (!$INSPIRCD_CHGHOST_MOD) {
             print("[PROTOCOL] m_chghost.so isn't loaded, which is required for HostServ, HostServ will not load..\n");
         }
+	if (!$INSPIRCD_MUTEBAN_MOD) {
+	    print("[PROTCOL] m_muteban.so isn't loaded, it isn't required, but is needed for setting mutes on users via services.\n");
+	}
         raw_capabend();
     }
     # Charybdis: syncing done
