@@ -410,11 +410,15 @@ sub raw_sjoin {
 	if (!defined($Chakora::channel{lc($chan)}{'ts'})) {
 		$Chakora::channel{lc($chan)}{'ts'} = $rex[2];
 	}
-	my $user = substr($rex[5], 1);
-	$user =~ s/[@+]//;
-	$Chakora::channel{lc($chan)}{'members'} .= ' '.$user;
-	$Chakora::uid{$user}{'chans'} .= ' '.lc($chan);
-	event_join($user, $chan);
+    my ($args, $i, @users, $juser, $rjuser);
+    for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i].' '; }
+    @users = split(' ', $args);
+    foreach $juser (@users) {
+        $rjuser = substr($juser, length($juser) - 9, 9);
+        $Chakora::channel{lc($chan)}{'members'} .= ' '.$rjuser;
+        $Chakora::uid{$rjuser}{'chans'} .= ' '.lc($chan);
+        event_join($rjuser, $chan);
+    }
 }
 
 # Handle QUIT
