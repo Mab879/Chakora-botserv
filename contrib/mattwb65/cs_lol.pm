@@ -7,7 +7,9 @@ use warnings;
 
 module_init("chanserv/lol", "Matthew Barksdale", "0.1", \&init_cs_lol, \&void_cs_lol, "all");
 
-sub init_cs_version {
+sub init_cs_lol {
+	taint("LOL MODULE"); # Taints chakora
+	serv_privmsg("chanserv", config('log', 'logchan'), "LOL MODULE ON"); # Messages the logchan, "LOL MODULE ON"
 	cmd_add("chanserv/lol", "Short help", "Long help.", \&svs_cs_lol);
 }
 
@@ -21,8 +23,8 @@ sub void_cs_lol {
 
 sub svs_cs_lol {
 	my ($user, @args) = @_;
-	serv_notice("cs", $user, "LOL ".uidInfo($user, 1)); # Notices the user, "LOL <nickname>"
-	svsilog("cs", $user, "LOL", ""); # Logs it to logchan
+	serv_notice("chanserv", $user, "LOL ".uidInfo($user, 1)); # Notices the user, "LOL <nickname>"
+	svsilog("chanserv", $user, "LOL", ""); # Logs it to logchan
 }
 
 1;
