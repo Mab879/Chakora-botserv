@@ -98,6 +98,12 @@ sub ircd_cs_kill {
 		ircd_cs_main();
 	}
 	else {
+		foreach my $key (keys %Chakora::svsuid) {
+			if ($target eq $Chakora::svsuid{$key}) {
+				return;
+			}
+		}
+		
 		my @chns = split(' ', uidInfo($user, 10));
 		foreach my $chn (@chns) {
 			my @cmems = split(' ', $Chakora::channel{lc($chn)}{'members'});
