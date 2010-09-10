@@ -80,7 +80,7 @@ sub ircd_cs_main {
 			$modes, config( 'chanserv', 'real' )
 		);	
         foreach my $key ( keys %Chakora::DB_chan ) {
-            unless ( !defined( $Chakora::DB_chan{$key}{name} ) ) {
+            unless (!defined( $Chakora::DB_chan{$key}{name})) {
 				my @cmems = split(' ', $Chakora::channel{$key}{'members'});
 				if (count(@cmems) == 1 or count(@cmems) > 1 and metadata(2, $key, 'option:guard')) {
 					serv_join("chanserv", $Chakora::DB_chan{$key}{name});
@@ -107,7 +107,7 @@ sub ircd_cs_kill {
 		my @chns = split(' ', uidInfo($user, 10));
 		foreach my $chn (@chns) {
 			my @cmems = split(' ', $Chakora::channel{lc($chn)}{'members'});
-			if (count(@cmems) < 1) {
+			if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chn)}{name}) and lc($chn) ne lc(config('log', 'logchan'))) {
 				serv_part("chanserv", $chn, "Channel user count has dropped below 1.");
 			}
 		}
@@ -118,8 +118,10 @@ sub ircd_cs_join {
 	my ($user, $chan) = @_;
 	
 	my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
-	if (count(@cmems) == 1 and defined( $Chakora::DB_chan{$chan}{name} ) and metadata(2, $chan, 'option:guard')) {
-		serv_join("chanserv", $chan);
+	if (count(@cmems) == 1 or count(@cmems) > 1) {
+		if (defined($Chakora::DB_chan{lc($chan)}{name}) and metadata(2, $chan, 'option:guard')) {
+			serv_join("chanserv", $chan);
+		}
 	}
 	apply_status($user, $chan);
 }
@@ -128,7 +130,7 @@ sub ircd_cs_part {
 	my ($user, $chan, $msg) = @_;
 	
 	my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
-	if (count(@cmems) < 1) {
+	if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and lc($chan) ne lc(config('log', 'logchan'))) {
 		serv_part("chanserv", $chan, "Channel user count has dropped below 1.");
 	}
 }
@@ -146,7 +148,7 @@ sub ircd_cs_kick {
 	}
 	else {
 		my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
-		if (count(@cmems) < 1) {
+		if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and lc($chan) ne lc(config('log', 'logchan'))) {
 			serv_part("chanserv", $chan, "Channel user count has dropped below 1.");
 		}
 	}
@@ -158,7 +160,7 @@ sub ircd_cs_quit {
 	my @chns = split(' ', uidInfo($user, 10));
 	foreach my $chn (@chns) {
 		my @cmems = split(' ', $Chakora::channel{lc($chn)}{'members'});
-		if (count(@cmems) < 1) {
+		if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chn)}{name}) and lc($chn) ne lc(config('log', 'logchan'))) {
 			serv_part("chanserv", $chn, "Channel user count has dropped below 1.");
 		}
 	}
