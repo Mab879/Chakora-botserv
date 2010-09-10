@@ -8,6 +8,9 @@ use warnings;
 module_init("chanserv/register", "The Chakora Project", "0.1", \&init_cs_register, \&void_cs_register, "all");
 
 sub init_cs_register {
+	if (!module_exists("chanserv/main")) {
+		module_load("chanserv/main");
+	}
 	cmd_add("chanserv/register", "Registers and protects a channel with services.", "REGISTER allows you to register a channel so\nthat you have better control over it. It\nwill also allow you to keep access lists, settings,\ntopics and keep the channel in sync and protected.\n[T]\nSyntax: REGISTER <#channel>", \&svs_cs_register);
 }
 

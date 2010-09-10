@@ -34,7 +34,7 @@ our %rawcmds = (
     'KILL'     => { handler => \&raw_kill, },
     'SVSNICK'  => { handler => \&raw_svsnick, },
     'KICK'     => { handler => \&raw_kick, },
-    'TOPIC'  => { handler => \&raw_topic, },
+    'TOPIC'    => { handler => \&raw_topic, },
 );
 %Chakora::PROTO_SETTINGS = (
     name    => 'InspIRCd 1.2/2.0',
@@ -420,13 +420,6 @@ sub raw_capabend {
         $modes, config( 'global', 'real' )
     );
     serv_add(
-        'chanserv',
-        config( 'chanserv', 'user' ),
-        config( 'chanserv', 'nick' ),
-        config( 'chanserv', 'host' ),
-        $modes, config( 'chanserv', 'real' )
-    );
-    serv_add(
         'nickserv',
         config( 'nickserv', 'user' ),
         config( 'nickserv', 'nick' ),
@@ -521,7 +514,6 @@ sub raw_fjoin {
         $Chakora::channel{ lc($chan) }{'members'} .= ' ' . $rjuser[1];
         $Chakora::uid{ $rjuser[1] }{'chans'} .= ' ' . lc($chan);
         event_join( $rjuser[1], $chan );
-        apply_status( $rjuser[1], $chan );
     }
 }
 
@@ -686,11 +678,6 @@ sub raw_endburst {
         foreach my $key ( sort keys %Chakora::svsuid ) {
             serv_join( $key, config( 'log', 'logchan' ) );
         }
-        foreach my $key ( keys %Chakora::DB_chan ) {
-            unless ( !defined( $Chakora::DB_chan{$key}{name} ) ) {
-                serv_join( "chanserv", $Chakora::DB_chan{$key}{name} );
-            }
-        }
         $Chakora::synced = 1;
         event_eos();
     }
@@ -810,11 +797,11 @@ sub raw_kick {
     my @members = split( ' ', $Chakora::channel{ lc( $chan ) }{'members'} );
     my ($newmem);
     foreach my $member (@members) {
-        unless ( $member eq $user ) {
+        unless ( $member eq $target ) {
             $newmem .= ' ' . $member;
         }
     }
-    my @chns = split( ' ', $Chakora::uid{$user}{'chans'} );
+    my @chns = split( ' ', $Chakora::uid{$target}{'chans'} );
     my ($newchns);
     foreach my $chn (@chns) {
         unless ( $chn eq lc( $chan ) ) {

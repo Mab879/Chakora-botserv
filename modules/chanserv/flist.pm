@@ -8,6 +8,9 @@ use warnings;
 module_init("chanserv/flist", "The Chakora Project", "0.1", \&init_cs_flist, \&void_cs_flist, "all");
 
 sub init_cs_flist {
+	if (!module_exists("chanserv/main")) {
+		module_load("chanserv/main");
+	}
 	cmd_add("chanserv/flist", "Lists available channel flags.", "NO_HELP_ENTRY", \&svs_cs_flist);
 }
 

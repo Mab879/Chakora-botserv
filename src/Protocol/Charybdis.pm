@@ -358,10 +358,8 @@ sub serv_enforce {
 # Our Bursting
 sub raw_bursting {
 	serv_add('global', config('global', 'user'), config('global', 'nick'), config('global', 'host'), '+ioS', config('global', 'real'));
-	serv_add('chanserv', config('chanserv', 'user'), config('chanserv', 'nick'), config('chanserv', 'host'), '+ioS', config('chanserv', 'real'));
 	serv_add('nickserv', config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), '+ioS', config('nickserv', 'real'));
 	serv_add('operserv', config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), '+ioS', config('operserv', 'real'));
-	create_cmdtree("chanserv");
 	create_cmdtree("nickserv");
 	create_cmdtree("operserv");
 	event_pds();
@@ -373,11 +371,6 @@ sub raw_endsync {
 		foreach my $key (sort keys %Chakora::svsuid) {
 			serv_join($key, config('log', 'logchan'));
 		}
-		foreach my $key (keys %Chakora::DB_chan) {
-			unless (!defined($Chakora::DB_chan{$key}{name})) {
-				serv_join("chanserv", $Chakora::DB_chan{$key}{name});
-			}
-		}	
 		$Chakora::synced = 1;
 		event_eos();
 	}
@@ -420,7 +413,6 @@ sub raw_sjoin {
 	$Chakora::channel{lc($chan)}{'members'} .= ' '.$user;
 	$Chakora::uid{$user}{'chans'} .= ' '.lc($chan);
 	event_join($user, $chan);
-	apply_status($user, $chan);
 }
 
 # Handle QUIT
@@ -467,7 +459,6 @@ sub raw_join {
 	$Chakora::channel{lc($rex[3])}{'members'} .= ' '.substr($rex[0], 1);
 	$Chakora::uid{substr($rex[0], 1)}{'chans'} .= ' '.lc($rex[3]);
 	event_join(substr($rex[0], 1), $rex[3]);
-	apply_status(substr($rex[0], 1), $rex[3]);
 }
 
 # Handle PART
@@ -682,6 +673,9 @@ sub raw_kill {
 		$Chakora::channel{$chn}{'members'} = $newmem;
 	}
 	event_kill($user, $target, $args);
+	if (defined $Chakora::uid{$user}) {
+		undef $Chakora::uid{$user};
+	}
 }
 
 # Handle SAVE
@@ -725,11 +719,11 @@ sub raw_kick {
     my @members = split( ' ', $Chakora::channel{ lc( $chan ) }{'members'} );
     my ($newmem);
     foreach my $member (@members) {
-        unless ( $member eq $user ) {
+        unless ( $member eq $target ) {
             $newmem .= ' ' . $member;
         }
     }
-    my @chns = split( ' ', $Chakora::uid{$user}{'chans'} );
+    my @chns = split( ' ', $Chakora::uid{$target}{'chans'} );
     my ($newchns);
     foreach my $chn (@chns) {
         unless ( $chn eq lc( $chan ) ) {
