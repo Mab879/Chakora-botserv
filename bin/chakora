@@ -80,6 +80,7 @@ print(  "Chakora IRC Services started on "
       . "\n" );
 sleep 1;
 $SERVICES_STARTTIME = time();
+our $TAINTED = 0;
 svsflog( "chakora", "Chakora IRC Services started." );
 
 # Don't allow Chakora to run as root
@@ -579,12 +580,22 @@ sub count {
     return $i;
 }
 
+sub is_tainted {
+	if ($Chakora::TAINTED) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
 sub taint {
     my ($str) = @_;
     my $msg = "TAINTED: " . $str;
     if ( config( 'services', 'allow_taint' ) ) {
         $msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
         print( "[WARNING] " . $msg . "\n" );
+	if (!$Chakora::TAINTED) { $Chakora::TAINTED = 1; }
     }
     else {
         $msg .= " - Aborting. . .";

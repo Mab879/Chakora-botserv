@@ -95,3 +95,4 @@ Current
 	- API: Added create_core_flags
 	- Modules: added chanserv/info and chanserv/flist
 	- Modules: (chanserv|nickserv|operserv)/help: Improved how help is displayed.
+	- API: Added is_tainted
