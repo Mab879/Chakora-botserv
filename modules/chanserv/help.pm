@@ -1,7 +1,7 @@
 # chanserv/help by The Chakora Project. Adds help functions to ChanServ.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD Licecse (docs/LICENSE - http://www.opecsource.org/licecses/bsd-licecse.php)
+# Released under The BSD License (docs/LICENSE - http://www.opecsource.org/licecses/bsd-license.php)
 use strict;
 use warnings;
 
