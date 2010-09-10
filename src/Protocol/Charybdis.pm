@@ -458,7 +458,10 @@ sub raw_mode {
 sub raw_join {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
+	$Chakora::channel{lc($rex[3])}{'members'} .= ' '.substr($rex[0], 1);
+	$Chakora::uid{substr($rex[0], 1)}{'chans'} .= ' '.lc($rex[3]);
 	event_join(substr($rex[0], 1), $rex[3]);
+	apply_status(substr($rex[0], 1), $rex[3]);
 }
 
 # Handle PART
