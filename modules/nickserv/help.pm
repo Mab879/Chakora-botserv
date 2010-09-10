@@ -45,15 +45,22 @@ sub svs_ns_help {
 		serv_notice("nickserv", $user, "nickname.");
 		serv_notice("nickserv", $user, "\002\002");
 		serv_notice("nickserv", $user, "For more information on a command, please type:");
-		serv_notice("nickserv", $user, "\002/msg ".config('nickserv', 'nick')." HELP <command>\002");
+		serv_notice("nickserv", $user, "\002/msg ".$Chakora::svsnick{'nickserv'}." HELP <command>\002");
 		serv_notice("nickserv", $user, "\002\002");
 		serv_notice("nickserv", $user, "The following commands are available:");
 		my %commands = %Chakora::HELP;
+		my ($calc, $dv);
 		foreach my $key (sort keys %commands) {
 			my @skey = split('/', $key);
 			if (lc($skey[0]) eq 'nickserv') {
-				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY") {
-					serv_notice("nickserv", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
+				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY" or length($key) > 23) {
+					$calc = length($key);
+					$dv = "";
+					while ($calc != 25) {
+						$dv .= ' ';
+						$calc += 1;
+					}
+					serv_notice("nickserv", $user, "\002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
 				}
 			}
 		}

@@ -42,15 +42,22 @@ sub svs_os_help {
 		serv_notice("operserv", $user, "\002OperServ\002 allows opers to better control services.");
 		serv_notice("operserv", $user, "\002\002");
 		serv_notice("operserv", $user, "For more information on a command, please type:");
-		serv_notice("operserv", $user, "\002/msg ".config('operserv', 'nick')." HELP <command>\002");
+		serv_notice("operserv", $user, "\002/msg ".$Chakora::svsnick{'operserv'}." HELP <command>\002");
 		serv_notice("operserv", $user, "\002\002");
 		serv_notice("operserv", $user, "The following commands are available:");
 		my %commands = %Chakora::HELP;
+		my ($calc, $dv);
 		foreach my $key (sort keys %commands) {
 			my @skey = split('/', $key);
 			if (lc($skey[0]) eq 'operserv') {
-				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY") {
-					serv_notice("operserv", $user, "\002".uc($skey[1])."\002   -   ".$commands{$key}{shelp});
+				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY" or length($key) > 23) {
+					$calc = length($key);
+					$dv = "";
+					while ($calc != 25) {
+						$dv .= ' ';
+						$calc += 1;
+					}
+					serv_notice("operserv", $user, "\002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
 				}
 			}
 		}
