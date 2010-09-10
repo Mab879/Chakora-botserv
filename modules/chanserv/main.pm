@@ -107,7 +107,7 @@ sub ircd_cs_kill {
 		my @chns = split(' ', uidInfo($user, 10));
 		foreach my $chn (@chns) {
 			my @cmems = split(' ', $Chakora::channel{lc($chn)}{'members'});
-			if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chn)}{name}) and lc($chn) ne lc(config('log', 'logchan'))) {
+			if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chn)}{name}) and metadata(2, $chn, 'option:guard') and lc($chn) ne lc(config('log', 'logchan'))) {
 				serv_part("chanserv", $chn, "Channel user count has dropped below 1.");
 			}
 		}
@@ -130,7 +130,7 @@ sub ircd_cs_part {
 	my ($user, $chan, $msg) = @_;
 	
 	my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
-	if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and lc($chan) ne lc(config('log', 'logchan'))) {
+	if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and metadata(2, $chan, 'option:guard') and lc($chan) ne lc(config('log', 'logchan'))) {
 		serv_part("chanserv", $chan, "Channel user count has dropped below 1.");
 	}
 }
@@ -148,7 +148,7 @@ sub ircd_cs_kick {
 	}
 	else {
 		my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
-		if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and lc($chan) ne lc(config('log', 'logchan'))) {
+		if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and metadata(2, $chan, 'option:guard') and lc($chan) ne lc(config('log', 'logchan'))) {
 			serv_part("chanserv", $chan, "Channel user count has dropped below 1.");
 		}
 	}
@@ -160,7 +160,7 @@ sub ircd_cs_quit {
 	my @chns = split(' ', uidInfo($user, 10));
 	foreach my $chn (@chns) {
 		my @cmems = split(' ', $Chakora::channel{lc($chn)}{'members'});
-		if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chn)}{name}) and lc($chn) ne lc(config('log', 'logchan'))) {
+		if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chn)}{name}) and metadata(2, $chn, 'option:guard') and lc($chn) ne lc(config('log', 'logchan'))) {
 			serv_part("chanserv", $chn, "Channel user count has dropped below 1.");
 		}
 	}
