@@ -601,7 +601,9 @@ sub taint {
         $msg .= " - Aborting. . .";
         if ($synced) {
 			logchan("operserv", "\002!!! TAINTED !!!\002");
-			serv_quit( "chanserv", "Shutting down" );
+			if (module_exists("chanserv/main")) {
+				serv_quit( "chanserv", "Shutting down" );
+			}
 			serv_squit( config('me', 'sid'), "Tainted" );
 		}
         error( "chakora", $msg );
