@@ -24,7 +24,9 @@ sub svs_os_shutdown {
 		serv_notice("operserv", $user, "Shutting down.");
 		svsilog("operserv", $user, "shutdown", "");
 		svsflog("chakora", "Shutting down due to SHUTDOWN by ".uidInfo($user, 1));
-		serv_quit("chanserv", "Shutting down");
+		if (module_exists("chanserv/main")) { 
+			serv_quit("chanserv", "Shutting down");
+		}
 		serv_squit(config('me', 'sid'), "Shutdown by ".uidInfo($user, 1));
 		dbflush();
 		exit;
