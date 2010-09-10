@@ -74,6 +74,7 @@
 	[!] Improve module api docs (add sidInfo and uidInfo for one)
 [ ] Other
 	[X] Allow custom services to be made and handled like others
+	[ ] Elijah - since you like being proper, our UID gen. is shit and not proper - fix it.
 Key: 
 	X = Done
 	! = In development
