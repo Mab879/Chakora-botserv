@@ -38,6 +38,7 @@ sub svs_cs_info {
 	serv_notice("chanserv", $user, "Information on \002".$Chakora::DB_chan{lc($sargv[1])}{name}."\002:");
 	serv_notice("chanserv", $user, "Registered: ".scalar(localtime($Chakora::DB_chan{lc($chan)}{regtime})));
 	serv_notice("chanserv", $user, "Founder: ".$Chakora::DB_chan{lc($chan)}{founder});
+	serv_notice("chanserv", $user, "Description: ".$Chakora::DB_chan{lc($chan)}{desc});
 	serv_notice("chanserv", $user, "MLOCK: ".$Chakora::DB_chan{lc($chan)}{mlock});
 
 	my ($flags);
