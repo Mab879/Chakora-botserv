@@ -24,7 +24,7 @@ use Digest::HMAC;
 use Email::Valid;
 use POSIX::RT::Timer;
 use FindBin qw($Bin);
-use lib "$Bin/../src";
+push @INC, ( "$Bin/../src" );
 
 our $ROOT_SRC = "$Bin/../src";
 our $ROOT_ETC = "$Bin/../etc";
@@ -588,6 +588,11 @@ sub taint {
     }
     else {
         $msg .= " - Aborting. . .";
+        if ($synced) {
+			logchan("operserv", "\002!!! TAINTED !!!\002");
+			serv_quit( "chanserv", "Shutting down" );
+			serv_squit( config('me', 'sid'), "Tainted" );
+		}
         error( "chakora", $msg );
     }
 }
