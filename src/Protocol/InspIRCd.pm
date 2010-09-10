@@ -52,9 +52,11 @@ sub irc_connect {
         error( 'chakora', 'Services SID have to be 3 characters' );
     }
     else {
-        foreach my $key ( keys %Chakora::DB_chan ) {
-            $Chakora::channel{$key}{'ts'} = $Chakora::DB_chan{$key}{ts};
-        }
+		if (config('services', 'updatets')) {
+			foreach my $key (keys %Chakora::DB_chan) {
+				$Chakora::channel{$key}{'ts'} = $Chakora::DB_chan{$key}{ts};
+			}
+		}
         send_sock( "SERVER "
               . config( 'me',     'name' ) . " "
               . config( 'server', 'password' ) . " 0 "

@@ -59,6 +59,8 @@ services {
 	allow_taint = 0
 	# Module autoload
 	autoload = "operserv/version operserv/uptime operserv/help nickserv/help operserv/global operserv/shutdown nickserv/register nickserv/info nickserv/logout nickserv/set nickserv/identify"
+	# Change a channel's TS to the TS from when it was registered (recommended)
+	updatets = 1
 }
 
 enc {
