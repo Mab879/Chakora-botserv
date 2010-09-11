@@ -1,0 +1,15 @@
+uidInfo(uuid, data)
+   Will return the data assigned to the given data ID associated with
+   the given UUID.
+
+   Data ID's:
+   1 - Nick | String
+   2 - Ident | String
+   3 - Hostname | String
+   4 - Hostmask | String
+   5 - IP address | String
+   6 - Last nick | String
+   7 - Oper | Boolean
+   8 - Server | String
+   9 - Account name | String
+   10 - Channels | String
