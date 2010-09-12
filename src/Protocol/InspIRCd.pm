@@ -342,7 +342,7 @@ sub serv_accountname {
           . $name );
 }
 
-# Handle when a user logs out of nickserv
+# Handle when a user logs out of NickServ
 sub serv_logout {
     my ($user) = @_;
     send_sock( ":"
