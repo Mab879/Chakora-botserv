@@ -307,6 +307,7 @@ sub serv_accountname {
 sub serv_logout {
 	my ($user) = @_;
 	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user);
+	undef $Chakora::uid{$user}{'account'};
 }
 
 # Handle KILL
