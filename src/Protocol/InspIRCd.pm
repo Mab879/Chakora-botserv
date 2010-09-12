@@ -350,6 +350,7 @@ sub serv_logout {
           . " METADATA "
           . $user
           . " accountname" );
+    undef $Chakora::uid{$user}{'account'};
 }
 
 # Handle KILL
