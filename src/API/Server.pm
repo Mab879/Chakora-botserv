@@ -83,6 +83,22 @@ sub is_identified {
     }
 }
 
+sub has_flag {
+	my ($account, $chan, $flag) = @_;
+	my $return = 0;
+	foreach my $key (keys %Chakora::DB_chanflags) {
+                if (lc($Chakora::DB_chanflags{$key}{chan} eq lc($chan)) and lc($Chakora::DB_chanflags{$key}{account}) eq lc($account)) {
+			my @flags = split(//, $Chakora::DB_chanflags{$key}{flags});
+			foreach my $flags (@flags) {
+				if ($flags eq $flag) {
+                        		$return = 1;
+				}
+			}
+                }
+        }
+	return $return;
+}
+
 sub svsilog {
     my ( $service, $user, $cmd, $args ) = @_;
     if ( !uidInfo( $user, 9 ) ) { $user = uidInfo( $user, 1 ); }
