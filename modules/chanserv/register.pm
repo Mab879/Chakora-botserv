@@ -47,12 +47,12 @@ sub svs_cs_register {
 	
 	my $chan = $sargv[1];
 	
-	my $flags = '+vVoOtskiRmAF';
+	my $flags = '+vVoOtskiRmF';
 	if (defined $Chakora::PROTO_SETTINGS{owner}) {
-		$flags .= 'q';
+		$flags .= 'qQ';
 	}
 	elsif (defined $Chakora::PROTO_SETTINGS{admin}) {
-		$flags .= 'a';
+		$flags .= 'aA';
 	}
 	elsif (defined $Chakora::PROTO_SETTINGS{halfop}) {
 		$flags .= 'hH';
