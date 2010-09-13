@@ -212,19 +212,19 @@ sub apply_status {
 	}
 	
 	my ($modes);
-	if ($flags =~ m/q/ and defined($Chakora::PROTO_SETTINGS{owner})) {
+	if (has_flag($account, $chan, "Q") and defined($Chakora::PROTO_SETTINGS{owner})) {
 		$modes .= $Chakora::PROTO_SETTINGS{owner};
 	}
-	if ($flags =~ m/a/ and defined($Chakora::PROTO_SETTINGS{admin})) {
+	if (has_flag($account, $chan, "A") and defined($Chakora::PROTO_SETTINGS{admin})) {
 		$modes .= $Chakora::PROTO_SETTINGS{admin};
 	}
-	if ($flags =~ m/O/ and defined($Chakora::PROTO_SETTINGS{op})) {
+	if (has_flag($account, $chan, "O") and defined($Chakora::PROTO_SETTINGS{op})) {
 		$modes .= $Chakora::PROTO_SETTINGS{op};
 	}
-	if ($flags =~ m/H/ and defined($Chakora::PROTO_SETTINGS{halfop})) {
+	if (has_flag($account, $chan, "H") and defined($Chakora::PROTO_SETTINGS{halfop})) {
 		$modes .= $Chakora::PROTO_SETTINGS{halfop};
 	}
-	if ($flags =~ m/V/ and defined($Chakora::PROTO_SETTINGS{voice})) {
+	if (has_flag($account, $chan, "V") and defined($Chakora::PROTO_SETTINGS{voice})) {
 		$modes .= $Chakora::PROTO_SETTINGS{voice};
 	}
 	
