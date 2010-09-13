@@ -32,6 +32,10 @@ sub svs_cs_register {
 		serv_notice("chanserv", $user, "You must be logged in to perform this operation.");
 		return;
 	}
+	if (substr($sargv[1], 0, 1) eq '&') {
+		serv_notice("chanserv", $user, "Local channels cannot be registered for obvious reasons.");
+		return;
+	}
 	if (substr($sargv[1], 0, 1) ne '#') {
 		serv_notice("chanserv", $user, "Invalid channel name.");
 		return;
