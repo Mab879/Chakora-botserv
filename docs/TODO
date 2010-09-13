@@ -16,7 +16,7 @@
 		[ ] Set a limit to the number of accounts an email address can have
 	[ ] Group
 	[X] Identify
-	[ ] Drop
+	[!] Drop
 	[X] Enforce
 	[!] Set
 		[X] Set email, password, hidemail, enforce
@@ -29,7 +29,7 @@
 	[X] Register
 	[ ] Drop
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
-	[ ] Access list system (We're going to do a flag system with an XOP adapter)	
+	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
 	[ ] Send
 	[ ] List
