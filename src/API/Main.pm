@@ -121,6 +121,9 @@ sub create_core_flags {
 	flaglist_add("O", "Auto-op");
 	flaglist_add("S", "Allows the use of SYNC");
 	flaglist_add("b", "Auto kickban");
+	flaglist_add("t", "Allows the use of TOPIC commands");
+	flaglist_add("H", "Auto-halfop");
+	flaglist_add("V", "Auto-voice");
 }
 
 sub flaglist_del {
