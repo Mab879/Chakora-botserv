@@ -119,11 +119,16 @@ sub create_core_flags {
 	flaglist_add("F", "Channel founder");
 	flaglist_add("s", "Allows the use of SET");
 	flaglist_add("O", "Auto-op");
+	flaglist_add("o", "Allows the use of the OP command");
 	flaglist_add("S", "Allows the use of SYNC");
 	flaglist_add("b", "Auto kickban");
 	flaglist_add("t", "Allows the use of TOPIC commands");
 	flaglist_add("H", "Auto-halfop");
+	flaglist_add("h", "Allows the use of the HALFOP command");
 	flaglist_add("V", "Auto-voice");
+	flaglist_add("v", "Allows the use of the VOICE command");
+	flaglist_add("q", "Allows the use of the OWNER command");
+	flaglist_add("i", "Allows the use of the INVITE command");
 }
 
 sub flaglist_del {
