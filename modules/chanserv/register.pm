@@ -51,7 +51,7 @@ sub svs_cs_register {
 	
 	my $chan = $sargv[1];
 	
-	my $flags = '+voOtskiRmAF';
+	my $flags = '+vVoOtskiRmAF';
 	if (defined $Chakora::PROTO_SETTINGS{owner}) {
 		$flags .= 'q';
 	}
@@ -59,7 +59,7 @@ sub svs_cs_register {
 		$flags .= 'a';
 	}
 	elsif (defined $Chakora::PROTO_SETTINGS{halfop}) {
-		$flags .= 'h';
+		$flags .= 'hH';
 	}
 	
 	$Chakora::DB_chan{lc($chan)}{name} = $chan;
