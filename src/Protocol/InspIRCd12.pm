@@ -42,14 +42,14 @@ our %rawcmds = (
     voice   => 'v',
     cmodes => {
 		'b'  => { arg => 1, },
-		'i',
+		'i'  => 1,
 		'k'  => { arg => 1, },
 		'l'  => { arg => 1, },
-		'm',
-		'n',
-		'p',
-		's',
-		't',
+		'm'  => 1,
+		'n'  => 1,
+		'p'  => 1,
+		's'  => 1,
+		't'  => 1,
 	},
 );
 
@@ -457,19 +457,24 @@ sub raw_capab {
 		$Chakora::PROTO_SETTINGS{modules} .= $rex[2];
 	}
 	if ($rex[1] eq 'END') {
-		if ($Chakora::PROTO_SETTINGS{modules} =~ 'm_invisible.so') {
+		my $modules = $Chakora::PROTO_SETTINGS{modules};
+		if ($modules =~ 'm_invisible.so') {
 			taint("InspIRCd: m_invisible.so is loaded. We do not support this for ethical reasons.");
 		}
-		if ($Chakora::PROTO_SETTINGS{modules} !~ 'm_services_account.so') {
+		if ($modules !~ 'm_services_account.so') {
 			error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
 		}
-		if ($Chakora::PROTO_SETTINGS{modules} !~ 'm_servprotect.so') {
+		if ($modules !~ 'm_servprotect.so') {
 			print("[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n");
 		}
-		if ($Chakora::PROTO_SETTINGS{modules} =~ 'm_muteban.so') {
+		if ($modules =~ 'm_muteban.so') {
 			$Chakora::PROTO_SETTINGS{mute} = 'b m:';
 		}
 		
+		# Store modular channel modes
+		if ($modules ~= 'm_allowinvite.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'A'} = 1;
+		}
 		
 		my $modes = '+io';
 		if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
