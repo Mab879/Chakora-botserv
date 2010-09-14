@@ -40,8 +40,17 @@ our %rawcmds = (
     name    => 'InspIRCd 1.2',
     op      => 'o',
     voice   => 'v',
-    bexcept => 'e',
-    iexcept => 'I',
+    cmodes => {
+		'b'  => { arg => 1, },
+		'i',
+		'k'  => { arg => 1, },
+		'l'  => { arg => 1, },
+		'm',
+		'n',
+		'p',
+		's',
+		't',
+	},
 );
 
 our ( %uid, %channel, %sid );
