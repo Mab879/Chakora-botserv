@@ -472,8 +472,80 @@ sub raw_capab {
 		}
 		
 		# Store modular channel modes
-		if ($modules ~= 'm_allowinvite.so') {
+		if ($modules =~ 'm_allowinvite.so') {
 			$Chakora::PROTO_SETTINGS{cmodes}{'A'} = 1;
+		}
+		if ($modules =~ 'm_blockcaps.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'B'} = 1;
+		}
+		if ($modules =~ 'm_blockcolor.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'c'} = 1;
+		}
+		if ($modules =~ 'm_noctcp.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'C'} = 1;
+		}
+		if ($modules =~ 'm_delayjoin.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'D'} = 1;
+		}
+		if ($modules =~ 'm_banexception.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'e'}{arg} = 1;
+		}
+		if ($modules =~ 'm_messageflood.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'f'}{arg} = 1;
+		}
+		if ($modules =~ 'm_nickflood.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'F'}{arg} = 1;
+		}
+		if ($modules =~ 'm_chanfilter.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'g'}{arg} = 1;
+		}
+		if ($modules =~ 'm_censor.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'G'} = 1;
+		}
+		if ($modules =~ 'm_inviteexception.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'I'}{arg} = 1;
+		}
+		if ($modules =~ 'm_joinflood.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'j'}{arg} = 1;
+		}
+		if ($modules =~ 'm_kicknorejoin.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'J'}{arg} = 1;
+		}
+		if ($modules =~ 'm_knock.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'K'} = 1;
+		}
+		if ($modules =~ 'm_redirect.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'L'}{arg} = 1;
+		}
+		if ($modules =~ 'm_services_account.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'M'} = 1;
+		}
+		if ($modules =~ 'm_nonicks.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'N'} = 1;
+		}
+		if ($modules =~ 'm_operchans.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'O'} = 1;
+		}
+		if ($modules =~ 'm_permchannels.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'P'} = 1;
+		}
+		if ($modules =~ 'm_nokicks.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'Q'} = 1;
+		}
+		if ($modules =~ 'm_services_account.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'R'} = 1;
+		}
+		if ($modules =~ 'm_stripcolor.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'S'} = 1;
+		}
+		if ($modules =~ 'm_nonotice.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'T'} = 1;
+		}
+		if ($modules =~ 'm_auditorium.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'u'} = 1;
+		}
+		if ($modules =~ 'm_sslmodes.so') {
+			$Chakora::PROTO_SETTINGS{cmodes}{'z'} = 1;
 		}
 		
 		my $modes = '+io';
