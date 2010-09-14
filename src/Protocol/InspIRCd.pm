@@ -272,7 +272,7 @@ sub serv_error {
 
 # Handle INVITE
 sub serv_invite {
-    my ( $svs, $target, $chan );
+    my ( $svs, $target, $chan ) = @_;
     send_sock( ":" . svsUID($svs) . " INVITE " . $target . " " . $chan );
 }
 
