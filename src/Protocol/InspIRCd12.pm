@@ -468,7 +468,7 @@ sub raw_capab {
 		}
 		if ($modules !~ 'm_servprotect.so') {
 			print("[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n");
-		}
+		} else { $Chakora::PROTO_SETTINGS{god} = 1; }
 		if ($modules =~ 'm_muteban.so') {
 			$Chakora::PROTO_SETTINGS{mute} = 'b m:';
 		}
@@ -551,7 +551,7 @@ sub raw_capab {
 		}
 		
 		my $modes = '+io';
-		if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
+		if ($Chakora::PROTO_SETTINGS{god}) { $modes .= 'k'; }
 		send_sock( ":" . config( 'me', 'sid' ) . " BURST" );
 		send_sock( ":"
 			. config( 'me', 'sid' )

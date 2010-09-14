@@ -62,7 +62,7 @@ sub ircd_cs_main {
 	} else {
 		my $modes = '+io';
 		if (lc(config('server', 'ircd')) eq 'inspircd12') {
-			if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) {
+			if ($Chakora::PROTO_SETTINGS{god}) {
 				$modes .= 'k';
 			}
 		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {

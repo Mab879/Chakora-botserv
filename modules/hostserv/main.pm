@@ -46,7 +46,7 @@ sub svs_hs_main {
 	} else {
 		my $modes = '+io';
 		if (lc(config('server', 'ircd')) eq 'inspircd') {
-			if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) {
+			if ($Chakora::PROTO_SETTINGS{god}) {
 				$modes .= 'k';
 			}
 		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {

@@ -24,7 +24,7 @@ sub void_cs_sync {
 sub svs_cs_sync {
 	my ($user, @sargv) = @_;
 	if (!defined(uidInfo($user, 9))) {
-		serv_notice("chanserv", $user, "You need to be logged in to preform this command");
+		serv_notice("chanserv", $user, "You must be logged in to perform this command.");
 		return;
 	}
 	my $account = uidInfo($user, 9);
@@ -33,16 +33,12 @@ sub svs_cs_sync {
 		return;
 	}
 	my $chan = $sargv[1];
-        if (substr($chan, 0, 1) ne '#') {
-                serv_notice("chanserv", $user, "Invalid channel name.");
-                return;
-        }
-        if (!defined $Chakora::DB_chan{lc($chan)}{name}) {
-                serv_notice("chanserv", $user, "Channel \002$sargv[1]\002 isn't registered.");
-                return;
-        }	
+	if (!defined $Chakora::DB_chan{lc($chan)}{name}) {
+		serv_notice("chanserv", $user, "Channel \002$sargv[1]\002 isn't registered.");
+		return;
+	}	
 	if (!has_flag($account, $chan, "S")) {
-		serv_notice("chanserv", $user, "You are not authorized to preform this command");
+		serv_notice("chanserv", $user, "You are not authorized to perform this command.");
 		return;
 	} 
 	else {

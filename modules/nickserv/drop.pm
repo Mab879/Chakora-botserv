@@ -170,11 +170,11 @@ sub svs_ns_drop {
 						}
 						foreach my $dkey (keys %Chakora::DB_chandata) {
 							if ($Chakora::DB_chandata{$dkey}{chan} eq $ckey) {
-								$dele .= 'delete $Chakora::DB_chandata{\''.$dkey.'\'}';
+								$dele .= 'delete $Chakora::DB_chandata{\''.$dkey.'\'}; ';
 							}
 						}
 						if (module_exists("chanserv/main") and metadata(2, $ckey, 'option:guard') and lc($ckey) ne lc(config('log', 'logchan'))) {
-							$dele .= 'serv_part(\'chanserv\', \''.$ckey.'\', \'Channel dropped.\');';
+							$dele .= 'serv_part(\'chanserv\', \''.$ckey.'\', \'Channel dropped.\'); ';
 						}
 					}
 					else {
@@ -205,7 +205,6 @@ sub svs_ns_drop {
 									$Chakora::DB_chanflags{$Chakora::DBCFLAST}{account} = \''.metadata(2, $ckey, 'data:successor').'\';
 									$Chakora::DB_chanflags{$Chakora::DBCFLAST}{flags}   = \''.$flags.'\';
 								}';
-						metadata_del(2, $ckey, 'data:successor');
 						if (module_exists("chanserv/main")) {
 							foreach my $sukey (keys %Chakora::uid) {
 								if (lc($Chakora::uid{$sukey}{'account'}) eq lc(metadata(2, $ckey, 'data:successor'))) {
@@ -214,6 +213,7 @@ sub svs_ns_drop {
 								}
 							}
 						}
+						metadata_del(2, $ckey, 'data:successor');
 					}
 				}
 			}
