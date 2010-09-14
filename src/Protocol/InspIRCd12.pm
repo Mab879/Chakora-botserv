@@ -35,7 +35,9 @@ our %rawcmds = (
     'SVSNICK'  => { handler => \&raw_svsnick, },
     'KICK'     => { handler => \&raw_kick, },
     'TOPIC'    => { handler => \&raw_topic, },
+    'FTOPIC'   => { handler => \&raw_ftopic, },
 );
+
 %Chakora::PROTO_SETTINGS = (
     name    => 'InspIRCd 1.2',
     op      => 'o',
@@ -927,6 +929,19 @@ sub raw_topic {
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         event_topic($user, $chan, $args);
+}
+
+# Handle FTOPIC
+sub raw_ftopic {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        # [IRC] :921 FTOPIC #services 1284442741 starcoder :.
+        my $nick = $rex[4];
+        my $chan = $rex[2];
+        my $args = substr($rex[5], 1);
+        my ($i);
+        for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        event_stopic($nick, $chan, $args);
 }
 
 # Handle KICK
