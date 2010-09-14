@@ -350,6 +350,11 @@ sub serv_enforce {
 
 ######### Receiving data #########
 
+# Handle CAPAB
+sub raw_capab {
+	
+}
+
 # Our Bursting
 sub raw_bursting {
 	serv_add('global', config('global', 'user'), config('global', 'nick'), config('global', 'host'), '+ioS', config('global', 'real'));
