@@ -12,12 +12,16 @@ sub init_cs_sync {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/sync", "Syncs a channel with its access list.", "NO_HELP_ENTRY", \&svs_cs_sync);
+	if (!flag_exists("S")) { 
+		flaglist_add("S", "Allows the use of the SYNC command");
+	}
 }
 
 sub void_cs_sync {
 	delete_sub 'init_cs_sync';
 	delete_sub 'svs_cs_sync';
 	cmd_del("chanserv/sync");
+	flaglist_del("S");
 	delete_sub 'void_cs_sync';
 }
 
