@@ -45,7 +45,7 @@ sub svs_hs_main {
 		module_void("hostserv/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd') {
+		if (lc(config('server', 'ircd')) eq 'inspircd12') {
 			if ($Chakora::PROTO_SETTINGS{god}) {
 				$modes .= 'k';
 			}
