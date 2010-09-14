@@ -10,6 +10,7 @@
 [ ] Global
 	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
 [ ] NickServ
+	[ ] Make the nickserv core a module.
 	[!] Register
 		[X] Check for valid a valid email address
 		[X] Set default nickserv flags
@@ -26,6 +27,7 @@
 	[X] Account name (Sub done, module not)
 	[X] Logout
 [ ] ChanServ
+	[X] Make the chanserv core a module
 	[X] Register
 	[ ] Drop
 	[ ] Finish sync
@@ -33,11 +35,14 @@
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
+	[ ] Make the memoserv core a module
 	[ ] Send
 	[ ] List
 	[ ] Read
+	[ ] Forward
 	[ ] Delete
 [ ] OperServ
+	[ ] Make the operserv core a module
 	[ ] Restart
 	[X] Shutdown
 	[ ] Rehash
@@ -50,6 +55,7 @@
 	[X] Global
 	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew)
 [ ] HostServ
+	[X] Make the hostserv core a module
 	[ ] Set vHosts
 	[ ] Delete vHost
 	[ ] Group
