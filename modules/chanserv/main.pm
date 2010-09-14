@@ -81,9 +81,11 @@ sub ircd_cs_main {
 		);	
         foreach my $key ( keys %Chakora::DB_chan ) {
             unless (!defined( $Chakora::DB_chan{$key}{name})) {
-				my @cmems = split(' ', $Chakora::channel{$key}{'members'});
-				if (count(@cmems) == 1 or count(@cmems) > 1 and metadata(2, $key, 'option:guard')) {
-					serv_join("chanserv", $Chakora::DB_chan{$key}{name});
+				if (defined $Chakora::channel{$key}{'members'}) {
+					my @cmems = split(' ', $Chakora::channel{$key}{'members'});
+					if (count(@cmems) == 1 or count(@cmems) > 1 and metadata(2, $key, 'option:guard')) {
+						serv_join("chanserv", $Chakora::DB_chan{$key}{name});
+					}
 				}
             }
         }
