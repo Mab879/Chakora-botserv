@@ -102,3 +102,4 @@ Current
 	- API: added has_flag
 	- Modules: Added chanserv/sync
 	- API: added ison
+	- Modules: Added chanserv/invite
