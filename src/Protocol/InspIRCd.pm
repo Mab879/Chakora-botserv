@@ -142,6 +142,7 @@ sub nickUID {
             return $Chakora::uid{$key}{'uid'};
         }
     }
+    return 0;
 }
 
 # Check if a user is on a channel
