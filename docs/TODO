@@ -28,6 +28,8 @@
 [ ] ChanServ
 	[X] Register
 	[ ] Drop
+	[ ] Finish sync
+	[ ] AKick
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
