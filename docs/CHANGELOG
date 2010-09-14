@@ -103,3 +103,4 @@ Current
 	- Modules: Added chanserv/sync
 	- API: added ison
 	- Modules: Added chanserv/invite
+	- Protocols: InspIRCd renamed to InspIRCd12, support for InspIRCd20 will be added soon.
