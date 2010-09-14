@@ -270,7 +270,10 @@ sub serv_error {
 # Handle INVITE
 sub serv_invite {
 	my ($svs, $target, $chan) = @_;
-	send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan);
+        if (!$Chakora::channel{lc($chan)}{'ts'}) {
+                $Chakora::channel{lc($chan)}{'ts'} = time();
+        }
+	send_sock(":".svsUID($svs)." INVITE ".$target." ".$chan." ".$Chakora::channel{lc($chan)}{'ts'});
 }
 
 # Handle KICK 
