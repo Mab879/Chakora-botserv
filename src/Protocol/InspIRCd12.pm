@@ -406,42 +406,97 @@ sub serv_enforce {
 
 ######### Receiving data #########
 
-# Handle CAPAB END
-sub raw_capabend {
-    my $modes = '+io';
-    if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
-    send_sock( ":" . config( 'me', 'sid' ) . " BURST" );
-    send_sock( ":"
-          . config( 'me', 'sid' )
-          . " VERSION :"
-          . $Chakora::SERVICES_VERSION . " "
-          . config( 'me', 'sid' ) );
-    serv_add(
+# Handle CAPAB
+sub raw_capab {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	
+	if ($rex[1] eq 'CAPABILITIES') {
+		foreach my $std (@rex) {
+			if (substr($std, 0, 6) eq 'PREFIX') {
+				$std =~ s/PREFIX=//g;
+				$std =~ s/\)/\|/g;
+				$std =~ s/\(//g;
+				my @stix = split('\|', $std);
+				if ($stix[0] !~ m/o/ or $stix[0] !~ m/v/) {
+					error("chakora", "Op (+o) and voice (+v) are required by Chakora. These were not found in the IRCd.");
+				}
+				my $lix = $stix[0];
+				$lix =~ s/o//g;
+				$lix =~ s/v//g;
+				if ($lix =~ m/q/) {
+					$Chakora::PROTO_SETTINGS{owner} = 'q';
+					$lix =~ s/q//g;
+				}
+				if ($lix =~ m/a/) {
+					$Chakora::PROTO_SETTINGS{admin} = 'a';
+					$lix =~ s/a//g;
+				}
+				if ($lix =~ m/h/) {
+					$Chakora::PROTO_SETTINGS{halfop} = 'h';
+					$lix =~ s/h//g;
+				}
+				if (defined $lix) {
+					if ($lix ne "") {
+						$Chakora::PROTO_SETTINGS{ukprefix} = $lix;
+					}
+				}
+			}
+		}
+	}
+	if ($rex[1] eq 'MODULES') {
+		$Chakora::PROTO_SETTINGS{modules} .= $rex[2];
+	}
+	if ($rex[1] eq 'END') {
+		if ($Chakora::PROTO_SETTINGS{modules} =~ 'm_invisible.so') {
+			taint("InspIRCd: m_invisible.so is loaded. We do not support this for ethical reasons.");
+		}
+		if ($Chakora::PROTO_SETTINGS{modules} !~ 'm_services_account.so') {
+			error("chakora", "When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!");
+		}
+		if ($Chakora::PROTO_SETTINGS{modules} !~ 'm_servprotect.so') {
+			print("[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n");
+		}
+		if ($Chakora::PROTO_SETTINGS{modules} =~ 'm_muteban.so') {
+			$Chakora::PROTO_SETTINGS{mute} = 'b m:';
+		}
+		
+		
+		my $modes = '+io';
+		if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) { $modes .= 'k'; }
+		send_sock( ":" . config( 'me', 'sid' ) . " BURST" );
+		send_sock( ":"
+			. config( 'me', 'sid' )
+			. " VERSION :"
+			. $Chakora::SERVICES_VERSION . " "
+			. config( 'me', 'sid' ) );
+		serv_add(
         'global',
-        config( 'global', 'user' ),
-        config( 'global', 'nick' ),
-        config( 'global', 'host' ),
-        $modes, config( 'global', 'real' )
-    );
-    serv_add(
-        'nickserv',
-        config( 'nickserv', 'user' ),
-        config( 'nickserv', 'nick' ),
-        config( 'nickserv', 'host' ),
-        $modes, config( 'nickserv', 'real' )
-    );
-    serv_add(
-        'operserv',
-        config( 'operserv', 'user' ),
-        config( 'operserv', 'nick' ),
-        config( 'operserv', 'host' ),
-        $modes, config( 'operserv', 'real' )
-    );
-    create_cmdtree("chanserv");
-    create_cmdtree("nickserv");
-    create_cmdtree("operserv");
-    event_pds();
-    send_sock( ":" . config( 'me', 'sid' ) . " ENDBURST" );
+			config( 'global', 'user' ),
+			config( 'global', 'nick' ),
+			config( 'global', 'host' ),
+			$modes, config( 'global', 'real' )
+		);
+		serv_add(
+			'nickserv',
+			config( 'nickserv', 'user' ),
+			config( 'nickserv', 'nick' ),
+			config( 'nickserv', 'host' ),
+			$modes, config( 'nickserv', 'real' )
+		);
+		serv_add(
+			'operserv',
+			config( 'operserv', 'user' ),
+			config( 'operserv', 'nick' ),
+			config( 'operserv', 'host' ),
+			$modes, config( 'operserv', 'real' )
+		);
+		create_cmdtree("chanserv");
+		create_cmdtree("nickserv");
+		create_cmdtree("operserv");
+		event_pds();
+		send_sock( ":" . config( 'me', 'sid' ) . " ENDBURST" );
+	}
 }
 
 # Handle UID

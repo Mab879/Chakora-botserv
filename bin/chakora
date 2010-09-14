@@ -302,78 +302,8 @@ while (1) {
     $USER = substr( $ex[0], 1 );
 
 	if (defined $ex[0]) {
-		if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config( 'server', 'ircd' )) eq 'inspircd12') {
-			# taint if m_invisible is loaded, this will not be removed - so don't ask
-			if ( $data =~ m/m_invisible.so/ ) {
-				taint("InspIRCd: m_invisible is loaded.");
-			}
-			# check for m_services_account
-			if ( $data =~ m/m_services_account.so/ ) {
-				$INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
-			}
-			# check for m_servprotect
-			if ( $data =~ m/m_servprotect.so/ ) {
-				$INSPIRCD_SERVICE_PROTECT_MOD = 1;
-			}
-			# check for m_chghost
-			if ( $data =~ m/m_chghost.so/ ) {
-				$INSPIRCD_CHGHOST_MOD = 1;
-			}
-			# check for m_muteban
-			if ( $data =~ m/m_muteban.so/ ) {
-				$PROTO_SETTINGS{mute} = 'b m:';
-			}
-		}
-
-		# Check for status modes
-		elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES') {
-			foreach my $std (@ex) {
-				if (substr($std, 0, 6) eq 'PREFIX') {
-					$std =~ s/PREFIX=//g;
-					$std =~ s/\)/\|/g;
-					$std =~ s/\(//g;
-					my @stix = split('\|', $std);
-					if ($stix[0] !~ m/o/ or $stix[0] !~ m/v/) {
-						error("chakora", "Op (+o) and voice (+v) are required by Chakora. These were not found in the IRCd.");
-					}
-					my $lix = $stix[0];
-					$lix =~ s/o//g;
-					$lix =~ s/v//g;
-					if ($lix =~ m/q/) {
-						$PROTO_SETTINGS{owner} = 'q';
-						$lix =~ s/q//g;
-					}
-					if ($lix =~ m/a/) {
-						$PROTO_SETTINGS{admin} = 'a';
-						$lix =~ s/a//g;
-					}
-					if ($lix =~ m/h/) {
-						$PROTO_SETTINGS{halfop} = 'h';
-						$lix =~ s/h//g;
-					}
-					if (defined $lix) {
-						if ($lix ne "") {
-							$PROTO_SETTINGS{ukprefix} = $lix;
-						}
-					}
-				}
-			}
-		}
-				
-		# InspIRCd: CAPAB END recieved
-		elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config( 'server', 'ircd' )) eq 'inspircd12') {
-			if (!$INSPIRCD_SERVICES_ACCOUNT_MOD) {
-				error( "chakora",
-						"When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!"
-					);
-			}
-			if (!$INSPIRCD_SERVICE_PROTECT_MOD) {
-				print("[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n");
-			}
-			if (!$INSPIRCD_CHGHOST_MOD) {
-				print("[PROTOCOL] m_chghost.so isn't loaded, which is required for HostServ, HostServ will not load..\n");
-			}
-			raw_capabend();
+		if ($ex[0] eq 'CAPAB' and lc(config('server', 'ircd')) eq 'inspircd12') {
+			raw_capab($data);
 		}
 
 		# Charybdis: syncing done
