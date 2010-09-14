@@ -234,5 +234,7 @@ sub apply_status {
 		$calc -= 1;
 	}
 	
-	serv_mode("chanserv", $chan, '+'.$modes.$tg);
+	if (defined($modes)) {
+		serv_mode("chanserv", $chan, '+'.$modes.$tg);
+	}
 }
