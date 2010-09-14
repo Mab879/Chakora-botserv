@@ -29,10 +29,18 @@ sub svs_cs_sync {
 	}
 	my $account = uidInfo($user, 9);
 	if (!defined($sargv[1])) {
-		serv_notice("chanserv", $user, "Invalid syntax. Syntax: SYNC <#channel>");
+		serv_notice("chanserv", $user, "Not enough parameters. Syntax: SYNC <#channel>");
 		return;
 	}
 	my $chan = $sargv[1];
+        if (substr($chan, 0, 1) ne '#') {
+                serv_notice("chanserv", $user, "Invalid channel name.");
+                return;
+        }
+        if (!defined $Chakora::DB_chan{lc($chan)}{name}) {
+                serv_notice("chanserv", $user, "Channel \002$sargv[1]\002 isn't registered.");
+                return;
+        }	
 	if (!has_flag($account, $chan, "S")) {
 		serv_notice("chanserv", $user, "You are not authorized to preform this command");
 		return;
