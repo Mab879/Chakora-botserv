@@ -99,6 +99,20 @@ sub has_flag {
 	return $return;
 }
 
+sub ison {
+	my ($user, $chan) = @_;
+	my $return = 0;
+	if (defined(uidInfo($user, 10))) {
+		my @chan = split(' ', uidInfo($user, 10));
+		foreach my $c (@chan) {
+			if ($c eq $chan) {
+				$return = 1;
+			}
+		}
+	}
+	return $return;
+}
+
 sub svsilog {
     my ( $service, $user, $cmd, $args ) = @_;
     if ( !uidInfo( $user, 9 ) ) { $user = uidInfo( $user, 1 ); }
