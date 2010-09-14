@@ -984,8 +984,8 @@ sub raw_motd {
                 my $net = config('network', 'name');
                 my $ed = config('nickserv', 'enforce_delay');
                 my $name = config('me', 'name');
-                send_sock(":".config('me', 'sid')." 375 ".$user." :- ".config('me', 'name')." Message of the Day -");
-                send_sock(":".config('me', 'sid')." 372 ".$user." :-");
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 375 ".uidInfo($user, 1)." :- ".config('me', 'name')." Message of the Day -");
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 372 ".uidInfo($user, 1)." :-");
                 if ( -e "$Chakora::ROOT_SRC/../etc/chakora.motd" ) {
                         open FILE, "<$Chakora::ROOT_SRC/../etc/chakora.motd";
                         my @lines = <FILE>;
@@ -995,14 +995,14 @@ sub raw_motd {
                                 $line =~ s/%VERSION%/$Chakora::SERVICES_VERSION/g;
                                 $line =~ s/%NETWORK%/$net/g;
                                 $line =~ s/%EDELAY%/$ed/g;
-                                send_sock(":".config('me', 'sid')." 372 ".$user." :- ".$line);
+                                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 372 ".uidInfo($user, 1)." :- ".$line);
                         }
                 }
                 else {
-                        send_sock(":".config('me', 'sid')." 372 ".$user." :- Chakora MOTD file missing");
+                        send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 372 ".uidInfo($user, 1)." :- Chakora MOTD file missing");
                 }
-                send_sock(":".config('me', 'sid')." 372 ".$user." :-");
-                send_sock(":".config('me', 'sid')." 376 ".$user." :End of the message of the day");
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 372 ".uidInfo($user, 1)." :-");
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 376 ".uidInfo($user, 1)." :End of the message of the day");
         }
 }
 
@@ -1013,10 +1013,10 @@ sub raw_admin {
         my $user = substr($rex[0], 1);
         # [IRC] :48XAAAAAB ADMIN dot.technoirc.com
         if ($rex[2] eq config('me', 'name')) {
-                send_sock(":".config('me', 'sid')." 256 ".$user." :Administrative info about ".config('me', 'name'));
-                send_sock(":".config('me', 'sid')." 257 ".$user." :".config('network', 'admin')." - Services Administrator");
-                send_sock(":".config('me', 'sid')." 258 ".$user." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
-                send_sock(":".config('me', 'sid')." 259 ".$user." :".config('services', 'email'));
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 256 ".uidInfo($user, 1)." :Administrative info about ".config('me', 'name'));
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 257 ".uidInfo($user, 1)." :".config('network', 'admin')." - Services Administrator");
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 258 ".uidInfo($user, 1)." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
+                send_sock(":".svsuid('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 259 ".uidInfo($user, 1)." :".config('services', 'email'));
         }
 }
 
