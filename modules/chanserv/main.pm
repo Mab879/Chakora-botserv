@@ -200,18 +200,13 @@ sub apply_status {
 	}
 	
 	my $account = uidInfo($user, 9);
-	my ($flags);
-	foreach my $key (keys %Chakora::DB_chanflags) {
-		if (lc($Chakora::DB_chanflags{$key}{chan}) eq lc($chan) and lc($Chakora::DB_chanflags{$key}{account}) eq lc($account)) {
-			$flags = $Chakora::DB_chanflags{$key}{flags};
-		}
-	}
-	
-	if (!$flags) {
-		return;
-	}
-	
+
 	my ($modes);
+	if (has_flag($account, $chan, "b")) {
+		my $mask = uidInfo($user, 4);
+		$modes .= "b *!*@".$mask;
+		serv_kick("chanserv", $chan, $user, "Banned.");
+	}
 	if (has_flag($account, $chan, "Q") and defined($Chakora::PROTO_SETTINGS{owner})) {
 		$modes .= $Chakora::PROTO_SETTINGS{owner};
 	}
@@ -227,7 +222,7 @@ sub apply_status {
 	if (has_flag($account, $chan, "V") and defined($Chakora::PROTO_SETTINGS{voice})) {
 		$modes .= $Chakora::PROTO_SETTINGS{voice};
 	}
-	
+
 	if (length($modes) == 0) {
 		return;
 	}
