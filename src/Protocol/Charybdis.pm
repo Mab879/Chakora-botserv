@@ -774,8 +774,8 @@ sub raw_motd {
 		my $net = config('network', 'name');
 		my $ed = config('nickserv', 'enforce_delay');
 		my $name = config('me', 'name');
-		send_sock(":".svsuid('chakora::server')." 375 ".$user." :- ".config('me', 'name')." Message of the Day -");
-		send_sock(":".svsuid('chakora::server')." 372 ".$user." :-");
+		send_sock(":".svsUID('chakora::server')." 375 ".$user." :- ".config('me', 'name')." Message of the Day -");
+		send_sock(":".svsUID('chakora::server')." 372 ".$user." :-");
 		if ( -e "$Chakora::ROOT_SRC/../etc/chakora.motd" ) {
     			open FILE, "<$Chakora::ROOT_SRC/../etc/chakora.motd";
     			my @lines = <FILE>;
@@ -785,14 +785,14 @@ sub raw_motd {
 				$line =~ s/%VERSION%/$Chakora::SERVICES_VERSION/g;
 				$line =~ s/%NETWORK%/$net/g;
 				$line =~ s/%EDELAY%/$ed/g;
-				send_sock(":".svsuid('chakora::server')." 372 ".$user." :- ".$line);
+				send_sock(":".svsUID('chakora::server')." 372 ".$user." :- ".$line);
 			}
 		}
 		else {
-			send_sock(":".svsuid('chakora::server')." 372 ".$user." :- Chakora MOTD file missing");
+			send_sock(":".svsUID('chakora::server')." 372 ".$user." :- Chakora MOTD file missing");
 		}
-		send_sock(":".svsuid('chakora::server')." 372 ".$user." :-");
-		send_sock(":".svsuid('chakora::server')." 376 ".$user." :End of the message of the day");
+		send_sock(":".svsUID('chakora::server')." 372 ".$user." :-");
+		send_sock(":".svsUID('chakora::server')." 376 ".$user." :End of the message of the day");
 	}
 }
 
@@ -803,10 +803,10 @@ sub raw_admin {
         my $user = substr($rex[0], 1);
         # [IRC] :48XAAAAAB ADMIN :34R
         if (substr($rex[2], 1) eq config('me', 'sid')) {
-		send_sock(":".svsuid('chakora::server')." 256 ".$user." :Administrative info about ".config('me', 'name'));
-		send_sock(":".svsuid('chakora::server')." 257 ".$user." :".config('network', 'admin')." - Services Administrator");
-		send_sock(":".svsuid('chakora::server')." 258 ".$user." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
-		send_sock(":".svsuid('chakora::server')." 259 ".$user." :".config('services', 'email'));
+		send_sock(":".svsUID('chakora::server')." 256 ".$user." :Administrative info about ".config('me', 'name'));
+		send_sock(":".svsUID('chakora::server')." 257 ".$user." :".config('network', 'admin')." - Services Administrator");
+		send_sock(":".svsUID('chakora::server')." 258 ".$user." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
+		send_sock(":".svsUID('chakora::server')." 259 ".$user." :".config('services', 'email'));
 	}
 }
 
