@@ -100,3 +100,4 @@ Current
           You should add chanserv/main to autoload before any ChanServ modules regardless.
 	- Chakora: updateTS is now a config option. WE HIGHLY ENCOURAGE ENABLING IT.
 	- API: added has_flag
+	- Modules: Added chanserv/sync
