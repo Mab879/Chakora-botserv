@@ -34,6 +34,7 @@ our %rawcmds = (
 	'TOPIC' => { handler => \&raw_topic, },
 	'TB' => { handler => \&raw_tb, },
 	'MOTD' => { handler => \&raw_motd, },
+	'ADMIN' => { handler => \&raw_admin, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -795,4 +796,18 @@ sub raw_motd {
 	}
 }
 
-1;
+# Handle ADMIN
+sub raw_admin {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $user = substr($rex[0], 1);
+        # [IRC] :48XAAAAAB ADMIN :34R
+        if (substr($rex[2], 1) eq config('me', 'sid')) {
+		send_sock(":".config('me', 'sid')." 256 ".$user." :Administrative info about ".config('me', 'name'));
+		send_sock(":".config('me', 'sid')." 257 ".$user." :".config('network', 'admin')." - Services Administrator");
+		send_sock(":".config('me', 'sid')." 258 ".$user." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
+		send_sock(":".config('me', 'sid')." 259 ".$user." :".config('services', 'email'));
+	}
+}
+
+1;	
