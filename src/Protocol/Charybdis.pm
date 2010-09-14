@@ -12,67 +12,29 @@ $Chakora::MODULE{protocol}{author} = 'The Chakora Project';
 
 ######### Core #########
 our %rawcmds = (
-	'EUID' => {
-		handler => \&raw_euid,
-	},
-	'PING' => {
-		handler => \&raw_ping,
-	},
-	'SJOIN' => {
-		handler => \&raw_sjoin,
-	},
-	'QUIT' => {
-		handler => \&raw_quit,
-	},
-	'JOIN' => {
-		handler => \&raw_join,
-	},
-	'NICK' => {
-		handler => \&raw_nick,
-	},
-	'CHGHOST' => {
-		handler => \&raw_chghost,
-	},
-	'ERROR' => {
-		handler => \&raw_error,
-	},
-	'PRIVMSG' => {
-		handler => \&raw_privmsg,
-	},
-	'NOTICE' => {
-		handler => \&raw_notice,
-	},
-	'PART' => {
-		handler => \&raw_part,
-	},
-	'MODE' => {
-		handler => \&raw_mode,
-	},
-	'SID' => {
-		handler => \&raw_sid,
-	},
-	'SQUIT' => {
-		handler => \&raw_squit,
-	},
-	'AWAY' => {
-		handler => \&raw_away,
-	},
-	'KILL' => {
-		handler => \&raw_kill,
-	},
-	'SAVE' => {
-		handler => \&raw_save,
-	},
-	'ENCAP' => {
-		handler => \&raw_encap,
-	},
-	'KICK' => {
-		handler => \&raw_kick,
-	},
-	'TOPIC' => {
-		handler => \&raw_topic,
-	},
+	'EUID' => { handler => \&raw_euid, },
+	'PING' => { handler => \&raw_ping, },
+	'SJOIN' => { handler => \&raw_sjoin, },
+	'QUIT' => { handler => \&raw_quit, },
+	'JOIN' => { handler => \&raw_join, },
+	'NICK' => { handler => \&raw_nick, },
+	'CHGHOST' => { handler => \&raw_chghost, },
+	'ERROR' => { handler => \&raw_error, },
+	'PRIVMSG' => { handler => \&raw_privmsg, },
+	'NOTICE' => { handler => \&raw_notice, },
+	'PART' => { handler => \&raw_part, },
+	'MODE' => { handler => \&raw_mode, },
+	'SID' => { handler => \&raw_sid, },
+	'SQUIT' => { handler => \&raw_squit, },
+	'AWAY' => { handler => \&raw_away, },
+	'KILL' => { handler => \&raw_kill, },
+	'SAVE' => { handler => \&raw_save, },
+	'ENCAP' => { handler => \&raw_encap, },
+	'KICK' => { handler => \&raw_kick, },
+	'TOPIC' => { handler => \&raw_topic, },
+	'TB' => { handler => \&raw_tb, },
 );
+
 %Chakora::PROTO_SETTINGS = (
 	name => 'Charybdis IRCd',
 	op => 'o',
@@ -80,7 +42,33 @@ our %rawcmds = (
 	mute => 'q',
 	bexecpt => 'e',
 	iexcept => 'I',
+	cmodes => {
+		'b' => { arg => 1, },
+		'q' => { arg => 1, },
+		'e' => { arg => 1, },
+		'I' => { arg => 1, },
+		'j' => { arg => 1, },
+		'l' => { arg => 1, },
+		'k' => { arg => 1, },
+		'f' => { arg => 1, },
+		'n' => 1,
+		't' => 1,
+		'i' => 1,
+		'P' => 1,
+		'L' => 1,
+		'Q' => 1,
+		's' => 1,
+		'C' => 1,
+		'F' => 1,
+		'z' => 1,
+		'g' => 1,
+		'c' => 1,
+		'm' => 1,
+		'p' => 1,
+		'r' => 1,
+	},
 );
+
 our (%uid, %channel, %sid, $hub);
 my $lastid = 0;
 
@@ -96,7 +84,7 @@ sub irc_connect {
 		}
 		send_sock("PASS ".config('server', 'password')." TS 6 ".config('me', 'sid'));
 		# Some of these may not be needed, but let's keep them for now just in case --Matthew
-		send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK TB");
+		send_sock("CAPAB :QS KLN UNKLN ENCAP EX CHW IE KNOCK SAVE EUID SERVICES RSFNC MLOCK TB EOPMOD");
 		send_sock("SERVER ".config('me', 'name')." 0 :".config('me', 'info'));
 		send_sock("SVINFO 6 6 0 ".time());
 		raw_bursting();
@@ -715,6 +703,19 @@ sub raw_topic {
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 	event_topic($user, $chan, $args);
+}
+
+# Handle TB
+sub raw_tb {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] :48X TB #services 1284006866 MattB!MattB@127.0.0.1 :loltest
+	my @nick = split('!', $rex[4]);
+	my $chan = $rex[2];
+	my $args = substr($rex[5], 1);
+	my ($i);
+        for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        event_stopic($nick[0], $chan, $args);
 }
 
 # Handle KICK
