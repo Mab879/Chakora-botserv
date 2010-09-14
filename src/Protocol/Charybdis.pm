@@ -33,6 +33,7 @@ our %rawcmds = (
 	'KICK' => { handler => \&raw_kick, },
 	'TOPIC' => { handler => \&raw_topic, },
 	'TB' => { handler => \&raw_tb, },
+	'MOTD' => { handler => \&raw_motd, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -754,7 +755,44 @@ sub raw_kick {
 
 # Handle ENCAP
 sub raw_encap {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# [IRC] :48XAAAAAB ENCAP some.server REHASH 
+	if ($rex[2] eq config('me', 'name')) {
+		# It's being sent to us only!
+	}
+}
 
+# Handle MOTD
+sub raw_motd {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $user = substr($rex[0], 1);
+	# [IRC] :48XAAAAAB MOTD :34R
+	if (substr($rex[2], 1) eq config('me', 'sid')) {
+		my $net = config('network', 'name');
+		my $ed = config('nickserv', 'enforce_delay');
+		my $name = config('me', 'name');
+		send_sock(":".config('me', 'sid')." 375 ".$user." :- ".config('me', 'name')." Message of the Day -");
+		send_sock(":".config('me', 'sid')." 372 ".$user." :-");
+		if ( -e "$Chakora::ROOT_SRC/../etc/chakora.motd" ) {
+    			open FILE, "<$Chakora::ROOT_SRC/../etc/chakora.motd";
+    			my @lines = <FILE>;
+    			foreach my $line (@lines) {
+        			chomp($line);
+				$line =~ s/%NAME%/$name/g;
+				$line =~ s/%VERSION%/$Chakora::SERVICES_VERSION/g;
+				$line =~ s/%NETWORK%/$net/g;
+				$line =~ s/%EDELAY%/$ed/g;
+				send_sock(":".config('me', 'sid')." 372 ".$user." :- ".$line);
+			}
+		}
+		else {
+			send_sock(":".config('me', 'sid')." 372 ".$user." :- Chakora MOTD file missing");
+		}
+		send_sock(":".config('me', 'sid')." 372 ".$user." :-");
+		send_sock(":".config('me', 'sid')." 376 ".$user." :End of the message of the day");
+	}
 }
 
 1;
