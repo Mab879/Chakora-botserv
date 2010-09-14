@@ -301,153 +301,121 @@ while (1) {
     print( "[IRC] " . $data . "\n" );
     $USER = substr( $ex[0], 1 );
 
-    if (    $ex[0] eq 'CAPAB'
-        and $ex[1] eq 'MODULES'
-        and lc( config( 'server', 'ircd' ) ) eq 'inspircd' )
-    {
+	if (defined $ex[0]) {
+		if ($ex[0] eq 'CAPAB' and $ex[1] eq 'MODULES' and lc(config( 'server', 'ircd' )) eq 'inspircd') {
+			# taint if m_invisible is loaded, this will not be removed - so don't ask
+			if ( $data =~ m/m_invisible.so/ ) {
+				taint("InspIRCd: m_invisible is loaded.");
+			}
+			# check for m_services_account
+			if ( $data =~ m/m_services_account.so/ ) {
+				$INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
+			}
+			# check for m_servprotect
+			if ( $data =~ m/m_servprotect.so/ ) {
+				$INSPIRCD_SERVICE_PROTECT_MOD = 1;
+			}
+			# check for m_chghost
+			if ( $data =~ m/m_chghost.so/ ) {
+				$INSPIRCD_CHGHOST_MOD = 1;
+			}
+			# check for m_muteban
+			if ( $data =~ m/m_muteban.so/ ) {
+				$PROTO_SETTINGS{mute} = 'b m:';
+			}
+		}
 
-       # taint if m_invisible is loaded, this will not be removed - so don't ask
-        if ( $data =~ m/m_invisible.so/ ) {
-            taint("InspIRCd: m_invisible is loaded.");
-        }
-
-        # check for m_services_account
-        if ( $data =~ m/m_services_account.so/ ) {
-            $INSPIRCD_SERVICES_ACCOUNT_MOD = 1;
-        }
-
-        # check for m_servprotect
-        if ( $data =~ m/m_servprotect.so/ ) {
-            $INSPIRCD_SERVICE_PROTECT_MOD = 1;
-        }
-
-        # check for m_chghost
-        if ( $data =~ m/m_chghost.so/ ) {
-            $INSPIRCD_CHGHOST_MOD = 1;
-        }
-
-        # check for m_muteban
-        if ( $data =~ m/m_muteban.so/ ) {
-            $PROTO_SETTINGS{mute} = 'b m:';
-        }
-
-    }
-
-    # Check for status modes
-    elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES') {
-		foreach my $std (@ex) {
-			if (substr($std, 0, 6) eq 'PREFIX') {
-				$std =~ s/PREFIX=//g;
-				$std =~ s/\)/\|/g;
-				$std =~ s/\(//g;
-				my @stix = split('\|', $std);
-				if ($stix[0] !~ m/o/ or $stix[0] !~ m/v/) {
-					error("chakora", "Op (+o) and voice (+v) are required by Chakora. These were not found in the IRCd.");
-				}
-				my $lix = $stix[0];
-				$lix =~ s/o//g;
-				$lix =~ s/v//g;
-				if ($lix =~ m/q/) {
-					$PROTO_SETTINGS{owner} = 'q';
-					$lix =~ s/q//g;
-				}
-				if ($lix =~ m/a/) {
-					$PROTO_SETTINGS{admin} = 'a';
-					$lix =~ s/a//g;
-				}
-				if ($lix =~ m/h/) {
-					$PROTO_SETTINGS{halfop} = 'h';
-					$lix =~ s/h//g;
-				}
-				if (defined $lix) {
-					if ($lix ne "") {
-						$PROTO_SETTINGS{ukprefix} = $lix;
+		# Check for status modes
+		elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'CAPABILITIES') {
+			foreach my $std (@ex) {
+				if (substr($std, 0, 6) eq 'PREFIX') {
+					$std =~ s/PREFIX=//g;
+					$std =~ s/\)/\|/g;
+					$std =~ s/\(//g;
+					my @stix = split('\|', $std);
+					if ($stix[0] !~ m/o/ or $stix[0] !~ m/v/) {
+						error("chakora", "Op (+o) and voice (+v) are required by Chakora. These were not found in the IRCd.");
+					}
+					my $lix = $stix[0];
+					$lix =~ s/o//g;
+					$lix =~ s/v//g;
+					if ($lix =~ m/q/) {
+						$PROTO_SETTINGS{owner} = 'q';
+						$lix =~ s/q//g;
+					}
+					if ($lix =~ m/a/) {
+						$PROTO_SETTINGS{admin} = 'a';
+						$lix =~ s/a//g;
+					}
+					if ($lix =~ m/h/) {
+						$PROTO_SETTINGS{halfop} = 'h';
+						$lix =~ s/h//g;
+					}
+					if (defined $lix) {
+						if ($lix ne "") {
+							$PROTO_SETTINGS{ukprefix} = $lix;
+						}
 					}
 				}
 			}
 		}
-	}
 				
-    # InspIRCd: CAPAB END recieved
-    elsif ( $ex[0] eq 'CAPAB'
-        and $ex[1] eq 'END'
-        and lc( config( 'server', 'ircd' ) ) eq 'inspircd' )
-    {
-        if ( !$INSPIRCD_SERVICES_ACCOUNT_MOD ) {
-            error( "chakora",
-"When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!"
-            );
-        }
-        if ( !$INSPIRCD_SERVICE_PROTECT_MOD ) {
-            print(
-"[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n"
-            );
-        }
-        if ( !$INSPIRCD_CHGHOST_MOD ) {
-            print(
-"[PROTOCOL] m_chghost.so isn't loaded, which is required for HostServ, HostServ will not load..\n"
-            );
-        }
-        raw_capabend();
-    }
+		# InspIRCd: CAPAB END recieved
+		elsif ($ex[0] eq 'CAPAB' and $ex[1] eq 'END' and lc(config( 'server', 'ircd' )) eq 'inspircd') {
+			if (!$INSPIRCD_SERVICES_ACCOUNT_MOD) {
+				error( "chakora",
+						"When using Chakora with InspIRCd, m_services_account.so is needed, please load it and try again!"
+					);
+			}
+			if (!$INSPIRCD_SERVICE_PROTECT_MOD) {
+				print("[PROTOCOL] m_servprotect.so isn't loaded, it isn't required, but is recommended.\n");
+			}
+			if (!$INSPIRCD_CHGHOST_MOD) {
+				print("[PROTOCOL] m_chghost.so isn't loaded, which is required for HostServ, HostServ will not load..\n");
+			}
+			raw_capabend();
+		}
 
-    # Charybdis: syncing done
-    if (    $ex[0] eq 'PING'
-        and $synced != 1
-        and lc( config( 'server', 'ircd' ) ) eq 'charybdis' )
-    {
-        raw_endsync();
-    }
+		# Charybdis: syncing done
+		if ($ex[0] eq 'PING' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
+			raw_endsync();
+		}
 
-    # Charybdis: Handle the SERVER while linking
-    elsif ( $ex[0] eq 'SERVER'
-        and $synced != 1
-        and lc( config( 'server', 'ircd' ) ) eq 'charybdis' )
-    {
-        raw_server($data);
-    }
+		# Charybdis: Handle the SERVER while linking
+		elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
+			raw_server($data);
+		}
 
-    # Charybdis: Handle the PASS while linking
-    elsif ( $ex[0] eq 'PASS'
-        and $synced != 1
-        and lc( config( 'server', 'ircd' ) ) eq 'charybdis' )
-    {
-        raw_pass($data);
-    }
+		# Charybdis: Handle the PASS while linking
+		elsif ($ex[0] eq 'PASS' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
+			raw_pass($data);
+		}
 
-    # InspIRCd: Handle the SERVER while linking
-    elsif ( $ex[0] eq 'SERVER'
-        and $synced != 1
-        and lc( config( 'server', 'ircd' ) ) eq 'inspircd' )
-    {
-        raw_lserver($data);
-    }
+		# InspIRCd: Handle the SERVER while linking
+		elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'inspircd') {
+			raw_lserver($data);
+		}
 
-    # Charybdis: Respond to PING's
-    elsif ( $ex[0] eq 'PING'
-        and $synced != 0
-        and lc( config( 'server', 'ircd' ) ) eq 'charybdis' )
-    {
-        my @rex = split( ' ', $data );
-        send_sock( ":" . config( 'me', 'sid' ) . " PONG " . $rex[1] );
-    }
+		# Charybdis: Respond to PING's
+		elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
+			send_sock( ":" . config( 'me', 'sid' ) . " PONG " . $ex[1] );
+		}
 
-    # Charybdis: Local SQUIT's
-    elsif ( $ex[0] eq 'SQUIT'
-        and lc( config( 'server', 'ircd' ) ) eq 'charybdis' )
-    {
-        raw_lsquit($data);
-    }
+		# Charybdis: Local SQUIT's
+		elsif ($ex[0] eq 'SQUIT' and lc(config( 'server', 'ircd' )) eq 'charybdis') {
+			raw_lsquit($data);
+		}
 
-    # IRCd: Respond to PING's
-    elsif ( $ex[0] eq 'PING' and lc( config( 'server', 'ircd' ) ) eq 'ircd' ) {
-        raw_ping($data);
-    }
+		# IRCd: Respond to PING's
+		elsif ($ex[0] eq 'PING' and lc(config( 'server', 'ircd' )) eq 'ircd') {
+			raw_ping($data);
+		}
 
-    # Error without a source
-    elsif ( $ex[0] eq 'ERROR' ) {
-        raw_nosrcerror($data);
-    }
+		# Error without a source
+		elsif ($ex[0] eq 'ERROR') {
+			raw_nosrcerror($data);
+		}
+	}
 
     # Handle timers
     foreach my $key ( keys %TIMER ) {
