@@ -105,7 +105,7 @@ sub ison {
 	if (defined(uidInfo($user, 10))) {
 		my @chan = split(' ', uidInfo($user, 10));
 		foreach my $c (@chan) {
-			if ($c eq $chan) {
+			if (lc($c) eq lc($chan)) {
 				$return = 1;
 			}
 		}
