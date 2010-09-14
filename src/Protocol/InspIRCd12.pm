@@ -36,6 +36,8 @@ our %rawcmds = (
     'KICK'     => { handler => \&raw_kick, },
     'TOPIC'    => { handler => \&raw_topic, },
     'FTOPIC'   => { handler => \&raw_ftopic, },
+    'MOTD'     => { handler => \&raw_motd, },
+    'ADMIN'    => { handler => \&raw_admin, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -972,4 +974,51 @@ sub raw_kick {
 	event_kick($user, $chan, $target, $args);
 }
 
+# Handle MOTD
+sub raw_motd {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $user = substr($rex[0], 1);
+        # [IRC] :48XAAAAAB MOTD dot.technoirc.com
+        if ($rex[2] eq config('me', 'name')) {
+                my $net = config('network', 'name');
+                my $ed = config('nickserv', 'enforce_delay');
+                my $name = config('me', 'name');
+                send_sock(":".config('me', 'sid')." 375 ".$user." :- ".config('me', 'name')." Message of the Day -");
+                send_sock(":".config('me', 'sid')." 372 ".$user." :-");
+                if ( -e "$Chakora::ROOT_SRC/../etc/chakora.motd" ) {
+                        open FILE, "<$Chakora::ROOT_SRC/../etc/chakora.motd";
+                        my @lines = <FILE>;
+                        foreach my $line (@lines) {
+                                chomp($line);
+                                $line =~ s/%NAME%/$name/g;
+                                $line =~ s/%VERSION%/$Chakora::SERVICES_VERSION/g;
+                                $line =~ s/%NETWORK%/$net/g;
+                                $line =~ s/%EDELAY%/$ed/g;
+                                send_sock(":".config('me', 'sid')." 372 ".$user." :- ".$line);
+                        }
+                }
+                else {
+                        send_sock(":".config('me', 'sid')." 372 ".$user." :- Chakora MOTD file missing");
+                }
+                send_sock(":".config('me', 'sid')." 372 ".$user." :-");
+                send_sock(":".config('me', 'sid')." 376 ".$user." :End of the message of the day");
+        }
+}
+
+# Handle ADMIN
+sub raw_admin {
+        my ($raw) = @_;
+        my @rex = split(' ', $raw);
+        my $user = substr($rex[0], 1);
+        # [IRC] :48XAAAAAB ADMIN dot.technoirc.com
+        if ($rex[2] eq config('me', 'name')) {
+                send_sock(":".config('me', 'sid')." 256 ".$user." :Administrative info about ".config('me', 'name'));
+                send_sock(":".config('me', 'sid')." 257 ".$user." :".config('network', 'admin')." - Services Administrator");
+                send_sock(":".config('me', 'sid')." 258 ".$user." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
+                send_sock(":".config('me', 'sid')." 259 ".$user." :".config('services', 'email'));
+        }
+}
+
 1;
+
