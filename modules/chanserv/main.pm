@@ -61,7 +61,7 @@ sub ircd_cs_main {
 		module_void("chanserv/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd') {
+		if (lc(config('server', 'ircd')) eq 'inspircd12') {
 			if ($Chakora::INSPIRCD_SERVICE_PROTECT_MOD) {
 				$modes .= 'k';
 			}

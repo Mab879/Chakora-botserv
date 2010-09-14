@@ -579,7 +579,6 @@ sub raw_capab {
 			config( 'operserv', 'host' ),
 			$modes, config( 'operserv', 'real' )
 		);
-		create_cmdtree("chanserv");
 		create_cmdtree("nickserv");
 		create_cmdtree("operserv");
 		event_pds();
