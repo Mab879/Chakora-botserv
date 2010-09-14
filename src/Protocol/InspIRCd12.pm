@@ -1,4 +1,4 @@
-# protocol/inspircd by The Chakora Project. Link with InspIRCd 1.2/2.0.
+# protocol/inspircd12 by The Chakora Project. Link with InspIRCd 1.2.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 # This is a cheap hack, but it'll work --Matthew
-$Chakora::MODULE{protocol}{name}    = 'protocol/inspircd';
+$Chakora::MODULE{protocol}{name}    = 'protocol/inspircd12';
 $Chakora::MODULE{protocol}{version} = '0.8';
 $Chakora::MODULE{protocol}{author}  = 'The Chakora Project';
 
@@ -37,7 +37,7 @@ our %rawcmds = (
     'TOPIC'    => { handler => \&raw_topic, },
 );
 %Chakora::PROTO_SETTINGS = (
-    name    => 'InspIRCd 1.2/2.0',
+    name    => 'InspIRCd 1.2',
     op      => 'o',
     voice   => 'v',
     bexcept => 'e',
