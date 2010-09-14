@@ -223,18 +223,18 @@ sub apply_status {
 		$modes .= $Chakora::PROTO_SETTINGS{voice};
 	}
 
-	if (length($modes) == 0) {
-		return;
-	}
-	
-	my ($tg);
-	my $calc = length($modes);
-	while ($calc > 0) {
-		$tg .= ' '.$user;
-		$calc -= 1;
-	}
-	
 	if (defined($modes)) {
+		if (length($modes) == 0) {
+			return;
+		}
+
+		my ($tg);
+		my $calc = length($modes);
+		while ($calc > 0) {
+			$tg .= ' '.$user;
+			$calc -= 1;
+		}
+		
 		serv_mode("chanserv", $chan, '+'.$modes.$tg);
 	}
 }
