@@ -16,10 +16,10 @@ our (%hook_join);
 
 # When users join a channel, execute all join hooks.
 sub event_join {
-    my ( $user, $chan ) = @_;
+    my ($user,$chan) = @_;
     my ($hook);
     foreach $hook (%hook_join) {
-        eval { &{$hook}( $user, $chan ); };
+        eval { &{$hook}($user,$chan); };
     }
 }
 
@@ -422,6 +422,33 @@ sub hook_topic_add {
 sub hook_topic_del {
         my ($handler) = @_;
         undef $hook_topic{$handler};
+}
+
+### TOPIC Burst ###
+our (%hook_stopic);
+
+# When a topic is bursted, execute all topic burst hooks.
+sub event_stopic {
+        my ($nick, $chan, $topic) = @_;
+        my ($hook);
+        foreach $hook (%hook_stopic) {
+                eval
+                {
+                        &{ $hook }($nick, $chan, $topic);
+                };
+        }
+}
+
+# Add a hook to the topic burst event.
+sub hook_stopic_add {
+        my ($handler) = @_;
+        $hook_stopic{$handler} = $handler;
+} 
+
+# Delete a hook from the topic burst event.
+sub hook_stopic_del {
+        my ($handler) = @_;
+        undef $hook_stopic{$handler};
 }
 
 ### Perform During Sync ###
