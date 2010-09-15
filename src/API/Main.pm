@@ -137,7 +137,6 @@ sub create_core_flags {
 	flaglist_add("b", "Auto kickban");
 	flaglist_add("t", "Allows the use of TOPIC commands");
 	flaglist_add("V", "Auto-voice");
-	flaglist_add("v", "Allows the use of the VOICE command");
 	flaglist_add("k", "Allows the use of the KICK,BAN,and KICKBAN commands");
 	flaglist_add("m", "Allows editing the access list");
 }
