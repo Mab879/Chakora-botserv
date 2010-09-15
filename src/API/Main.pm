@@ -134,7 +134,6 @@ sub create_core_flags {
 	flaglist_add("F", "Channel founder");
 	flaglist_add("s", "Allows the use of SET");
 	flaglist_add("O", "Auto-op");
-	flaglist_add("o", "Allows the use of the OP command");
 	flaglist_add("b", "Auto kickban");
 	flaglist_add("t", "Allows the use of TOPIC commands");
 	flaglist_add("V", "Auto-voice");

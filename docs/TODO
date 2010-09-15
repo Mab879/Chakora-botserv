@@ -32,6 +32,7 @@
 	[ ] Drop
 	[ ] Finish sync
 	[ ] AKick
+	[!] Owner/Protect/Op/Halfop/Voice
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
@@ -78,6 +79,7 @@
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] InspIRCd: Add raw_motd and raw_admin
 	[X] Add serv_accoutname
+	[ ] Make a SID generator
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
 	[ ] Native ircd-ratbox support.
