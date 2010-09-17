@@ -124,7 +124,6 @@ sub create_core_flags {
         }
         if (defined $Chakora::PROTO_SETTINGS{admin}) {
 	 	flaglist_add("A", "Auto-protect");
-                flaglist_add("a", "Allows the use of the PROTECT command");
         }
         if (defined $Chakora::PROTO_SETTINGS{halfop}) {
                 flaglist_add("H", "Auto-halfop");
