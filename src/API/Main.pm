@@ -127,7 +127,6 @@ sub create_core_flags {
         }
         if (defined $Chakora::PROTO_SETTINGS{halfop}) {
                 flaglist_add("H", "Auto-halfop");
-		flaglist_add("h", "Allows the use of the HALFOP command");
         }
 
 	flaglist_add("F", "Channel founder");
