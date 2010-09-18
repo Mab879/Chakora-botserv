@@ -1,4 +1,4 @@
-# chanserv/voice by The Chakora Project. Adds an VOICE/DEVOICE command to ChanServ allowing one to voice themselves or another user.
+# chanserv/voice by The Chakora Project. Adds an VOICE/DEVOICE command to ChanServ allowing one to (de)voice themselves or another user.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)

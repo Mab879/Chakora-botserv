@@ -1,4 +1,4 @@
-# chanserv/op by The Chakora Project. Adds an OP/DEOP command to ChanServ allowing one to op themselves or another user.
+# chanserv/op by The Chakora Project. Adds an OP/DEOP command to ChanServ allowing one to (de)op themselves or another user.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
