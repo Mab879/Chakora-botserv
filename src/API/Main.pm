@@ -120,7 +120,6 @@ sub flaglist_add {
 sub create_core_flags {
         if (defined $Chakora::PROTO_SETTINGS{owner}) {
 		flaglist_add("Q", "Auto-owner");
-        	flaglist_add("q", "Allows the use of the OWNER command"); 
         }
         if (defined $Chakora::PROTO_SETTINGS{admin}) {
 	 	flaglist_add("A", "Auto-protect");

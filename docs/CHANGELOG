@@ -106,4 +106,4 @@ Current
 	- Protocols: InspIRCd renamed to InspIRCd12, support for InspIRCd20 will be added soon.
 	- API: added event_stopic for topic bursts
 	- Protocols: Added raw_motd and raw_admin
-	- Modules: Added chanserv/op, chanserv/voice, chanserv/protect, and chanserv/halfop
+	- Modules: Added chanserv/op, chanserv/voice, chanserv/protect, chanserv/halfop, and chanserv/owner
