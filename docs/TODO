@@ -33,7 +33,7 @@
 	[ ] Finish sync
 	[ ] AKick
 	[!] Owner/Protect/Op/Halfop/Voice
-		[ ] Fix the help entries to be tabbed perfectly.
+		[ ] Fix the help entries to be formatted perfectly.
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
