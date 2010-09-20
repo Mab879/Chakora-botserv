@@ -205,7 +205,7 @@ sub apply_status {
 	}
 	
 	my $account = uidInfo($user, 9);
-	if (metadata(2, $account, 'flag:nostatus')) {
+	if (metadata(1, $account, 'flag:nostatus')) {
 		return;
 	}
 
