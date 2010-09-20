@@ -107,3 +107,4 @@ Current
 	- API: added event_stopic for topic bursts
 	- Protocols: Added raw_motd and raw_admin
 	- Modules: Added chanserv/op, chanserv/voice, chanserv/protect, chanserv/halfop, and chanserv/owner
+	- API: added flag +L for viewing channel access list

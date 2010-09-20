@@ -96,8 +96,10 @@
 	[!] Improve module api docs (add sidInfo and uidInfo for one)
 [ ] Other
 	[X] Allow custom services to be made and handled like others
+	[ ] When chanserv/flags is done, add the +L flag creation there
 Key: 
 	X = Done
 	! = In development
 	? = Still being questioned whether it should be in Chakora or not
 	O = This didn't make the cut, this could be added later though	
+	

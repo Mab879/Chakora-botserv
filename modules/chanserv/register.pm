@@ -47,7 +47,7 @@ sub svs_cs_register {
 	
 	my $chan = $sargv[1];
 	
-	my $flags = '+vVoOtskiRmFS';
+	my $flags = '+vVoOtskiRmFSL';
 	if (defined $Chakora::PROTO_SETTINGS{owner}) {
 		$flags .= 'qQ';
 	}
