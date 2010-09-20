@@ -200,6 +200,9 @@ sub apply_status {
 	if (!uidInfo($user, 9)) {
 		return;
 	}
+	if (metadata(2, $chan, 'option:nostatus')) {
+		return;
+	}
 	
 	my $account = uidInfo($user, 9);
 
