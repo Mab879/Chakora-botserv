@@ -205,6 +205,9 @@ sub apply_status {
 	}
 	
 	my $account = uidInfo($user, 9);
+	if (metadata(2, $account, 'flag:nostatus')) {
+		return;
+	}
 
 	my ($modes);
 	if (has_flag($account, $chan, "b")) {
