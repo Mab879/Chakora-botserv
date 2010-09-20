@@ -83,6 +83,17 @@ sub is_identified {
     }
 }
 
+sub in_group {
+	my ($nick, $account) = @_;
+	my $return = 0;
+	foreach my $key ( keys %Chakora::DB_nick ) {
+        	if (lc($key) eq lc($nick) and lc($Chakora::DB_nick{$key}{account}) eq lc($account)) {
+			$return = 1;
+		}
+	}
+	return $return;
+}
+
 sub has_flag {
 	my ($account, $chan, $flag) = @_;
 	my $return = 0;

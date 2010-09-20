@@ -8,7 +8,7 @@ use warnings;
 module_init("nickserv/set", "The Chakora Project", "0.1", \&init_ns_set, \&void_ns_set, "all");
 
 sub init_ns_set {
-        cmd_add("nickserv/set", "Allows you to set account settings", "SET allows you to manage the way various\naspects of your account operate, such as \nflags and nickname enforcement.\n[T]\nSET options:\n[T]\n\002PASSWORD\002 - Changes your services password.\n\002EMAIL\002 - Changes your services email address.\n\002ENFORCE\002 - Sets nick enforcement on or off.\n\002HIDEMAIL\002 - Sets hiding your email address to users on or off.\n[T]\nSyntax: SET <option> [parameters]", \&svs_ns_set);
+        cmd_add("nickserv/set", "Allows you to set account settings", "SET allows you to manage the way various\naspects of your account operate, such as \nflags and nickname enforcement.\n[T]\nSET options:\n[T]\n\002PASSWORD\002 - Changes your services password.\n\002EMAIL\002 - Changes your services email address.\n\002ENFORCE\002 - Sets nick enforcement on or off.\n\002HIDEMAIL\002 - Sets hiding your email address to users on or off.\n\002NOSTATUS\002 - Prevents you from recieving status in any channel regardless if you have flags or not.\n\002ACCOUNTNAME\002 - Sets your account name to a nick you own.\n[T]\nSyntax: SET <option> [parameters]", \&svs_ns_set);
 }
 
 sub void_ns_set {
@@ -18,6 +18,8 @@ sub void_ns_set {
 	delete_sub 'ns_set_enforce';
 	delete_sub 'ns_set_hidemail';
 	delete_sub 'ns_set_email';
+	delete_sub 'ns_set_nostatus';
+	delete_sub 'ns_set_accoutname';
         cmd_del("nickserv/set");
 	delete_sub 'void_ns_set';
 }
@@ -49,6 +51,14 @@ sub svs_ns_set {
                         ns_set_email($user, uidInfo($user, 9), $sargv[2]);
                 }
         }
+        elsif (lc($sargv[1]) eq 'accountname') {
+                if (!defined($sargv[2])) {
+                        serv_notice("nickserv", $user, "Not enough parameters. Syntax: SET ACCOUTNAME <grouped-nick>");
+                }
+                else {
+                        ns_set_accountname($user, uidInfo($user, 9), $sargv[2]);
+                }
+        }
 	elsif (lc($sargv[1]) eq 'enforce') {
         	if (!defined($sargv[2])) {
                 	serv_notice("nickserv", $user, "Not enough parameters. Syntax: SET ENFORCE <on/off>");
@@ -60,6 +70,17 @@ sub svs_ns_set {
                         serv_notice("nickserv", $user, "Invalid parameter. Syntax: SET ENFORCE <on/off>");
 		}
 	}
+        elsif (lc($sargv[1]) eq 'nostatus') {
+                if (!defined($sargv[2])) {
+                        serv_notice("nickserv", $user, "Not enough parameters. Syntax: SET NOSTATUS <on/off>");
+                }
+                elsif (lc($sargv[2]) eq 'on' or lc($sargv[2]) eq 'off') {
+                        ns_set_nostatus($user, uidInfo($user, 9), lc($sargv[2]));
+                }
+                else {
+                        serv_notice("nickserv", $user, "Invalid parameter. Syntax: SET NOSTATUS <on/off>");
+                }
+        }
         elsif (lc($sargv[1]) eq 'hidemail') {
                 if (!defined($sargv[2])) {
                         serv_notice("nickserv", $user, "Not enough parameters. Syntax: SET HIDEMAIL <on/off>");
@@ -95,6 +116,30 @@ sub ns_set_email {
 	else {
 		serv_notice("nickserv", $user, "The specified email address is invalid.");
 	}
+}
+sub ns_set_accountname {
+        my ($user, $account, $name) = @_;
+        if (in_group($name, $account)) {
+                $Chakora::DB_account{lc($account)}{name} = $name;
+		$Chakora::DB_account{lc($name)} = delete $Chakora::DB_account{lc($account)};
+		foreach my $key ( keys %Chakora::DB_nick ) {
+			if (lc($Chakora::DB_nick{$key}{account}) eq lc($account)) {
+				$Chakora::DB_nick{$key}{account} = $name;
+			}
+		}
+		foreach my $key ( keys %Chakora::DB_accdata ) {
+			if (lc($Chakora::DB_accdata{$key}{account}) eq lc($account)) {
+				$Chakora::DB_accdata{$key}{account} = lc($name);
+			}
+		}
+		$Chakora::uid{$user}{'account'} = $name;
+		serv_accountname($user, $name);
+                serv_notice("nickserv", $user, "Name for account \2".$account."\2 successfully changed to \2".$name."\2.");
+                svsilog("nickserv", $user, "SET:ACCOUNTNAME", $account." -> ".$name);
+        }
+        else {
+                serv_notice("nickserv", $user, "You do not own the specified nickname.");
+        }
 }
 
 sub ns_set_enforce {
@@ -144,5 +189,30 @@ sub ns_set_hidemail {
                 }
         }
 }
+
+sub ns_set_nostatus {
+        my ($user, $account, $option) = @_;
+        if ($option eq 'on') {
+                if (!metadata(1, $account, "flag:nostatus")) {
+                        metadata_add(1, $account, "flag:nostatus", 1);
+                        serv_notice("nickserv", $user, "\2NOSTATUS\2 flag set.");
+                        svsilog("nickserv", $user, "SET:NOSTATUS", "ON");
+                }
+                else {
+                        serv_notice("nickserv", $user, "The \2NOSTATUS\2 flag is already set on your account.");
+                }
+        }
+        elsif ($option eq 'off') {
+                if (metadata(1, $account, "flag:nostatus")) {
+                        metadata_del(1, $account, "flag:nostatus");
+                        serv_notice("nickserv", $user, "\2NOSTATUS\2 flag unset.");
+                        svsilog("nickserv", $user, "SET:NOSTATUS", "OFF");
+                }
+                else {
+                        serv_notice("nickserv", $user, "The \2NOSTATUS\2 flag is already unset on your account.");
+                }
+        }
+}
+
 
 1;
