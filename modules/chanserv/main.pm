@@ -200,21 +200,22 @@ sub apply_status {
 	if (!uidInfo($user, 9)) {
 		return;
 	}
-	if (metadata(2, $chan, 'option:nostatus')) {
-		return;
-	}
-	
+
 	my $account = uidInfo($user, 9);
-	if (metadata(1, $account, 'flag:nostatus')) {
-		return;
-	}
 
 	my ($modes);
 	if (has_flag($account, $chan, "b")) {
 		my $mask = uidInfo($user, 4);
-		$modes .= "b *!*@".$mask;
+		serv_mode("chanserv", $chan, "+b *!*@".$mask);
 		serv_kick("chanserv", $chan, $user, "Banned.");
+		return;
 	}
+        if (metadata(2, $chan, 'option:nostatus')) {
+                return;
+        }
+        if (metadata(1, $account, 'flag:nostatus')) {
+                return;
+        }
 	if (has_flag($account, $chan, "Q") and defined($Chakora::PROTO_SETTINGS{owner})) {
 		$modes .= $Chakora::PROTO_SETTINGS{owner};
 	}
