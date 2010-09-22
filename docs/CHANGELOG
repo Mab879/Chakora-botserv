@@ -110,4 +110,4 @@ Current
 	- API: added flag +L for viewing channel access list
 	- API: added in_group
 	- Modules: Added to nickserv/set: set accountname and no status
-
+	- API: extended is_register to channels

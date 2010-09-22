@@ -64,9 +64,12 @@ sub is_soper {
 }
 
 sub is_registered {
-    my ($nick) = @_;
-    if ( defined $Chakora::DB_nick{ lc($nick) }{account} ) {
+    my ($type, $target) = @_;
+    if ( $type == 1 and defined $Chakora::DB_nick{ lc($target) }{account} ) {
         return 1;
+    }
+    if ( $type == 2 and defined $Chakora::DB_chan{ lc($target) }{name}) {
+	return 1;
     }
     else {
         return 0;
