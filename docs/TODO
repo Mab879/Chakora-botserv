@@ -37,7 +37,7 @@
 	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
 	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
-	[ ] Make the memoserv core a module
+	[X] Make the memoserv core a module
 	[ ] Send
 	[ ] List
 	[ ] Read
