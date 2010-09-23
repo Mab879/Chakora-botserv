@@ -37,7 +37,7 @@ sub svs_cs_sync {
 		return;
 	}
 	my $chan = $sargv[1];
-	if (!defined $Chakora::DB_chan{lc($chan)}{name}) {
+	if (!is_registered(2, $chan)) {
 		serv_notice("chanserv", $user, "Channel \002$sargv[1]\002 isn't registered.");
 		return;
 	}	

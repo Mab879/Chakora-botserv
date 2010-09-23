@@ -42,7 +42,7 @@ sub svs_cs_voice {
 	}
 	my $acc = uidInfo($user, 9);
 	my $chan = $sargv[1];
-	if (!defined($Chakora::DB_chan{lc($chan)}{name})) {
+	if (!is_registered(2, $chan)) {
 		serv_notice("chanserv", $user, "Channel \002$chan\002 is not registered.");
 		return;
 	}
@@ -89,7 +89,7 @@ sub svs_cs_devoice {
         }
         my $acc = uidInfo($user, 9);
         my $chan = $sargv[1];
-        if (!defined($Chakora::DB_chan{lc($chan)}{name})) {
+        if (!is_registered(2, $chan)) {
                 serv_notice("chanserv", $user, "Channel \002$chan\002 is not registered.");
                 return;
         }

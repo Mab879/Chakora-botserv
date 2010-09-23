@@ -28,7 +28,7 @@ sub svs_cs_info {
 		serv_notice("chanserv", $user, "Not enough parameters. Syntax: INFO <channel>");
 		return;
 	}
-	if (!defined($Chakora::DB_chan{lc($sargv[1])}{name})) {
+	if (!is_registered(2, $sargv[1])) {
 		serv_notice("chanserv", $user, "Channel \002$sargv[1]\002 is not registered.");
 		return;
 	}
