@@ -93,15 +93,15 @@ sub svs_ns_drop {
 						svsilog("nickserv", $user, "DROP:PROCESS", "Automatically succeeding channel \002".$Chakora::DB_chan{$ckey}{name}."\002 to \002".metadata(2, $ckey, 'data:successor')."\002");
 						svsflog('commands', uidInfo($user, 1).": NickServ: DROP:PROCESS: Automatically succeeding channel ".$Chakora::DB_chan{$ckey}{name}." to ".metadata(2, $ckey, 'data:successor'));
 						$Chakora::DB_chan{$ckey}{founder} = metadata(2, $ckey, 'data:successor');
-						my $flags = '+voOtskiRmAF';
+						my $flags = '+vVotskiRmF';
 						if (defined $Chakora::PROTO_SETTINGS{owner}) {
-							$flags .= 'q';
+							$flags .= 'qQ';
 						}
 						elsif (defined $Chakora::PROTO_SETTINGS{admin}) {
-							$flags .= 'a';
+							$flags .= 'aA';
 						}
 						elsif (defined $Chakora::PROTO_SETTINGS{halfop}) {
-							$flags .= 'h';
+							$flags .= 'hH';
 						}
 						flags($ckey, metadata(2, $ckey, 'data:successor'), $flags);
 					}
