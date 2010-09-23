@@ -37,6 +37,7 @@ if ( $^O =~ /win/i ) {
 
 my (%options);
 our ( $SERVICES_STARTTIME, $SERVICES_VERSION );
+our $IN_DEBUG = 0;
 
 # Get command line options
 GetOptions(
@@ -288,8 +289,7 @@ while (1) {
             PeerAddr  => config( 'server', 'host' ),
             PeerPort  => config( 'server', 'port' ),
           )
-          or error( "chakora",
-            "Connection to " . config( 'server', 'host' ) . " failed.\n" );
+          or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
         irc_connect();
     }
     chomp($data);
@@ -297,8 +297,9 @@ while (1) {
     undef $mtext;
     @ex = split( ' ', $data );
     $mtext = substr( $data, index( $data, ":", index( $data, ":" ) + 1 ) + 1 );
-
-    print( "[IRC] " . $data . "\n" );
+    if ($IN_DEBUG) {
+    	print( "[IRC] " . $data . "\n" );
+    }
     $USER = substr( $ex[0], 1 );
 
 	if (defined $ex[0]) {
@@ -369,12 +370,9 @@ while (1) {
         $ex[3] =~ s/\001//g;
         $ex[3] = substr( $ex[3], 1 );
         handle_ctcp( $USER, $ex[2], $ex[3] );
-        print(  "[CTCP] "
-              . $ex[3]
-              . " from "
-              . $USER . "["
-              . uidInfo( $USER, 1 )
-              . "]\n" );
+	if ($IN_DEBUG) {
+       		print("[CTCP] ".$ex[3]." from ".$USER."[".uidInfo($USER, 1)."]\n");
+	}
     }
 
     # Handle services commands, if it exists
@@ -415,7 +413,9 @@ sub send_sock {
     my ($str) = @_;
     chomp($str);
     send( $socket, $str . "\r\n", 0 );
-    print( "[YOU] " . $str . "\n" );
+    if ($IN_DEBUG) {
+    	print( "[YOU] " . $str . "\n" );
+    }
 }
 
 sub config {
@@ -432,7 +432,9 @@ sub config {
 
 sub error {
     my ( $type, $msg ) = @_;
-    print( "[ERROR] " . $msg . "\n" );
+    if ($IN_DEBUG) {
+    	print( "[ERROR] " . $msg . "\n" );
+    }
     my ($file);
     if ( $type ne 0 ) {
         $type = lc($type);
@@ -489,7 +491,9 @@ sub taint {
     my $msg = "TAINTED: " . $str;
     if ( config( 'services', 'allow_taint' ) ) {
         $msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
-        print( "[WARNING] " . $msg . "\n" );
+	if ($IN_DEBUG) {
+        	print( "[WARNING] " . $msg . "\n" );
+	}
 	if (!$Chakora::TAINTED) { $Chakora::TAINTED = 1; }
     }
     else {

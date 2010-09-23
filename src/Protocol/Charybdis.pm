@@ -406,7 +406,11 @@ sub raw_euid {
 		event_oper($ruid);
 	}
 	event_uid($ruid, $rex[2], $rex[6], $rex[10], $rex[7], $rex[8], substr($rex[0], 1));
-	if ($Chakora::IN_DEBUG) { serv_notice('global', $ruid, "Services are in debug mode, be careful when sending messages to services."); }
+    	my $svs = 'operserv';
+    	if (module_exists("global/main")) {
+        	$svs = 'global';
+    	}
+	if ($Chakora::IN_DEBUG) { serv_notice($svs, $ruid, "Services are in debug mode, be careful when sending messages to services."); }
 }
 
 # Handle SJOIN

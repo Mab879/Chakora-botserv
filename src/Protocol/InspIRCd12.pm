@@ -593,10 +593,11 @@ sub raw_uid {
     $Chakora::uid{$ruid}{'server'} = substr( $rex[0], 1 );
     $Chakora::uid{$ruid}{'pnick'}  = 0;
     $Chakora::uid{$ruid}{'away'}   = 0;
-    if ($Chakora::IN_DEBUG) {
-        serv_notice( 'global', $ruid,
-"Services are in debug mode, be careful when sending messages to services."
-        );
+    my $svs = 'operserv';
+    if (module_exists("global/main")) {
+              $svs = 'global';
+    }
+    if ($Chakora::IN_DEBUG) { serv_notice($svs, $ruid, "Services are in debug mode, be careful when sending messages to services.");
     }
     event_uid( $ruid, $rex[4], $rex[7], $rex[5], $rex[6], $rex[8],
         substr( $rex[0], 1 ) );
