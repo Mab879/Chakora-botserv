@@ -10,7 +10,8 @@
 [ ] Global
 	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
 [ ] NickServ
-	[X] Make the nickserv core a module.
+	[!] Make the nickserv core a module.
+		[ ] Add sub's relating to nickserv into nickserv/main
 	[!] Register
 		[X] Check for valid a valid email address
 		[X] Set default nickserv flags
