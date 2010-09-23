@@ -15,6 +15,7 @@ sub init_cs_main {
 	hook_quit_add(\&ircd_cs_quit);
 	hook_kick_add(\&ircd_cs_kick);
 	hook_identify_add(\&ircd_cs_ns_id);
+	hook_topic_add(\&ircd_cs_topic);
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_cs_main); }
 	else { ircd_cs_main(); }
 }
@@ -28,6 +29,7 @@ sub void_cs_main {
 	delete_sub 'ircd_cs_quit';
 	delete_sub 'ircd_cs_kick';
 	delete_sub 'ircd_cs_ns_id';
+	delete_sub 'ircd_cs_topic';
 	delete_sub 'apply_status';
 	delete_sub 'flags';
 	hook_pds_del(\&svs_hs_main);
@@ -38,6 +40,7 @@ sub void_cs_main {
 	hook_quit_del(\&ircd_cs_quit);
 	hook_kick_del(\&ircd_cs_kick);
 	hook_identify_del(\&ircd_cs_ns_id);
+	hook_topic_del(\&ircd_cs_topic);
 	delete_cmdtree("chanserv");
 	delete_sub 'void_cs_main';
 }
@@ -177,6 +180,25 @@ sub ircd_cs_ns_id {
 	}
 }
 
+sub ircd_cs_topic {
+	my ($user, $chan, $topic) = @_;
+	my $account = account_name(uidInfo($user, 1));
+	if (has_flag($account, $chan, "t")) {
+		return;
+	}
+	elsif (!metadata(2, $chan, "option:topiclock")) {
+		return;
+	}
+	else {
+		if (!metadata(2, $chan, "data:topic")) {
+			serv_topic("chanserv", $chan, "");
+		}
+		else {
+			serv_topic("chanserv", $chan, metadata(2, $chan, "data:topic"));
+		}
+	}
+}
+ 
 sub flags {
     my ( $chan, $user, $flags ) = @_;
     $chan = lc($chan);
