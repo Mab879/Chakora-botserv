@@ -8,7 +8,7 @@ use warnings;
 module_init("chanserv/set", "The Chakora Project", "0.1", \&init_cs_set, \&void_cs_set, "all");
 
 sub init_cs_set {
-        cmd_add("chanserv/set", "Allows you to set channel settings", "SET allows you to manage the way various\naspects of your channel operate, such as \ntopiclock and fantasy.\n[T]\nSET options:\n[T]\n\002FANTASY\002 - Enables fantasy in your channel.\n\002GUARD\002 - Makes ChanServ stay in your channel until user count is below 1.\n\002RESTRICTED\002 - Restricts your channel from users who don't have flags.\n\002TOPICLOCK\002 - Keeps your topic 'locked' from changing unless the user has the +t flag.\n\002NOSTATUS\002 - Prevents users from recieving status regardless if they have flags or not.\n\002DESCRIPTION\002 - Changes your channels description.\n\002URL\002 - Sets a URL for your channel\n[T]\nSyntax: SET <option> [parameters]", \&svs_cs_set);
+        cmd_add("chanserv/set", "Allows you to set channel settings", "SET allows you to manage the way various\naspects of your channel operate, such as \ntopiclock and fantasy.\n[T]\nSET options:\n[T]\n\002FANTASY\002 - Enables fantasy in your channel.\n\002GUARD\002 - Makes ChanServ stay in your channel until user count is below 1.\n\002RESTRICTED\002 - Restricts your channel from users who don't have flags.\n\002TOPICLOCK\002 - Keeps your topic 'locked' from changing unless the user has the +t flag.\n\002NOSTATUS\002 - Prevents users from recieving status regardless if they have flags or not.\n\002DESCRIPTION\002 - Changes your channels description.\n\002URL\002 - Sets a URL for your channel\n\002NOEXPIRE\002 - Makes a channel never expire. This is settable by service operators only.\n[T]\nSyntax: SET <option> [parameters]", \&svs_cs_set);
 	if (!flag_exists("s")) {
 	        flaglist_add("s", "Allows the use of SET");
 	}
@@ -24,6 +24,7 @@ sub void_cs_set {
 	delete_sub 'cs_set_nostatus';
 	delete_sub 'cs_set_topiclock';
 	delete_sub 'cs_set_restricted';
+	delete_sub 'cs_set_noexpire';
 	flaglist_del("s");
         cmd_del("chanserv/set");
 	delete_sub 'void_cs_set';
@@ -50,7 +51,7 @@ sub svs_cs_set {
 	}
 	elsif (lc($sargv[2]) eq 'url') {
 		if (!defined($sargv[3])) {
-			serv_notice("chanserv", $user, "Not enough parameters. Syntax: SET <channel> URL <url>");
+			cs_unset_url($user, $sargv[1]);
                	}
 		else {
 			cs_set_url($user, $sargv[1], $sargv[3]);
@@ -111,6 +112,24 @@ sub svs_cs_set {
                         serv_notice("chanserv", $user, "Invalid parameter. Syntax: SET <channel> TOPICLOCK <on/off>");
                 }
         }
+	elsif (lc($sargv[2]) eq 'noexpire') {
+                if (!is_soper($user)) {
+                        serv_notice("chanserv", $user, "Permission denied.");
+                }
+                elsif (!defined($sargv[2]) or !defined($sargv[3])) {
+                        serv_notice("chanserv", $user, "Not enough parameters. Syntax: SET NOEXPIRE <channel> <on/off>");
+                }
+                elsif (!is_registered(2, $sargv[2])) {
+                        serv_notice("chanserv", $user, "Channel \002".$sargv[2]."\002 is not registered.");
+                }
+                elsif (lc($sargv[3]) eq 'on' or lc($sargv[3]) eq 'off') {
+                        cs_set_noexpire($user, $sargv[2], lc($sargv[3]));
+                }
+                else {
+                        serv_notice("chanserv", $user, "Invalid parameter. Syntax: SET NOEXPIRE <channel> <on/off>");
+                }
+        }
+
         elsif (lc($sargv[2]) eq 'fantasy') {
                 if (!defined($sargv[3])) {
                         serv_notice("chanserv", $user, "Not enough parameters. Syntax: SET <channel> FANTASY <on/off>");
@@ -137,6 +156,13 @@ sub cs_set_url {
 	metadata_add(2, $chan, "data:url", $url);
 	serv_notice("chanserv", $user, "Set channel URL for ".$chan." to ".$url);
 	svsilog("chanserv", $user, "SET:".$chan.":URL", $url);
+}
+
+sub cs_unset_url {
+        my ($user, $chan) = @_;
+        metadata_del(2, $chan, "data:url");
+        serv_notice("chanserv", $user, "Unset channel URL for ".$chan);
+        svsilog("chanserv", $user, "UNSET:".$chan.":URL");
 }
 
 sub cs_set_guard {
@@ -255,6 +281,30 @@ sub cs_set_topiclock {
                 }
                 else {
                         serv_notice("chanserv", $user, "The \2TOPICLOCK\2 flag is already unset on ".$chan);
+                }
+        }
+}
+
+sub cs_set_noexpire {
+        my ($user, $chan, $option) = @_;
+        if ($option eq 'on') {
+                if (!metadata(2, $chan, "option:noexpire")) {
+                        metadata_add(2, $chan, "option:noexpire", 1);
+                        serv_notice("chanserv", $user, "\2NOEXPIRE\2 flag set on channel ".$chan);
+                        svsilog("chanserv", $user, "SET:".$chan.":NOEXPIRE", "ON");
+                }
+                else {
+                        serv_notice("chanserv", $user, "The \2NOEXPIRE\2 flag is already set on channel ".$chan);
+                }
+        }
+        elsif ($option eq 'off') {
+                if (metadata(2, $chan, "option:noexpire")) {
+                        metadata_del(2, $chan, "option:noexpire");
+                        serv_notice("chanserv", $user, "\2NOEXPIRE\2 flag unset on channel ".$chan);
+                        svsilog("chanserv", $user, "SET:".$chan.":NOEXPIRE", "OFF");
+                }
+                else {
+                        serv_notice("chanserv", $user, "The \2NOEXPIRE\2 flag is already unset on channel ".$chan);
                 }
         }
 }
