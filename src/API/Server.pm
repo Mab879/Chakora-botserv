@@ -68,12 +68,17 @@ sub is_registered {
     if ( $type == 1 and defined $Chakora::DB_nick{ lc($target) }{account} ) {
         return 1;
     }
-    if ( $type == 2 and defined $Chakora::DB_chan{ lc($target) }{name}) {
+    elsif ( $type == 2 and defined $Chakora::DB_chan{ lc($target) }{name}) {
 	return 1;
     }
     else {
         return 0;
     }
+}
+
+sub account_name {
+	my ($nick) = @_;
+	return $Chakora::DB_nick{lc($nick)}{account};
 }
 
 sub is_identified {
