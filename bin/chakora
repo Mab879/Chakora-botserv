@@ -91,7 +91,7 @@ if ( `whoami` eq "root\n" ) {
 
 # If we're in debug mode, set a variable letting Chakora know that.
 if ( $options{debug} ) {
-    our $IN_DEBUG = 1;
+    $IN_DEBUG = 1;
 }
 
 # Get configuration values
