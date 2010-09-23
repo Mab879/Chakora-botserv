@@ -342,11 +342,16 @@ sub serv_sethost {
 
 # Send global messages
 sub send_global {
-        my ($msg) = @_;
-        foreach my $key (keys %uid) {
-                serv_notice("global", $Chakora::uid{$key}{'uid'}, $msg);
-        }
+    my ($msg) = @_;
+    my $svs = 'operserv';
+    if (module_exists("global/main")) {
+        $svs = 'global';
+    }
+    foreach my $key ( keys %uid ) {
+        serv_notice($svs, $Chakora::uid{$key}{'uid'}, $msg);
+    }
 }
+
 
 # Handle nick enforcement
 sub serv_enforce {

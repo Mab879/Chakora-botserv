@@ -400,8 +400,12 @@ sub serv_jupe {
 # Send global messages
 sub send_global {
     my ($msg) = @_;
+    my $svs = 'operserv';
+    if (module_exists("global/main")) {
+	$svs = 'global';
+    }
     foreach my $key ( keys %uid ) {
-        serv_notice( "global", $Chakora::uid{$key}{'uid'}, $msg );
+        serv_notice($svs, $Chakora::uid{$key}{'uid'}, $msg);
     }
 }
 
