@@ -8,7 +8,7 @@ use warnings;
 module_init("nickserv/set", "The Chakora Project", "0.1", \&init_ns_set, \&void_ns_set, "all");
 
 sub init_ns_set {
-        cmd_add("nickserv/set", "Allows you to set account settings", "SET allows you to manage the way various\naspects of your account operate, such as \nflags and nickname enforcement.\n[T]\nSET options:\n[T]\n\002PASSWORD\002 - Changes your services password.\n\002EMAIL\002 - Changes your services email address.\n\002ENFORCE\002 - Sets nick enforcement on or off.\n\002HIDEMAIL\002 - Sets hiding your email address to users on or off.\n\002NOSTATUS\002 - Prevents you from recieving status in any channel regardless if you have flags or not.\n\002ACCOUNTNAME\002 - Sets your account name to a nick you own.\n[T]\nSyntax: SET <option> [parameters]", \&svs_ns_set);
+        cmd_add("nickserv/set", "Allows you to set account settings", "SET allows you to manage the way various\naspects of your account operate, such as \nflags and nickname enforcement.\n[T]\nSET options:\n[T]\n\002PASSWORD\002 - Changes your services password.\n\002EMAIL\002 - Changes your services email address.\n\002ENFORCE\002 - Sets nick enforcement on or off.\n\002HIDEMAIL\002 - Sets hiding your email address to users on or off.\n\002NOSTATUS\002 - Prevents you from recieving status in any channel regardless if you have flags or not.\n\002ACCOUNTNAME\002 - Sets your account name to a nick you own.\n\002NOEXPIRE\002 - Makes an account never expire. This is settable by service operators only.\n[T]\nSyntax: SET <option> [parameters]", \&svs_ns_set);
 }
 
 sub void_ns_set {
@@ -20,6 +20,7 @@ sub void_ns_set {
 	delete_sub 'ns_set_email';
 	delete_sub 'ns_set_nostatus';
 	delete_sub 'ns_set_accoutname';
+	delete_sub 'ns_set_noexpire';
         cmd_del("nickserv/set");
 	delete_sub 'void_ns_set';
 }
@@ -79,6 +80,23 @@ sub svs_ns_set {
                 }
                 else {
                         serv_notice("nickserv", $user, "Invalid parameter. Syntax: SET NOSTATUS <on/off>");
+                }
+        }
+        elsif (lc($sargv[1]) eq 'noexpire') {
+		if (!is_soper($user)) {
+			serv_notice("nickserv", $user, "Permission denied.");
+		}
+                elsif (!defined($sargv[2]) or !defined($sargv[3])) {
+                        serv_notice("nickserv", $user, "Not enough parameters. Syntax: SET NOEXPIRE <nick> <on/off>");
+                }
+		elsif (!is_registered(1, $sargv[2])) {
+			serv_notice("nickserv", $user, "Nickname \002".$sargv[2]."\002 is not registered.");
+		}
+                elsif (lc($sargv[3]) eq 'on' or lc($sargv[3]) eq 'off') {
+                        ns_set_noexpire($user, account_name($sargv[2]), lc($sargv[3]));
+                }
+                else {
+                        serv_notice("nickserv", $user, "Invalid parameter. Syntax: SET NOEXPIRE <nick> <on/off>");
                 }
         }
         elsif (lc($sargv[1]) eq 'hidemail') {
@@ -213,6 +231,31 @@ sub ns_set_nostatus {
                 }
         }
 }
+
+sub ns_set_noexpire {
+        my ($user, $account, $option) = @_;
+        if ($option eq 'on') {
+                if (!metadata(1, $account, "flag:noexpire")) {
+                        metadata_add(1, $account, "flag:noexpire", 1);
+                        serv_notice("nickserv", $user, "\2NOEXPIRE\2 flag set on account ".$account);
+                        svsilog("nickserv", $user, "SET:NOEXPIRE:".$account, "ON");
+                }
+                else {
+                        serv_notice("nickserv", $user, "The \2NOEXPIRE\2 flag is already set on account ".$account);
+                }
+        }
+        elsif ($option eq 'off') {
+                if (metadata(1, $account, "flag:noexpire")) {
+                        metadata_del(1, $account, "flag:noexpire");
+                        serv_notice("nickserv", $user, "\2NOEXPIRE\2 flag unset on account ".$account);
+                        svsilog("nickserv", $user, "SET:NOEXPIRE:".$account, "OFF");
+                }
+                else {
+                        serv_notice("nickserv", $user, "The \2NOEXPIRE\2 flag is already unset on account ".$account);
+                }
+        }
+}
+
 
 
 1;
