@@ -58,7 +58,7 @@ services {
 	# If you want to allow tainting, set this to 1, but you will lose your support
 	allow_taint = 0
 	# Module autoload
-	autoload = "operserv/help operserv/update operserv/version operserv/uptime operserv/global operserv/shutdown nickserv/help nickserv/register nickserv/info nickserv/logout nickserv/set nickserv/identify nickserv/drop chanserv/main chanserv/help chanserv/register chanserv/info chanserv/flist"
+	autoload = "operserv/help operserv/update operserv/version operserv/uptime operserv/global operserv/shutdown nickserv/help nickserv/register nickserv/info nickserv/logout nickserv/set nickserv/identify nickserv/drop chanserv/main chanserv/help chanserv/register chanserv/set chanserv/info chanserv/flist chanserv/op chanserv/voice"
 	# Change a channel's TS to the TS from when it was registered (recommended)
 	updatets = 1
 }
