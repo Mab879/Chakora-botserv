@@ -929,6 +929,9 @@ sub raw_topic {
         my $args = substr($rex[3], 1);
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	if (is_registered(2, $chan)) {
+		metadata_add(2, $chan, "data:topic", $args);
+	}
         event_topic($user, $chan, $args);
 }
 
@@ -942,6 +945,9 @@ sub raw_ftopic {
         my $args = substr($rex[5], 1);
         my ($i);
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        if (is_registered(2, $chan)) {
+                metadata_add(2, $chan, "data:topic", $args);
+        }
         event_stopic($nick, $chan, $args);
 }
 

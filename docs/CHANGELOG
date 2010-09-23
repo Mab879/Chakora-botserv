@@ -116,3 +116,4 @@ Current
 	- Modules: Added to nickset/set: set noexpire
 	- API: added account_name to get an account name via a grouped nick
 	- Modules: Added to chanserv/set: set noexpire
+	- Protocols: when we track topics, if the channel is registered, set metadata to track the topic
