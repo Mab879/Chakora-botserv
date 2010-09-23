@@ -112,3 +112,4 @@ Current
 	- Modules: Added to nickserv/set: set accountname and no status
 	- API: extended is_register to channels
 	- Modules: added memoserv/main
+	- Modules: added chanserv/set

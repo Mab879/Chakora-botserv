@@ -34,7 +34,16 @@
 	[ ] AKick
 	[!] Owner/Protect/Op/Halfop/Voice
 		[ ] Fix the help entries to be formatted perfectly.
-	[ ] Set (Founder, Successor, Restricted, Topiclock, Guard)
+	[!] Set (Founder, Successor, Restricted, Topiclock, Guard)
+		[ ] Founder
+		[ ] Successor
+		[X] Topiclock
+		[X] Guard
+		[X] Restricted
+		[X] Nostatus
+		[X] Fantasy
+		[X] Description
+		[X] URL
 	[!] Access list system (We're going to do a flag system with an XOP adapter)	
 [ ] MemoServ
 	[X] Make the memoserv core a module
