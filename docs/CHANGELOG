@@ -119,3 +119,4 @@ Current
 	- Protocols: when we track topics, if the channel is registered, set metadata to track the topic
 	- Modules: Added to chanserv/main: TOPICLOCK enforcement
 	- Modules: Added nickserv/main
+	- Modules: Added global/main
