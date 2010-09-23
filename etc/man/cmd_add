@@ -1,0 +1,3 @@
+cmd_add(service/command, short help, long help, \&command_handler)
+   This will add a command handler for the given service, once a user executes
+   the command, the handler is executed as follows: handler(user_uid, @argument_array)

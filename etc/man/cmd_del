@@ -1,0 +1,2 @@
+cmd_del(service/command)
+   This will delete handling for the given service command.
