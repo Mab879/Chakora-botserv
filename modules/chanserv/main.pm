@@ -121,7 +121,7 @@ sub ircd_cs_join {
 	
 	my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
 	if (count(@cmems) == 1) {
-		if (defined($Chakora::DB_chan{lc($chan)}{name}) and metadata(2, $chan, 'option:guard')) {
+		if (defined($Chakora::DB_chan{lc($chan)}{name}) and metadata(2, $chan, 'option:guard') and lc($chan) ne lc(config('log', 'logchan'))) {
 			serv_join("chanserv", $chan);
 		}
 	}
