@@ -32,7 +32,7 @@ sub void_cs_main {
 	delete_sub 'ircd_cs_topic';
 	delete_sub 'apply_status';
 	delete_sub 'flags';
-	hook_pds_del(\&svs_hs_main);
+	hook_pds_del(\&svs_cs_main);
 	serv_del('ChanServ');
 	hook_kill_del(\&ircd_cs_kill);
 	hook_join_del(\&ircd_cs_join);
