@@ -566,28 +566,8 @@ sub raw_capab {
 			. " VERSION :"
 			. $Chakora::SERVICES_VERSION . " "
 			. config( 'me', 'sid' ) );
-		serv_add(
-        'global',
-			config( 'global', 'user' ),
-			config( 'global', 'nick' ),
-			config( 'global', 'host' ),
-			$modes, config( 'global', 'real' )
-		);
-		serv_add(
-			'nickserv',
-			config( 'nickserv', 'user' ),
-			config( 'nickserv', 'nick' ),
-			config( 'nickserv', 'host' ),
-			$modes, config( 'nickserv', 'real' )
-		);
-		serv_add(
-			'operserv',
-			config( 'operserv', 'user' ),
-			config( 'operserv', 'nick' ),
-			config( 'operserv', 'host' ),
-			$modes, config( 'operserv', 'real' )
-		);
-		create_cmdtree("nickserv");
+		serv_add('global', config( 'global', 'user' ), config( 'global', 'nick' ), config( 'global', 'host' ), $modes, config( 'global', 'real' ));
+		serv_add('operserv', config( 'operserv', 'user' ), config( 'operserv', 'nick' ), config( 'operserv', 'host' ), $modes, config( 'operserv', 'real' ));
 		create_cmdtree("operserv");
 		event_pds();
 		send_sock( ":" . config( 'me', 'sid' ) . " ENDBURST" );

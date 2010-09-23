@@ -366,9 +366,7 @@ sub raw_capab {
 # Our Bursting
 sub raw_bursting {
 	serv_add('global', config('global', 'user'), config('global', 'nick'), config('global', 'host'), '+ioS', config('global', 'real'));
-	serv_add('nickserv', config('nickserv', 'user'), config('nickserv', 'nick'), config('nickserv', 'host'), '+ioS', config('nickserv', 'real'));
 	serv_add('operserv', config('operserv', 'user'), config('operserv', 'nick'), config('operserv', 'host'), '+ioS', config('operserv', 'real'));
-	create_cmdtree("nickserv");
 	create_cmdtree("operserv");
 	event_pds();
 }	
