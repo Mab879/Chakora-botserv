@@ -25,7 +25,7 @@ sub svs_ns_info {
 		serv_notice("nickserv", $user, "Not enough parameters. Syntax: INFO <nickname>");
 		return;
 	}
-	if (!defined($Chakora::DB_nick{lc($sargv[1])}{account})) {
+	if (!is_registered(1, $sargv[1])) {
 		serv_notice("nickserv", $user, "Nickname \002$sargv[1]\002 is not registered.");
 		return;
 	}

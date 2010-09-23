@@ -34,7 +34,7 @@ sub svs_ns_register {
 	my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 	my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
 	unless (!defined($email) or !defined($password)) {
-		unless (defined $Chakora::DB_nick{lc($nick)}{account}) {
+		unless (is_registered(1, $nick)) {
 			unless (length($password) < 5) {
 				unless (!Email::Valid->address($email)) {
 					$en->add($password);
