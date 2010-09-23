@@ -8,6 +8,9 @@ use warnings;
 module_init("nickserv/drop", "The Chakora Project", "0.1", \&init_ns_drop, \&void_ns_drop, "all");
 
 sub init_ns_drop {
+        if (!module_exists("nickserv/main")) {
+                module_load("nickserv/main");
+        }
 	cmd_add("nickserv/drop", "Drops your account from services database.", "DROP will allow you to drop your NickServ nickname/account,\nonce you have deleted your nick/account, it may not be restored.\nThis action is not reversable.\n[T]\nSyntax: DROP [nick] <password>\n", \&svs_ns_drop);
 }
 

@@ -8,6 +8,9 @@ use warnings;
 module_init("nickserv/logout", "The Chakora Project", "0.1", \&init_ns_logout, \&void_ns_logout, "all");
 
 sub init_ns_logout {
+        if (!module_exists("nickserv/main")) {
+                module_load("nickserv/main");
+        }
 	cmd_add("nickserv/logout", "Logs you out from services.", "LOGOUT unidentifies you from services\nSyntax: LOGOUT", \&svs_ns_logout);
 }
 

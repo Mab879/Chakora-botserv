@@ -8,6 +8,9 @@ use warnings;
 module_init("nickserv/set", "The Chakora Project", "0.1", \&init_ns_set, \&void_ns_set, "all");
 
 sub init_ns_set {
+        if (!module_exists("nickserv/main")) {
+                module_load("nickserv/main");
+        }
         cmd_add("nickserv/set", "Allows you to set account settings", "SET allows you to manage the way various\naspects of your account operate, such as \nflags and nickname enforcement.\n[T]\nSET options:\n[T]\n\002PASSWORD\002 - Changes your services password.\n\002EMAIL\002 - Changes your services email address.\n\002ENFORCE\002 - Sets nick enforcement on or off.\n\002HIDEMAIL\002 - Sets hiding your email address to users on or off.\n\002NOSTATUS\002 - Prevents you from recieving status in any channel regardless if you have flags or not.\n\002ACCOUNTNAME\002 - Sets your account name to a nick you own.\n\002NOEXPIRE\002 - Makes an account never expire. This is settable by service operators only.\n[T]\nSyntax: SET <option> [parameters]", \&svs_ns_set);
 }
 

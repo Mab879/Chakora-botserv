@@ -8,6 +8,9 @@ use warnings;
 module_init("nickserv/help", "The Chakora Project", "0.1", \&init_ns_help, \&void_ns_help, "all");
 
 sub init_ns_help {
+        if (!module_exists("nickserv/main")) {
+                module_load("nickserv/main");
+        }
 	cmd_add("nickserv/help", "NO_HELP_ENTRY", "NO_HELP_ENTRY", \&svs_ns_help);
 }
 

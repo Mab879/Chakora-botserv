@@ -8,6 +8,9 @@ use warnings;
 module_init("nickserv/register", "The Chakora Project", "0.1", \&init_ns_register, \&void_ns_register, "all");
 
 sub init_ns_register {
+	if (!module_exists("nickserv/main")) {
+		module_load("nickserv/main");
+	}
 	cmd_add("nickserv/register", "Register a nickname with services.", "This will allow you to register your current nickname with ".config('nickserv', 'nick').".\nBy doing this you are creating an identity for yourself on the network,\nand allowing yourself to be added to access lists. ".config('nickserv', 'nick')." will also\nwarn users when using your nick, make them go unidentified if they don't\nidentify, and allow you to kill ghosts. The password is a case sensitive\npassword that you make up. Please write it down or memorize it! You will\nneed it to identify or change settings later on.\n[T]\nSyntax: REGISTER <password> <email-address>", \&svs_ns_register);
 	hook_uid_add(\&ns_enforce_on_uid);
 	hook_nick_add(\&ns_enforce_on_nick);
