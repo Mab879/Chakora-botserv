@@ -235,6 +235,12 @@ sub serv_notice {
     send_sock( ":" . svsUID($svs) . " NOTICE " . $target . " :" . $msg );
 }
 
+# Handle TOPIC 
+sub serv_topic {
+	my ( $svs, $chan, $topic ) = @_;
+	send_sock(":".svsUID($svs)." TOPIC ".$chan." :".$topic);
+}
+
 # Handle JOIN/FJOIN
 sub serv_join {
     my ( $svs, $chan ) = @_;
@@ -929,10 +935,17 @@ sub raw_topic {
         my $args = substr($rex[3], 1);
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
-	if (is_registered(2, $chan)) {
-		metadata_add(2, $chan, "data:topic", $args);
-	}
         event_topic($user, $chan, $args);
+	if (is_registered(2, $chan)) {
+        	if (metadata(2, $chan, "option:topiclock")) {
+                	if (has_flag(uidInfo($user, 1), $chan, "t")) {
+                                metadata_add(2, $chan, "data:topic", $args);
+                        }
+                }
+                else {
+                        metadata_add(2, $chan, "data:topic", $args);
+                }
+        }
 }
 
 # Handle FTOPIC
@@ -945,10 +958,10 @@ sub raw_ftopic {
         my $args = substr($rex[5], 1);
         my ($i);
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        event_stopic($nick, $chan, $args);
         if (is_registered(2, $chan)) {
                 metadata_add(2, $chan, "data:topic", $args);
         }
-        event_stopic($nick, $chan, $args);
 }
 
 # Handle KICK
