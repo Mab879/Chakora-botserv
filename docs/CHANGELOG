@@ -121,3 +121,4 @@ Current
 	- Modules: Added nickserv/main
 	- Modules: Added global/main
 	- Chakora: Added support to the database format for MemoServ memos.
+	- Modules: memoserv/main: Added memo_send() and memo_del()
