@@ -247,7 +247,6 @@ dbflush();
 
 # Fork into the background unless --debug was specified
 unless ( $options{debug} ) {
-    our $IN_DEUBG = 0;
     print("Becoming a daemon...\n");
     open STDIN, '/dev/null' or error( "chakora", "Can't read /dev/null: $!" );
     open STDOUT, '>>/dev/null'
