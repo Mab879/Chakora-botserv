@@ -122,3 +122,4 @@ Current
 	- Modules: Added global/main
 	- Chakora: Added support to the database format for MemoServ memos.
 	- Modules: memoserv/main: Added memo_send() and memo_del()
+	- API: added gen_sid

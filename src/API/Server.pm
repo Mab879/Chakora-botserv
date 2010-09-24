@@ -157,4 +157,27 @@ sub logchan {
     serv_privmsg( $service, config( 'log', 'logchan' ), $text );
 }
 
+sub gen_sid {
+        my ($match);
+        my $n1 = int(rand(10));
+        my $n2 = int(rand(10));
+        my $n3 = int(rand(10));
+        my $sid = $n1."".$n2."".$n3;
+        foreach my $key (keys %Chakora::sid) {
+                if ($Chakora::sid{$key}{sid} eq $sid) {
+                        $match = 1;
+                }
+        }
+        if ($match) {
+                gen_sid();
+        }
+        else {
+                return $sid;
+        }
+}
+
+
+
+
 1;
+
