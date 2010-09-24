@@ -173,10 +173,11 @@ sub ircd_cs_quit {
 
 sub ircd_cs_ns_id {
 	my ($user, $account) = @_;
-
-	my @chns = split(' ', $Chakora::uid{$user}{'chans'});
-	foreach my $chn (@chns) {
-		apply_status($user, $chn);
+	if (defined($Chakora::uid{$user}{'chans'})) {
+		my @chns = split(' ', $Chakora::uid{$user}{'chans'});
+		foreach my $chn (@chns) {
+			apply_status($user, $chn);
+		}
 	}
 }
 
