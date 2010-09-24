@@ -158,6 +158,10 @@ sub logchan {
 }
 
 sub gen_sid {
+	my ($try) = @_;
+	if ($try > 4) {
+		return 0;
+	}
         my ($match);
         my $n1 = int(rand(10));
         my $n2 = int(rand(10));
@@ -169,7 +173,8 @@ sub gen_sid {
                 }
         }
         if ($match) {
-                gen_sid();
+		$try++;
+                gen_sid($try);
         }
         else {
                 return $sid;
