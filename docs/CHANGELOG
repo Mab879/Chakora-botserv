@@ -120,3 +120,4 @@ Current
 	- Modules: Added to chanserv/main: TOPICLOCK enforcement
 	- Modules: Added nickserv/main
 	- Modules: Added global/main
+	- Chakora: Added support to the database format for MemoServ memos.

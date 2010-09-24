@@ -138,10 +138,11 @@ if ( config( 'services', 'allow_taint' ) ) {
 
 # Read the database
 our ( %DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata,
-    %DB_chanflags );
+    %DB_chanflags, %DB_memo );
 our $DBADLAST = 0;
 our $DBCDLAST = 0;
 our $DBCFLAST = 0;
+our $DBMMLAST = 0;
 if ( -e "$ROOT_SRC/../etc/chakora.db" ) {
     open FILE, "<$ROOT_SRC/../etc/chakora.db";
     my @lines = <FILE>;
@@ -223,6 +224,21 @@ if ( -e "$ROOT_SRC/../etc/chakora.db" ) {
                 $DB_chanflags{$DBCFLAST}{flags}   = $lsy[3];
             }
         }
+        elsif ( $lsy[0] eq "MM" ) {
+			
+			# this is a memo
+			unless ( !defined( $lsy[1] ) ) {
+				$DBMMLAST += 1;
+				$DB_memo{$DBMMLAST}{to}   = lc( $lsy[1] );
+				$DB_memo{$DBMMLAST}{from} = $lsy[2];
+				$DB_memo{$DBMMLAST}{time} = $lsy[3];
+				$DB_memo{$DBMMLAST}{new}  = $lsy[4];
+				$DB_memo{$DBMMLAST}{body} = $lsy[5];
+				for ( my $i = 6 ; $i < count(@lsy) ; $i++ ) {
+                    $DB_memo{$DBMMLAST}{body} .= ' ' . $lsy[$i];
+                }
+			}
+		}
     }
 }
 
@@ -580,6 +596,14 @@ sub dbflush {
           . $DB_chanflags{$key}{chan} . " "
           . $DB_chanflags{$key}{account} . " "
           . $DB_chanflags{$key}{flags} . "\n";
+    }
+    foreach my $key ( keys %DB_memo ) {
+        $dd .= "MM "
+          . $DB_memo{$key}{to} . " "
+          . $DB_memo{$key}{from} . " "
+          . $DB_memo{$key}{time} . " "
+          . $DB_memo{$key}{new} . " "
+          . $DB_memo{$key}{body} . "\n";
     }
     print FILE $dd;
     close FILE;
