@@ -113,15 +113,13 @@ our (
 
 # Load the modules
 require Server::Events;
-if ( lc( config( 'server', 'ircd' ) ) eq 'inspircd12' ) {
+if (lc(config('server', 'ircd')) eq 'inspircd12') {
     print("[MODULES] Loading protocol: InspIRCd 1.2\n");
-    require Protocol::InspIRCd12
-      or error( "chakora", "Protocol module failed to load: $!" );
+    require Protocol::InspIRCd12 or error( "chakora", "Protocol module failed to load: $!" );
 }
-elsif ( lc( config( 'server', 'ircd' ) ) eq 'charybdis' ) {
+elsif (lc(config( 'server', 'ircd')) eq 'charybdis') {
     print("[MODULES] Loading protocol: Charybdis\n");
-    require Protocol::Charybdis
-      or error( "chakora", "Protocol module failed to load: $!" );
+    require Protocol::Charybdis or error( "chakora", "Protocol module failed to load: $!" );
 }
 else {
     error( "chakora", "This protocol isn't supported by Chakora." );
@@ -130,10 +128,8 @@ require API::Main;
 require API::Server;
 
 # Void support if ALLOW_TAINT is enabled
-if ( config( 'services', 'allow_taint' ) ) {
-    print(
-"[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n"
-    );
+if (config('services', 'allow_taint')) {
+    print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
 
 # Read the database
@@ -249,28 +245,23 @@ dbflush();
 unless ( $options{debug} ) {
     print("Becoming a daemon...\n");
     open STDIN, '/dev/null' or error( "chakora", "Can't read /dev/null: $!" );
-    open STDOUT, '>>/dev/null'
-      or error( "chakora", "Can't write to /dev/null: $!" );
-    open STDERR, '>>/dev/null'
-      or error( "chakora", "Can't write to /dev/null: $!" );
+    open STDOUT, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
+    open STDERR, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
     my $pid = fork();
     unless ( $pid == 0 ) {
-        svsflog( "chakora",
-            "Successfully forked into the background. Process ID: " . $pid );
+        svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
         exit;
     }
-    setsid or error( "chakora", "Can't start a new session: $!" );
+    setsid or error("chakora", "Can't start a new session: $!");
 }
 
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
     Proto     => "tcp",
-    LocalAddr => config( 'server', 'vhost' ),
-    PeerAddr  => config( 'server', 'host' ),
-    PeerPort  => config( 'server', 'port' ),
-  )
-  or error( "chakora",
-    "Connection to " . config( 'server', 'host' ) . " failed.\n" );
+    LocalAddr => config('server', 'vhost'),
+    PeerAddr  => config('server', 'host'),
+    PeerPort  => config('server', 'port'),
+  ) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
 
 # Create some variables for later use
 my ( $data, $ex, @ex, $mtext );
@@ -303,8 +294,7 @@ while (1) {
             LocalAddr => config( 'server', 'vhost' ),
             PeerAddr  => config( 'server', 'host' ),
             PeerPort  => config( 'server', 'port' ),
-          )
-          or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
+          ) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
         irc_connect();
     }
     chomp($data);
@@ -313,7 +303,7 @@ while (1) {
     @ex = split( ' ', $data );
     $mtext = substr( $data, index( $data, ":", index( $data, ":" ) + 1 ) + 1 );
     if ($IN_DEBUG) {
-    	print( "[IRC] " . $data . "\n" );
+    	print("[IRC] ".$data."\n");
     }
     $USER = substr( $ex[0], 1 );
 
@@ -344,7 +334,7 @@ while (1) {
 
 		# Charybdis: Respond to PING's
 		elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
-			send_sock( ":" . config( 'me', 'sid' ) . " PONG " . $ex[1] );
+			send_sock(":".config( 'me', 'sid' )." PONG ".$ex[1]);
 		}
 
 		# Charybdis: Local SQUIT's
@@ -415,10 +405,7 @@ while (1) {
                 eval { &{$sub_ref}( $USER, @bargv ); };
             }
             else {
-                serv_notice( $SERVICES_MSGSERVICE, $USER,
-                        "Unknown command. Please see /msg "
-                      . $svsnick{ lc($SERVICES_MSGSERVICE) }
-                      . " HELP for a list of commands." );
+                serv_notice( $SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".$svsnick{ lc($SERVICES_MSGSERVICE) }." HELP for a list of commands.");
             }
         }
     }
@@ -429,7 +416,7 @@ sub send_sock {
     chomp($str);
     send( $socket, $str . "\r\n", 0 );
     if ($IN_DEBUG) {
-    	print( "[YOU] " . $str . "\n" );
+    	print("[YOU] " . $str . "\n");
     }
 }
 
@@ -448,12 +435,12 @@ sub config {
 sub error {
     my ( $type, $msg ) = @_;
     if ($IN_DEBUG) {
-    	print( "[ERROR] " . $msg . "\n" );
+    	print("[ERROR] ". $msg."\n" );
     }
     my ($file);
     if ( $type ne 0 ) {
         $type = lc($type);
-        svsflog( $type, "[ERROR] " . $msg );
+        svsflog( $type, "[ERROR] ".$msg );
     }
     exit;
 }
@@ -507,7 +494,7 @@ sub taint {
     if ( config( 'services', 'allow_taint' ) ) {
         $msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
 	if ($IN_DEBUG) {
-        	print( "[WARNING] " . $msg . "\n" );
+        	print("[WARNING] ".$msg."\n");
 	}
 	if (!$Chakora::TAINTED) { $Chakora::TAINTED = 1; }
     }
@@ -516,9 +503,9 @@ sub taint {
         if ($synced) {
 			logchan("operserv", "\002!!! TAINTED !!!\002");
 			if (module_exists("chanserv/main")) {
-				serv_quit( "chanserv", "Shutting down" );
+				serv_quit("chanserv", "Shutting down");
 			}
-			serv_squit( config('me', 'sid'), "Tainted" );
+			serv_squit(config('me', 'sid'), "Tainted");
 		}
         error( "chakora", $msg );
     }
@@ -533,14 +520,7 @@ sub handle_ctcp {
 
 sub ctcp_reply {
     my ( $svsuid, $user, $ctcp, $reply ) = @_;
-    send_sock( ":" 
-          . $svsuid
-          . " NOTICE "
-          . $user
-          . " :\001"
-          . $ctcp . " "
-          . $reply
-          . "\001" );
+    send_sock( ":".$svsuid." NOTICE ".$user." :\001".$ctcp." ".$reply."\001" );
 }
 
 sub dbflush {
