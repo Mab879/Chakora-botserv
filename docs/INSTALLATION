@@ -17,9 +17,7 @@ Follow these steps to install Chakora;
 
 ./configure
 
-If all modules are there, the configuration generator will start,
-otherwise, please install the missing modules then try again.
+If all cpan modules are there, you're ready to begin your journey with Chakora :).
 
-After configuring everything, remember to edit etc/chakora.conf and
-configure the logging section to your liking. (Note: Logging does not work
-at the moment.)
+Remember to edit etc/chakora.conf and configure the logging section to 
+your liking. (Note: Logging flags do not work at the moment.)
