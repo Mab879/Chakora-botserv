@@ -1,7 +1,6 @@
 *.log
 *.conf
 etc/*.conf
-etc/data/*
 var/*
-
+etc/*.db
 
