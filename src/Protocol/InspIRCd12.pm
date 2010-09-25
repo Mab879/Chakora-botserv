@@ -392,9 +392,19 @@ sub serv_squit {
 
 # Handle jupes
 sub serv_jupe {
-    my ( $server, $reason ) = @_;
-
-    # Note: fix jupe later
+        my ($server, $reason) = @_;
+	my $sid = gen_sid(0); 
+	if (!$sid) {
+		logchan("operserv", "UNABLE TO GENERATE SID FOR JUPE!!");
+	}
+	else {
+        	send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
+        	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
+		$Chakora::sid{$sid}{'sid'} = $sid;
+		$Chakora::sid{$sid}{'name'} = $server;
+		$Chakora::sid{$sid}{'hub'} = config('me', 'sid');	
+		$Chakora::sid{$sid}{'info'} = "(JUPED) ".$reason;
+	}
 }
 
 # Send global messages
