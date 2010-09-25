@@ -72,7 +72,7 @@ sub ircd_ms_kill {
 
 sub memo_send {
 	my ($from, $to, $body) = @_;
-	my $to = lc($to);
+	$to = lc($to);
 	
 	$Chakora::DBMMLAST += 1;
 	$Chakora::DB_memo{$Chakora::DBMMLAST}{to}   = $to;
