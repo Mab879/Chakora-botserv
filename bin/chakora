@@ -283,7 +283,7 @@ if (-e "$ROOT_SRC/../etc/modules.conf") {
 				my @sae = split(' ', $sad);
 				
 				if (defined $sae[0] and defined $sae[1]) {
-					if ($sae[0] eq 'load') {
+					if ($sae[0] eq 'name') {
 						my $saf = $sae[1];
 						$saf =~ s/"//g;
 						do $ROOT_SRC . "/../modules/" . lc($saf) . ".pm";
