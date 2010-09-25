@@ -85,12 +85,12 @@
 	[ ] Add function to hold nicknames
  	[X] InspIRCd: find a way to properly tell if a user is an oper
 	[X] Charybdis: find a way to properly tell if a user is an oper 
-	[!] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew)
+	[X] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew)
 	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew)
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] InspIRCd: Add raw_motd and raw_admin
 	[X] Add serv_accoutname
-	[ ] Make a SID generator
+	[X] Make a SID generator
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
 	[ ] Native ircd-ratbox support.
@@ -107,6 +107,7 @@
 [ ] Other
 	[X] Allow custom services to be made and handled like others
 	[ ] When chanserv/flags is done, add the +L flag creation there
+	[ ] Make our own config parser, we really need one.
 Key: 
 	X = Done
 	! = In development
