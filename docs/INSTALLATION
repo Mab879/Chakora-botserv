@@ -10,7 +10,7 @@
 Currently Chakora supports:
 
 `InspIRCd
-`Charybdis and ircds based off of it (ircd-seven, darkhex, etc.) - For all these put charybdis
+`Charybdis and ircds based off of it [ that only have the +ov modes - SEE ALSO: NOT SHADOWIRCD ] (ircd-seven, darkhex, etc.) - For all these put charybdis
 
 
 Follow these steps to install Chakora;
@@ -19,5 +19,5 @@ Follow these steps to install Chakora;
 
 If all cpan modules are there, you're ready to begin your journey with Chakora :).
 
-Remember to edit etc/chakora.conf and configure the logging section to 
-your liking. (Note: Logging flags do not work at the moment.)
+Remember to edit etc/chakora.conf & etc/modules.conf.
+(Note: Logging flags do not work at the moment.)
