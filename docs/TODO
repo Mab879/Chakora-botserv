@@ -54,7 +54,7 @@
 	[ ] Forward
 	[ ] Delete
 [ ] OperServ
-	[ ] Make the operserv core a module
+	[O] Make the operserv core a module
 	[ ] Restart
 	[X] Shutdown
 	[ ] Rehash
