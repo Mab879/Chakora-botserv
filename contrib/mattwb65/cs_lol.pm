@@ -10,15 +10,15 @@ module_init("chanserv/lol", "Matthew Barksdale", "0.1", \&init_cs_lol, \&void_cs
 sub init_cs_lol {
 	taint("LOL MODULE"); # Taints chakora
 	serv_privmsg("chanserv", config('log', 'logchan'), "LOL MODULE ON"); # Messages the logchan, "LOL MODULE ON"
-	cmd_add("chanserv/lol", "Short help", "Long help.", \&svs_cs_lol);
+	cmd_add("chanserv/lol", "Short help", "Long help.", \&svs_cs_lol); # Adds the command
 }
 
 sub void_cs_lol {
 	# Unload cleanup
 	delete_sub 'init_cs_lol';
 	delete_sub 'svs_cs_lol';
-	cmd_del("chanserv/lol");
-	delete_sub 'void_cs_lol';
+	cmd_del("chanserv/lol"); # Deletes the command
+	delete_sub 'void_cs_lol'; 
 }
 
 sub svs_cs_lol {
