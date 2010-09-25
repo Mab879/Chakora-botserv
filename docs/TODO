@@ -94,13 +94,13 @@
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
 	[ ] Native ircd-ratbox support.
-	[?] ircd-hybrid support.
-	[?] UnrealIRCd support.
-	[?] ircu support.
-	[?] Bahamut support.
-	[?] ircd-plexus support.
+	[>] ircd-hybrid support.
+	[>] UnrealIRCd support.
+	[>] ircu support.
+	[>] Bahamut support.
+	[>] ircd-plexus support.
 	[ ] TS6-generic support.
-	[?] P10-generic support.
+	[>] P10-generic support.
 [ ] Docs
 	[X] Add docs for the module api
 	[!] Improve module api docs (add sidInfo and uidInfo for one)
@@ -113,4 +113,4 @@ Key:
 	! = In development
 	? = Still being questioned whether it should be in Chakora or not
 	O = This didn't make the cut, this could be added later though	
-	
+	> = This has been planned for Chakora v1.1.
