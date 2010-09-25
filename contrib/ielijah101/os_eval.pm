@@ -16,6 +16,7 @@ sub void_os_eval {
 	delete_sub 'init_os_eval';
 	delete_sub 'svs_os_eval';
 	cmd_del("operserv/eval");
+        delete_sub 'void_os_eval';
 }
 
 sub svs_os_eval {

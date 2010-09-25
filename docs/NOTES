@@ -4,7 +4,7 @@
 | \__/\ | | | (_| |   < (_) | | | (_| |
  \____/_| |_|\__,_|_|\_\___/|_|  \__,_|
 
-                README
+                NOTES
 ---------------------------------------
 
 1. IRCd
@@ -14,3 +14,8 @@ To use Chakora with IRCd you need to define a H: line like so:
 H:*::chakoras.name::
 
 Obviously, you need to define a N and C line also, but that's pretty well explained.
+
+2. ShadowIRCd
+
+More or less you can use charybdis for this for now, you just won't have support for +ah. 
+However, we are working on a native ShadowIRCd module.
