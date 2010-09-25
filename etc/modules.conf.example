@@ -1,0 +1,44 @@
+# Chakora example modules configuration file
+
+# ChanServ - Channel services.
+load "chanserv/main";            # Create ChanServ to allow management of channels.
+load "chanserv/flist";           # FLIST: Displays a list of available flags.
+#load "chanserv/halfop"           # HALFOP: Allow one to halfop (him/her)self or another user. (flag +h)
+load "chanserv/help";            # HELP: Provides help with ChanServ commands.
+load "chanserv/info";            # INFO: View information about a channel.
+load "chanserv/invite";          # INVITE: Allows one to invite (him/her)self or another user to a channel. (flag +i)
+load "chanserv/op";              # OP: Allow one to op (him/her)self or another user. (flag +o)
+#load "chanserv/owner";           # OWNER: Allow one to owner (him/her)self or another user. (flag +q)
+#load "chanserv/protect";         # PROTECT: Allow one to protect (him/her)self or another user. (flag +a)
+load "chanserv/register";        # REGISTER: Registers a channel with ChanServ, protecting it and unlocking various features for the channel.
+load "chanserv/set";             # SET: Set core settings on a channel. (flag +s)
+load "chanserv/voice";           # VOICE: Allow one to voice (him/her)self or another user. (flag +v)
+
+# Global   - Network global announcer.
+load "global/main";               # Create Global to send global notices from a separate nick rather than OperServ.
+
+# HostServ - Host services.
+#load "hostserv/main";            # Create HostServ.
+
+# MemoServ - Memo services.
+load "memoserv/main";             # Create MemoServ to allow the sending, receiving and management of memos.
+
+# NickServ - Nick services.
+load "nickserv/main";             # Create NickServ to allow management of nicknames.
+load "nickserv/drop";             # DROP: Drops a registered nickname and erases all data associated to it, including the account if applicable.
+load "nickserv/help";             # HELP: Provides help with NickServ commands.
+load "nickserv/identify";         # IDENTIFY: Allows users to identify to registered nicknames.
+load "nickserv/info";             # INFO: View information about a nickname.
+load "nickserv/logout";           # LOGOUT: Log out of services.
+load "nickserv/register";         # REGISTER: Registers a nickname with NickServ, protecting it and unlocking various features for the user.
+load "nickserv/set";              # SET: Set core settings on an account.
+
+# OperServ - Oper services.
+load "operserv/global";           # GLOBAL: Send a global notice to all connected users.
+load "operserv/help";             # HELP: Provides help with OperServ commands.
+load "operserv/modload";          # MODLOAD: Load a module.
+load "operserv/modunload";        # MODUNLOAD: Unload a module.
+load "operserv/shutdown";         # SHUTDOWN: Save services data to disk and shutdown services.
+load "operserv/update";           # UPDATE: Save services data to disk.
+load "operserv/uptime";           # UPTIME: Display services uptime.
+load "operserv/version";          # VERSION: Display the version of services.

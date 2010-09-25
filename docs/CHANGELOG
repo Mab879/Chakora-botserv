@@ -123,3 +123,4 @@ Current
 	- Chakora: Added support to the database format for MemoServ memos.
 	- Modules: memoserv/main: Added memo_send() and memo_del()
 	- API: added gen_sid
+	- Chakora: Module autoload moved to modules.conf with a new format. Example config: modules.conf.example
