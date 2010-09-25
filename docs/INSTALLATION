@@ -10,7 +10,7 @@
 Currently Chakora supports:
 
 ` InspIRCd 1.2
-` Charybdis and IRCd's based off of it. [that only have the +ov modes - e.g. ShadowIRCd] (ircd-seven, darkhex, etc.) - For all these put charybdis
+` Charybdis and IRCd's based off of it. [that only have the +ov modes - e.g. not ShadowIRCd] (ircd-seven, darkhex, etc.) - For all these put charybdis
 
 
 Follow these steps to install Chakora;
