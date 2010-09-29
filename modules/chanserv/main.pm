@@ -228,14 +228,18 @@ sub apply_status {
 	}
 
 	my $account = uidInfo($user, 9);
-
+	my $mask = uidInfo($user, 4);
 	my ($modes);
 	if (has_flag($account, $chan, "b")) {
-		my $mask = uidInfo($user, 4);
 		serv_mode("chanserv", $chan, "+b *!*@".$mask);
 		serv_kick("chanserv", $chan, $user, "Banned.");
 		return;
 	}
+        if (metadata(2, $chan, 'option:restricted') and !has_flags($account, $chan)) {
+                serv_mode("chanserv", $chan, "+b *!*@".$mask);
+                serv_kick("chanserv", $chan, $user, "This channel is RESTRICTED to authorized users only");
+                return;
+        }
         if (metadata(2, $chan, 'option:nostatus')) {
                 return;
         }
