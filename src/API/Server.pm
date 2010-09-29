@@ -118,6 +118,17 @@ sub has_flag {
 	return $return;
 }
 
+sub has_flags {
+	my ($account, $chan) = @_;
+	my $return = 0;
+	foreach my $key (keys %Chakora::DB_chanflags) {
+		if (lc($Chakora::DB_chanflags{$key}{chan}) eq lc($chan) and lc($Chakora::DB_chanflags{$key}{account}) eq lc($account) and $Chakora::DB_chanflags{$key}{flags}) {
+			$return = 1;
+		}
+	}
+	return $return;
+}
+
 sub ison {
 	my ($user, $chan) = @_;
 	my $return = 0;
