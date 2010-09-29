@@ -77,7 +77,7 @@
 	[X] Add module_void
 	[X] Add ctcp_reply
 	[ ] Add module_is_loadable (check if the file exists perhaps?)
-	[ ] Improve CTCP handling (make add_ctcp_handler and del_ctcp_handler perhaps?)
+	[X] Improve CTCP handling (make add_ctcp_handler and del_ctcp_handler perhaps?) - Made it an event
 	[O] Add is_oper
 [ ] Protocols
 	[X] Add serv_kill
