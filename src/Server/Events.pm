@@ -569,4 +569,28 @@ sub hook_cs_register_del {
     undef $hook_cs_register{$handler};
 }
 
+### CTCP ###
+our (%hook_ctcp);
+
+# When a user ctcps a service, execute all ctcp hooks.
+sub event_ctcp {
+    my ( $user, $target, $type ) = @_;
+    my ($hook);
+    foreach $hook (%hook_ctcp) {
+        eval { &{$hook}( $user, $target, $type ); };
+    }
+}
+
+# Add a hook to the ctcp event.
+sub hook_ctcp_add {
+    my ($handler) = @_;
+    $hook_ctcp{$handler} = $handler;
+}
+
+# Delete a hook from the ctcp event.
+sub hook_ctcp_del {
+    my ($handler) = @_;
+    undef $hook_ctcp{$handler};
+}
+
 1;
