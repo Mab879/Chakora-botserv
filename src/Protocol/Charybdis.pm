@@ -12,29 +12,30 @@ $Chakora::MODULE{protocol}{author} = 'The Chakora Project';
 
 ######### Core #########
 our %rawcmds = (
-	'EUID' => { handler => \&raw_euid, },
-	'PING' => { handler => \&raw_ping, },
-	'SJOIN' => { handler => \&raw_sjoin, },
-	'QUIT' => { handler => \&raw_quit, },
-	'JOIN' => { handler => \&raw_join, },
-	'NICK' => { handler => \&raw_nick, },
-	'CHGHOST' => { handler => \&raw_chghost, },
-	'ERROR' => { handler => \&raw_error, },
-	'PRIVMSG' => { handler => \&raw_privmsg, },
-	'NOTICE' => { handler => \&raw_notice, },
-	'PART' => { handler => \&raw_part, },
-	'MODE' => { handler => \&raw_mode, },
-	'SID' => { handler => \&raw_sid, },
-	'SQUIT' => { handler => \&raw_squit, },
-	'AWAY' => { handler => \&raw_away, },
-	'KILL' => { handler => \&raw_kill, },
-	'SAVE' => { handler => \&raw_save, },
-	'ENCAP' => { handler => \&raw_encap, },
-	'KICK' => { handler => \&raw_kick, },
-	'TOPIC' => { handler => \&raw_topic, },
-	'TB' => { handler => \&raw_tb, },
-	'MOTD' => { handler => \&raw_motd, },
-	'ADMIN' => { handler => \&raw_admin, },
+	'EUID'       => { handler => \&raw_euid, },
+	'PING'       => { handler => \&raw_ping, },
+	'SJOIN'      => { handler => \&raw_sjoin, },
+	'QUIT'       => { handler => \&raw_quit, },
+	'JOIN'       => { handler => \&raw_join, },
+	'NICK'       => { handler => \&raw_nick, },
+	'CHGHOST'    => { handler => \&raw_chghost, },
+	'ERROR'      => { handler => \&raw_error, },
+	'PRIVMSG'    => { handler => \&raw_privmsg, },
+	'NOTICE'     => { handler => \&raw_notice, },
+	'PART'       => { handler => \&raw_part, },
+	'MODE'       => { handler => \&raw_mode, },
+	'SID'        => { handler => \&raw_sid, },
+	'SQUIT'      => { handler => \&raw_squit, },
+	'AWAY'       => { handler => \&raw_away, },
+	'KILL'       => { handler => \&raw_kill, },
+	'SAVE'       => { handler => \&raw_save, },
+	'ENCAP'      => { handler => \&raw_encap, },
+	'KICK'       => { handler => \&raw_kick, },
+	'TOPIC'      => { handler => \&raw_topic, },
+	'TB'         => { handler => \&raw_tb, },
+	'MOTD'       => { handler => \&raw_motd, },
+	'ADMIN'      => { handler => \&raw_admin, },
+	'TMODE'      => { handler => \&raw_tmode, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -45,14 +46,14 @@ our %rawcmds = (
 	bexecpt => 'e',
 	iexcept => 'I',
 	cmodes => {
-		'b' => { arg => 1, },
-		'q' => { arg => 1, },
-		'e' => { arg => 1, },
-		'I' => { arg => 1, },
-		'j' => { arg => 1, },
-		'l' => { arg => 1, },
-		'k' => { arg => 1, },
-		'f' => { arg => 1, },
+		'b' => 2,
+		'q' => 2,
+		'e' => 2,
+		'I' => 2,
+		'j' => 2,
+		'l' => 2,
+		'k' => 2,
+		'f' => 2,
 		'n' => 1,
 		't' => 1,
 		'i' => 1,
@@ -422,8 +423,49 @@ sub raw_sjoin {
 	if (!defined($Chakora::channel{lc($chan)}{'ts'})) {
 		$Chakora::channel{lc($chan)}{'ts'} = $rex[2];
 	}
+	
+	my $bmodes = $rex[4];
+	my @smodes = split(//, $bmodes);
+	my ($cargs, $modes);
+	my $margs = 0;
+	foreach my $r (@smodes) {
+		if (defined $Chakora::PROTO_SETTINGS{cmodes}{$r}) {
+			if ($Chakora::PROTO_SETTINGS{cmodes}{$r} > 1) {
+				$margs += $Chakora::PROTO_SETTINGS{cmodes}{$r} - 1;
+				$cargs .= ' '.$r.'|'.$Chakora::PROTO_SETTINGS{cmodes}{$r};
+			}
+			else {
+				$modes .= $r;
+			}	
+		}
+	}
+	my ($as);
+	if (defined $cargs) {
+		my (@sargs);
+		my $calc = $margs;
+		while ($calc > 0) {
+			$sargs[$calc] = $rex[$calc+4];
+			$calc -= 1;
+		}
+		my @ms = split(' ', $cargs);
+		my $c = 1;
+		foreach my $m (@ms) {
+			my @t = split('\|', $m);
+			$modes .= $t[0];
+			$as .= ' '.$sargs[$c];
+			$c += 1;
+		}
+	}
+	my ($cmodes);
+	if (defined $as) {
+		$cmodes = $modes.$as;
+	} else {
+		$cmodes = $modes;
+	}
+	$Chakora::channel{lc($chan)}{modes} = $cmodes;
+	
     my ($args, $i, @users, $juser, $rjuser);
-    for ($i = 5; $i < count(@rex); $i++) { $args .= $rex[$i].' '; }
+    for ($i = $margs + 5; $i < count(@rex); $i++) { $args .= $rex[$i].' '; }
     @users = split(' ', $args);
     foreach $juser (@users) {
         $rjuser = substr($juser, length($juser) - 9, 9);
@@ -431,6 +473,103 @@ sub raw_sjoin {
         $Chakora::uid{$rjuser}{'chans'} .= ' '.lc($chan);
         event_join($rjuser, $chan);
     }
+}
+
+# Handle TMODE
+sub raw_tmode {
+    my ($raw) = @_;
+    my @rex = split( ' ', $raw );
+    
+	my $chan = $rex[3];
+	my $bmodes = $rex[4];
+	my @smodes = split(//, $bmodes);
+	my ($cargs, $modes);
+	my $margs = 0;
+	my $op = 0;
+	my (@nomo);
+	foreach my $r (@smodes) {
+		if ($r eq '+') {
+			$op = 1;
+		}
+		if ($r eq '-') {
+			$op = 0;
+		}
+		if (defined $Chakora::PROTO_SETTINGS{cmodes}{$r} and $op) {
+			if ($Chakora::PROTO_SETTINGS{cmodes}{$r} > 1) {
+				$margs += $Chakora::PROTO_SETTINGS{cmodes}{$r} - 1;
+				$cargs .= ' '.$r.'|'.$Chakora::PROTO_SETTINGS{cmodes}{$r};
+			}
+			else {
+				$modes .= $r;
+			}	
+		}
+		elsif (defined $Chakora::PROTO_SETTINGS{cmodes}{$r} and $op == 0) {
+			$nomo[count(@nomo) + 1] = $r;
+		}
+	}
+	my ($as);
+	if (defined $cargs) {
+		my (@sargs);
+		my $calc = $margs;
+		while ($calc > 0) {
+			$sargs[$calc] = $rex[$calc+4];
+			$calc -= 1;
+		}
+		my @ms = split(' ', $cargs);
+		my $c = 1;
+		foreach my $m (@ms) {
+			my @t = split('\|', $m);
+			$modes .= $t[0];
+			$as .= ' '.$sargs[$c];
+			$c += 1;
+		}
+	}
+	my @curmo = split(' ', $Chakora::channel{lc($chan)}{modes});
+	my ($acs);
+	my $curmos = $curmo[0];
+	foreach my $xc (@nomo) {
+		if ($curmos =~ m/($xc)/) {
+			if ($Chakora::PROTO_SETTINGS{cmodes}{$xc} > 1) {
+				my @cmta = split(//, $curmos);
+				my $cmtb = 0;
+				my $cmtd = 1;
+				foreach my $cmtc (@cmta) {
+					if ($cmtc eq $xc) {
+						$cmtd = 0;
+					}
+					elsif ($Chakora::PROTO_SETTINGS{cmodes}{$cmtc} > 1 and $cmtd != 0) {
+						$cmtb += $Chakora::PROTO_SETTINGS{cmodes}{$cmtc};
+					}
+				}
+				undef $curmo[$cmtb + 1];
+			}
+			$curmos =~ s/($xc)//g;
+		}
+		if ($modes =~ m/($xc)/) {
+			if ($Chakora::PROTO_SETTINGS{cmodes}{$xc} > 1) {
+				my @cmtx = split(' ', $as);
+				my @cmta = split(//, $curmos);
+				my $cmtb = 0;
+				my $cmtd = 1;
+				foreach my $cmtc (@cmta) {
+					if ($cmtc eq $xc) {
+						$cmtd = 0;
+					}
+					elsif ($Chakora::PROTO_SETTINGS{cmodes}{$cmtc} > 1 and $cmtd != 0) {
+						$cmtb += $Chakora::PROTO_SETTINGS{cmodes}{$cmtc};
+					}
+				}
+				undef $cmtx[$cmtb + 1];
+				undef $as;
+				for (my $i = 1; $i < count(@cmtx); $i++) { if (defined $cmtx[$i]) { $as .= ' '.$cmtx[$i]; } }
+			}
+			$modes =~ s/($xc)//g;
+		}
+	}
+	if (defined $curmo[1]) {
+		for (my $i = 1; $i < count(@curmo); $i++) { if (defined $curmo[$i]) { $acs .= ' '.$curmo[$i]; } }
+	}
+	$Chakora::channel{lc($chan)}{modes} = $curmos.$modes.$acs.$as;
 }
 
 # Handle QUIT
