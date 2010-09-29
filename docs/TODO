@@ -7,7 +7,7 @@
                  TODO
 ----------------------------------------
 
-[ ] Global
+[X] Global
 	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
 [ ] NickServ
 	[!] Make the nickserv core a module.
@@ -65,6 +65,8 @@
 	[ ] AKill
 	[ ] Jupe
 	[X] Global
+	[X] Uptime
+	[X] Version
 	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew)
 [ ] HostServ
 	[X] Make the hostserv core a module
