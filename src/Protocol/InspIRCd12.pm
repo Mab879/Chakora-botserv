@@ -696,7 +696,6 @@ sub raw_fjoin {
 	$Chakora::channel{lc($chan)}{modes} = $cmodes;
 
     my ( $args, $i, @users, $juser, @rjuser );
-    print $margs." k\n";
     for ( $i = $margs + 5; $i < count(@rex) ; $i++ ) { $args .= $rex[$i] . ' '; }
     @users = split( ' ', $args );
     foreach $juser (@users) {
