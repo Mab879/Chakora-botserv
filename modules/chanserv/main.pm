@@ -202,6 +202,9 @@ sub ircd_cs_topic {
  
 sub flags {
     my ( $chan, $user, $flags ) = @_;
+    if (length($flags) == 0) { 
+         return;
+    }
     $chan = lc($chan);
     foreach my $key ( keys %Chakora::DB_chanflags ) {
         if ( $Chakora::DB_chanflags{$key}{chan} eq $chan
