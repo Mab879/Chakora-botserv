@@ -16,6 +16,8 @@ Current Devel
 	- Modules: Added chanserv/mute
 	- Modules: Added chanserv/clear
 	- Modules: Added operserv/raw
+	- Chakora: Class::Unload is now a dependency.
+	- API: Module init handlers can now return 0 for an unsuccessful loading.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us

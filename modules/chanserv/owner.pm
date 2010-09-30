@@ -8,6 +8,7 @@ use warnings;
 module_init("chanserv/owner", "The Chakora Project", "0.1", \&init_cs_owner, \&void_cs_owner, "all");
 
 sub init_cs_owner {
+	return 0;
 	if (!defined($Chakora::PROTO_SETTINGS{owner})) {
                 svsflog("modules", "Unable to load chanserv/owner, owner prefix not available.");
                 if ($Chakora::synced) { logchan("operserv", "\002chanserv/owner\002: Unable to load, this protocol does not support the owner prefix."); }

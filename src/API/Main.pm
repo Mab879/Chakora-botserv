@@ -30,16 +30,25 @@ sub module_init {
     }
     else {
         eval {
-            &{$init_handler}();
-            print( "[MODULES] " . $name . ": Module successfully loaded.\n" );
-            svsflog( "chakora",
-                "[MODULES] " . $name . ": Module successfully loaded." );
-            $Chakora::MODULE{$name}{name}    = $name;
-            $Chakora::MODULE{$name}{author}  = $author;
-            $Chakora::MODULE{$name}{version} = $version;
-            $Chakora::MODULE{$name}{void}    = $void_handler;
-            return "MODLOAD_SUCCESS";
-            1;
+            my $ms = &{$init_handler}();
+            if ($ms) {
+				print( "[MODULES] " . $name . ": Module successfully loaded.\n" );
+				svsflog( "chakora",
+					"[MODULES] " . $name . ": Module successfully loaded." );
+				$Chakora::MODULE{$name}{name}    = $name;
+				$Chakora::MODULE{$name}{author}  = $author;
+				$Chakora::MODULE{$name}{version} = $version;
+				$Chakora::MODULE{$name}{void}    = $void_handler;
+				return "MODLOAD_SUCCESS";
+				1;
+			}
+			else {
+				Class::Unload->unload("$Chakora::ROOT_SRC/../modules/$name.pm");
+				print( "[MODULES] " . $name . ": Module failed to load.\n" );
+				svsflog( "chakora",
+					"[MODULES] " . $name . ": Module failed to load." );
+				return "MODLOAD_ERRFROMOD";
+			}
         }
           or print( "[MODULES] " . $name . ": Module failed to load. $@\n" )
           and svsflog( "chakora",
