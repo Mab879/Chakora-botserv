@@ -14,6 +14,7 @@ Current Devel
 	- Chakora: Made soper.conf for services oper powers.
 	- Modules: nickserv/info: Added support to provide last real host to sopers with nickserv:fullinfo
 	- Modules: Added chanserv/mute
+	- Modules: Added chanserv/clear
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us

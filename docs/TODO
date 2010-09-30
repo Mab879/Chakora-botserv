@@ -34,6 +34,9 @@
 	[ ] Drop
 	[ ] Finish sync
 	[ ] AKick
+	[!] Finish CLEAR (We need to track bans in order to clear bans)
+		[ ] Add CLEAR mutes
+		[ ] Add CLEAR sop, aop, hop, vop
 	[!] Owner/Protect/Op/Halfop/Voice
 		[ ] Fix the help entries to be formatted perfectly.
 	[!] Set (Founder, Successor, Restricted, Topiclock, Guard)
@@ -84,6 +87,7 @@
 	[O] Add is_oper
 [ ] Protocols
 	[ ] InspIRCd: Track CHGIDENT and make an event for it
+	[ ] Track bans/mutes
 	[X] Add serv_kill
 	[X] Add serv_enforce
 	[ ] Add function to hold nicknames
