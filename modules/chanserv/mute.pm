@@ -13,10 +13,9 @@ sub init_cs_mute {
 	}
 	cmd_add("chanserv/mute", "Mutes you or another user on a channel.", "MUTE will allow you to either mute yourself\nor another user in a channel that you have\nthe +M flag in.\nSyntax: MUTE <#channel> [user]", \&svs_cs_mute);
 	cmd_add("chanserv/unmute", "Unmutes you or another user on a channel.", "UNMUTE will allow you to either unmute\nyourself or another user in a channel\nthat you have the +M flag in.\nSyntax: UNMUTE <#channel> [user]", \&svs_cs_unmute);
-        if (!flag_exists("M")) {
-                flaglist_add("M", "Allows the use of the MUTE/UNMUTE command");
-        }
-
+    if (!flag_exists("M")) {
+		flaglist_add("M", "Allows the use of the MUTE/UNMUTE command");
+	}
 }
 
 sub void_cs_mute {
@@ -51,13 +50,8 @@ sub svs_cs_mute {
 		return;
 	}
 	if (!defined($sargv[2])) {
-		if (lc(config('server', 'ircd')) eq 'inspircd') {
-			serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{mute}.":*@".uidInfo($user, 3));
-		}
-		else {
-			serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{mute}." *@".uidInfo($user, 3));
-		}
-		svsilog("chanserv", $user, "MUTE", $chan);
+		serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{mute}."*!*@".uidInfo($user, 3));
+		svsilog("chanserv", $user, "MUTE", "\002$chan\002");
 		svsflog('commands', uidInfo($user, 1).": ChanServ: MUTE: $chan");
 	}
 	else {
@@ -66,19 +60,15 @@ sub svs_cs_mute {
 			serv_notice("chanserv", $user, "User \002$sargv[2]\002 is not online.");
 			return;
 		}
-		if (lc(config('server', 'ircd')) eq 'inspircd') {
-			serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{mute}.":*@".uidInfo($tu, 3));
-		}
-		else {
-			serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{mute}." *@".uidInfo($tu, 3));
-		}
-		svsilog("chanserv", $user, "MUTE", $sargv[2]." in ".$chan);
+		serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{mute}."*!*@".uidInfo($tu, 3));
+		svsilog("chanserv", $user, "MUTE", "\002".$sargv[2]."\002 in \002".$chan."\002");
 		svsflog('commands', uidInfo($user, 1).": ChanServ: MUTE: $sargv[2] in $chan");
 	}
 }
 
 sub svs_cs_unmute {
         my ($user, @sargv) = @_;
+        return;
 
         if (!uidInfo($user, 9)) {
                 serv_notice("chanserv", $user, "You must be logged in to perform this command.");
