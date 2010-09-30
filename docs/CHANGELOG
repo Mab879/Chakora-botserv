@@ -11,6 +11,7 @@ Current Devel
 	- HostServ: Update hostserv/main to match the updated API.
 	- Config/Modules: nickserv/register now allows you to set a maximum number of accounts an email can be associated with and enforces it.
 	- Modules: Finished nickserv/drop
+	- Chakora: Made soper.conf for services oper powers.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us

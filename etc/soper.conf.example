@@ -1,0 +1,8 @@
+# Chakora example services oper configuration file
+
+BOF sra
+operserv:global
+EOF sra
+
+SOPER starcoder sra
+SOPER MattB sra

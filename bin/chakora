@@ -294,6 +294,58 @@ if (-e "$ROOT_SRC/../etc/modules.conf") {
 	}
 }
 
+# Build services oper powers
+our (%OPERPOWERS, %SOPERS) = @_;
+our ($ssopower);
+if (-e "$ROOT_SRC/../etc/soper.conf") {
+	open FILE, "<$ROOT_SRC/../etc/soper.conf" or error("Unable to open soper.conf: $!");
+	my @saa = <FILE>;
+	close FILE;
+	
+	foreach my $sab (@saa) {
+		unless (substr($sab, 0, 1) eq '#') {
+			my @sac = split(';', $sab);
+			foreach my $sad (@sac) {
+				my @sae = split(' ', $sad);
+				
+				if (defined $sae[0]) {
+					if ($sae[0] eq 'BOF') {
+						if (defined $ssopower) {
+							error("chakora", "soper.conf: BOF/$sae[1] conflicts with BOF/$ssopower: Received another BOF before an EOF. Aborting.");
+						}
+						if (!defined $sae[1]) {
+							error("chakora", "soper.conf: Empty BOF received. Aborting.");
+						}
+						$ssopower = $sae[1];
+					}
+					elsif ($sae[0] eq 'EOF') {
+						if (!defined $ssopower) {
+							error("chakora", "soper.conf: Received EOF but no BOF was sent first. Aborting.");
+						}
+						undef $ssopower;
+					}
+					elsif ($sae[0] eq 'SOPER') {
+						if (!defined $sae[1] or !defined $sae[2]) {
+							print "[OPERPOWERS] Received SOPER with missing arguments. Ignoring.\n";
+						}
+						$SOPERS{lc($sae[1])} = lc($sae[2]);
+					}
+					else {
+						if (defined $ssopower) {
+							$OPERPOWERS{$ssopower}{$sae[0]} = 1;
+						}
+						else {
+							print "[OPERPOWERS] Power $sae[0] received outside of power set, ignoring.\n";
+						}
+					}
+				}
+			}
+		}
+	}
+}
+undef $ssopower;
+
+
 # Connect!
 irc_connect();
 hook_ctcp_add(\&handle_ctcp);

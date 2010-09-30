@@ -260,4 +260,25 @@ sub timer_del {
     delete $Chakora::TIMER{ lc($name) };
 }
 
+sub has_spower {
+	my ($user, $power) = @_;
+	
+	my $o = 0;
+	if (uidInfo($user, 7)) {
+		if (uidInfo($user, 9)) {
+			my $account = uidInfo($user, 9);
+			
+			if (defined $Chakora::SOPERS{lc($account)}) {
+				if (defined $Chakora::OPERPOWERS{lc($Chakora::SOPERS{lc($account)})}) {
+					if ($Chakora::OPERPOWERS{lc($Chakora::SOPERS{lc($account)})}{lc($power)}) {
+						$o = 1;
+					}
+				}
+			}
+		}
+	}
+	
+	return $o;
+}
+
 1;
