@@ -397,7 +397,12 @@ sub raw_euid {
 	$Chakora::uid{$ruid}{'mask'} = $rex[7];
 	$Chakora::uid{$ruid}{'ip'} = $rex[8];
 	$Chakora::uid{$ruid}{'uid'} = $rex[9];
-	$Chakora::uid{$ruid}{'host'} = $rex[10];
+	if ($rex[10] ne '*') {
+		$Chakora::uid{$ruid}{'host'} = $rex[10];
+	}
+	else {
+		$Chakora::uid{$ruid}{'host'} = $rex[7];
+	}
 	$Chakora::uid{$ruid}{'ts'} = $rex[4];
 	$Chakora::uid{$ruid}{'server'} = substr($rex[0], 1);
 	$Chakora::uid{$ruid}{'pnick'} = 0;
