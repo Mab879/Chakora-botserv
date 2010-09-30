@@ -15,7 +15,7 @@
 	[!] Register
 		[X] Check for valid a valid email address
 		[X] Set default nickserv flags
-		[ ] Set a limit to the number of accounts an email address can have
+		[X] Set a limit to the number of accounts an email address can have
 	[ ] Group
 	[X] Identify
 	[!] Drop
