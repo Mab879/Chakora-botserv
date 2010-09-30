@@ -22,7 +22,7 @@ sub void_os_sahax {
 sub svs_os_sahax {
 	my ($user, @sargv) = @_;
 	
-	if (!uidInfo($user, 7)) {
+	if (!has_spower($user, 'operserv:sahax')) {
 		serv_notice("operserv", $user, "Permission denied.");
 		return;
 	}

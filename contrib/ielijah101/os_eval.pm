@@ -21,7 +21,7 @@ sub void_os_eval {
 
 sub svs_os_eval {
 	my ($user, @sargv) = @_;
-	if (!is_soper($user)) {
+	if (!has_spower($user, 'operserv:eval')) {
 		serv_notice("operserv", $user, "Access denied.");
 		return;
 	}
