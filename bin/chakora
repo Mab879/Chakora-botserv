@@ -36,7 +36,7 @@ if ( $^O =~ /win/i ) {
 }
 
 my (%options);
-our ( $SERVICES_STARTTIME, $SERVICES_VERSION );
+our ( $SERVICES_STARTTIME, $SERVICES_VERSION, $pid );
 our $IN_DEBUG = 0;
 
 # Get command line options
@@ -247,13 +247,20 @@ unless ( $options{debug} ) {
     open STDIN, '/dev/null' or error( "chakora", "Can't read /dev/null: $!" );
     open STDOUT, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
     open STDERR, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
-    my $pid = fork();
+    $pid = fork();
     unless ( $pid == 0 ) {
         svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
         exit;
     }
     setsid or error("chakora", "Can't start a new session: $!");
 }
+else {
+    $pid = $$;
+}
+
+open FILE, ">$ROOT_SRC/../etc/chakora.pid" or error("Unable to open PID file: $!");
+print FILE $pid;
+close FILE;
 
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
