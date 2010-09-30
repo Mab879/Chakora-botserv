@@ -11,6 +11,7 @@ sub init_ns_main {
 	create_cmdtree("nickserv");
 	hook_kill_add(\&ircd_ns_kill);
 	hook_kick_add(\&ircd_ns_kick);
+	hook_nick_add(\&ircd_ns_nick);
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_ns_main); }
 	else { ircd_ns_main(); }
 }
@@ -20,10 +21,12 @@ sub void_ns_main {
 	delete_sub 'ircd_ns_main';
 	delete_sub 'ircd_ns_kill';
 	delete_sub 'ircd_ns_kick';
+	delete_sub 'ircd_ns_nick';
 	hook_pds_del(\&svs_ns_main);
 	serv_del('NickServ');
 	hook_kill_del(\&ircd_ns_kill);
 	hook_kick_del(\&ircd_ns_kick);
+	hook_nick_del(\&ircd_ns_nick);
 	delete_cmdtree("nickserv");
 	delete_sub 'void_ns_main';
 }
@@ -93,6 +96,13 @@ sub ircd_ns_kick {
 		}	
 		serv_join("nickserv", $chan);
 		serv_kick("nickserv", $chan, $user, "Please do not kick services.");
+	}
+}
+
+sub ircd_ns_nick {
+	my ($user, $newnick) = @_;
+	if (is_identified($user)) {
+		metadata_add(1, uidInfo($user, 9), "data:realhost", $newnick."!".uidInfo($user,2)."@".uidInfo($user,3)." ".uidInfo($user,5));
 	}
 }
 
