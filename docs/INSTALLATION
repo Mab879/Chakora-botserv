@@ -19,5 +19,5 @@ Follow these steps to install Chakora;
 
 If all required CPAN modules are there, you're ready to begin your journey with Chakora :).
 
-Remember to edit etc/chakora.conf & etc/modules.conf.
+Remember to edit etc/chakora.conf, etc/modules.conf, and etc/soper.conf.
 (Note: Logging flags do not work at the moment.)
