@@ -49,20 +49,6 @@ sub parse_mode {
     }
 }
 
-sub is_soper {
-    my ($uid) = @_;
-    my $return = 0;
-    my @sopers = split( " ", config( 'operators', 'sra' ) );
-    foreach my $soper (@sopers) {
-        if ( uidInfo( $uid, 9 ) ) {
-            if ( uidInfo( $uid, 7 ) and uidInfo( $uid, 9 ) eq $soper ) {
-                $return = 1;
-            }
-        }
-    }
-    return $return;
-}
-
 sub is_registered {
     my ($type, $target) = @_;
     if ( $type == 1 and defined $Chakora::DB_nick{ lc($target) }{account} ) {

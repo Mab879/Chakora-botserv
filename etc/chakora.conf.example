@@ -113,9 +113,4 @@ global {
 	real = "Global Noticer"
 }
 
-# People who have access to managing services
-operators {
-	sra = "starcoder MattB"
-}
-
 # End configuration file
