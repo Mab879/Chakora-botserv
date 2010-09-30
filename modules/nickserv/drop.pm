@@ -24,7 +24,7 @@ sub void_ns_drop {
 sub svs_ns_drop {
 	my ($user, @sargv) = @_;
 	
-	if (!defined(uidInfo($user,9))) {	# User is not logged in.
+	if (!is_identified($user)) {	# User is not logged in.
 		if (!defined($sargv[1])) {
 			serv_notice("nickserv", $user, "Not enough parameters. Syntax: DROP [nick] <password>");
 			return;

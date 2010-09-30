@@ -30,7 +30,7 @@ sub void_ns_set {
 
 sub svs_ns_set {
         my ($user, @sargv) = @_;
-	if (!uidInfo($user, 9)) {
+	if (!is_identified($user)) {
 		serv_notice("nickserv", $user, "You are not identified.");
 	}
 	elsif (!defined($sargv[1])) {

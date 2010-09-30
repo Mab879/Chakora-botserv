@@ -24,7 +24,7 @@ sub void_ns_logout {
 sub svs_ns_logout {
 	my ($user, @sargv) = @_;
 	
-	if (!defined(uidInfo($user,9))) {
+	if (!is_identified($user)) {
 		serv_notice("nickserv", $user, "You're not identified to an account");
 	}
 	else {
