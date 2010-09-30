@@ -18,7 +18,7 @@
 		[X] Set a limit to the number of accounts an email address can have
 	[ ] Group
 	[X] Identify
-	[!] Drop
+	[X] Drop
 	[X] Enforce
 	[!] Set
 		[X] Set email, password, hidemail, enforce
