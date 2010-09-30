@@ -47,7 +47,7 @@ sub svs_cs_register {
 	
 	my $chan = $sargv[1];
 	
-	my $flags = '+vVoOtskiRmFSLM';
+	my $flags = '+vVoOtskiRmFSL';
 	if (defined $Chakora::PROTO_SETTINGS{owner}) {
 		$flags .= 'qQ';
 	}
@@ -57,7 +57,9 @@ sub svs_cs_register {
 	elsif (defined $Chakora::PROTO_SETTINGS{halfop}) {
 		$flags .= 'hH';
 	}
-		
+	elsif (defined $Chakora::PROTO_SETTINGS{mute}) {
+		$flags .= 'M';
+	}	
 	$Chakora::DB_chan{lc($chan)}{name} = $chan;
 	$Chakora::DB_chan{lc($chan)}{founder} = uidInfo($user, 9);
 	$Chakora::DB_chan{lc($chan)}{regtime} = time();
