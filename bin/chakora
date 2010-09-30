@@ -23,6 +23,7 @@ use Digest::Whirlpool;
 use Digest::HMAC;
 use Email::Valid;
 use POSIX::RT::Timer;
+use Class::Unload;
 use FindBin qw($Bin);
 push @INC, ( "$Bin/../src" );
 
