@@ -28,7 +28,7 @@ sub svs_cs_register {
 		serv_notice("chanserv", $user, "Not enough parameters. Syntax: REGISTER <#channel> <description>");
 		return;
 	}
-	if (!uidInfo($user, 9)) {
+	if (!is_identified($user)) {
 		serv_notice("chanserv", $user, "You must be logged in to perform this operation.");
 		return;
 	}

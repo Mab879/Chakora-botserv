@@ -32,7 +32,7 @@ sub void_cs_mute {
 sub svs_cs_mute {
 	my ($user, @sargv) = @_;
 	
-	if (!uidInfo($user, 9)) {
+	if (!is_identified($user)) {
 		serv_notice("chanserv", $user, "You must be logged in to perform this command.");
 		return;
 	}

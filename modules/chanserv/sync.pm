@@ -27,7 +27,7 @@ sub void_cs_sync {
 
 sub svs_cs_sync {
 	my ($user, @sargv) = @_;
-	if (!defined(uidInfo($user, 9))) {
+	if (!is_identified($user)) {
 		serv_notice("chanserv", $user, "You must be logged in to perform this command.");
 		return;
 	}

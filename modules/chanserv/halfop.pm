@@ -36,8 +36,8 @@ sub void_cs_halfop {
 
 sub svs_cs_halfop {
 	my ($user, @sargv) = @_;
-	
-	if (!uidInfo($user, 9)) {
+
+	if (!is_identified($user)) {
 		serv_notice("chanserv", $user, "You must be logged in to perform this command.");
 		return;
 	}

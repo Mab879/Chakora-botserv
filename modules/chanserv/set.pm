@@ -33,7 +33,7 @@ sub void_cs_set {
 sub svs_cs_set {
         my ($user, @sargv) = @_;
 
-	if (!uidInfo($user, 9)) {
+	if (!is_identified($user)) {
 		serv_notice("chanserv", $user, "You are not identified.");
 		return;
 	}
