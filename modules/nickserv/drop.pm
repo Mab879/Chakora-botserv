@@ -74,11 +74,6 @@ sub svs_ns_drop {
 			}
 			foreach my $ckey (keys %Chakora::DB_chan) {
 				if (lc($Chakora::DB_chan{$ckey}{founder}) eq lc($account)) {
-					if (!module_exists("chanserv/main")) {
-						serv_notice("nickserv", $user, "An error occurred. No data was deleted. Please report this to an IRCop immediately.");
-						svsilog("nickserv", $user, "DROP:FAIL", "ChanServ doesn't exist!");
-						return;
-					}
 					if (!metadata(2, $ckey, 'data:successor')) {
 						svsilog("nickserv", $user, "DROP:PROCESS", "Automatically dropping channel \002".$Chakora::DB_chan{$ckey}{name}."\002");
 						svsflog('commands', uidInfo($user, 1).": NickServ: DROP:PROCESS: Automatically dropping channel ".$Chakora::DB_chan{$ckey}{name});
@@ -88,7 +83,7 @@ sub svs_ns_drop {
 								$dele .= 'delete $Chakora::DB_chanflags{\''.$fkey.'\'}; '
 							}
 						}
-						if (metadata(2, $ckey, 'option:guard') and lc($ckey) ne lc(config('log', 'logchan'))) {
+						if (module_exists("chanserv/main") and metadata(2, $ckey, 'option:guard') and lc($ckey) ne lc(config('log', 'logchan'))) {
 							$dele .= 'serv_part(\'chanserv\', \''.$ckey.'\', \'Channel dropped.\');';
 						}
 					}
