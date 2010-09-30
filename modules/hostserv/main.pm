@@ -8,6 +8,7 @@ use warnings;
 module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&void_hs_main, "all");
 
 sub init_hs_main {
+	hook_kill_add(\&ircd_hs_kill);
 	create_cmdtree("hostserv");
 	if (!$Chakora::synced) { hook_pds_add(\&svs_hs_main); }
 	else { svs_hs_main(); }
@@ -19,15 +20,13 @@ sub void_hs_main {
 	hook_pds_del(\&svs_hs_main);
 	serv_del('HostServ');
 	delete_cmdtree("hostserv");
+	hook_kill_del(\&ircd_hs_kill);
+	delete_sub 'ircd_hs_kill';
 	delete_sub 'void_hs_main';
 }
 
 sub svs_hs_main {
-	if (!$Chakora::INSPIRCD_CHGHOST_MOD and lc(config('server', 'ircd')) eq 'inspircd') {
-		svsflog("modules", "Unable to load HostServ, m_chghost isn't loaded.");
-		if ($Chakora::synced) { logchan("operserv", "\002HostServ\002: Unable to load HostServ, m_chghost isn't laoded."); }
-		module_void("hostserv/main");
-	} elsif (!config('hostserv', 'nick')) {
+	if (!config('hostserv', 'nick')) {
 		svsflog('modules', 'Unable to create HostServ. hostserv:nick is not defined in the config!');
 		if ($Chakora::synced) { logchan('operserv', "\002HostServ\002: Unable to create HostServ. hostserv:nick is not defined in the config!"); }
 		module_void("hostserv/main");
@@ -57,5 +56,14 @@ sub svs_hs_main {
 			module_void("hostserv/main");
 		}
 		serv_add('hostserv', config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), $modes, config('hostserv', 'real'));
+	}
+}
+
+sub ircd_hs_kill {
+	my ($user, $target, $reason) = @_;
+	
+	if ($target eq $Chakora::svsuid{'hostserv'}) {
+		serv_del("HostServ");
+		ircd_hs_main();
 	}
 }

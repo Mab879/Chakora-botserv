@@ -8,7 +8,7 @@
 ---------------------------------------
 
 Current Devel
-
+	- HostServ: Update hostserv/main to match the updated API.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us
