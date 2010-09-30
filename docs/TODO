@@ -25,7 +25,7 @@
 		[ ] Set API
 	[ ] Ghost
 	[ ] Release
-	[X] Account name (Sub done, module not)
+	[X] Account name
 	[X] Logout
 [ ] ChanServ
 	[X] Make the chanserv core a module
@@ -57,7 +57,7 @@
 	[O] Make the operserv core a module
 	[ ] Restart
 	[X] Shutdown
-	[ ] Rehash
+	[ ] Rehash (Config::Scoped doesn't allow this, we need our own config parser --Matthew)
 	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
 	[ ] Make modload, modunload and protocols - unloadable
 	[ ] Improve the error messages in modload, if the file doesn't exist say that.
