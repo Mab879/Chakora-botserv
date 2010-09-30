@@ -99,7 +99,7 @@ my $conf = Config::Scoped->new( file => $ROOT_ETC . "/chakora.conf", )
   or die("We couldn't open the config file!\n");
 
 # Put them into variables
-my $settings = $conf->parse;
+our $SETTINGS = $conf->parse;
 
 # Define SIG handlers
 $SIG{'INT'}  = \&INT_handler;
@@ -509,8 +509,8 @@ sub config {
     my ( $block, $name ) = @_;
     $block = lc($block);
     $name  = lc($name);
-    if ( defined $settings->{$block}->{$name} ) {
-        return $settings->{$block}->{$name};
+    if ( defined $SETTINGS->{$block}->{$name} ) {
+        return $SETTINGS->{$block}->{$name};
     }
     else {
         return 0;
