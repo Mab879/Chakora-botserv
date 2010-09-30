@@ -14,6 +14,7 @@ load "chanserv/register";        # REGISTER: Registers a channel with ChanServ, 
 load "chanserv/set";             # SET: Set core settings on a channel. (flag +s)
 load "chanserv/voice";           # VOICE: Allow one to voice (him/her)self or another user. (flag +v)
 load "chanserv/mute";		 # MUTE: Allows one to mute (him/her)self or another user. (flag +M)
+load "chanserv/clear";		 # CLEAR: Allows one to CLEAR flags, bans, or users in a channel. (flag +C)
 
 # Global   - Network global announcer.
 load "global/main";               # Create Global to send global notices from a separate nick rather than OperServ.
