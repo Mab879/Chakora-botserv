@@ -62,6 +62,7 @@ sub svs_ns_identify {
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
 		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 		$Chakora::DB_account{lc($account)}{lasthost} = $host;
+		metadata_add(1, $account, "data:realhost", uidInfo($user,1)."!".uidInfo($user,2)."@".uidInfo($user,3)." ".uidInfo($user,5));
 	} 
 	# they wish to identify to their current nick, lets fulfill that
 	else {
@@ -97,5 +98,6 @@ sub svs_ns_identify {
 		svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY: $account");
 		my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 		$Chakora::DB_account{lc($account)}{lasthost} = $host;
+                metadata_add(1, $account, "data:realhost", uidInfo($user,1)."!".uidInfo($user,2)."@".uidInfo($user,3)." ".uidInfo($user,5));
 	}	
 }
