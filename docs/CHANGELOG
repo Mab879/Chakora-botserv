@@ -7,7 +7,10 @@
                  CHANGELOG
 ---------------------------------------
 
-Current
+Current Devel
+
+
+1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us
 	- InspIRCd: Store TS
 	- InspIRCd: Use FJOIN properly
