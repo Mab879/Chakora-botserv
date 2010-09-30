@@ -8,8 +8,8 @@ use warnings;
 module_init("operserv/raw", "The Chakora Project", "0.1", \&init_os_raw, \&void_os_raw, "all");
 
 sub init_os_raw {
-	cmd_add("operserv/raw", "Sends a raw message to the server", "Sends a raw message to the socket.", \&svs_os_raw);
-	taint("operserv/raw is loaded - highly abusive");
+	taint("Modules: operserv/eval: Destructive module. Not supported.");
+	cmd_add("operserv/raw", "Sends raw data to the server.", "RAW will send raw data to the server bypassing absolutely\nALL of Chakora's handlers, possibly creating desync.  RAW\nis extremely dangerous, please use with caution!\n[T]\nSyntax: RAW <data>", \&svs_os_raw);
 }
 
 sub void_os_raw {
@@ -30,7 +30,7 @@ sub svs_os_raw {
 			send_sock($args);
 		}
 		else {
-			serv_notice("operserv", $user, "Not enough parameters. Syntax: RAW <message>");
+			serv_notice("operserv", $user, "Not enough parameters. Syntax: RAW <data>");
 		}
 	}
 	else {
