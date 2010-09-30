@@ -36,9 +36,14 @@ sub svs_ns_info {
 	serv_notice("nickserv", $user, "Information on \002".$Chakora::DB_nick{lc($sargv[1])}{nick}."\002 (account \002".$Chakora::DB_nick{lc($sargv[1])}{account}."\002):");
 	serv_notice("nickserv", $user, "Registered: ".scalar(localtime($Chakora::DB_account{lc($account)}{regtime})));
 	serv_notice("nickserv", $user, "Last addr: ".$Chakora::DB_account{lc($account)}{lasthost});
+	if (metadata(1, $account, "data:realhost")) {
+		if (has_spower($user, 'nickserv:fullinfo') or lc(uidInfo($user, 9)) eq lc($account)) {
+			serv_notice("nickserv", $user, "Last real host: ".metadata(1, $account, "data:realhost"));
+		}
+	}
 	serv_notice("nickserv", $user, "Last seen: ".scalar(localtime($Chakora::DB_account{lc($account)}{lastseen})));
 	if (metadata(1, $account, "flag:hidemail")) {
-		if (uidInfo($user, 7) or lc(uidInfo($user, 9)) eq lc($account)) {
+		if (has_spower($user, 'nickserv:fullinfo') or lc(uidInfo($user, 9)) eq lc($account)) {
 			serv_notice("nickserv", $user, "Email: ".$Chakora::DB_account{lc($account)}{email}." (hidden)");
 		}
 	}

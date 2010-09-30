@@ -2,6 +2,7 @@
 
 BOF oper
 operserv:global
+nickserv:fullinfo
 EOF
 
 BOF admin
