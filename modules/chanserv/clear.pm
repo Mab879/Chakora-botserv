@@ -30,7 +30,7 @@ sub void_cs_clear {
 sub svs_cs_clear {
 	my ($user, @sargv) = @_;
 	
-	if (is_identified($user)) {
+	if (!is_identified($user)) {
 		serv_notice("chanserv", $user, "You must be logged in to perform this command.");
 		return;
 	}
