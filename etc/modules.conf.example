@@ -3,13 +3,13 @@
 # ChanServ - Channel services.
 load "chanserv/main";            # Create ChanServ to allow management of channels.
 load "chanserv/flist";           # FLIST: Displays a list of available flags.
-#load "chanserv/halfop"           # HALFOP: Allow one to halfop (him/her)self or another user. (flag +h)
+#load "chanserv/halfop"          # HALFOP: Allow one to halfop (him/her)self or another user. (flag +h)
 load "chanserv/help";            # HELP: Provides help with ChanServ commands.
 load "chanserv/info";            # INFO: View information about a channel.
 load "chanserv/invite";          # INVITE: Allows one to invite (him/her)self or another user to a channel. (flag +i)
 load "chanserv/op";              # OP: Allow one to op (him/her)self or another user. (flag +o)
-#load "chanserv/owner";           # OWNER: Allow one to owner (him/her)self or another user. (flag +q)
-#load "chanserv/protect";         # PROTECT: Allow one to protect (him/her)self or another user. (flag +a)
+#load "chanserv/owner";          # OWNER: Allow one to owner (him/her)self or another user. (flag +q)
+#load "chanserv/protect";        # PROTECT: Allow one to protect (him/her)self or another user. (flag +a)
 load "chanserv/register";        # REGISTER: Registers a channel with ChanServ, protecting it and unlocking various features for the channel.
 load "chanserv/set";             # SET: Set core settings on a channel. (flag +s)
 load "chanserv/voice";           # VOICE: Allow one to voice (him/her)self or another user. (flag +v)
@@ -43,3 +43,4 @@ load "operserv/shutdown";         # SHUTDOWN: Save services data to disk and shu
 load "operserv/update";           # UPDATE: Save services data to disk.
 load "operserv/uptime";           # UPTIME: Display services uptime.
 load "operserv/version";          # VERSION: Display the version of services.
+#load "operserv/raw";		  # RAW: Sends a raw message to the services socket.
