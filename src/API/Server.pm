@@ -69,7 +69,7 @@ sub account_name {
 
 sub is_identified {
     my ($user) = @_;
-    if ( defined $Chakora::uid{$user}{'account'} ) {
+    if (defined($Chakora::uid{$user}{'account'})) {
         return 1;
     }
     else {
