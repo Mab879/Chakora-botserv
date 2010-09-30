@@ -36,6 +36,16 @@ sub svs_ns_register {
 	my $regtime = time();
 	my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
 	my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
+	my $ec = 0;
+	foreach my $key (keys %Chakora::DB_account) {
+		if ($ec == config('nickserv', 'max_email')) {
+			serv_notice("nickserv", $user, "This email address has already been used the maximum number of times possible to register an account");
+			return;
+		}
+		elsif (lc($Chakora::DB_account{$key}{email}) eq lc($email)) {
+			$ec++;
+		}	
+	}
 	unless (!defined($email) or !defined($password)) {
 		unless (is_registered(1, $nick)) {
 			unless (length($password) < 5) {
