@@ -109,11 +109,6 @@ global {
 	real = "Global Noticer"
 }
 
-modules {
-	load "hostserv/main";
-	load "nickserv/help";
-}
-
 operprivs {
 	name "oper" {
 		priv omfgoper;
