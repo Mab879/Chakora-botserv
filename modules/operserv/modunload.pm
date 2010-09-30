@@ -20,7 +20,7 @@ sub void_os_modunload {
 
 sub svs_os_modunload {
 	my ($user, @sargv) = @_;
-	if (is_soper($user)) {
+	if (has_spower($user, 'operserv:mod_')) {
 		if ($sargv[1]) {
 			serv_notice("operserv", $user, "Attempting to unload ".$sargv[1]);
 			if (!module_exists($sargv[1])) { serv_notice("operserv", $user, "Module not loaded"); }

@@ -20,7 +20,7 @@ sub void_os_global {
 
 sub svs_os_global {
 	my ($user, @sargv) = @_;
-	if (is_soper($user)) {
+	if (has_spower($user, 'operserv:global')) {
 		if ($sargv[1]) {
 			my $i;
 			my $args = $sargv[1];
@@ -33,7 +33,7 @@ sub svs_os_global {
 		}
 	}
 	else {
-		serv_notice("operserv", $user, "Access denied.");
+		serv_notice("operserv", $user, "Permission denied.");
 	}
 }
 1;

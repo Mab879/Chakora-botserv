@@ -20,7 +20,7 @@ sub void_os_shutdown {
 
 sub svs_os_shutdown {
 	my ($user, @sargv) = @_;
-	if (is_soper($user)) {
+	if (has_spower($user, 'operserv:svs:run')) {
 		serv_notice("operserv", $user, "Shutting down.");
 		svsilog("operserv", $user, "shutdown", "");
 		svsflog("chakora", "Shutting down due to SHUTDOWN by ".uidInfo($user, 1));

@@ -1,8 +1,20 @@
 # Chakora example services oper configuration file
 
-BOF sra
+BOF oper
 operserv:global
-EOF sra
+EOF
+
+BOF admin
+chanserv:can_override
+operserv:update
+INCLUDE oper
+EOF
+
+BOF sra
+operserv:mod_
+operserv:svs:run
+INCLUDE admin
+EOF
 
 SOPER starcoder sra
 SOPER MattB sra

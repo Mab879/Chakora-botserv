@@ -20,10 +20,10 @@ sub void_os_update {
 
 sub svs_os_update {
 	my ($user, @sargv) = @_;
-	if (is_soper($user)) {
+	if (has_spower($user, 'operserv:update')) {
 		serv_notice("operserv", $user, "Updating the services database.");
 		svsilog("operserv", $user, "update", "");
-		svsflog("commands", uidInfo($user, 1).": OPERSERV:UPDATE");
+		svsflog("commands", uidInfo($user, 1).": OperServ: UPDATE");
 		dbflush();
 	}
 	else {

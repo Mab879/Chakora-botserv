@@ -21,7 +21,7 @@ sub void_os_modlist {
 
 sub svs_os_modlist {
 	my ($user, @sargv) = @_;
-	if (is_soper($user)) {
+	if (has_spower($user, 'operserv:mod_')) {
 		my %MODULE = %Chakora::MODULE;
 		my $count;
 		serv_notice("operserv", $user, "\002*** Module List ***\002");

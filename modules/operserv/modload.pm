@@ -20,7 +20,7 @@ sub void_os_modload {
 
 sub svs_os_modload {
 	my ($user, @sargv) = @_;
-	if (is_soper($user)) {
+	if (has_spower($user, 'operserv:mod_')) {
 		if ($sargv[1]) {
 			serv_notice("operserv", $user, "Attempting to load ".$sargv[1]);
 			if (module_exists($sargv[1])) { serv_notice("operserv", $user, "Module already loaded."); }

@@ -270,8 +270,11 @@ sub has_spower {
 			
 			if (defined $Chakora::SOPERS{lc($account)}) {
 				if (defined $Chakora::OPERPOWERS{lc($Chakora::SOPERS{lc($account)})}) {
-					if ($Chakora::OPERPOWERS{lc($Chakora::SOPERS{lc($account)})}{lc($power)}) {
-						$o = 1;
+					my @pwrs = split(' ', $Chakora::OPERPOWERS{lc($Chakora::SOPERS{lc($account)})});
+					foreach my $pwr (@pwrs) {
+						if (lc($pwr) eq lc($power)) {
+							$o = 1;
+						}
 					}
 				}
 			}
