@@ -27,6 +27,7 @@
 	[ ] Release
 	[X] Account name
 	[X] Logout
+	[ ] Once the CHGIDENT event is done, add a hook in nickserv/main to change the data:realhost
 [ ] ChanServ
 	[X] Make the chanserv core a module
 	[X] Register
@@ -82,6 +83,7 @@
 	[X] Improve CTCP handling (make add_ctcp_handler and del_ctcp_handler perhaps?) - Made it an event
 	[O] Add is_oper
 [ ] Protocols
+	[ ] InspIRCd: Track CHGIDENT and make an event for it
 	[X] Add serv_kill
 	[X] Add serv_enforce
 	[ ] Add function to hold nicknames
