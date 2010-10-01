@@ -77,7 +77,7 @@ sub svs_ns_register {
 }
 
 sub ns_enforce_on_uid {
-	my ($uid, $nick, $user, $host, $mask, $ip, $server) = @_;
+	my ($uid, undef, undef, undef, undef, undef, undef) = @_;
 	
 	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
 		my $account = $Chakora::DB_nick{lc($nick)}{account};
@@ -95,7 +95,7 @@ sub ns_enforce_on_uid {
 }
 
 sub ns_enforce_on_nick {
-	my ($uid, $nick) = @_;
+	my ($uid, undef) = @_;
 	
 	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
 		my $account = $Chakora::DB_nick{lc($nick)}{account};
