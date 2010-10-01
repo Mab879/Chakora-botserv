@@ -95,7 +95,7 @@ sub ns_enforce_on_uid {
 }
 
 sub ns_enforce_on_nick {
-	my ($uid, undef) = @_;
+	my ($uid, $nick) = @_;
 	
 	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
 		my $account = $Chakora::DB_nick{lc($nick)}{account};
