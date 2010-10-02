@@ -391,6 +391,18 @@ sub serv_kill {
 sub serv_squit {
     my ( $server, $reason ) = @_;
     send_sock( ":" . svsUID("chakora::server") . " SQUIT $server :$reason" );
+    my ($ssid);
+	foreach my $key (keys %Chakora::sid) {
+		if ($Chakora::sid{$key}{'name'} eq $server) {
+			delete $Chakora::sid{$key};
+			$ssid = $key;
+		}
+	}
+	foreach my $key (keys %Chakora::uid) {
+		if ($Chakora::uid{$key}{'server'} eq $ssid) {
+			delete $Chakora::uid{$key};
+		}
+	}
 }
 
 # Handle jupes
