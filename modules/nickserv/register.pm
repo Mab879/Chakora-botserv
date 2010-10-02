@@ -21,7 +21,7 @@ sub void_ns_register {
 	hook_nick_add(\&ns_enforce_on_nick);
 	delete_sub 'init_ns_register';
 	delete_sub 'svs_ns_register';
-	delete_sub 'ns_enforce_os_uid';
+	delete_sub 'ns_enforce_on_uid';
 	delete_sub 'ns_enforce_on_nick';
 	delete_sub 'ns_enforce';
 	cmd_del("nickserv/register");
@@ -77,7 +77,7 @@ sub svs_ns_register {
 }
 
 sub ns_enforce_on_uid {
-	my ($uid, $nick, $user, $host, $mask, $ip, $server) = @_;
+	my ($uid, $nick, undef, undef, undef, undef, undef) = @_;
 	
 	if (defined $Chakora::DB_nick{lc($nick)}{account}) {
 		my $account = $Chakora::DB_nick{lc($nick)}{account};
@@ -87,10 +87,10 @@ sub ns_enforce_on_uid {
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
 		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
 		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
-		my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
-			my $timer = shift;
-			ns_enforce($uid, $account);
-		});
+		#my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
+		#	my $timer = shift;
+		#	ns_enforce($uid, $account);
+		#});
 	}
 }
 
@@ -105,10 +105,10 @@ sub ns_enforce_on_nick {
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
 		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
 		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
-		my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
-			my $timer = shift;
-			ns_enforce($uid, $account);
-		});
+		#my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
+		#	my $timer = shift;
+		#	ns_enforce($uid, $account);
+		#});
 	}
 }
 
