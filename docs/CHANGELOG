@@ -19,6 +19,7 @@ Current Devel
 	- Chakora: Class::Unload is now a dependency.
 	- API: Module init handlers can now return 0 for an unsuccessful loading.
 	- HostServ: Added hostserv/help and hostserv/assign (with UNASSIGN).
+	- API: Moved services-related subs to src/API/Services.pm.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us

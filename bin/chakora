@@ -127,6 +127,7 @@ else {
 }
 require API::Main;
 require API::Server;
+require API::Services;
 
 # Void support if ALLOW_TAINT is enabled
 if (config('services', 'allow_taint')) {
