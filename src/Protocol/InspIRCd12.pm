@@ -444,13 +444,6 @@ sub send_global {
     }
 }
 
-# Handle setting vHosts
-sub serv_sethost {
-    my ( $user, $host ) = @_;
-    send_sock(
-        ":" . svsUID("chakora::server") . " CHGHOST " . $user . " " . $host );
-}
-
 # Handle enforcement
 sub serv_enforce {
     my ( $user, $newnick ) = @_;

@@ -363,10 +363,10 @@ sub serv_squit {
 	}
 }
 
-# Handle setting vHosts
-sub serv_sethost {
-	my ($user, $host) = @_;
-        send_sock(":".svsUID("chakora::server")." CHGHOST ".$user." ".$host);
+# Handle CHGHOST
+sub serv_chghost {
+	my ($user, $newhost) = @_;
+	send_sock(":".svsUID("chakora::server")." CHGHOST ".$user." ".$newhost);
 }
 
 # Send global messages
