@@ -1,0 +1,4 @@
+serv_jupe(server, reason)
+   This will make services SQUIT the given server and delete the data of
+   it's users from memory, then we will create a server with the same
+   name to prevent it from relinking, A.K.A. jupiter it.
