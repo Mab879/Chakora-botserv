@@ -702,9 +702,9 @@ sub idflush {
 	}
 	
 	my ($idd);
-	foreach my $key (keys %uid) {
-		if (defined $uid{$key}{'account'}) {
-			$idd .= $key." ".$uid{$key}{'nick'}." ".$uid{$key}{'user'}." ".$uid{$key}{'host'}." ".$uid{$key}{'ip'}." ".$uid{$key}{'server'}." ".$uid{$key}{'account'}."\n";
+	foreach my $key (keys %Chakora::uid) {
+		if (defined $Chakora::uid{$key}{'account'}) {
+			$idd .= $key." ".$Chakora::uid{$key}{'nick'}." ".$Chakora::uid{$key}{'user'}." ".$Chakora::uid{$key}{'host'}." ".$Chakora::uid{$key}{'ip'}." ".$Chakora::uid{$key}{'server'}." ".$Chakora::uid{$key}{'account'}."\n";
 		}
 	}
 	
