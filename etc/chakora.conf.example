@@ -65,7 +65,7 @@ enc {
 	# Encryption method.
 	#    none - No encryption. Users will be warned of this.
         #    hmac_whirl - HMAC+Whirlpool. Requires a key.
-	method = 'hmac_whirl'
+	method = "hmac_whirl"
 
 	# !!CHANGE THIS!! This NEEDS to be unique!! !!DO NOT LOSE THIS, IF YOU LOSE IT, DATABASES CANNOT BE DECRYPTED!!
         # This is only needed if the selected encryption method requires a key.
