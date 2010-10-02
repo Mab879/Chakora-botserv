@@ -1,0 +1,3 @@
+serv_mode(service name, channel, modes)
+   This will set the given modes on the given channel from the given client,
+   as well as update the channel modes in memory. (IN DEVELOPMENT)
