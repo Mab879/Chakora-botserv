@@ -328,6 +328,7 @@ sub serv_kill {
 sub serv_jupe {
 	my ($server, $reason) = @_;
 	send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
+	my ($ssid);
 	foreach my $key (keys %Chakora::sid) {
 		if ($Chakora::sid{$key}{'name'} eq $server) {
 			$ssid = $key;

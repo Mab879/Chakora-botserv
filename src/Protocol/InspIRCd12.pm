@@ -409,6 +409,7 @@ sub serv_squit {
 sub serv_jupe {
         my ($server, $reason) = @_;
 	my $sid = gen_sid(0); 
+	my ($ssid);
 	if (!$sid) {
 		logchan("operserv", "UNABLE TO GENERATE SID FOR JUPE!!");
 	}
