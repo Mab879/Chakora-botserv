@@ -1,0 +1,2 @@
+serv_wallops(message)
+   Will send a WALLOPS of the given message.
