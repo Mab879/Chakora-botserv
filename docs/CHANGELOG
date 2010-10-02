@@ -25,6 +25,7 @@ Current Devel
 	- Protocols: Update the accountname in memory when changing the accountname on the IRCd.
 	- Protocols: Delete a user's data from memory when KILLed by services.
 	- Protocols: Delete a server's data as well as the data of it's users when SQUIT'd by services.
+	- Protocols: When JUPE'ing a server, delete the data of it's users from memory.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us

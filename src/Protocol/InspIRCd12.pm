@@ -413,12 +413,22 @@ sub serv_jupe {
 		logchan("operserv", "UNABLE TO GENERATE SID FOR JUPE!!");
 	}
 	else {
-        	send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
-        	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
+        send_sock(":".svsUID('os')." SQUIT ".$server." :".$reason);
+		foreach my $key (keys %Chakora::sid) {
+			if ($Chakora::sid{$key}{'name'} eq $server) {
+				$ssid = $key;
+			}
+		}
+        send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
 		$Chakora::sid{$sid}{'sid'} = $sid;
 		$Chakora::sid{$sid}{'name'} = $server;
 		$Chakora::sid{$sid}{'hub'} = config('me', 'sid');	
 		$Chakora::sid{$sid}{'info'} = "(JUPED) ".$reason;
+		foreach my $key (keys %Chakora::uid) {
+			if ($Chakora::uid{$key}{'server'} eq $ssid) {
+				delete $Chakora::uid{$key};
+			}
+		}
 	}
 }
 
