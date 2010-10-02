@@ -229,7 +229,7 @@ sub hash {
 		if ($Chakora::synced) {
 			logchan('operserv', "\002WARNING: NO ENCRYPTION METHOD FOUND. HASHING WITH NO ENCRYPTION!!!\002");
 		}
-		return $passwd;
+		return '$null$'.$passwd;
 	} 
 	elsif (lc(config('enc', 'method')) eq 'hmac_whirl') { 
 		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
