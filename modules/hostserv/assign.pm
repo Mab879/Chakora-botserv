@@ -8,8 +8,8 @@ use warnings;
 module_init("hostserv/assign", "The Chakora Project", "0.1", \&init_hs_assign, \&void_hs_assign, "all");
 
 sub init_hs_assign {
-	cmd_add("hostserv/assign", "Assign vHosts (virtual hosts).", "ASSIGN will allow you to assign a vHost to a user, this\002vHost will replace their current hostmask as well as\002replace it everytime they identify until it is unassigned.\n[T]\nSyntax: ASSIGN <account> <vhost>", \&svs_hs_assign);
-	cmd_add("hostserv/unassign", "Unassign vHosts (virtual hosts).", "UNASSIGN will allow you to unassign a vHost, preventing\002it from becoming the user's displayed host longer.\n[T]\nSyntax: UNASSIGN <account>", \&svs_hs_unassign);
+	cmd_add("hostserv/assign", "Assign vHosts (virtual hosts).", "ASSIGN will allow you to assign a vHost to a user, this\nvHost will replace their current hostmask as well as\nreplace it everytime they identify until it is unassigned.\n[T]\nSyntax: ASSIGN <account> <vhost>", \&svs_hs_assign);
+	cmd_add("hostserv/unassign", "Unassign vHosts (virtual hosts).", "UNASSIGN will allow you to unassign a vHost, preventing\nit from becoming the user's displayed host any longer.\n[T]\nSyntax: UNASSIGN <account>", \&svs_hs_unassign);
 }
 
 sub void_hs_assign {
