@@ -34,21 +34,8 @@ sub svs_os_restart {
 	if (module_exists("chanserv/main")) {
 		serv_quit("chanserv", "Restarting");
 	}
-	if (-e "$Chakora::ROOT_SRC/../etc/idrecover.db") {
-		`rm $Chakora::ROOT_SRC/../etc/idrecover.db`;
-	}
 	
-	my ($idd);
-	foreach my $key (keys %Chakora::uid) {
-		if (defined $Chakora::uid{$key}{'account'}) {
-			$idd .= $key." ".$Chakora::uid{$key}{'nick'}." ".$Chakora::uid{$key}{'user'}." ".$Chakora::uid{$key}{'host'}." ".$Chakora::uid{$key}{'ip'}." ".$Chakora::uid{$key}{'server'}." ".$Chakora::uid{$key}{'account'}."\n";
-		}
-	}
-	
-	`touch $Chakora::ROOT_SRC/../etc/idrecover.db`;
-	open FILE, ">$Chakora::ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
-	print FILE $idd;
-	close FILE;
+	idflush();
 	dbflush();
 	serv_squit(config('me', 'sid'), "Restart by ".uidInfo($user, 1));
 	`$Chakora::ROOT_SRC/../bin/chakora`;

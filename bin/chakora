@@ -696,6 +696,24 @@ sub dbflush {
     close FILE;
 }
 
+sub idflush {
+	if (-e "$ROOT_SRC/../etc/idrecover.db") {
+		`rm $ROOT_SRC/../etc/idrecover.db`;
+	}
+	
+	my ($idd);
+	foreach my $key (keys %uid) {
+		if (defined $uid{$key}{'account'}) {
+			$idd .= $key." ".$uid{$key}{'nick'}." ".$uid{$key}{'user'}." ".$uid{$key}{'host'}." ".$uid{$key}{'ip'}." ".$uid{$key}{'server'}." ".$uid{$key}{'account'}."\n";
+		}
+	}
+	
+	`touch $ROOT_SRC/../etc/idrecover.db`;
+	open FILE, ">$ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
+	print FILE $idd;
+	close FILE;
+}
+
 sub TERM_handler {
     logchan( "operserv", "\002!!!\002 Caught \002SIGTERM\002; terminating" );
     svsflog( "chakora", "Exiting on SIGTERM" );
@@ -716,6 +734,7 @@ sub INT_handler {
     }
     serv_squit( config( 'me', 'sid' ), "Caught SIGINT" );
     dbflush();
+    if ($IN_DEBUG) { idflush(); }
     sleep 1;
     exit(0);
 }

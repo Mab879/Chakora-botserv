@@ -1,0 +1,4 @@
+idflush()
+   This will write data such as UID, nick, host, IP, etc. about identified
+   users to disk, so that when services are started next, they re-identify
+   users if their data matches.
