@@ -1,0 +1,3 @@
+serv_chghost(uuid, newhost)
+   This will change the displayed host (A.K.A. hostmask, A.K.A. uncloaked 
+   host) of the given user to the given host.
