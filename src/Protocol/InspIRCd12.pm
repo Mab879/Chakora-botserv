@@ -361,6 +361,7 @@ sub serv_accountname {
           . $user
           . " accountname :"
           . $name );
+	$Chakora::uid{$user}{'account'} = $name;
 }
 
 # Handle when a user logs out of NickServ

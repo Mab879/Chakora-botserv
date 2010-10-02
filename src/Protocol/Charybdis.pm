@@ -302,6 +302,7 @@ sub serv_wallops {
 sub serv_accountname {
 	my ($user, $name) = @_;
 	send_sock(":".svsUID('chakora::server')." ENCAP * SU ".$user." ".$name);
+	$Chakora::uid{$user}{'account'} = $name;
 }
 
 # Handle when a user logs out of NickServ
