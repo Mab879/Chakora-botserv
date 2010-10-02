@@ -1,0 +1,5 @@
+hash(password)
+   This will take the given password, and encrypt it using the method set
+   in the config, plus the key (if applicable) then return it.  If no 
+   method is set or it is set to 'none', the password will be returned
+   unencrypted.

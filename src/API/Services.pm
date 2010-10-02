@@ -222,4 +222,23 @@ sub in_group {
 	return $return;
 }
 
+sub hash {
+	my ($passwd) = @_;
+	
+	if (lc(config('enc', 'method')) eq 'none' or !config('enc', 'method')) {
+		if ($Chakora::synced) {
+			logchan('operserv', "\002WARNING: NO ENCRYPTION METHOD FOUND. HASHING WITH NO ENCRYPTION!!!\002");
+		}
+		return $passwd;
+	} 
+	elsif (lc(config('enc', 'method')) eq 'hmac_whirl') { 
+		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
+		$en->add($passwd);
+		my $pass = $en->hexdigest;
+		$pass = '$whirl$'.$pass;
+	}
+	
+	return $pass;
+}
+
 1;
