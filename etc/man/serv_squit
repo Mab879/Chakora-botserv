@@ -1,0 +1,3 @@
+serv_squit(server, reason)
+   This will make services SQUIT the given server with the given reason,
+   deleting the data of the server and it's users from memory.
