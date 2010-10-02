@@ -8,6 +8,8 @@
 ---------------------------------------
 
 Current Devel
+
+1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.
 	- Config/Modules: nickserv/register now allows you to set a maximum number of accounts an email can be associated with and enforces it.
 	- Modules: Finished nickserv/drop

@@ -59,7 +59,7 @@
 	[ ] Delete
 [ ] OperServ
 	[O] Make the operserv core a module
-	[ ] Restart
+	[X] Restart
 	[X] Shutdown
 	[ ] Rehash (Config::Scoped doesn't allow this, we need our own config parser --Matthew)
 	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
@@ -74,8 +74,8 @@
 	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew)
 [ ] HostServ
 	[X] Make the hostserv core a module
-	[ ] Set vHosts
-	[ ] Delete vHost
+	[X] Set vHosts
+	[X] Delete vHost
 	[ ] Group
 	[ ] Request
 	[?] On/Off 
