@@ -23,6 +23,7 @@ Current Devel
 	- Modules: Added operserv/restart for performing a more clean services restart.
 	- NickServ: Re-identify users when possible after restarting.
 	- Protocols: Update the accountname in memory when changing the accountname on the IRCd.
+	- Protocols: Delete a user's data from memory when KILLed by services.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us

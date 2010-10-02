@@ -321,6 +321,7 @@ sub serv_kill {
 	else {
 		send_sock(".".svsUID($svs)." KILL ".$user." :".$reason);
 	}
+	delete $Chakora::uid{$user};
 }
 
 # Handle jupes
