@@ -21,6 +21,8 @@ load "global/main";               # Create Global to send global notices from a 
 
 # HostServ - Host services.
 #load "hostserv/main";            # Create HostServ.
+#load "hostserv/assign";          # ASSIGN/UNASSIGN: Allows (un)assigning of vHosts (virtual hosts).
+#load "hostserv/help";            # HELP: Provides help with HostServ commands.
 
 # MemoServ - Memo services.
 load "memoserv/main";             # Create MemoServ to allow the sending, receiving and management of memos.
