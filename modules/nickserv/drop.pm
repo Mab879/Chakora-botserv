@@ -40,10 +40,7 @@ sub svs_ns_drop {
 			return;
 		}
 	
-		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
-		$en->add($sargv[2]);
-		my $pass = $en->hexdigest;
-		$pass = '$whirl$'.$pass;
+		my $pass = hash($sargv[2]);
 		my $account = $Chakora::DB_nick{lc($sargv[1])}{account};
 		my $nick = $Chakora::DB_nick{lc($sargv[1])}{nick};
 		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
@@ -123,10 +120,7 @@ sub svs_ns_drop {
 			serv_notice("nickserv", $user, "Not enough parameters. Syntax: DROP <password>");
 			return;
 		} 
-		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
-		$en->add($sargv[1]);
-		my $pass = $en->hexdigest;
-		$pass = '$whirl$'.$pass;
+		my $pass = hash($sargv[2]);
 		my $account = $Chakora::DB_nick{uidInfo($user, 1)}{account};
 		my $nick = $Chakora::DB_nick{uidInfo($user, 1)}{account};
 		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {

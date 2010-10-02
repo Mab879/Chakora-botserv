@@ -34,10 +34,7 @@ sub svs_ns_identify {
 			serv_notice("nickserv", $user, "Nickname \002$sargv[1]\002 is not registered.");
 			return;
 		}
-		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
-		$en->add($sargv[2]);
-		my $pass = $en->hexdigest;
-		$pass = '$whirl$'.$pass;
+		my $pass = hash($sargv[2]);
 		my $account = $Chakora::DB_nick{lc($sargv[1])}{account};
 		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
 			serv_notice("nickserv", $user, "Incorrect password.");
@@ -70,10 +67,7 @@ sub svs_ns_identify {
 			serv_notice("nickserv", $user, "This nickname is not registered.");
 			return;
 		}
-		my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
-		$en->add($sargv[1]);
-		my $pass = $en->hexdigest;
-		$pass = '$whirl$'.$pass;
+		my $pass = hash($sargv[1]);
 		my $account = $Chakora::DB_nick{lc(uidInfo($user, 1))}{account};
 		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
 			serv_notice("nickserv", $user, "Incorrect password.");

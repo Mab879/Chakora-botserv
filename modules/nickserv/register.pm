@@ -35,7 +35,6 @@ sub svs_ns_register {
 	my $email = $sargv[2];
 	my $regtime = time();
 	my $host = uidInfo($user, 2)."@".uidInfo($user, 4);
-	my $en = Digest::HMAC->new(config('enc', 'key'), "Digest::Whirlpool");
 	my $ec = 0;
 	foreach my $key (keys %Chakora::DB_account) {
 		if ($ec == config('nickserv', 'max_email')) {
@@ -50,9 +49,7 @@ sub svs_ns_register {
 		unless (is_registered(1, $nick)) {
 			unless (length($password) < 5) {
 				unless (!Email::Valid->address($email)) {
-					$en->add($password);
-					my $pass = $en->hexdigest;
-					$pass = '$whirl$'.$pass;
+					my $pass = hash($password);
 					$Chakora::DB_account{lc($nick)}{name} = $nick;
 					$Chakora::DB_account{lc($nick)}{pass} = $pass;
 					$Chakora::DB_account{lc($nick)}{email} = $email;
