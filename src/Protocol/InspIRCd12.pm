@@ -287,7 +287,7 @@ sub serv_mode {
 
 # Handle ERROR
 sub serv_error {
-    my $error = @_;
+    my ($error) = @_;
     send_sock( ":" . svsUID('chakora::server') . " ERROR :" . $error );
 }
 

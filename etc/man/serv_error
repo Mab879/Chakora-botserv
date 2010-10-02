@@ -1,0 +1,3 @@
+serv_error(error message)
+   This will send the given error message to the server. You'd usually want
+   to kill services after this.
