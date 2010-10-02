@@ -65,7 +65,7 @@ sub svs_cs_help {
 						$dv .= ' ';
 						$calc += 1;
 					}
-					serv_notice("chanserv", $user, "\002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
+					serv_notice("chanserv", $user, "   \002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
 				}
 			}
 		}

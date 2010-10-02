@@ -63,7 +63,7 @@ sub svs_ns_help {
 						$dv .= ' ';
 						$calc += 1;
 					}
-					serv_notice("nickserv", $user, "\002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
+					serv_notice("nickserv", $user, "   \002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
 				}
 			}
 		}
