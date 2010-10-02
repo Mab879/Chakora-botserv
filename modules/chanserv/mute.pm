@@ -9,7 +9,10 @@ module_init("chanserv/mute", "The Chakora Project", "0.1", \&init_cs_mute, \&voi
 
 sub init_cs_mute {
 	if (!module_exists("chanserv/main")) {
-		module_load("chanserv/main");
+		if ($Chakora::synced) { logchan('operserv', "\002!!!\002 chanserv/mute is of no use without chanserv/main; unloading."); }
+		svsflog("chakora", "MODULES: chanserv/mute: Module is of no use without chanserv/main; unloading.");
+		print "MODULES: chanserv/mute: Module is of no use without chanserv/main; unloading.\n";
+		return 0;
 	}
 	cmd_add("chanserv/mute", "Mutes you or another user on a channel.", "MUTE will allow you to either mute yourself\nor another user in a channel that you have\nthe +M flag in.\nSyntax: MUTE <#channel> [user]", \&svs_cs_mute);
 	cmd_add("chanserv/unmute", "Unmutes you or another user on a channel.", "UNMUTE will allow you to either unmute\nyourself or another user in a channel\nthat you have the +M flag in.\nSyntax: UNMUTE <#channel> [user]", \&svs_cs_unmute);

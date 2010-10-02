@@ -20,6 +20,8 @@ Current Devel
 	- API: Module init handlers can now return 0 for an unsuccessful loading.
 	- HostServ: Added hostserv/help and hostserv/assign (with UNASSIGN).
 	- API: Moved services-related subs to src/API/Services.pm.
+	- Modules: Added operserv/restart for performing a more clean services restart.
+	- NickServ: Re-identify users when possible after restarting.
 
 1.0.0-alpha1
 	- InspIRCd: Join after the ircd is done bursting to us
