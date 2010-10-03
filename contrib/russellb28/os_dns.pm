@@ -100,6 +100,8 @@ sub svs_os_dns {
 				serv_notice("operserv", $user, ">> ".$rr->preference." - ".$rr->exchange);
       			}
 			serv_notice("operserv", $user, "\002 ************************** \002");
+			svsilog("operserv", $user, "DNS", $sargv[1]." (Type: ".$sargv[2].")");
+			svsflog('commands', uidInfo($user, 1).": OperServ: DNS: $sargv[1] (Type: $sargv[2])");
   		}
   		else {
 			svsilog("operserv", $user, "DNS:FAIL:QUERY", $sargv[1], $sargv[2], $res->errorstring);
