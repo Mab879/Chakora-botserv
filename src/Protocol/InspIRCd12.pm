@@ -382,7 +382,7 @@ sub serv_kill {
         send_sock( ":" . svsUID($svs) . " KILL " . $user );
     }
     else {
-        send_sock( "." . svsUID($svs) . " KILL " . $user . " :" . $reason );
+        send_sock( ":" . svsUID($svs) . " KILL " . $user . " :" . $reason );
     }
 	delete $Chakora::uid{$user};
 }
