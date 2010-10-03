@@ -12,7 +12,7 @@ sub init_ns_ghost {
                 module_load("nickserv/main");
         }
 		
-	cmd_add("nickserv/ghost", "Ghost an old user session or somebody attempting to use your nickname without authorization.", "If you are logged in to the nick's account, you do not\nneed to specify a password\notherwise it is required\n[T]\nSyntax: GHOST <nickname> [password]", \&svs_ns_ghost);
+	cmd_add("nickserv/ghost", "Ghost a user/ghost using your nickname.", "If you are logged in to the nick's account, you do not\nneed to specify a password\notherwise it is required\n[T]\nSyntax: GHOST <nickname> [password]", \&svs_ns_ghost);
 }
 
 sub void_ns_ghost {
