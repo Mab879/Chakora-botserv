@@ -1,6 +1,7 @@
 # Chakora example services oper configuration file
 
 BOF oper
+operserv:_
 operserv:global
 nickserv:fullinfo
 EOF
