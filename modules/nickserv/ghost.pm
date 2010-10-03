@@ -38,6 +38,11 @@ sub svs_ns_ghost {
 		serv_notice("nickserv", $user, "Nickname \002$sargv[1]\002 is not registered.");
 		return;
 	}
+
+	if (lc($sargv[1]) eq lc(uidInfo($user, 1))) {
+		serv_notice("nickserv", $user, "You may not ghost yourself!");
+		return;
+	}
 	
 	my $pass = hash($sargv[2]);
 	my $account = $Chakora::DB_nick{lc($sargv[1])}{account};
