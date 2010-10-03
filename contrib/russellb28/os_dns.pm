@@ -13,6 +13,12 @@ sub init_os_dns {
 }
 
 sub void_os_dns {
+	eval {
+    		require Net::DNS;
+    		print "OK\n";
+    		1;
+	     } or svsflog("modules", "Unable to load operserv/dns, Net::DNS not installed.") and module_void("operserv/dns");
+
 	delete_sub 'init_os_dns';
 	delete_sub 'svs_os_dns';
 	cmd_del("operserv/dns");
@@ -39,11 +45,14 @@ sub svs_os_dns {
 
   		if ($query) {
 			serv_notice("operserv", $user, "\002 ** IPv4 Addresses Found ** \002");
+			serv_notice("operserv", $user, "Hostname: ".$sargv[1]);
       			foreach $rr ($query->answer) {
           			next unless $rr->type eq "A";
 				serv_notice("operserv", $user, ">> ".$rr->address);
       			}
 			serv_notice("operserv", $user, "\002 ************************** \002");
+			svsilog("operserv", $user, "DNS", $sargv[1]." (Type: ".$sargv[2].")");
+			svsflog('commands', uidInfo($user, 1).": OperServ: DNS: $sargv[1] (Type: $sargv[2])");
 			return;
   		}
   		else {
@@ -61,11 +70,14 @@ sub svs_os_dns {
 
   		if ($query) {
 			serv_notice("operserv", $user, "\002 **   NameServer Found   ** \002");
+			serv_notice("operserv", $user, "Hostname: ".$sargv[1]);
       			foreach $rr ($query->answer) {
           			next unless $rr->type eq "NS";
 				serv_notice("operserv", $user, ">> ".$rr->nsdname);
       			}
 			serv_notice("operserv", $user, "\002 ************************** \002");
+			svsilog("operserv", $user, "DNS", $sargv[1]." (Type: ".$sargv[2].")");
+			svsflog('commands', uidInfo($user, 1).": OperServ: DNS: $sargv[1] (Type: $sargv[2])");
 			return;
   		}
   		else {
