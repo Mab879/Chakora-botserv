@@ -15,7 +15,6 @@ sub init_os_dns {
 sub void_os_dns {
 	eval {
     		require Net::DNS;
-    		print "OK\n";
     		1;
 	     } or svsflog("modules", "Unable to load operserv/dns, Net::DNS not installed.") and module_void("operserv/dns");
 
@@ -29,12 +28,12 @@ sub svs_os_dns {
 	my ($user, @sargv) = @_;
 	
 	if (!defined($sargv[1])) {
-		serv_notice("operserv", $user, "Not enough parameters. Syntax: DNS [hostname/domain] [A/NS]");
+		serv_notice("operserv", $user, "Not enough parameters. Syntax: DNS [hostname/domain] [A/NS/MX]");
 		return;
 	}
 
 	if (!defined($sargv[2])) {
-		serv_notice("operserv", $user, "Not enough parameters. Syntax: DNS [hostname/domain] [A/NS]");
+		serv_notice("operserv", $user, "Not enough parameters. Syntax: DNS [hostname/domain] [A/NS/MX]");
 		return;
 	}
 	
@@ -88,9 +87,31 @@ sub svs_os_dns {
   		}
 
 	}
+	elsif (lc($sargv[2]) eq "mx") {
+  		my $res = new Net::DNS::Resolver;
+		my $rr;
+		my @mx;
+
+ 		@mx = mx($res, $sargv[1]);
+  		if (@mx) {
+			serv_notice("operserv", $user, "\002 **  Mail Servers Found  ** \002");
+			serv_notice("operserv", $user, "Hostname: ".$sargv[1]);
+      			foreach $rr (@mx) {
+				serv_notice("operserv", $user, ">> ".$rr->preference." - ".$rr->exchange);
+      			}
+			serv_notice("operserv", $user, "\002 ************************** \002");
+  		}
+  		else {
+			svsilog("operserv", $user, "DNS:FAIL:QUERY", $sargv[1], $sargv[2], $res->errorstring);
+			svsflog('commands', uidInfo($user, 1).": OperServ: DNS:FAIL:QUERY: $sargv[1] TYPE $sargv[2] ($res->errorstring)");
+			serv_notice("operserv", $user, "MX Lookup Failed: ", $res->errorstring);
+			return;
+  		}
+
+	}
 	else
 	{
-		serv_notice("operserv", $user, "Invalid Record Type. Syntax: DNS [hostname/domain] [A/NS]");
+		serv_notice("operserv", $user, "Invalid Record Type. Syntax: DNS [hostname/domain] [A/NS/MX]");
 		return;
 	}
 }
