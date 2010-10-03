@@ -8,10 +8,6 @@ use warnings;
 module_init("operserv/kill", "Russell Bradford", "1.0", \&init_os_kill, \&void_os_kill, "all");
 
 sub init_os_kill {
-       if (!module_exists("operserv/main")) {
-		module_load("operserv/main");
-       }
-
 	cmd_add("operserv/kill", "Kill a user from the network using OperServ", "Kill a user from the network using operserv \nwith a specific reason. If no reason \nis specified then the user will be killed \nwith a reason that shows your \nnickname.\n[T]\nSyntax: KILL <nickname> [reason]", \&svs_os_kill);
 }
 
@@ -19,7 +15,7 @@ sub void_os_kill {
 	delete_sub 'init_os_kill';
 	delete_sub 'svs_os_kill';
 	cmd_del("operserv/kill");
-       delete_sub 'void_os_kill';
+        delete_sub 'void_os_kill';
 }
 
 sub svs_os_kill {
@@ -37,7 +33,7 @@ sub svs_os_kill {
 	
 	my ($dele);
 	if (defined($sargv[2])) {
-		svsilog("operserv", $user, "KILL", $sargv[1], $sargv[2]);
+		svsilog("operserv", $user, "KILL", $sargv[1]." (".$sargv[2].")");
 		svsflog('commands', uidInfo($user, 1).": OperServ: KILL: $sargv[1] ($sargv[2])");
 		$dele .= 'serv_kill(\'operserv\', \''.$sargv[1].'\', \'Killed (OperServ ('.$sargv[2].'))\'); event_kill(\'operserv\', \''.$sargv[1].'\', \'Killed (OperServ ('.$sargv[2].'))\');';
 		$dele .= '1; ';
