@@ -52,7 +52,7 @@ sub svs_ns_ghost {
 	my ($dele);
 	svsilog("nickserv", $user, "GHOST", $nick);
 	svsflog('commands', uidInfo($user, 1).": NickServ: GHOST: $nick");
-	$dele .= 'serv_kill(\'nickserv\', \''.$nick.'\', \'Killed (NickServ (GHOST command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\'); ';
+	$dele .= 'serv_kill(\'nickserv\', \''.$nick.'\', \'Killed (NickServ (GHOST command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\'); event_kill(\'nickserv\', \''.$nick.'\', \'Killed (NickServ (GHOST command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\');';
 	$dele .= '1; ';
 	eval($dele) or svsilog("nickserv", $user, "GHOST:FAIL", $@) and svsflog('commands', uidInfo($user, 1)." NickServ: GHOST:FAIL: ".$@) and serv_notice("nickserv", $user, "An error occurred. No user was ghosted. Please report this to an IRCop immediately.") 
 	
