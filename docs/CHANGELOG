@@ -10,6 +10,7 @@
 Current Devel
 	- API: Added idflush() for flushing data about identified users to disk.
 	- Chakora: Use idflush() if a SIGINT is caught while in debug mode.
+	- Modules: Added nickserv/ghost.
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.

@@ -1,18 +1,18 @@
-# nickserv/ghost by The Chakora Project. View information for a registered nick/account.
+# nickserv/ghost by The Chakora Project. Allows ghosting of users (and dead sessions AKA ghosts) using another's nickname.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
 use strict;
 use warnings;
 
-module_init("nickserv/ghost", "The Chakora Project", "0.1", \&init_ns_ghost, \&void_ns_ghost, "all");
+module_init("nickserv/ghost", "The Chakora Project", "1.0", \&init_ns_ghost, \&void_ns_ghost, "all");
 
 sub init_ns_ghost {
         if (!module_exists("nickserv/main")) {
                 module_load("nickserv/main");
         }
 		
-	cmd_add("nickserv/ghost", "Ghost a user/ghost using your nickname.", "If you are logged in to the nick's account, you do not\nneed to specify a password\notherwise it is required\n[T]\nSyntax: GHOST <nickname> [password]", \&svs_ns_ghost);
+	cmd_add("nickserv/ghost", "Ghost a user/ghost using your nickname.", "GHOST will allow you to kill users (and dead sessions)\nusing your nickname, if you are identified to the\naccount, no password is required.\n[T]\nSyntax: GHOST <nickname> [password]", \&svs_ns_ghost);
 }
 
 sub void_ns_ghost {
@@ -29,36 +29,51 @@ sub svs_ns_ghost {
 		serv_notice("nickserv", $user, "Not enough parameters. Syntax: GHOST [nickname] <password>");
 		return;
 	}
-	
-	if (!defined($sargv[2])) {
-		serv_notice("nickserv", $user, "Not enough parameters. Syntax: GHOST [nickname] <password>");
+	my $tu = nickUID($sargv[1]);
+	if (!$tu) {
+		serv_notice("nickserv", $user, "User \002$sargv[1]\002 is not online.");
 		return;
 	}
-	if (!is_registered(1, $sargv[1])) {
-		serv_notice("nickserv", $user, "Nickname \002$sargv[1]\002 is not registered.");
-		return;
-	}
-
-	if (lc($sargv[1]) eq lc(uidInfo($user, 1))) {
+	if ($tu eq $user) {
 		serv_notice("nickserv", $user, "You may not ghost yourself!");
 		return;
 	}
-	
-	my $pass = hash($sargv[2]);
-	my $account = $Chakora::DB_nick{lc($sargv[1])}{account};
-	my $nick = $Chakora::DB_nick{lc($sargv[1])}{nick};
-	if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
-		serv_notice("nickserv", $user, "Incorrect password.");
-		svsilog("nickserv", $user, "GHOST:FAIL:BADPASS", $nick);
-		svsflog('commands', uidInfo($user, 1).": NickServ: GHOST:FAIL:BADPASS: $nick");
-		return;
+
+	if (lc(uidInfo($user, 9)) eq lc(uidInfo($tu, 9))) {
+		my $nick = uidInfo($tu, 1);
+		serv_kill("nickserv", $tu, "Killed (NickServ (GHOST command from: ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4)."))");
+		serv_notice("nickserv", $user, "\002$nick\002 has been ghosted.");
+		svsilog("nickserv", $user, "GHOST", $nick);
+		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): NickServ: GHOST: $nick");
 	}
+	else {
+		if (!defined($sargv[2])) {
+			serv_notice("nickserv", $user, "Not enough parameters. Syntax: GHOST <nickname> [password]");
+			return;
+		}
 	
-	my ($dele);
-	svsilog("nickserv", $user, "GHOST", $nick);
-	svsflog('commands', uidInfo($user, 1).": NickServ: GHOST: $nick");
-	$dele .= 'serv_kill(\'nickserv\', \''.$nick.'\', \'Killed (NickServ (GHOST command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\'); event_kill(\'nickserv\', \''.$nick.'\', \'Killed (NickServ (GHOST command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\');';
-	$dele .= '1; ';
-	eval($dele) or svsilog("nickserv", $user, "GHOST:FAIL", $@) and svsflog('commands', uidInfo($user, 1)." NickServ: GHOST:FAIL: ".$@) and serv_notice("nickserv", $user, "An error occurred. No user was ghosted. Please report this to an IRCop immediately.") 
+		my $account = uidInfo($tu, 9);
+		my $nick = uidInfo($tu, 1);
+		if (!defined $Chakora::DB_account{lc($account)}) {
+			if (!defined $Chakora::DB_nick{lc($nick)}{account}) {
+				serv_notice("nickserv", $user, "User \002$sargv[1]\002 is not registered.");
+				return;
+			}
+			else {
+				$account = $Chakora::DB_nick{lc($nick)}{account};
+			}
+		}
+		my $pass = hash($sargv[2]);
+		if ($pass ne $Chakora::DB_account{lc($account)}{pass}) {
+			serv_notice("nickserv", $user, "Incorrect password.");
+			svsilog("nickserv", $user, "GHOST:FAIL:BADPASS", $nick);
+			svsflog('commands', uidInfo($user, 1).": NickServ: GHOST:FAIL:BADPASS: $nick");
+			return;
+		}
 	
+		serv_kill("nickserv", $tu, "Killed (NickServ (GHOST command from: ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4)."))");
+		serv_notice("nickserv", $user, "\002$nick\002 has been ghosted.");
+		svsilog("nickserv", $user, "GHOST", $nick);
+		svsflog('commands', uidInfo($user, 1).": NickServ: GHOST: $nick");	
+	}
 }

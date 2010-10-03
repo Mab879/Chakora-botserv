@@ -23,7 +23,7 @@
 	[!] Set
 		[X] Set email, password, hidemail, enforce
 		[ ] Set API
-	[ ] Ghost
+	[X] Ghost
 	[ ] Release
 	[X] Account name
 	[X] Logout

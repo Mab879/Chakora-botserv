@@ -30,6 +30,7 @@ load "memoserv/main";             # Create MemoServ to allow the sending, receiv
 # NickServ - Nick services.
 load "nickserv/main";             # Create NickServ to allow management of nicknames.
 load "nickserv/drop";             # DROP: Drops a registered nickname and erases all data associated to it, including the account if applicable.
+load "nickserv/ghost";            # GHOST: Allows ghosting of another user (and dead sessions) using another's nickname.
 load "nickserv/help";             # HELP: Provides help with NickServ commands.
 load "nickserv/identify";         # IDENTIFY: Allows users to identify to registered nicknames.
 load "nickserv/info";             # INFO: View information about a nickname.
