@@ -11,6 +11,9 @@ Current Devel
 	- API: Added idflush() for flushing data about identified users to disk.
 	- Chakora: Use idflush() if a SIGINT is caught while in debug mode.
 	- Modules: Added nickserv/ghost.
+	- Contrib - russellb28: Added chanserv/speak which allows the use of 'say' and 'act'
+	- Contrib - russellb28: Added operserv/dns which allows operators to lookup A/MX/NS DNS Records
+	- Contrib - russellb28: Added operserv/kill which be used as an alternate to the ircd's built in /kill
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.
