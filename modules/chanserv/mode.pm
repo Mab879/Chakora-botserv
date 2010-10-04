@@ -13,9 +13,8 @@ sub init_cs_mode {
 	}
 	cmd_add("chanserv/mode", "Set modes on a given channel", "MODE allows you to set modes on\nyour channel or any other channel you have \nthe +s flag in.\n[T]\nIRC Operators have the ability to set modes \non a channel if they \nhave the chanserv::override priveledge. \nThe channel will be noticed when an operator\nover-rides using this command in the channel \n[T]\nSyntax: MODE <channel> [+/- modes]", \&svs_cs_mode);
 
-	if (!flag_exists("s")) {
-	        svsflog("modules", "Unable to load chanserv/mode, Flag +s is not supported!");
-		 module_void("chanserv/mode");
+	if (!flag_exists("c")) {
+		flaglist_add("c", "Allows the use of the MODE command");
 	}
 }
 
@@ -23,6 +22,7 @@ sub void_cs_mode {
 	delete_sub 'init_cs_mode';
 	delete_sub 'svs_cs_mode';
 	cmd_del("chanserv/mode");
+	flaglist_del("c");
        delete_sub 'void_cs_mode';
 }
 
@@ -62,7 +62,7 @@ sub svs_cs_mode {
 		$dele .= 'serv_cmode("chanserv", "'.$sargv[1].'", "'.$vars.'"); ';
 		$dele .= '1; ';
 		eval($dele);
-		if (!has_flag(uidInfo($user, 9), $sargv[1], "s")) {
+		if (!has_flag(uidInfo($user, 9), $sargv[1], "c")) {
 			svsilog("chanserv", $user, "MODE", $sargv[1]." ".$vars." (over-ride)");
 			svsflog('commands', uidInfo($user, 1).": ChanServ: MODE: $sargv[1] $vars  (over-ride)");
 			serv_notice("chanserv", $sargv[1], "(OVER-RIDE) ".uidInfo($user, 1)." set modes ".$vars." via ChanServ");
@@ -76,7 +76,7 @@ sub svs_cs_mode {
 	}
 	elsif(!has_spower($user, 'chanserv:override'))
 	{
-		if (!has_flag(uidInfo($user, 9), $sargv[1], "s")) {
+		if (!has_flag(uidInfo($user, 9), $sargv[1], "c")) {
 			serv_notice("chanserv", $user, "Permission denied");
 			return;
 		}
