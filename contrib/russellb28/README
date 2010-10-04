@@ -1,0 +1,105 @@
+Welcome to RussellB28's Contribution Section    
+--------------------
+PLEASE NOTE THAT ANY MODULES IN THIS SECTION ARE NOW SUPPORTED OFFICIALLY BY CHAKORA
+AND MAY F**K UP YOUR INSTALLATION IF NOT USED CORRECTLY OR IF BUGS ARE EXPLOITED.
+
+With that said, you are more than welcome to email me at russell@surgehost.net regarding
+these modules and i will happily fix any major bugs or add minor features that you request
+
+
+CONTENTS
+-----------------
+  1. Current Modules
+  2. Installation
+  3. Module Information
+  	3.1 operserv/kill
+	3.2 operserv/dns
+	3.3 chanserv/speak
+
+
+
+
+1. CURRENT MODULES
+----------
+
+Chakora's Contrib Modules in this sectionare developed by 
+Russell Bradford (RussellB28) and made specifically to work
+with the Chakora.
+
+The Current Modules in this directory are:
+
+* operserv/kill	- Kill Users from the Server via OperServ
+* operserv/dns	- Perform DNS Queries via OperServ
+* chanserv/speak	- Send Messages or Actions to a Channel via ChanServ
+
+
+2. INSTALLATION
+---------------
+
+There is no real specific installation method but i recommend the following method since
+it works better and is likely to cause less issues.
+
+1.	Moved the contrib files into /modules/X/ - where X represents ChanServ, OperServ etc...
+	Use the module prefix (e.g "os_") to determine where the module should be placed.
+2.	Rename the file so that the prefix of the file name is removed,
+	(e.g os_akill.pm would become kill.pm)
+3.	Added the module into /etc/modules.conf (e.g kill.pm would be 'operserv/kill' in the
+	config)
+4.	Load Services OR if you really want to load the module RIGHT NOW, use OperServ's MODLOAD
+	command (e.g /msg OperServ MODLOAD operserv/kill)
+
+3. MODULE INFORMATION
+---------------
+
+All the modules in this section are not supported officially by Chakora and while i will try to
+ensure all of them work and dont cause issues with anyones installations, there is no guarantee
+that there may not be exploitable bugs or issues that could corrupt databases or generally mess
+up services.
+
+
+***** 3.1 operserv/kill
+
+This module allows operators to kill a user on the server either with or without a reason. This
+module could be considered abusive on some networks so please use it with caution!
+
+Commands Added:	KILL
+Syntax:		/msg OperServ KILL [nickname] [reason]
+Expected Output:	User is killed from Server with a Message
+
+If a reason is specified for the kill reason, the message will look like:
+* Quit (Killed (OperServ (Kill Reason Here)))
+Otherwise, this message will be shown:
+* Quit (Killed (OperServ (KILL command used by nickname!ident@host.name)))
+
+Currently any user with OperServ access can use this module.
+
+***** 3.2 operserv/dns
+
+This module allows operators to lookup IP, NameServer and Mail records for a given
+hostname. This module probably has no usage and was mainly developed to demonstrate
+how Chakora can interact with other CPAN Modules to provider more functionality in
+modules.
+
+Commands Added:	DNS
+Syntax:		/msg OperServ KILL [domain] [type (A/NS/MX)]
+Expected Output:	A List of Records is returned based on Domain and Type
+
+Currently any user with OperServ access can use this module.
+
+***** 3.3 chanserv/speak
+
+This module allows channel users to use commands that will make chanserv send messages
+or actions to a given channel. This module adds its own flags known as 'B'. If the user
+has the 'B' flag in a channel, they will be able to use the 'say' and 'act' commands 
+otherwise they will recieve permission denied.
+
+Commands Added:	SAY, ACT
+Syntax:		/msg OperServ SAY [channel] [message], /msg OperServ ACT [channel] [message]
+Expected Output:	Message sent to Channel as Message/Action
+
+Currently any user with ChanServ access and flags 'B' on the channel specified in the
+command can use this command successfully.
+
+
+
+
