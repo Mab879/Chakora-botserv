@@ -1,6 +1,6 @@
 Welcome to RussellB28's Contribution Section    
 --------------------
-PLEASE NOTE THAT ANY MODULES IN THIS SECTION ARE NOW SUPPORTED OFFICIALLY BY CHAKORA
+PLEASE NOTE THAT ANY MODULES IN THIS SECTION ARE NOT SUPPORTED OFFICIALLY BY CHAKORA
 AND MAY F**K UP YOUR INSTALLATION IF NOT USED CORRECTLY OR IF BUGS ARE EXPLOITED.
 
 With that said, you are more than welcome to email me at russell@surgehost.net regarding
@@ -22,7 +22,7 @@ CONTENTS
 1. CURRENT MODULES
 ----------
 
-Chakora's Contrib Modules in this sectionare developed by 
+Chakora's Contrib Modules in this section are developed by 
 Russell Bradford (RussellB28) and made specifically to work
 with the Chakora.
 
@@ -77,7 +77,7 @@ Currently any user with OperServ access can use this module.
 
 This module allows operators to lookup IP, NameServer and Mail records for a given
 hostname. This module probably has no usage and was mainly developed to demonstrate
-how Chakora can interact with other CPAN Modules to provider more functionality in
+how Chakora can interact with other CPAN Modules to provide more functionality in
 modules.
 
 Commands Added:	DNS
