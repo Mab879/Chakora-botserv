@@ -11,7 +11,7 @@ sub init_cs_mode {
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
-	cmd_add("chanserv/mode", "Set modes on a given channel", "MODE allows you to set modes on\na specified channel through ChanServ \nproviding you have the 's' flag.\n[T]\nSyntax: MODE <channel> [+/- modes]", \&svs_cs_mode);
+	cmd_add("chanserv/mode", "Set modes on a given channel", "MODE allows you to set modes on\na specified channel through ChanServ \nproviding you have the 's' flag. \nIRC Operators have the ability to set modes \non a channel using this command providing they \n have the chanserv::can_override priveledge. \nThe channel will be noticed when an operator\n over-rides using this command in the channel \n[T]\nSyntax: MODE <channel> [+/- modes]", \&svs_cs_mode);
 
 	if (!flag_exists("s")) {
 	        svsflog("modules", "Unable to load chanserv/mode, Flag +s is not supported!");
@@ -87,9 +87,14 @@ sub svs_cs_mode {
 				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'P'");
 				return;
 			}
-			if(lc(config('server', 'ircd')) eq 'inspircd12' and $key eq 'O')
+			if($key eq 'O')
 			{
 				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'O'");
+				return;
+			}
+			if(lc(config('server', 'ircd')) eq 'charybdis' and $key eq 'A')
+			{
+				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'A'");
 				return;
 			}
 		}
