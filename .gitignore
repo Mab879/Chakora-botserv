@@ -3,4 +3,4 @@
 etc/*.conf
 var/*
 etc/*.db
-
+etc/*.pid
