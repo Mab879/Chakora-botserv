@@ -11,7 +11,7 @@ sub init_cs_mode {
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
-	cmd_add("chanserv/mode", "Set modes on a given channel", "MODE allows you to set modes on\na specified channel through ChanServ \nproviding you have the 's' flag. \nIRC Operators have the ability to set modes \non a channel using this command providing they \n have the chanserv::can_override priveledge. \nThe channel will be noticed when an operator\n over-rides using this command in the channel \n[T]\nSyntax: MODE <channel> [+/- modes]", \&svs_cs_mode);
+	cmd_add("chanserv/mode", "Set modes on a given channel", "MODE allows you to set modes on\na specified channel through ChanServ \nproviding you have the 's' flag.\n[T]\nSyntax: MODE <channel> [+/- modes]", \&svs_cs_mode);
 
 	if (!flag_exists("s")) {
 	        svsflog("modules", "Unable to load chanserv/mode, Flag +s is not supported!");
@@ -55,16 +55,16 @@ sub svs_cs_mode {
 	my ($i);
        $vars = $sargv[2];
 	for ($i = 3; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
+	my @modes = split(//, $sargv[2]);
 
-
-	if (has_spower($user, 'chanserv:can_override')) 
+	if (has_spower($user, 'chanserv:override')) 
 	{
 		$dele .= 'serv_cmode("chanserv", "'.$sargv[1].'", "'.$vars.'"); ';
 		$dele .= '1; ';
 		eval($dele);
 		if (!has_flag(uidInfo($user, 9), $sargv[1], "s")) {
-			svsilog("chanserv", $user, "MODE", $sargv[1]." ".$vars." (OVER-RIDE)");
-			svsflog('commands', uidInfo($user, 1).": ChanServ: MODE: $sargv[1] $vars  (OVER-RIDE)");
+			svsilog("chanserv", $user, "MODE", $sargv[1]." ".$vars." (over-ride)");
+			svsflog('commands', uidInfo($user, 1).": ChanServ: MODE: $sargv[1] $vars  (over-ride)");
 			serv_notice("chanserv", $sargv[1], "(OVER-RIDE) ".uidInfo($user, 1)." set modes ".$vars." via ChanServ");
 		}
 		else
@@ -74,11 +74,24 @@ sub svs_cs_mode {
 		}
 		return;
 	}
-	elsif(!has_spower($user, 'chanserv:can_override'))
+	elsif(!has_spower($user, 'chanserv:override'))
 	{
 		if (!has_flag(uidInfo($user, 9), $sargv[1], "s")) {
 			serv_notice("chanserv", $user, "Permission denied");
 			return;
+		}
+		foreach my $key (@modes) 
+		{ 
+			if ($key eq 'P') 
+			{ 
+				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'P'");
+				return;
+			}
+			if(lc(config('server', 'ircd')) eq 'inspircd12' and $key eq 'O')
+			{
+				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'O'");
+				return;
+			}
 		}
 		svsilog("chanserv", $user, "MODE", $sargv[1]." ".$vars);
 		svsflog('commands', uidInfo($user, 1).": ChanServ: MODE: $sargv[1] $vars");
