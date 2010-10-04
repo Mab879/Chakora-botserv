@@ -97,6 +97,11 @@ sub svs_cs_mode {
 				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'A'");
 				return;
 			}
+			if(lc(config('server', 'ircd')) eq 'charybdis' and $key eq 'L')
+			{
+				serv_notice("chanserv", $user, "Permission Denied - You do not have the required operator privileges to set mode 'L'");
+				return;
+			}
 		}
 		svsilog("chanserv", $user, "MODE", $sargv[1]." ".$vars);
 		svsflog('commands', uidInfo($user, 1).": ChanServ: MODE: $sargv[1] $vars");
