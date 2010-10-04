@@ -51,7 +51,7 @@ sub svs_cs_say {
 		return;
 	}
 
-	elsif (!has_flag(uidInfo($user, 9), $sargv[1], "v")) {
+	elsif (!has_flag(uidInfo($user, 9), $sargv[1], "B")) {
 		serv_notice("chanserv", $user, "Permission denied");
 		return;
 	}
@@ -93,7 +93,7 @@ sub svs_cs_act {
 		return;
 	}
 
-	elsif (!has_flag(uidInfo($user, 9), $sargv[1], "v")) {
+	elsif (!has_flag(uidInfo($user, 9), $sargv[1], "B")) {
 		serv_notice("chanserv", $user, "Permission denied");
 		return;
 	}
