@@ -15,6 +15,7 @@ CONTENTS
   	3.1 operserv/kill
 	3.2 operserv/dns
 	3.3 chanserv/speak
+	3.4 chanserv/mode
 
 
 
@@ -31,6 +32,7 @@ The Current Modules in this directory are:
 * operserv/kill	- Kill Users from the Server via OperServ
 * operserv/dns	- Perform DNS Queries via OperServ
 * chanserv/speak	- Send Messages or Actions to a Channel via ChanServ
+* chanserv/mode	- Send Modes on a Channel via ChanServ
 
 
 2. INSTALLATION
@@ -94,11 +96,27 @@ has the 'B' flag in a channel, they will be able to use the 'say' and 'act' comm
 otherwise they will recieve permission denied.
 
 Commands Added:	SAY, ACT
-Syntax:		/msg OperServ SAY [channel] [message], /msg OperServ ACT [channel] [message]
+Syntax:		/msg ChanServ SAY [channel] [message], /msg ChanServ ACT [channel] [message]
 Expected Output:	Message sent to Channel as Message/Action
 
 Currently any user with ChanServ access and flags 'B' on the channel specified in the
 command can use this command successfully.
+
+***** 3.4 chanserv/mode
+
+This module allows channel users to use commands that will make chanserv set modes on
+a specified channel. If the user has the 's' flag in a channel, they will be able to use the 
+'MODE' commands to set modes on a channel otherwise they will recieve permission denied.
+This feature is most useful when you are operating a freenode style channel where users only
+have voice but need the ability to set modes.
+
+Commands Added:	MODE
+Syntax:		/msg ChanServ MODE [channel] [modes]
+Expected Output:	Modes are set on the designated channel
+
+Currently any user with ChanServ access and flags 's' on the channel specified in the
+command can use this command successfully.
+
 
 
 
