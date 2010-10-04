@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/sahax", "Elijah Perrault", "1.0", \&init_os_sahax, \&void_os_sahax, "inspircd");
+module_init("operserv/sahax", "Elijah Perrault", "1.0", \&init_os_sahax, \&void_os_sahax, "inspircd12");
 
 sub init_os_sahax {
 	taint("Modules: operserv/sahax: Abusive module.");
