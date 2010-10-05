@@ -970,6 +970,11 @@ sub raw_encap {
 sub raw_mlock {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
+	my $ts = $raw[2];
+	my $chan = $raw[3];
+        my ($i);
+        my $args = $rex[3];
+        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
 }
 
 # Handle MOTD
