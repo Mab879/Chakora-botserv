@@ -47,17 +47,7 @@ sub svs_hs_main {
 		module_void("hostserv/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd12') {
-			if ($Chakora::PROTO_SETTINGS{god}) {
-				$modes .= 'k';
-			}
-		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {
-			$modes .= 'S';
-		} else {
-			svsflog('modules', 'Unable to create HostServ. Unsupported protocol!');
-			if ($Chakora::synced) { logchan('operserv', "\002HostServ\002: Unable to create HostServ. Unsupported protocol!"); }
-			module_void("hostserv/main");
-		}
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add('hostserv', config('hostserv', 'user'), config('hostserv', 'nick'), config('hostserv', 'host'), $modes, config('hostserv', 'real'));
 	}
 }

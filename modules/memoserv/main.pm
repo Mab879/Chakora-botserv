@@ -46,17 +46,7 @@ sub svs_ms_main {
 		module_void("memoserv/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd12') {
-			if ($Chakora::PROTO_SETTINGS{god}) {
-				$modes .= 'k';
-			}
-		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {
-			$modes .= 'S';
-		} else {
-			svsflog('modules', 'Unable to create MemoServ. Unsupported protocol!');
-			if ($Chakora::synced) { logchan('operserv', "\002MemoServ\002: Unable to create MemoServ. Unsupported protocol!"); }
-			module_void("memoserv/main");
-		}
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add('memoserv', config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), $modes, config('memoserv', 'real'));
 	}
 }

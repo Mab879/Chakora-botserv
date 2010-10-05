@@ -53,17 +53,7 @@ sub ircd_ns_main {
 		module_void("nickserv/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd12') {
-			if ($Chakora::PROTO_SETTINGS{god}) {
-				$modes .= 'k';
-			}
-		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {
-			$modes .= 'S';
-		} else {
-			svsflog('modules', 'Unable to create NickServ. Unsupported protocol!');
-			if ($Chakora::synced) { logchan('operserv', "\002NickServ\002: Unable to create NickServ. Unsupported protocol!"); }
-			module_void("nickserv/main");
-		}
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add(
 			'nickserv',
 			config( 'nickserv', 'user' ),

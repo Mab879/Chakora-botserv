@@ -44,6 +44,7 @@ sub module_init {
 			}
 			else {
 				Class::Unload->unload("$Chakora::ROOT_SRC/../modules/$name.pm");
+				&{$void_handler}();
 				print( "[MODULES] " . $name . ": Module failed to load.\n" );
 				svsflog( "chakora",
 					"[MODULES] " . $name . ": Module failed to load." );

@@ -47,17 +47,7 @@ sub ircd_g_main {
 		module_void("global/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd12') {
-			if ($Chakora::PROTO_SETTINGS{god}) {
-				$modes .= 'k';
-			}
-		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {
-			$modes .= 'S';
-		} else {
-			svsflog('modules', 'Unable to create Global. Unsupported protocol!');
-			if ($Chakora::synced) { logchan('operserv', "\002Global\002: Unable to create Global. Unsupported protocol!"); }
-			module_void("global/main");
-		}
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add(
 			'global',
 			config( 'global', 'user' ),

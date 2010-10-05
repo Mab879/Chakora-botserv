@@ -46,6 +46,7 @@ our %rawcmds = (
 	mute => 'q',
 	bexcept => 'e',
 	iexcept => 'I',
+	god => 'S',
 	cmodes => {
 		'b' => 2,
 		'q' => 2,

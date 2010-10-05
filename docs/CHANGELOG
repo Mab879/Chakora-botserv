@@ -21,6 +21,7 @@ Current Devel
 	- Modules: added chanserv/ban
 	- Modules: added chanserv/kickban
 	- Protocols: Basic InspIRCd2.0 Protocol Added
+	- Protocols: PROTO_SETTINGS{god} added to all IRCd's, it should be used by any module that creates a service (if available) as such.
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.

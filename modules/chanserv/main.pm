@@ -64,17 +64,7 @@ sub ircd_cs_main {
 		module_void("chanserv/main");
 	} else {
 		my $modes = '+io';
-		if (lc(config('server', 'ircd')) eq 'inspircd12') {
-			if ($Chakora::PROTO_SETTINGS{god}) {
-				$modes .= 'k';
-			}
-		} elsif (lc(config('server', 'ircd')) eq 'charybdis') {
-			$modes .= 'S';
-		} else {
-			svsflog('modules', 'Unable to create ChanServ. Unsupported protocol!');
-			if ($Chakora::synced) { logchan('operserv', "\002ChanServ\002: Unable to create ChanServ. Unsupported protocol!"); }
-			module_void("chanserv/main");
-		}
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add(
 			'chanserv',
 			config( 'chanserv', 'user' ),
