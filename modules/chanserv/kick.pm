@@ -71,7 +71,6 @@ sub svs_cs_kick {
 	}
 	else
 	{
-		my ($i);
 		my $vars = $sargv[3];
 		for (my $i = 4; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
 		
