@@ -16,7 +16,7 @@ sub init_cs_owner {
 	if (!defined($Chakora::PROTO_SETTINGS{owner})) {
 		svsflog("modules", "Unable to load chanserv/owner, owner prefix not available.");
 		if ($Chakora::synced) { logchan("operserv", "\002chanserv/owner\002: Unable to load, this protocol does not support the owner prefix."); }
-		return 0;
+		module_void("chanserv/owner");
 	}
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
