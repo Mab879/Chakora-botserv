@@ -892,6 +892,12 @@ sub raw_kill {
 	if (defined $Chakora::uid{$user}) {
 		undef $Chakora::uid{$user};
 	}
+    if ($target eq svsUID("operserv")) {
+		serv_del("operserv");
+		my $modes = '+io';
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
+		serv_add('operserv', config( 'operserv', 'user' ), config( 'operserv', 'nick' ), config( 'operserv', 'host' ), $modes, config( 'operserv', 'real' ));
+	}
 }
 
 # Handle SAVE
