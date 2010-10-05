@@ -11,8 +11,8 @@ sub init_cs_op {
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
-	cmd_add("chanserv/op", "Ops you or another user on a channel.", "OP will allow you to either op yourself\nor another user in a channel that you\nhave the +o flag in.\nSyntax: OP <#channel> [user]", \&svs_cs_op);
-	cmd_add("chanserv/deop", "Deops you or another user on a channel.", "DEOP will allow you to either deop\nyourself or another user in a channel\nthat you have the +o flag in.\nSyntax: DEOP <#channel> [user]", \&svs_cs_deop);
+	cmd_add("chanserv/op", "Ops you or another user on a channel.", "OP will allow you to either op yourself\nor another user in a channel that you\nhave the +o flag in.\n[T]\nSyntax: OP <#channel> [user]", \&svs_cs_op);
+	cmd_add("chanserv/deop", "Deops you or another user on a channel.", "DEOP will allow you to either deop\nyourself or another user in a channel\nthat you have the +o flag in. \n[T]\nSyntax: DEOP <#channel> [user]", \&svs_cs_deop);
         if (!flag_exists("o")) {
                 flaglist_add("o", "Allows the use of the OP/DEOP command");
         }

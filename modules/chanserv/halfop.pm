@@ -16,8 +16,8 @@ sub init_cs_halfop {
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
-	cmd_add("chanserv/halfop", "Halfops you or another user on a channel.", "HALFOP will allow you to either halfop \nyourself or another user in a channel\nthat you have the +h flag in.\nSyntax: HALFOP <#channel> [user]", \&svs_cs_halfop);
-	cmd_add("chanserv/dehalfop", "Dehalfops you or another user on a channel.", "DEHALFOP will allow you to either\ndehalfop yourself or another user in\na channel that you have the +h flag in.\nSyntax: DEHALFOP <#channel> [user]", \&svs_cs_dehalfop);
+	cmd_add("chanserv/halfop", "Halfops you or another user on a channel.", "HALFOP will allow you to either halfop \nyourself or another user in a channel\nthat you have the +h flag in. \n[T]\nSyntax: HALFOP <#channel> [user]", \&svs_cs_halfop);
+	cmd_add("chanserv/dehalfop", "Dehalfops you or another user on a channel.", "DEHALFOP will allow you to either\ndehalfop yourself or another user in\na channel that you have the +h flag in. \n[T]\nSyntax: DEHALFOP <#channel> [user]", \&svs_cs_dehalfop);
         if (!flag_exists("h")) {
                 flaglist_add("h", "Allows the use of the HALFOP/DEHALFOP command");
         }

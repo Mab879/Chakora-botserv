@@ -11,8 +11,8 @@ sub init_cs_voice {
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
-	cmd_add("chanserv/voice", "Voices you or another user on a channel.", "VOICE will allow you to either voice \nyourself or another user in a channel\nthat you have the +v flag in.\nSyntax: VOICE <#channel> [user]", \&svs_cs_voice);
-	cmd_add("chanserv/devoice", "Devoices you or another user on a channel.", "DEVOICE will allow you to either\ndevoice yourself or another user in\na channel that you have the +v flag in.\nSyntax: DEVOICE <#channel> [user]", \&svs_cs_devoice);
+	cmd_add("chanserv/voice", "Voices you or another user on a channel.", "VOICE will allow you to either voice \nyourself or another user in a channel\nthat you have the +v flag in. \n[T]\nSyntax: VOICE <#channel> [user]", \&svs_cs_voice);
+	cmd_add("chanserv/devoice", "Devoices you or another user on a channel.", "DEVOICE will allow you to either\ndevoice yourself or another user in\na channel that you have the +v flag in. \n[T]\nSyntax: DEVOICE <#channel> [user]", \&svs_cs_devoice);
         if (!flag_exists("v")) {
                 flaglist_add("v", "Allows the use of the VOICE/DEVOICE command");
         }
