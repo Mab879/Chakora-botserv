@@ -30,24 +30,23 @@ sub svs_os_kill {
 		serv_notice("operserv", $user, "Nickname \002$sargv[1]\002 is not online.");
 		return;
 	}
+
+	my $tu = nickUID($sargv[1]);
+	my $nick = uidInfo($tu, 1);
 	
 	my ($dele);
 	if (defined($sargv[2])) {
-		my ($vars);
-		my ($i);
-       	$vars = $sargv[2];
-		for ($i = 3; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
-		svsilog("operserv", $user, "KILL", $sargv[1]." (".$vars.")");
-		svsflog('commands', uidInfo($user, 1).": OperServ: KILL: $sargv[1] ($vars)");
-		$dele .= 'serv_kill(\'operserv\', \''.$sargv[1].'\', \'Killed (OperServ ('.$vars.'))\'); event_kill(\'operserv\', \''.$sargv[1].'\', \'Killed (OperServ ('.$vars.'))\');';
+		svsilog("operserv", $user, "KILL", "\002".$nick."\002 (".$sargv[2].")");
+		svsflog('commands', uidInfo($user, 1).": OperServ: KILL: $nick ($sargv[2])");
+		$dele .= 'serv_kill(\'operserv\', \''.$tu.'\', \'Killed (OperServ ('.$sargv[2].'))\'); event_kill(\'operserv\', \''.$tu.'\', \'Killed (OperServ ('.$sargv[2].'))\');';
 		$dele .= '1; ';
 		eval($dele) or svsilog("operserv", $user, "KILL:FAIL", $@) and svsflog('commands', uidInfo($user, 1)." OperServ: KILL:FAIL: ".$@) and serv_notice("operserv", $user, "An error occurred. No user was Killed. Please report this to an IRCop immediately.")
 	} 
 	else
 	{
-		svsilog("operserv", $user, "KILL", $sargv[1]);
-		svsflog('commands', uidInfo($user, 1).": OperServ: KILL: $sargv[1] (No Reason Specified)");
-		$dele .= 'serv_kill(\'operserv\', \''.$sargv[1].'\', \'Killed (OperServ (KILL command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\'); event_kill(\'operserv\', \''.$sargv[1].'\', \'Killed (OperServ (KILL command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\');';
+		svsilog("operserv", $user, "KILL", "\002".$sargv[1]."\002");
+		svsflog('commands', uidInfo($user, 1).": OperServ: KILL: $nick (No Reason Specified)");
+		$dele .= 'serv_kill(\'operserv\', \''.$tu.'\', \'Killed (OperServ (KILL command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\'); event_kill(\'operserv\', \''.$tu.'\', \'Killed (OperServ (KILL command used by '.uidInfo($user, 1).'!'.uidInfo($user, 2).'@'.uidInfo($user, 4).'))\');';
 		$dele .= '1; ';
 		eval($dele) or svsilog("operserv", $user, "KILL:FAIL", $@) and svsflog('commands', uidInfo($user, 1)." OperServ: KILL:FAIL: ".$@) and serv_notice("operserv", $user, "An error occurred. No user was Killed. Please report this to an IRCop immediately.")
 	}
