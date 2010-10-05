@@ -436,6 +436,14 @@ sub serv_jupe {
 	}
 }
 
+# Handle GLOBAL
+sub serv_global {
+        my ($svs, $msg) = @_;
+        foreach my $key ( keys %uid ) {
+                serv_notice($svs, $Chakora::uid{$key}{'uid'}, $msg);
+        }
+}
+
 # Send global messages
 sub send_global {
     my ($msg) = @_;
