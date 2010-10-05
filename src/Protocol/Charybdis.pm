@@ -788,7 +788,6 @@ sub raw_sid {
         for ($i = 6; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
         $Chakora::sid{$rex[4]}{'info'} = $args;
 	event_sid($rex[2], $args);
-    if (!$Chakora::synced) { $Chakora::LINKD = $rex[4]; }
 }
 
 # Handle PASS

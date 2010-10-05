@@ -25,6 +25,7 @@ Current Devel
 	- Protocols: Re-create OperServ if killed.
 	- Chakora: Added $Chakora::LINKD which is the SID of the server we are linked to.
 	- protocol/inspircd12: Added tracking for module load/unloads. protocol/inspircd20 tracker coming soon.
+	- Chakora: Deleted $Chakora::LINKD as sidInfo provides this data.
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.

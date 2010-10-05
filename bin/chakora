@@ -109,7 +109,7 @@ $SIG{'TERM'} = \&TERM_handler;
 # Create some variables for later use
 our (
     %rawcmds, %svsuid, %svsnick, %PROTO_SETTINGS, %COMMANDS,
-    %HELP,    %MODULE, %CMDTREE, %TIMER, $LINKD
+    %HELP,    %MODULE, %CMDTREE, %TIMER
 );
 
 # Load the modules

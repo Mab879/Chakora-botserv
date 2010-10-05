@@ -922,7 +922,6 @@ sub raw_server {
     for ( $i = 7 ; $i < count(@rex) ; $i++ ) { $args .= ' ' . $rex[$i]; }
     $Chakora::sid{ $rex[5] }{'info'} = $args;
     event_sid( $rex[2], $args );
-    if (!$Chakora::synced) { $Chakora::LINKD = $rex[5]; }
 }
 
 # Handle SERVER while linking
@@ -1212,15 +1211,12 @@ sub raw_admin {
         }
 }
 
-#[IRC] :623 METADATA * modules :-m_silence.so
-#[IRC] :623 METADATA * modules :+m_silence.so
-
 # Handle METADATA
 sub raw_metadata {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $server = substr($rex[0], 1);
-	if ($rex[2] eq '*' and $rex[3] eq 'modules') {
+	if ($server eq sidInfo(config('me', 'sid'), 4) and $rex[2] eq '*' and $rex[3] eq 'modules') {
 		my $opera = substr($rex[4], 1, 1);
 		my $mod = substr($rex[4], 2);
 		
