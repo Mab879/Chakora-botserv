@@ -63,7 +63,16 @@ sub svs_cs_register {
 	$Chakora::DB_chan{lc($chan)}{name} = $chan;
 	$Chakora::DB_chan{lc($chan)}{founder} = uidInfo($user, 9);
 	$Chakora::DB_chan{lc($chan)}{regtime} = time();
-	$Chakora::DB_chan{lc($chan)}{mlock} = '+nt';
+	if (!defined $Chakora::channel{lc($chan)}{'mlock'}) {
+		$Chakora::DB_chan{lc($chan)}{mlock} = '+nt';
+		if (lc(config('server', 'ircd')) eq 'charybdis') { 
+			serv_mlock($chan, '+nt');
+		}
+	}
+	else {
+		$Chakora::DB_chan{lc($chan)}{mlock} = $Chakora::channel{lc($chan)}{'mlock'};
+	}
+
 	$Chakora::DB_chan{lc($chan)}{ts} = $Chakora::channel{lc($chan)}{'ts'};
 	$Chakora::DB_chan{lc($chan)}{desc} = $sargv[2];
 	my ($i);
