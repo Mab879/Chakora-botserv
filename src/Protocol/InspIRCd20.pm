@@ -618,7 +618,7 @@ sub raw_capab {
 		}
 		
 		my $modes = '+io';
-		if ($Chakora::PROTO_SETTINGS{god}) { $modes .= 'k'; }
+		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		send_sock( ":" . config( 'me', 'sid' ) . " BURST" );
 		send_sock( ":"
 			. config( 'me', 'sid' )
