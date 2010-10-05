@@ -43,7 +43,7 @@ sub module_init {
 				1;
 			}
 			else {
-				Class::Unload->unload("$Chakora::ROOT_SRC/../modules/$name.pm");
+#				Class::Unload->unload("$Chakora::ROOT_SRC/../modules/$name.pm");
 				&{$void_handler}();
 				print( "[MODULES] " . $name . ": Module failed to load.\n" );
 				svsflog( "chakora",
