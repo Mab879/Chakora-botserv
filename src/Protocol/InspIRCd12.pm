@@ -575,6 +575,7 @@ sub raw_capab {
 		}
 		if ($modules =~ 'm_services_account.so') {
 			$Chakora::PROTO_SETTINGS{cmodes}{'M'} = 1;
+			$Chakora::PROTO_SETTINGS{cmodes}{'R'} = 1;
 		}
 		if ($modules =~ 'm_nonicks.so') {
 			$Chakora::PROTO_SETTINGS{cmodes}{'N'} = 1;
@@ -587,9 +588,6 @@ sub raw_capab {
 		}
 		if ($modules =~ 'm_nokicks.so') {
 			$Chakora::PROTO_SETTINGS{cmodes}{'Q'} = 1;
-		}
-		if ($modules =~ 'm_services_account.so') {
-			$Chakora::PROTO_SETTINGS{cmodes}{'R'} = 1;
 		}
 		if ($modules =~ 'm_stripcolor.so') {
 			$Chakora::PROTO_SETTINGS{cmodes}{'S'} = 1;
