@@ -67,8 +67,8 @@ sub svs_cs_kick {
 	}
 
 	if (!defined($sargv[3])) {
-		serv_kick("chanserv", $sargv[1], $sargv[2], "Bye!");
-		event_kick("chanserv", $sargv[1], $sargv[2], "Bye!");
+		serv_kick("chanserv", $sargv[1], $sargv[2], "KICK command used by ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4));
+		event_kick("chanserv", $sargv[1], $sargv[2], "KICK command used by ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4));
 
 		svsilog("chanserv", $user, "KICK", $sargv[2]." to ".$sargv[1]." (No Reason Specified)");
 		svsflog('commands', uidInfo($user, 1).": ChanServ: KICK: $sargv[2] from $sargv[1] (No Reason Specified)");
