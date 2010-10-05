@@ -16,6 +16,7 @@ load "chanserv/voice";           # VOICE: Allow one to voice (him/her)self or an
 load "chanserv/mute";		 # MUTE: Allows one to mute (him/her)self or another user. (flag +M)
 load "chanserv/clear";		 # CLEAR: Allows one to CLEAR flags, bans, or users in a channel. (flag +C)
 load "chanserv/mode";		 # MODE: Allows one to set modes on a channel using ChanServ. (flag +c)
+load "chanserv/kick";		 # KICK: Allows one to kick a user on a channel using ChanServ. (flag +k)
 
 # Global   - Network global announcer.
 load "global/main";               # Create Global to send global notices from a separate nick rather than OperServ.

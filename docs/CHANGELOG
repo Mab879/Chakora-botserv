@@ -17,6 +17,7 @@ Current Devel
 	- Modules: added chanserv/mode
 	- Protocol - Charybdis: Added handling for MLOCK
 	- API: added serv_global when a particular service need to send a global, send_global should be used for network announcements
+	- Modules: added chanserv/kick
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.
