@@ -980,11 +980,15 @@ sub raw_encap {
 sub raw_mlock {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
+	# [IRC] :42X MLOCK 1286260382 #services :+nt
 	my $ts = $rex[2];
 	my $chan = $rex[3];
         my ($i);
-        my $args = $rex[3];
-        for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+        my $args = substr($rex[4], 1);
+        for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	if (is_registered(2, $chan)) {
+		$Chakora::DB_chan{lc($chan)}{mlock} = $args;
+	}
 }
 
 # Handle MOTD
