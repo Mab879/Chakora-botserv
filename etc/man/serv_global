@@ -1,0 +1,4 @@
+serv_global(service name, message)
+   This will make the given services client send a global, much like send_global, but this
+   is used for a particular service, while send_global is used for the global service for 
+   a network announcement.
