@@ -1,0 +1,9 @@
+sidInfo(sid, data)
+   Will return the data assigned to the given data ID associated with
+   the given SID.
+
+   Data ID's:
+   1 - Name | String
+   2 - Info | String
+   3 - SID | String
+   4 - Hub | String (returned as it's hubs sid)
