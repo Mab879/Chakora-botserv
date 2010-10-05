@@ -118,6 +118,10 @@ if (lc(config('server', 'ircd')) eq 'inspircd12') {
     print("[MODULES] Loading protocol: InspIRCd 1.2\n");
     require Protocol::InspIRCd12 or error( "chakora", "Protocol module failed to load: $!" );
 }
+elsif (lc(config('server', 'ircd')) eq 'inspircd20') {
+    print("[MODULES] Loaded protocol: InspIRCd 2.0\n");
+    require Protocol::InspIRCd20 or error("chakora", "Protocol module failed to load: $!");
+}
 elsif (lc(config( 'server', 'ircd')) eq 'charybdis') {
     print("[MODULES] Loading protocol: Charybdis\n");
     require Protocol::Charybdis or error( "chakora", "Protocol module failed to load: $!" );
