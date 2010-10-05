@@ -34,6 +34,9 @@ The Current Modules in this directory are:
 To install and use this module, you will need to make some changes to 2 of Chakora's config files.
 Below are the file names and the changes that need to be made.
 
+First, you will need to move this entire directory named 'utilserv' into the 'modules' directory else
+nothing is gonna work otherwise! Next do the following:
+
 * FILE: /etc/chakora.conf
 * ADD THE FOLLOWING LINES:
 				utilserv {
