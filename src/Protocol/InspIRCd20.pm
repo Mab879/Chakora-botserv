@@ -936,6 +936,7 @@ sub raw_server {
     for ( $i = 7 ; $i < count(@rex) ; $i++ ) { $args .= ' ' . $rex[$i]; }
     $Chakora::sid{ $rex[5] }{'info'} = $args;
     event_sid( $rex[2], $args );
+    if (!$Chakora::synced) { $Chakora::LINKD = $rex[5]; }
 }
 
 # Handle SERVER while linking

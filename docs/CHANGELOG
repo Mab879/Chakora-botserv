@@ -23,6 +23,8 @@ Current Devel
 	- Protocols: Basic InspIRCd2.0 Protocol Added
 	- Protocols: PROTO_SETTINGS{god} added to all IRCd's, it should be used by any module that creates a service (if available) as such.
 	- Protocols: Re-create OperServ if killed.
+	- Chakora: Added $Chakora::LINKD which is the SID of the server we are linked to.
+	- protocol/inspircd12: Added tracking for module load/unloads. protocol/inspircd20 tracker coming soon.
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.
