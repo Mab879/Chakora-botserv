@@ -13,7 +13,7 @@ CONTENTS
   2. Installation
   3. Module Information
   	3.1 operserv/kill
-	3.2 operserv/dns
+	3.2 utilserv/*
 	3.3 chanserv/speak
 
 
@@ -29,7 +29,7 @@ with the Chakora.
 The Current Modules in this directory are:
 
 * operserv/kill	- Kill Users from the Server via OperServ
-* operserv/dns	- Perform DNS Queries via OperServ
+* utilserv/*		- A whole new service providing useful non-irc related utilities
 * chanserv/speak	- Send Messages or Actions to a Channel via ChanServ
 
 
@@ -73,18 +73,12 @@ Otherwise, this message will be shown:
 
 Currently any user with OperServ access can use this module.
 
-***** 3.2 operserv/dns
+***** 3.2 utilserv/*
 
-This module allows operators to lookup IP, NameServer and Mail records for a given
-hostname. This module probably has no usage and was mainly developed to demonstrate
-how Chakora can interact with other CPAN Modules to provide more functionality in
-modules.
+UtilServ allows users to use a variety of non irc related commands to do simple tasks such 
+as looking up dns records, getting the local time from our server and many more useful features.
 
-Commands Added:	DNS
-Syntax:		/msg OperServ KILL [domain] [type (A/NS/MX)]
-Expected Output:	A List of Records is returned based on Domain and Type
-
-Currently any user with OperServ access can use this module.
+SEE 'utilserv/README' for more information!
 
 ***** 3.3 chanserv/speak
 
