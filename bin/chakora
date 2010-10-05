@@ -370,7 +370,7 @@ if (-e "$ROOT_SRC/../etc/soper.conf") {
 }
 undef $ssopower;
 
-sleep 2;
+sleep 1;
 # Connect!
 irc_connect();
 hook_ctcp_add(\&handle_ctcp);
