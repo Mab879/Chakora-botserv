@@ -986,6 +986,7 @@ sub raw_mlock {
         my ($i);
         my $args = substr($rex[4], 1);
         for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
+	$Chakora::channel{lc($chan)}{'mlock'} = $args;
 	if (is_registered(2, $chan)) {
 		$Chakora::DB_chan{lc($chan)}{mlock} = $args;
 	}
