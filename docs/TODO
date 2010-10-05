@@ -59,6 +59,7 @@
 	[ ] Delete
 [ ] OperServ
 	[O] Make the operserv core a module
+	[ ] Don't allow OperServ to be kicked/killed/etc (Add the reconnection stuff in raw_ subs? --Matthew)
 	[X] Restart
 	[X] Shutdown
 	[ ] Rehash (Config::Scoped doesn't allow this, we need our own config parser --Matthew)
