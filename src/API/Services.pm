@@ -115,24 +115,24 @@ sub flaglist_add {
 }
 
 sub create_core_flags {
-        if (defined $Chakora::PROTO_SETTINGS{owner}) {
-		flaglist_add("Q", "Auto-owner");
-        }
-        if (defined $Chakora::PROTO_SETTINGS{admin}) {
-	 	flaglist_add("A", "Auto-protect");
-        }
-        if (defined $Chakora::PROTO_SETTINGS{halfop}) {
-                flaglist_add("H", "Auto-halfop");
-        }
+	flaglist_add("F", "Channel founder.");
+	flaglist_add("O", "Auto op.");
+	flaglist_add("b", "Auto kickban.");
+	flaglist_add("t", "Allows use of the TOPIC commands.");
+	flaglist_add("L", "Allows viewing of the access list.");
+	flaglist_add("V", "Auto voice.");
+	flaglist_add("k", "Allows use of the KICK/BAN/KICKBAN commands.");
+	flaglist_add("m", "Allows editing of the access list.");
 
-	flaglist_add("F", "Channel founder");
-	flaglist_add("O", "Auto-op");
-	flaglist_add("b", "Auto kickban");
-	flaglist_add("t", "Allows the use of TOPIC commands");
-	flaglist_add("L", "Allows viewing the access list");
-	flaglist_add("V", "Auto-voice");
-	flaglist_add("k", "Allows the use of the KICK,BAN,and KICKBAN commands");
-	flaglist_add("m", "Allows editing the access list");
+	if (defined $Chakora::PROTO_SETTINGS{owner}) {
+		flaglist_add("Q", "Auto owner.");
+	}
+	if (defined $Chakora::PROTO_SETTINGS{admin}) {
+		flaglist_add("A", "Auto protect.");
+	}
+	if (defined $Chakora::PROTO_SETTINGS{halfop}) {
+		flaglist_add("H", "Auto halfop.");
+	}
 }
 
 sub flaglist_del {
