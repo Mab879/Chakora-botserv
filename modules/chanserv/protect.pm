@@ -5,29 +5,35 @@
 use strict;
 use warnings;
 
-module_init("chanserv/protect", "The Chakora Project", "0.1", \&init_cs_protect, \&void_cs_protect, "all");
+module_init("chanserv/protect", "The Chakora Project", "0.1", \&sinit_cs_protect, \&void_cs_protect, "all");
+
+sub sinit_cs_protect {
+	if ($Chakora::synced) { init_cs_protect(); }
+	else { hook_pds_add(\&init_cs_protect); }
+}
 
 sub init_cs_protect {
 	if (!defined($Chakora::PROTO_SETTINGS{admin})) {
-                svsflog("modules", "Unable to load chanserv/protect, admin prefix not available.");
-                if ($Chakora::synced) { logchan("operserv", "\002chanserv/protect\002: Unable to load, this protocol does not support the admin prefix."); }
-                module_void("chanserv/protect");
+		svsflog("modules", "Unable to load chanserv/protect, admin prefix not available.");
+		if ($Chakora::synced) { logchan("operserv", "\002chanserv/protect\002: Unable to load, this protocol does not support the admin prefix."); }
+		module_void("chanserv/protect");
 	}
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/protect", "Protects you or another user on a channel.", "PROTECT will allow you to either protect \nyourself or another user in a channel\nthat you have the +a flag in. \n[T]\nSyntax: PROTECT <#channel> [user]", \&svs_cs_protect);
 	cmd_add("chanserv/deprotect", "Deprotects you or another user on a channel.", "DEPROTECT will allow you to either\ndeprotect yourself or another user in\na channel that you have the +a flag in. \n[T]\nSyntax: DEPROTECT <#channel> [user]", \&svs_cs_deprotect);
-        if (!flag_exists("a")) {
-                flaglist_add("a", "Allows the use of the PROTECT/DEPROTECT command");
-        }
-
+	if (!flag_exists("a")) {
+		flaglist_add("a", "Allows the use of the PROTECT/DEPROTECT command");
+	}
 }
 
 sub void_cs_protect {
+	delete_sub 'sinit_cs_protect';
 	delete_sub 'init_cs_protect';
 	delete_sub 'svs_cs_protect';
 	delete_sub 'svs_cs_deprotect';
+	hook_pds_del(\&sinit_cs_protect);
 	cmd_del("chanserv/protect");
 	cmd_del("chanserv/deprotect");
 	flaglist_del("a");
