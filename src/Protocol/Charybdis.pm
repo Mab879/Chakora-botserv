@@ -238,6 +238,8 @@ sub serv_mlock {
 		$Chakora::channel{lc($chan)}{'ts'} = time();
 	}
 	send_sock(":".svsUID('chakora::server')." MLOCK ".$Chakora::channel{lc($chan)}{'ts'}." ".$chan." ".$mlock);
+	$Chakora::channel{lc($chan)}{'mlock'} = $mlock;
+	$Chakora::DB_chan{lc($chan)}{mlock} = $mlock;
 }
 
 # Handle JOIN
