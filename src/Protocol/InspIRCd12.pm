@@ -542,6 +542,7 @@ sub raw_capab {
 			$Chakora::PROTO_SETTINGS{cmodes}{'D'} = 1;
 		}
 		if ($modules =~ 'm_banexception.so') {
+			$Chakora::PROTO_SETTINGS{bexcept} = 'e';
 			$Chakora::PROTO_SETTINGS{cmodes}{'e'} = 2;
 		}
 		if ($modules =~ 'm_messageflood.so') {
@@ -557,6 +558,7 @@ sub raw_capab {
 			$Chakora::PROTO_SETTINGS{cmodes}{'G'} = 1;
 		}
 		if ($modules =~ 'm_inviteexception.so') {
+			$Chakora::PROTO_SETTINGS{iexcept} = 'I';
 			$Chakora::PROTO_SETTINGS{cmodes}{'I'} = 2;
 		}
 		if ($modules =~ 'm_joinflood.so') {
