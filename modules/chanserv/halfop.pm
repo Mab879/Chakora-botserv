@@ -5,29 +5,35 @@
 use strict;
 use warnings;
 
-module_init("chanserv/halfop", "The Chakora Project", "0.1", \&init_cs_halfop, \&void_cs_halfop, "all");
+module_init("chanserv/halfop", "The Chakora Project", "0.1", \&sinit_cs_halfop, \&void_cs_halfop, "all");
+
+sub sinit_cs_halfop {
+	if ($Chakora::synced) { init_cs_halfop(); }
+	else { hook_pds_add(\&init_cs_halfop); }
+}
 
 sub init_cs_halfop {
 	if (!defined($Chakora::PROTO_SETTINGS{halfop})) {
-                svsflog("modules", "Unable to load chanserv/halfop, halfop prefix not available.");
-                if ($Chakora::synced) { logchan("operserv", "\002chanserv/halfop\002: Unable to load, this protocol does not support the halfop prefix."); }
-                module_void("chanserv/halfop");
+		svsflog("modules", "Unable to load chanserv/halfop, halfop prefix not available.");
+		if ($Chakora::synced) { logchan("operserv", "\002chanserv/halfop\002: Unable to load, this protocol does not support the halfop prefix."); }
+		module_void("chanserv/halfop");
 	}
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/halfop", "Halfops you or another user on a channel.", "HALFOP will allow you to either halfop \nyourself or another user in a channel\nthat you have the +h flag in. \n[T]\nSyntax: HALFOP <#channel> [user]", \&svs_cs_halfop);
 	cmd_add("chanserv/dehalfop", "Dehalfops you or another user on a channel.", "DEHALFOP will allow you to either\ndehalfop yourself or another user in\na channel that you have the +h flag in. \n[T]\nSyntax: DEHALFOP <#channel> [user]", \&svs_cs_dehalfop);
-        if (!flag_exists("h")) {
-                flaglist_add("h", "Allows the use of the HALFOP/DEHALFOP command");
-        }
-
+	if (!flag_exists("h")) {
+		flaglist_add("h", "Allows the use of the HALFOP/DEHALFOP command");
+	}
 }
 
 sub void_cs_halfop {
+	delete_sub 'sinit_cs_halfop';
 	delete_sub 'init_cs_halfop';
 	delete_sub 'svs_cs_halfop';
 	delete_sub 'svs_cs_dehalfop';
+	hook_pds_del(\&init_cs_halfop);
 	cmd_del("chanserv/halfop");
 	cmd_del("chanserv/dehalfop");
 	flaglist_del("h");
