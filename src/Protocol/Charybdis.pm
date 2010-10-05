@@ -36,6 +36,7 @@ our %rawcmds = (
 	'MOTD'       => { handler => \&raw_motd, },
 	'ADMIN'      => { handler => \&raw_admin, },
 	'TMODE'      => { handler => \&raw_tmode, },
+	'MLOCK'      => { handler => \&raw_mlock, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -335,10 +336,10 @@ sub serv_jupe {
 		}
 	}
 	send_sock(":".svsUID('chakora::server')." SERVER ".$server." 2 :(JUPED) ".$reason);
-	$Chakora::sid{$sid}{'sid'} = 2;
-	$Chakora::sid{$sid}{'name'} = $server;
-	$Chakora::sid{$sid}{'hub'} = config('me', 'sid');	
-	$Chakora::sid{$sid}{'info'} = "(JUPED) ".$reason;
+	$Chakora::sid{$ssid}{'sid'} = 2;
+	$Chakora::sid{$ssid}{'name'} = $server;
+	$Chakora::sid{$ssid}{'hub'} = config('me', 'sid');	
+	$Chakora::sid{$ssid}{'info'} = "(JUPED) ".$reason;
 	foreach my $key (keys %Chakora::uid) {
 		if ($Chakora::uid{$key}{'server'} eq $ssid) {
 			delete $Chakora::uid{$key};
@@ -963,6 +964,12 @@ sub raw_encap {
 	if ($rex[2] eq config('me', 'name')) {
 		# It's being sent to us only!
 	}
+}
+
+# Handle MLOCK
+sub raw_mlock {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
 }
 
 # Handle MOTD
