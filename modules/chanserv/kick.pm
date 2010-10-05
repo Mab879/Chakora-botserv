@@ -29,12 +29,12 @@ sub svs_cs_kick {
 	my ($user, @sargv) = @_;
 
 	if (!is_identified($user)) {
-		serv_notice("chanserv", $user, "You are not identified.");
+		serv_notice("chanserv", $user, "You must be logged in to perform this operation.");
 		return;
 	}
 
 
-	if (!defined($sargv[1])) {
+	if (!defined($sargv[1]) or !defined($sargv[2])) {
 		serv_notice("chanserv", $user, "Not enough parameters. Syntax: KICK <#channel> <nickname> [reason]");
 		return;
 	}
@@ -44,13 +44,9 @@ sub svs_cs_kick {
 		return;
 	}
 
-	if (!defined($sargv[2])) {
-		serv_notice("chanserv", $user, "Not enough parameters. Syntax: KICK <#channel> <nickname> [reason]");
-		return;
-	}
-
 
 	my $tu = nickUID($sargv[2]);
+	my $nick = uidInfo($tu, 1);
 
 	if (!has_flag(uidInfo($user, 9), $sargv[1], "k")) {
 		serv_notice("chanserv", $user, "Permission denied");
@@ -62,31 +58,28 @@ sub svs_cs_kick {
 		return;
 	}
 	if (!ison($tu, $sargv[1])) {
-		serv_notice("chanserv", $user, "\002$sargv[2]\002 is not on \002$sargv[1]\002.");
+		serv_notice("chanserv", $user, "\002$nick\002 is not on \002$sargv[1]\002.");
 		return;
 	}
 
 	if (!defined($sargv[3])) {
-		serv_kick("chanserv", $sargv[1], $sargv[2], "KICK command used by ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4));
-		event_kick("chanserv", $sargv[1], $sargv[2], "KICK command used by ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4));
+		serv_kick("chanserv", $sargv[1], $tu, "KICK command used by ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4));
+		event_kick("chanserv", $sargv[1], $tu, "KICK command used by ".uidInfo($user, 1)."!".uidInfo($user, 2)."@".uidInfo($user, 4));
 
-		svsilog("chanserv", $user, "KICK", $sargv[2]." to ".$sargv[1]." (No Reason Specified)");
-		svsflog('commands', uidInfo($user, 1).": ChanServ: KICK: $sargv[2] from $sargv[1] (No Reason Specified)");
-		return;
+		svsilog("chanserv", $user, "KICK", $nick." from ".$sargv[1]." (No Reason Specified)");
+		svsflog('commands', uidInfo($user, 1).": ChanServ: KICK: $nick from $sargv[1] (No Reason Specified)");
 	}
 	else
 	{
-		my ($vars);
 		my ($i);
-       	$vars = $sargv[3];
-		for ($i = 4; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
+		my $vars = $sargv[3];
+		for (my $i = 4; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
 		
-		serv_kick("chanserv", $sargv[1], $sargv[2], "(".uidInfo($user, 1).") ".$vars);
-		event_kick("chanserv", $sargv[1], $sargv[2], "(".uidInfo($user, 1).") ".$vars);
+		serv_kick("chanserv", $sargv[1], $tu, "(".uidInfo($user, 1).") ".$vars);
+		event_kick("chanserv", $sargv[1], $tu, "(".uidInfo($user, 1).") ".$vars);
 
-		svsilog("chanserv", $user, "KICK", $sargv[2]." to ".$sargv[1]." (".$vars.")");
-		svsflog('commands', uidInfo($sargv[2], 1).": ChanServ: KICK: $sargv[2] from $sargv[1] ($vars)");
-		return;
+		svsilog("chanserv", $user, "KICK", $nick." from ".$sargv[1]." (".$vars.")");
+		svsflog('commands', $nick.": ChanServ: KICK: $nick from $sargv[1] ($vars)");
 	}
 
 
