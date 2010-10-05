@@ -38,7 +38,12 @@ sub svs_os_restart {
 	idflush();
 	dbflush();
 	serv_squit(config('me', 'sid'), "Restart by ".uidInfo($user, 1));
+	if ($Chakora::IN_DEUBG) {
+	`$Chakora::ROOT_SRC/../bin/chakora --debug`;
+	}
+	else {
 	`$Chakora::ROOT_SRC/../bin/chakora`;
+	}
 	exit;
 }
 
