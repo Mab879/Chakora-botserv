@@ -63,7 +63,7 @@ sub svs_cs_say {
        $vars = $sargv[2];
 	for ($i = 3; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
 
-	svsilog("chanserv", $user, "SAY", $sargv[1]." :".$vars);
+	svsilog("chanserv", $user, "SAY", "\002".$sargv[1]."\002 :".$vars);
 	svsflog('commands', uidInfo($user, 1).": ChanServ: SAY: $sargv[1] :$vars");
 	$dele .= 'serv_privmsg("chanserv", "'.$sargv[1].'", "'.$vars.'"); ';
 	$dele .= '1; ';
@@ -105,7 +105,7 @@ sub svs_cs_act {
        $vars = $sargv[2];
 	for ($i = 3; $i < count(@sargv); $i++) { $vars .= ' '.$sargv[$i]; }
 
-	svsilog("chanserv", $user, "ACT", $sargv[1]." :".$vars);
+	svsilog("chanserv", $user, "ACT", "\002".$sargv[1]."\002 :".$vars);
 	svsflog('commands', uidInfo($user, 1).": ChanServ: ACT: $sargv[1] :$vars");
 	$dele .= 'serv_privmsg("chanserv", "'.$sargv[1].'", "\001ACTION '.$vars.'\001"); ';
 	$dele .= '1; ';
