@@ -1,0 +1,77 @@
+Welcome to RussellB28's Contribution Section    
+--------------------
+PLEASE NOTE THAT ANY MODULES IN THIS SECTION ARE NOT SUPPORTED OFFICIALLY BY CHAKORA
+AND MAY F**K UP YOUR INSTALLATION IF NOT USED CORRECTLY OR IF BUGS ARE EXPLOITED.
+
+With that said, you are more than welcome to email me at russell@surgehost.net regarding
+these modules and i will happily fix any major bugs or add minor features that you request
+
+
+CONTENTS
+-----------------
+  1. About UtilServ
+  2. Required Config Changes
+  3. Module Information
+  	3.1 utilserv/dns
+
+
+
+
+1. ABOUT UTILSERV
+----------
+
+UtilServ allows users to use a variety of non irc related commands to do simple tasks such 
+as looking up dns records, getting the local time from our server and many more useful features.
+
+The Current Modules in this directory are:
+
+* utilserv/dns	- Perform DNS Queries 
+
+
+2. REQUIRED CONFIG CHANGES
+---------------
+
+To install and use this module, you will need to make some changes to 2 of Chakora's config files.
+Below are the file names and the changes that need to be made.
+
+* FILE: /etc/chakora.conf
+* ADD THE FOLLOWING LINES:
+				utilserv {
+					nick = UtilServ
+					user = UtilServ
+					host = SurgeHost/Beta/Services/UtilServ
+					real = "Utility Services"
+				}
+
+* FILE: /etc/modules.conf
+* ADD THE FOLLOWING LINES:
+				load "utilserv/main";
+				load "utilserv/dns";
+
+
+3. MODULE INFORMATION
+---------------
+
+All the modules in this section are not supported officially by Chakora and while i will try to
+ensure all of them work and dont cause issues with anyones installations, there is no guarantee
+that there may not be exploitable bugs or issues that could corrupt databases or generally mess
+up services. THE MODULES IN THIS SECTION ALSO ONLY WORK WITH UTILSERV!!
+
+
+***** 3.1 utilserv/dns
+
+This module allows users to lookup IP, NameServer and Mail records for a given
+hostname. This module probably has no usage and was mainly developed to demonstrate
+how Chakora can interact with other CPAN Modules to provide more functionality in
+modules.
+
+Commands Added:	DNS
+Syntax:		/msg UtilServ KILL [domain] [type (A/NS/MX)]
+Expected Output:	A List of Records is returned based on Domain and Type
+
+Currently any user on the network can access can use this module.
+
+
+
+
+
