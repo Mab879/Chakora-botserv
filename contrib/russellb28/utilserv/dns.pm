@@ -6,25 +6,24 @@ use strict;
 use warnings;
 use Net::DNS;
 
-module_init("utilserv/dns", "Russell Bradford", "1.0", \&init_os_dns, \&void_os_dns, "all");
+module_init("utilserv/dns", "Russell Bradford", "1.0", \&init_us_dns, \&void_us_dns, "all");
 
-sub init_os_dns {
-	cmd_add("utilserv/dns", "Perform a DNS Query on a Hostname", "Perform a DNS Query on a hostname and \nget its IPv4 Address or Addresses \nAlternatively you can lookup a nameserver address or addresses from a domain name \n[T]\nSyntax: DNS [hostname/domain] [A/NS]", \&svs_os_dns);
-}
-
-sub void_os_dns {
+sub init_us_dns {
 	eval {
     		require Net::DNS;
     		1;
-	     } or svsflog("modules", "Unable to load utilserv/dns, Net::DNS not installed.") and module_void("utilserv/dns");
-
-	delete_sub 'init_os_dns';
-	delete_sub 'svs_os_dns';
-	cmd_del("utilserv/dns");
-        delete_sub 'void_os_dns';
+	     } or svsflog("modules", "Unable to load utilserv/dns, Net::DNS not installed.") and return 0;
+	cmd_add("utilserv/dns", "Perform a DNS Query on a Hostname", "Perform a DNS Query on a hostname and \nget its IPv4 Address or Addresses \nAlternatively you can lookup a nameserver address or addresses from a domain name \n[T]\nSyntax: DNS [hostname/domain] [A/NS]", \&svs_us_dns);
 }
 
-sub svs_os_dns {
+sub void_us_dns {
+	delete_sub 'init_us_dns';
+	delete_sub 'svs_us_dns';
+	cmd_del("utilserv/dns");
+       delete_sub 'void_us_dns';
+}
+
+sub svs_us_dns {
 	my ($user, @sargv) = @_;
 	
 	if (!defined($sargv[1])) {
