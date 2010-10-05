@@ -14,6 +14,9 @@ Current Devel
 	- Contrib - russellb28: Added chanserv/speak which allows the use of 'say' and 'act'
 	- Contrib - russellb28: Added operserv/dns which allows operators to lookup A/MX/NS DNS Records
 	- Contrib - russellb28: Added operserv/kill which be used as an alternate to the ircd's built in /kill
+	- Modules: added chanserv/mode
+	- Protocol - Charybdis: Added handling for MLOCK
+	- API: added serv_global when a particular service need to send a global, send_global should be used for network announcements
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.
