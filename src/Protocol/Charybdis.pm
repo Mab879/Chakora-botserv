@@ -82,6 +82,9 @@ sub irc_connect {
 		error('chakora', 'Services SID have to be 3 characters');
 	}
 	else {
+        	$Chakora::sid{config('me', 'sid')}{'name'} = config('me', 'name');
+        	$Chakora::sid{config('me', 'sid')}{'info'} = config('me', 'info');
+        	$Chakora::sid{config('me', 'sid')}{'sid'} = config('me', 'sid');
 		if (config('services', 'updatets')) {
 			foreach my $key (keys %Chakora::DB_chan) {
 				$Chakora::channel{$key}{'ts'} = $Chakora::DB_chan{$key}{ts};
@@ -796,6 +799,7 @@ sub raw_pass {
 	my @rex = split(' ', $raw);
 	# [IRC] PASS linkage TS 6 :48X
 	$hub = substr($rex[4], 1);
+	$Chakora::sid{config('me', 'sid')}{'hub'} = $hub;
 	$Chakora::sid{$hub}{'sid'} = $hub;
 }
 

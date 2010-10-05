@@ -67,6 +67,9 @@ sub irc_connect {
         error( 'chakora', 'Services SID have to be 3 characters' );
     }
     else {
+                $Chakora::sid{config('me', 'sid')}{'name'} = config('me', 'name');
+                $Chakora::sid{config('me', 'sid')}{'info'} = config('me', 'info');
+                $Chakora::sid{config('me', 'sid')}{'sid'} = config('me', 'sid');
 		if (config('services', 'updatets')) {
 			foreach my $key (keys %Chakora::DB_chan) {
 				$Chakora::channel{$key}{'ts'} = $Chakora::DB_chan{$key}{ts};
@@ -933,6 +936,7 @@ sub raw_lserver {
     $Chakora::sid{ $rex[4] }{'sid'}  = $rex[4];
     $Chakora::sid{ $rex[4] }{'name'} = $rex[1];
     $Chakora::sid{ $rex[4] }{'hub'}  = 0;
+    $Chakora::sid{config('me', 'sid')}{'hub'} = $rex[4];
     my $args = substr( $rex[5], 1 );
     my ($i);
     for ( $i = 6 ; $i < count(@rex) ; $i++ ) { $args .= ' ' . $rex[$i]; }
