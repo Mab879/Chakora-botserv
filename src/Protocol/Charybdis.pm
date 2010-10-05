@@ -230,6 +230,16 @@ sub serv_topic {
         send_sock(":".svsUID($svs)." TOPIC ".$chan." :".$topic);
 }
 
+# Handle MLOCK
+# -- This is a Chary only thing --Matthew
+sub serv_mlock {
+	my ($chan, $mlock) = @_;
+	if (!$Chakora::channel{lc($chan)}{'ts'}) {
+		$Chakora::channel{lc($chan)}{'ts'} = time();
+	}
+	send_sock(":".svsUID('chakora::server')." MLOCK ".$Chakora::channel{lc($chan)}{'ts'}." ".$chan." ".$mlock);
+}
+
 # Handle JOIN
 sub serv_join {
 	my ($svs, $chan) = @_;
@@ -970,8 +980,8 @@ sub raw_encap {
 sub raw_mlock {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
-	my $ts = $raw[2];
-	my $chan = $raw[3];
+	my $ts = $rex[2];
+	my $chan = $rex[3];
         my ($i);
         my $args = $rex[3];
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
