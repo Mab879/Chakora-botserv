@@ -5,30 +5,35 @@
 use strict;
 use warnings;
 
-module_init("chanserv/owner", "The Chakora Project", "0.1", \&init_cs_owner, \&void_cs_owner, "all");
+module_init("chanserv/owner", "The Chakora Project", "0.1", \&sinit_cs_owner, \&void_cs_owner, "all");
+
+sub sinit_cs_owner {
+	if ($Chakora::synced) { init_cs_owner(); }
+	else { hook_pds_add(\&init_cs_owner); }
+}
 
 sub init_cs_owner {
-	return 0;
 	if (!defined($Chakora::PROTO_SETTINGS{owner})) {
-                svsflog("modules", "Unable to load chanserv/owner, owner prefix not available.");
-                if ($Chakora::synced) { logchan("operserv", "\002chanserv/owner\002: Unable to load, this protocol does not support the owner prefix."); }
-                module_void("chanserv/owner");
+		svsflog("modules", "Unable to load chanserv/owner, owner prefix not available.");
+		if ($Chakora::synced) { logchan("operserv", "\002chanserv/owner\002: Unable to load, this protocol does not support the owner prefix."); }
+		return 0;
 	}
 	if (!module_exists("chanserv/main")) {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/owner", "Owners you or another user on a channel.", "OWNER will allow you to either owner \nyourself or another user in a channel\nthat you have the +q flag in.\n[T]\nSyntax: OWNER <#channel> [user]", \&svs_cs_owner);
 	cmd_add("chanserv/deowner", "Deowners you or another user on a channel.", "DEOWNER will allow you to either\ndeowner yourself or another user in\na channel that you have the +q flag in.\n[T]\nSyntax: DEOWNER <#channel> [user]", \&svs_cs_deowner);
-        if (!flag_exists("q")) {
-                flaglist_add("q", "Allows the use of the OWNER/DEOWNER command");
-        }
-
+	if (!flag_exists("q")) {
+		flaglist_add("q", "Allows the use of the OWNER/DEOWNER command");
+	}
 }
 
 sub void_cs_owner {
+	delete_sub 'sinit_cs_owner';
 	delete_sub 'init_cs_owner';
 	delete_sub 'svs_cs_owner';
 	delete_sub 'svs_cs_deowner';
+	hook_pds_del(\&init_cs_owner);
 	cmd_del("chanserv/owner");
 	cmd_del("chanserv/deowner");
 	flaglist_del("q");
