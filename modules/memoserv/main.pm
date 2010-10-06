@@ -11,7 +11,7 @@ sub init_ms_main {
 	hook_kill_add(\&ircd_ms_kill);
 	create_cmdtree("memoserv");
 	if (!$Chakora::synced) { hook_pds_add(\&svs_ms_main); }
-	else { svs_ms_main(); }
+	else { svs_ms_main(); return 1; }
 }
 
 sub void_ms_main {
