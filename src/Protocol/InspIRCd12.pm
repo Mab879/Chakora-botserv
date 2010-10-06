@@ -1459,8 +1459,12 @@ sub raw_metadata {
 			if ($opera eq '-') {
 				delete $Chakora::PROTO_SETTINGS{owner};
 				delete $Chakora::PROTO_SETTINGS{admin};
-				flaglist_del("Q");
-				flaglist_del("A");
+				if (flag_exists("Q")) {
+					flaglist_del("Q");
+				}
+				if (flag_exists("A")) {
+					flaglist_del("A");
+				}
 				if (module_exists("chanserv/owner")) {
 					logchan('operserv', "\002!!!\002 Unloading module \002chanserv/owner\002 as \002m_chanprotect.so\002 no longer exists!");
 					module_void("chanserv/owner");
@@ -1473,8 +1477,12 @@ sub raw_metadata {
 			elsif ($opera eq '+') {
 				$Chakora::PROTO_SETTINGS{owner} = 'q';
 				$Chakora::PROTO_SETTINGS{admin} = 'a';
-				flaglist_add("Q", "Auto owner.");
-				flaglist_add("A", "Auto protect.");
+				if (!flag_exists("Q")) {
+					flaglist_add("Q", "Auto owner.");
+				}
+				if (!flag_exists("A")) {
+					flaglist_add("A", "Auto protect.");
+				}
 			}
 		}
 		
