@@ -10,7 +10,7 @@ module_init("utilserv/main", "Russell Bradford", "0.1", \&init_us_main, \&void_u
 sub init_us_main {
 	hook_kill_add(\&ircd_us_kill);
 	create_cmdtree("utilserv");
-	if (!$Chakora::synced) { hook_pds_add(\&svs_us_main); }
+	if (!$Chakora::synced) { hook_pds_add(\&svs_us_main); return 1; }
 	else { svs_us_main(); }
 }
 
