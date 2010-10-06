@@ -25,7 +25,7 @@ use Email::Valid;
 use POSIX::RT::Timer;
 use Class::Unload;
 use FindBin qw($Bin);
-push @INC, ( "$Bin/../src" );
+use lib("$Bin/../src");
 
 our $ROOT_SRC = "$Bin/../src";
 our $ROOT_ETC = "$Bin/../etc";
