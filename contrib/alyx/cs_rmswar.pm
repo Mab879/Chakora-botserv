@@ -21,7 +21,7 @@ sub void_cs_lol {
 	delete_sub 'void_cs_rmswar'; 
 }
 
-sub svs_cs_lol {
+sub svs_cs_rmswar {
 	my ($user, @args) = @_;
 	serv_privmsg("chanserv", $user, "\001ACTION rapes MattB's sister with a rake\001"); # Notices the user, "whatever <nickname>"
 	svsilog("chanserv", $user, "RMSWAR", ""); # Logs it to logchan
