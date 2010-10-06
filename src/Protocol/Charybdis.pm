@@ -822,6 +822,7 @@ sub raw_squit {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	# [IRC] :48X SQUIT 42X :by MattB_: lol
+	my $sid = $rex[2];
 	my $args = substr($rex[3], 1);
         my ($i);
         for ($i = 4; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
@@ -843,11 +844,37 @@ sub raw_lsquit {
 sub netsplit {
 	my ($server, $reason, $source) = @_;
 	event_netsplit($server, $reason, $source);
+
 	foreach my $key (keys %Chakora::uid) {
   		if ($Chakora::uid{$key}{'server'} eq $server) {
     			delete $Chakora::uid{$key};
   		}
 	}
+	
+	foreach my $key (keys %Chakora::sid) {
+		if ($Chakora::sid{$key}{'hub'} eq $server) {
+			foreach my $user (keys %Chakora::uid) {
+				if($Chakora::uid{$user}{'server'} eq $Chakora::sid{$key}{'sid'}) {
+					delete $Chakora::uid{$user};
+				}
+			}
+			event_netsplit($Chakora::sid{$key}{'sid'}, "Servers hub split...", $source);
+			delete $Chakora::sid{$key};
+		}
+	}
+	
+	foreach my $key (keys %Chakora::sid) {
+		if (!defined($Chakora::sid{$Chakora::sid{$key}{'hub'}}{'sid'})) {
+			foreach my $user (keys %Chakora::uid) {
+				if ($Chakora::uid{$user}{'server'} eq $Chakora::sid{$key}{'sid'}) {
+					delete $Chakora::uid{$user};
+				}
+			}
+			event_netsplit($Chakora::sid{$key}{'sid'}, "Servers hub split...", $source);
+			delete $Chakora::sid{$key};
+		}
+	}
+
 	delete $Chakora::sid{$server};
 }
 

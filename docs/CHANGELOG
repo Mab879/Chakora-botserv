@@ -27,6 +27,7 @@ Current Devel
 	- protocol/inspircd12: Added tracking for module load/unloads. protocol/inspircd20 tracker coming soon.
 	- Chakora: Deleted $Chakora::LINKD as sidInfo provides this data.
 	- Modules: Added operserv/modreload for reloading modules.
+	- Protocols: If a server spltis, delete all servers that it acts hub to, along with their users.
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.

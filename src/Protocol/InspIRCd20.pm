@@ -1039,6 +1039,31 @@ sub netsplit {
             undef $Chakora::uid{$key};
         }
     }
+        foreach my $key (keys %Chakora::sid) {
+                if ($Chakora::sid{$key}{'hub'} eq $server) {
+                        foreach my $user (keys %Chakora::uid) {
+                                if($Chakora::uid{$user}{'server'} eq $Chakora::sid{$key}{'sid'}) {
+                                        delete $Chakora::uid{$user};
+                                }
+                        }
+                        event_netsplit($Chakora::sid{$key}{'sid'}, "Servers hub split...", $source);
+                        delete $Chakora::sid{$key};
+                }
+        }
+
+        foreach my $key (keys %Chakora::sid) {
+                if (!defined($Chakora::sid{$Chakora::sid{$key}{'hub'}}{'sid'})) {
+                        foreach my $user (keys %Chakora::uid) {
+                                if ($Chakora::uid{$user}{'server'} eq $Chakora::sid{$key}{'sid'}) {
+                                        delete $Chakora::uid{$user};
+                                }
+                        }
+                        event_netsplit($Chakora::sid{$key}{'sid'}, "Servers hub split...", $source);
+                        delete $Chakora::sid{$key};
+                }
+        }
+
+
     undef $Chakora::sid{$server};
 }
 
