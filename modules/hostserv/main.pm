@@ -12,7 +12,7 @@ sub init_hs_main {
 	hook_identify_add(\&ircd_hs_ns_id);
 	create_cmdtree("hostserv");
 	if (!$Chakora::synced) { hook_pds_add(\&svs_hs_main); }
-	else { svs_hs_main(); }
+	else { svs_hs_main(); return 1; }
 }
 
 sub void_hs_main {

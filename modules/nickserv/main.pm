@@ -14,7 +14,7 @@ sub init_ns_main {
 	hook_nick_add(\&ircd_ns_nick);
 	if (-e "$Chakora::ROOT_SRC/../etc/idrecover.db") { hook_eos_add(\&ircd_ns_restart); }
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_ns_main); }
-	else { ircd_ns_main(); }
+	else { ircd_ns_main(); return 1; }
 }
 
 sub void_ns_main {

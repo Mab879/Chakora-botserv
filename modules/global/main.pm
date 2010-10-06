@@ -12,7 +12,7 @@ sub init_g_main {
 	hook_kill_add(\&ircd_g_kill);
 	hook_kick_add(\&ircd_g_kick);
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_g_main); }
-	else { ircd_g_main(); }
+	else { ircd_g_main(); return 1; }
 }
 
 sub void_g_main {

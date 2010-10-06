@@ -17,7 +17,7 @@ sub init_cs_main {
 	hook_identify_add(\&ircd_cs_ns_id);
 	hook_topic_add(\&ircd_cs_topic);
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_cs_main); }
-	else { ircd_cs_main(); }
+	else { ircd_cs_main(); return 1; }
 }
 
 sub void_cs_main {
