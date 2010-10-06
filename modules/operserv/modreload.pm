@@ -8,7 +8,7 @@ use warnings;
 module_init("operserv/modreload", "The Chakora Project", "0.1", \&init_os_modreload, \&void_os_modreload, "all");
 
 sub init_os_modreload {
-	cmd_add("operserv/modreload", "Reloads a module.", "UNLOAD will unload the given services module (if it\nexists), then load it again from disk and initialize it.\n[T]\nSyntax: MODRELOAD <module>", \&svs_os_modreload);
+	cmd_add("operserv/modreload", "Reloads a module.", "MODRELOAD will unload the given services module (if it\nexists), then load it again from disk and initialize\nit.\n[T]\nSyntax: MODRELOAD <module>", \&svs_os_modreload);
 }
 
 sub void_os_modreload {
