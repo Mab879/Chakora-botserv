@@ -593,4 +593,52 @@ sub hook_ctcp_del {
     undef $hook_ctcp{$handler};
 }
 
+### CHGIDENT ###
+our (%hook_chgident);
+
+# When the server sends a CHGIDENT, execute all chgident hooks.
+sub event_chgident {
+    my ( $user, $old, $new ) = @_;
+    my ($hook);
+    foreach $hook (%hook_chgident) {
+        eval { &{$hook}( $user, $old, $new ); };
+    }
+}
+
+# Add a hook to the chgident event.
+sub hook_chgident_add {
+    my ($handler) = @_;
+    $hook_chgident{$handler} = $handler;
+}
+
+# Delete a hook from the chgident event.
+sub hook_chgident_del {
+    my ($handler) = @_;
+    undef $hook_chgident{$handler};
+}
+
+### CHGHOST ###
+our (%hook_chghost);
+
+# When the server sends a CHGHOST, execute all chghost hooks.
+sub event_chghost {
+    my ( $user, $old, $new ) = @_;
+    my ($hook);
+    foreach $hook (%hook_chghost) {
+        eval { &{$hook}( $user, $old, $new ); };
+    }
+}
+
+# Add a hook to the chghost event.
+sub hook_chghost_add {
+    my ($handler) = @_;
+    $hook_chghost{$handler} = $handler;
+}
+
+# Delete a hook from the chghost event.
+sub hook_chghost_del {
+    my ($handler) = @_;
+    undef $hook_chghost{$handler};
+}
+
 1;
