@@ -8,12 +8,12 @@ use warnings;
 
 module_init("chanserv/rmswar", "Alyx", "0.1", \&init_cs_rmswar, \&void_cs_rmswar, "all");
 
-sub init_cs_lol {
+sub init_cs_rmswar {
 	serv_privmsg("chanserv", config('log', 'logchan'), "OH GOD MATT'S SISTER, YOU'RE SO BIG!"); # Messages the logchan, "whatever MODULE ON"
 	cmd_add("chanserv/rmswar", "Rape fun.", "Rapes MattB's sister with a rake", \&svs_cs_rmswar); # Adds the command
 }
 
-sub void_cs_lol {
+sub void_cs_rmswar {
 	# Unload cleanup
 	delete_sub 'init_cs_rmswar';
 	delete_sub 'svs_cs_rmswar';
