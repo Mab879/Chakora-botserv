@@ -13,6 +13,7 @@ CONTENTS
   2. Required Config Changes
   3. Module Information
   	3.1 utilserv/dns
+  	3.2 utilserv/time
 
 
 
@@ -26,6 +27,7 @@ as looking up dns records, getting the local time from our server and many more 
 The Current Modules in this directory are:
 
 * utilserv/dns	- Perform DNS Queries 
+* utilserv/time	- Show the Current Date & Time 
 
 
 2. REQUIRED CONFIG CHANGES
@@ -71,6 +73,18 @@ modules.
 Commands Added:	DNS
 Syntax:		/msg UtilServ KILL [domain] [type (A/NS/MX)]
 Expected Output:	A List of Records is returned based on Domain and Type
+
+Currently any user on the network can access can use this module.
+
+***** 3.2 utilserv/time
+
+This module makes use of perls localtime function and will output the current date
+and time. Note that the current date and time is the servers current date and time
+and not the clients.
+
+Commands Added:	TIME
+Syntax:		/msg UtilServ TIME
+Expected Output:	The Current Date & Time
 
 Currently any user on the network can access can use this module.
 
