@@ -82,11 +82,11 @@ a manual.
 5. REPORTING BUGS
 -----------------
 
-Should you come across a bug within the original code, please
-report it to us via one of the following methods:
+In the case that you come across a bug in the main source
+code, you should report it to us immediately.
 
-Email elijah@technoirc.org
+Please visit http://bugs.chakora.net to report a bug, and
+we'd also recommend ensuring it hasn't been fixed or maybe
+isn't a bug by visiting our IRC chatroom.
 
-or
-
-Visit our IRC chatroom, which is given above.
+We greatly appreciate bug reporters, thanks!
