@@ -15,6 +15,7 @@ CONTENTS
   	3.1 operserv/kill
 	3.2 utilserv/*
 	3.3 chanserv/speak
+	3.4 dnsbl/*
 
 
 
@@ -31,6 +32,7 @@ The Current Modules in this directory are:
 * operserv/kill	- Kill Users from the Server via OperServ
 * utilserv/*		- A whole new service providing useful non-irc related utilities
 * chanserv/speak	- Send Messages or Actions to a Channel via ChanServ
+* dnsbl/*		- A whole new service providing the ability to kill users that are listed in dns blacklists
 
 
 2. INSTALLATION
@@ -93,6 +95,15 @@ Expected Output:	Message sent to Channel as Message/Action
 
 Currently any user with ChanServ access and flags 'B' on the channel specified in the
 command can use this command successfully.
+
+***** 3.4 dnsbl/*
+
+DNSBL checks user's IP addresses against a long and comprehensive list of databases to check 
+if the ip is blacklisted. If the IP is blacklisted, the user is killed
+from the network explaining what list their ip is in and the reason number that goes with it. 
+This Module is highly useful for blocking proxies and botnets.
+
+SEE 'dnsbl/README' for more information!
 
 
 

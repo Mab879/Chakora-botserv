@@ -12,7 +12,7 @@
 [ ] NickServ
 	[!] Make the nickserv core a module.
 		[ ] Add sub's relating to nickserv into nickserv/main
-	[!] Register
+	[X] Register
 		[X] Check for valid a valid email address
 		[X] Set default nickserv flags
 		[X] Set a limit to the number of accounts an email address can have
@@ -28,6 +28,7 @@
 	[X] Account name
 	[X] Logout
 	[ ] Once the CHGIDENT event is done, add a hook in nickserv/main to change the data:realhost
+
 [ ] ChanServ
 	[X] Make the chanserv core a module
 	[X] Register

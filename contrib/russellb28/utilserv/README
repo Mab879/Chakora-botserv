@@ -52,6 +52,8 @@ nothing is gonna work otherwise! Next do the following:
 * ADD THE FOLLOWING LINES:
 				load "utilserv/main";
 				load "utilserv/dns";
+				load "utilserv/time";
+				load "utilserv/help";
 
 
 3. MODULE INFORMATION
