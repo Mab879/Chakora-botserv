@@ -488,7 +488,7 @@ while (1) {
 				$SERVICES_MSGSERVICE = 'operserv';
 			}
 			else {
-				serv_notice('operserv', $USER, 'Permission denied.');
+				serv_notice('operserv', $USER, 'Access denied.');
 			}
 		}
 		elsif (!defined $SERVICES_MSGSERVICE) {	
