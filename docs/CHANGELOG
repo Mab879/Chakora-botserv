@@ -24,7 +24,7 @@ Current Devel
 	- Protocols: PROTO_SETTINGS{god} added to all IRCd's, it should be used by any module that creates a service (if available) as such.
 	- Protocols: Re-create OperServ if killed.
 	- Chakora: Added $Chakora::LINKD which is the SID of the server we are linked to.
-	- protocol/inspircd12: Added tracking for module load/unloads. protocol/inspircd20 tracker coming soon.
+	- Protocol - InspIRCd(12|20): Added tracking for module load/unloads.
 	- Chakora: Deleted $Chakora::LINKD as sidInfo provides this data.
 	- Modules: Added operserv/modreload for reloading modules.
 	- Protocols: If a server spltis, delete all servers that it acts hub to, along with their users.
