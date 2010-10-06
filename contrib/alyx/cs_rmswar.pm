@@ -9,7 +9,7 @@ use warnings;
 module_init("chanserv/rmswar", "Alyx", "0.1", \&init_cs_rmswar, \&void_cs_rmswar, "all");
 
 sub init_cs_lol {
-	serv_privmsg("chanserv", config('log', 'logchan'), "OH GOD MATT'S SISTER, YOU'RE SO BIG!"); # Messages the logchan, "LOL MODULE ON"
+	serv_privmsg("chanserv", config('log', 'logchan'), "OH GOD MATT'S SISTER, YOU'RE SO BIG!"); # Messages the logchan, "whatever MODULE ON"
 	cmd_add("chanserv/rmswar", "Rape fun.", "Rapes MattB's sister with a rake", \&svs_cs_rmswar); # Adds the command
 }
 
@@ -23,7 +23,7 @@ sub void_cs_lol {
 
 sub svs_cs_lol {
 	my ($user, @args) = @_;
-	serv_notice("chanserv", $user, "\001ACTION rapes MattB's sister with a rake\001"); # Notices the user, "LOL <nickname>"
+	serv_privmsg("chanserv", $user, "\001ACTION rapes MattB's sister with a rake\001"); # Notices the user, "whatever <nickname>"
 	svsilog("chanserv", $user, "RMSWAR", ""); # Logs it to logchan
 }
 
