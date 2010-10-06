@@ -1,0 +1,54 @@
+Welcome to RussellB28's Contribution Section    
+--------------------
+PLEASE NOTE THAT ANY MODULES IN THIS SECTION ARE NOT SUPPORTED OFFICIALLY BY CHAKORA
+AND MAY F**K UP YOUR INSTALLATION IF NOT USED CORRECTLY OR IF BUGS ARE EXPLOITED.
+
+With that said, you are more than welcome to email me at russell@surgehost.net regarding
+these modules and i will happily fix any major bugs or add minor features that you request
+
+
+CONTENTS
+-----------------
+  1. About DNSBL
+  2. Required Config Changes
+
+
+
+
+1. ABOUT DNSBL
+----------
+
+DNSBL checks user's IP addresses against a long
+and comprehensive list of databases to check if the ip is
+blacklisted. If the IP is blacklisted, the user is killed
+from the network explaining what list their ip is in and
+the reason number that goes with it. This Module is highly useful
+for blocking proxies and botnets.
+
+2. REQUIRED CONFIG CHANGES
+---------------
+
+To install and use this module, you will need to make some changes to 2 of Chakora's config files.
+Below are the file names and the changes that need to be made.
+
+First, you will need to move this entire directory named 'utilserv' into the 'modules' directory else
+nothing is gonna work otherwise! Next do the following:
+
+* FILE: /etc/chakora.conf
+* ADD THE FOLLOWING LINES:
+				dnsbl {
+					nick = DNSBL
+					user = DNSBL
+					host = SurgeHost/Beta/Services/DNSBL
+					real = "DNS Blacklist Services"
+				}
+
+* FILE: /etc/modules.conf
+* ADD THE FOLLOWING LINES:
+				load "dnsbl/main";
+				load "dnsbl/help";
+
+
+
+
+
