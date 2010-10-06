@@ -1,4 +1,5 @@
-# chanserv/lol by Matthew Barksdale. Adds LOL to ChanServ, an example module.
+# chanserv/rmswar by Alyx Rothschild. Makes ChanServ rape MattB's sister with a rake. :D
+# Based on chanserv/lol by Matthew Barksdale.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
