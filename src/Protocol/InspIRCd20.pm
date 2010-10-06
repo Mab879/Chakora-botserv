@@ -38,7 +38,8 @@ our %rawcmds = (
     'FTOPIC'   => { handler => \&raw_ftopic, },
     'MOTD'     => { handler => \&raw_motd, },
     'ADMIN'    => { handler => \&raw_admin, },
-    'FMODE'    => { handler => \&raw_fmode, },
+    'FMODE'    => { handler => \&raw_fmode, }, 
+    'METADATA' => { handler => \&raw_metadata, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -1253,6 +1254,305 @@ sub raw_admin {
                 send_sock(":".svsUID('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 258 ".uidInfo($user, 1)." :".$Chakora::SERVICES_VERSION." for ".config('network', 'name'));
                 send_sock(":".svsUID('chakora::server')." PUSH ".$user." ::".config('me', 'name')." 259 ".uidInfo($user, 1)." :".config('services', 'email'));
         }
+}
+
+# Handle METADATA
+sub raw_metadata {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	my $server = substr($rex[0], 1);
+	if ($server eq sidInfo(config('me', 'sid'), 4) and $rex[2] eq '*' and $rex[3] eq 'modules') {
+		my $opera = substr($rex[4], 1, 1);
+		my $mod = substr($rex[4], 2);
+		
+		if ($mod eq 'm_servprotect.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{god};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{god} = 'k';
+			}
+		}
+		elsif ($mod eq 'm_allowinvite.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'A'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'A'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_blockcaps.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'B'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'B'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_blockcolor.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'c'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'c'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_noctcp.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'C'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'C'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_delayjoin.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'D'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'D'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_banexception.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{bexcept};
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'e'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{bexcept} = 'e';
+				$Chakora::PROTO_SETTINGS{cmodes}{'e'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_messageflood.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'f'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'f'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_nickflood.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'F'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'F'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_chanfilter.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'g'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'g'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_censor.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'G'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'G'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_inviteexception.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{iexcept};
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'I'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{iexcept} = 'I';
+				$Chakora::PROTO_SETTINGS{cmodes}{'I'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_joinflood.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'j'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'j'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_kicknorejoin.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'J'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'J'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_knock.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'K'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'K'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_redirect.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'L'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'L'} = 2;
+			}
+		}
+		elsif ($mod eq 'm_services_account.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'M'};
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'R'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'M'} = 1;
+				$Chakora::PROTO_SETTINGS{cmodes}{'R'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_nonicks.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'N'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'N'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_operchans.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'O'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'O'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_permchannels.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'P'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'P'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_nokicks.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'Q'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'Q'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_stripcolor.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'S'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'S'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_nonotice.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'T'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'T'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_auditorium.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'u'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'u'} = 1;
+			}
+		}
+		elsif ($mod eq 'm_sslmodes.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{cmodes}{'z'};
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{cmodes}{'z'} = 1;
+			}
+		}
+                elsif ($mod eq 'm_autoop.so') {
+                        if ($opera eq '-') {
+                                delete $Chakora::PROTO_SETTINGS{cmodes}{'w'};
+                        }
+                        elsif ($opera eq '+') {
+                                $Chakora::PROTO_SETTINGS{cmodes}{'w'} = 2;
+                        }
+                }
+                elsif ($mod eq 'm_opmoderated.so') {
+                        if ($opera eq '-') {
+                                delete $Chakora::PROTO_SETTINGS{cmodes}{'U'};
+                        }
+                        elsif ($opera eq '+') {
+                                $Chakora::PROTO_SETTINGS{cmodes}{'U'} = 1;
+                        }
+                }
+
+                elsif ($mod eq 'm_chanhistory.so') {
+                        if ($opera eq '-') {
+                                delete $Chakora::PROTO_SETTINGS{cmodes}{'H'};
+                        }
+                        elsif ($opera eq '+') {
+                                $Chakora::PROTO_SETTINGS{cmodes}{'H'} = 2;
+                        }
+                }
+
+                elsif ($mod eq 'm_namedmodes.so') {
+                        if ($opera eq '-') {
+                                delete $Chakora::PROTO_SETTINGS{cmodes}{'Z'};
+                        }
+                        elsif ($opera eq '+') {
+                                $Chakora::PROTO_SETTINGS{cmodes}{'Z'} = 2;
+                        }
+                }
+
+                elsif ($mod eq 'm_exemptchanops.so') {
+                        if ($opera eq '-') {
+                                delete $Chakora::PROTO_SETTINGS{cmodes}{'X'};
+                        }
+                        elsif ($opera eq '+') {
+                                $Chakora::PROTO_SETTINGS{cmodes}{'X'} = 2;
+                        }
+                }
+
+		elsif ($mod eq 'm_chanprotect.so') {
+			if ($opera eq '-') {
+				delete $Chakora::PROTO_SETTINGS{owner};
+				delete $Chakora::PROTO_SETTINGS{admin};
+				if (flag_exists("Q")) {
+					flaglist_del("Q");
+				}
+				if (flag_exists("A")) {
+					flaglist_del("A");
+				}
+				if (module_exists("chanserv/owner")) {
+					logchan('operserv', "\002!!!\002 Unloading module \002chanserv/owner\002 as \002m_chanprotect.so\002 no longer exists!");
+					module_void("chanserv/owner");
+				}
+				if (module_exists("chanserv/protect")) {
+					logchan('operserv', "\002!!!\002 Unloading module \002chanserv/protect\002 as \002m_chanprotect.so\002 no longer exists!");
+					module_void("chanserv/protect");
+				}	
+			}
+			elsif ($opera eq '+') {
+				$Chakora::PROTO_SETTINGS{owner} = 'q';
+				$Chakora::PROTO_SETTINGS{admin} = 'a';
+				if (!flag_exists("Q")) {
+					flaglist_add("Q", "Auto owner.");
+				}
+				if (!flag_exists("A")) {
+					flaglist_add("A", "Auto protect.");
+				}
+			}
+		}
+		
+		if ($opera eq '-') {
+			$Chakora::PROTO_SETTINGS{modules} =~ s/($mod)//g;
+		}
+		elsif ($opera eq '+') {
+			$Chakora::PROTO_SETTINGS{modules} .= ','.$mod;
+		}
+	}
 }
 
 1;
