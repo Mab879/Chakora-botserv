@@ -1,4 +1,7 @@
 # Chakora example services oper configuration file
+#
+# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# This software is free software; rights to this config are stated in docs/LICENSE.
 
 BOF oper
 operserv:_
