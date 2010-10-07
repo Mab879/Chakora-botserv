@@ -1,0 +1,7 @@
+fantasy(chanserv command, type)
+   This will enable fantasy for the given ChanServ command (e.g. 'help')
+   under the given type.
+
+   Types:
+   0 - The channel name will not be the first argument.
+   1 - The channel name will be the first argument.
