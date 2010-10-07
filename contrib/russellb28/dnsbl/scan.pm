@@ -4,15 +4,25 @@
 # This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
-use Net::DNS;
+
 
 module_init("dnsbl/scan", "Russell Bradford", "1.0", \&init_dns_scan, \&void_dns_scan, "all");
 
 sub init_dns_scan {
-	eval {
-    		require Net::DNS;
-    		1;
-	     } or svsflog("modules", "Unable to load dnsbl/scan, Net::DNS not installed.") and return 0;
+	if(!eval { require Net::DNS; 1; })
+	{
+		svsflog("modules", "Unable to load dnsbl/scan, Net::DNS not installed.");
+		if ($Chakora::synced) { logchan("operserv", "\002dnsbl/scan\002: Unable to load, Net::DNS not installed."); }
+		module_void("dnsbl/scan");
+		return 0;
+	}
+	if(!eval { require Config::Nested; 1; })
+	{
+		svsflog("modules", "Unable to load dnsbl/scan, Config::Nested not installed.");
+		if ($Chakora::synced) { logchan("operserv", "\002dnsbl/scan\002: Unable to load, Config::Nested not installed."); }
+		module_void("dnsbl/scan");
+		return 0;
+	}
 	cmd_add("dnsbl/scan", "Lookup a IP Address in DNSBL's", "Lookup up a IP Address in the \ndefined list of DNSBL's. \nCurrently only IPv4 IP addresses are \nsupported. \n[T]\nSyntax: SCAN [IP Address]", \&svs_dns_scan);
 }
 
