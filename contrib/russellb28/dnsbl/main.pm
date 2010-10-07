@@ -12,7 +12,7 @@ sub init_dns_main {
 	{
 		svsflog("modules", "Unable to load dnsbl/main, Net::DNS not installed.");
 		if ($Chakora::synced) { logchan("operserv", "\002dnsbl/main\002: Unable to load, Net::DNS not installed."); }
-		module_void("dnsbl/scan");
+		module_void("dnsbl/main");
 		return 0;
 	}
 	if(!eval { require Config::Scoped;; 1; })
