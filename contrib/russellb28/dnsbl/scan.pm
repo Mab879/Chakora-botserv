@@ -16,10 +16,10 @@ sub init_dns_scan {
 		module_void("dnsbl/scan");
 		return 0;
 	}
-	if(!eval { require Config::Nested; 1; })
+	if(!eval { require Config::Scoped;; 1; })
 	{
-		svsflog("modules", "Unable to load dnsbl/scan, Config::Nested not installed.");
-		if ($Chakora::synced) { logchan("operserv", "\002dnsbl/scan\002: Unable to load, Config::Nested not installed."); }
+		svsflog("modules", "Unable to load dnsbl/scan, Config::Scoped not installed.");
+		if ($Chakora::synced) { logchan("operserv", "\002dnsbl/scan\002: Unable to load, Config::Scoped not installed."); }
 		module_void("dnsbl/scan");
 		return 0;
 	}
@@ -48,27 +48,34 @@ sub svs_dns_scan {
 		my ($ipp1,$ipp2,$ipp3,$ipp4)=split /\./,$sargv[1];
 		my $reverse = "$ipp4.$ipp3.$ipp2.$ipp1";
 		my $found = 0;
-		my @dnsbls = ('dnsbl.ahbl.org', 'dnsbl.infinityirc.com', 'tor.dnsbl.sectoor.de', 'dnsbl.dronebl.org', 'dnsbl.swiftbl.net', 'rbl.efnet.org', 'dnsbl.proxybl.org', 'tor.dan.me.uk', 'dnsbl.technoirc.org');
+		my $dconf = `pwd`;
+		chomp $dconf;
+  		my $parser = Config::Scoped->new( file => "$dconf/../modules/dnsbl/dnsbl.conf", );
+  		my $config = $parser->parse;
 
-		foreach (@dnsbls) {
-			my $res = new Net::DNS::Resolver;
-			my $query = $res->search("$reverse.$_", "A");
-			my $rr;
-
-			if ($query) {
-      				foreach $rr ($query->answer) {
-       	   			next unless $rr->type eq "A";
-					my ($ipr1,$ipr2,$ipr3,$ipr4)=split /\./,$rr->address;
-					if($ipr4 > 0 and $ipr4 < 30)
-					{
-						serv_notice("dnsbl", $user, "$sargv[1] is listed in $_ (Reason: $ipr4)");
-						$found++;
-					}
-      				}
-			}
-			else
+		for (my $i = 0; $i < 20; $i++)
+		{
+			if($config->{list}->{$i})
 			{
-				serv_notice("dnsbl", $user, "$sargv[1] is not listed in $_");
+				my $res = new Net::DNS::Resolver;
+				my $query = $res->search("$reverse.$config->{list}->{$i}", "A");
+				my $rr;
+
+				if ($query) {
+      					foreach $rr ($query->answer) {
+       	   				next unless $rr->type eq "A";
+						my ($ipr1,$ipr2,$ipr3,$ipr4)=split /\./,$rr->address;
+						if($ipr4 > 0 and $ipr4 < 30)
+						{
+							serv_notice("dnsbl", $user, "$sargv[1] is listed in $config->{list}->{$i} (Reason: $ipr4)");
+							$found++;
+						}
+      					}
+				}
+				else
+				{
+					serv_notice("dnsbl", $user, "$sargv[1] is not listed in $config->{list}->{$i}");
+				}
 			}
 		}
 		serv_notice("dnsbl", $user, "\002 ************************** \002");
