@@ -30,6 +30,7 @@ Current Devel
 	- Protocols: If a server spltis, delete all servers that it acts hub to, along with their users.
 	- API: Added event_chgident() and event_chghost()
 	- operserv/modunload: Unload all modules of that service if the main module is unloaded.
+	- API: Added fantasy() for enabling fantasy on a ChanServ command.
 
 1.0.0-alpha2
 	- HostServ: Update hostserv/main to match the updated API.

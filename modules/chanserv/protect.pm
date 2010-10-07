@@ -23,6 +23,8 @@ sub init_cs_protect {
 	}
 	cmd_add("chanserv/protect", "Protects you or another user on a channel.", "PROTECT will allow you to either protect \nyourself or another user in a channel\nthat you have the +a flag in. \n[T]\nSyntax: PROTECT <#channel> [user]", \&svs_cs_protect);
 	cmd_add("chanserv/deprotect", "Deprotects you or another user on a channel.", "DEPROTECT will allow you to either\ndeprotect yourself or another user in\na channel that you have the +a flag in. \n[T]\nSyntax: DEPROTECT <#channel> [user]", \&svs_cs_deprotect);
+	fantasy("protect", 1);
+	fantasy("deprotect", 1);
 	if (!flag_exists("a")) {
 		flaglist_add("a", "Allows the use of the PROTECT/DEPROTECT command");
 	}

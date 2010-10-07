@@ -12,6 +12,7 @@ sub init_cs_invite {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/invite", "Invites you or another user to a channel.", "INVITE will allow you to either invite yourself\nor another user to a channel.  This can\nbe useful for invite-only channels with\nno other means of accessing them.\n[T]\nSyntax: INVITE <#channel> [user]", \&svs_cs_invite);
+	fantasy("invite", 1);
         if (!flag_exists("i")) {
                 flaglist_add("i", "Allows the use of the INVITE command");
         }

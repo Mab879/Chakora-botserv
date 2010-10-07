@@ -12,7 +12,7 @@ sub init_cs_kick {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/kick", "Kicks a user from a given channel", "KICK allows you to kick a user from \nyour channel or any other channel you have \nthe +k flag in. \n[T]\nSyntax: KICK <#channel> <nickname> [reason]", \&svs_cs_kick);
-
+	fantasy("kick", 1);
 	if (!flag_exists("k")) {
 		flaglist_add("k", "Allows the use of the KICK,BAN,and KICKBAN commands");
 	}

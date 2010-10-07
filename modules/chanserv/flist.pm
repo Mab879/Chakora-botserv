@@ -12,6 +12,7 @@ sub init_cs_flist {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/flist", "Lists available channel flags.", "NO_HELP_ENTRY", \&svs_cs_flist);
+	fantasy("flist", 0);
 }
 
 sub void_cs_flist {

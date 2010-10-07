@@ -12,6 +12,7 @@ sub init_cs_mode {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/mode", "Set modes on a given channel", "MODE allows you to set modes on\nyour channel or any other channel you have \nthe +s flag in.\n[T]\nIRC Operators have the ability to set modes \non a channel if they \nhave the chanserv::override priveledge. \nThe channel will be noticed when an operator\nover-rides using this command in the channel \n[T]\nSyntax: MODE <channel> [+/- modes]", \&svs_cs_mode);
+	fantasy("mode", 1);
 
 	if (!flag_exists("c")) {
 		flaglist_add("c", "Allows the use of the MODE command");

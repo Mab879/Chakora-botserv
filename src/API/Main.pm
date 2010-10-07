@@ -115,8 +115,11 @@ sub cmd_add {
 sub cmd_del {
     my ($cmd) = @_;
     my @scmd = split( '/', $cmd );
-    undef $Chakora::COMMANDS{ $scmd[0] }{ $scmd[1] };
-    undef $Chakora::HELP{$cmd};
+    delete $Chakora::COMMANDS{ $scmd[0] }{ $scmd[1] };
+    delete $Chakora::HELP{$cmd};
+    if (defined $Chakora::FANTASY{lc($scmd[1])}) {
+		delete $Chakora::FANTASY{lc($scmd[1])};
+	}
 }
 		
 sub create_cmdtree {

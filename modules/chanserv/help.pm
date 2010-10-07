@@ -12,6 +12,7 @@ sub init_cs_help {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/help", "NO_HELP_ENTRY", "NO_HELP_ENTRY", \&svs_cs_help);
+	fantasy("help", 0);
 }
 
 sub void_cs_help {

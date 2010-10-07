@@ -13,6 +13,8 @@ sub init_cs_mute {
 	}
 	cmd_add("chanserv/mute", "Mutes you or another user on a channel.", "MUTE will allow you to either mute yourself\nor another user in a channel that you have\nthe +M flag in.\nSyntax: MUTE <#channel> [user]", \&svs_cs_mute);
 	cmd_add("chanserv/unmute", "Unmutes you or another user on a channel.", "UNMUTE will allow you to either unmute\nyourself or another user in a channel\nthat you have the +M flag in.\nSyntax: UNMUTE <#channel> [user]", \&svs_cs_unmute);
+	fantasy("mute", 1);
+	fantasy("unmute", 1);
     if (!flag_exists("M")) {
 		flaglist_add("M", "Allows the use of the MUTE/UNMUTE command");
 	}

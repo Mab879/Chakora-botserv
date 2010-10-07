@@ -12,6 +12,7 @@ sub init_cs_sync {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/sync", "Syncs a channel with its access list.", "NO_HELP_ENTRY", \&svs_cs_sync);
+	fantasy("sync", 1);
 	if (!flag_exists("S")) { 
 		flaglist_add("S", "Allows the use of the SYNC command");
 	}
