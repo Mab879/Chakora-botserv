@@ -20,7 +20,7 @@ sub void_os_version {
 
 sub svs_os_version {
 	my ($user, @sargv) = @_;
-	serv_notice("operserv", $user, $Chakora::SERVICES_VERSION." - Developed by starcoder, MattB, chazz, Russell and Niall");
+	serv_notice("operserv", $user, $Chakora::SERVICES_VERSION." - Developed by ".$Chakora::DEVS);
 }
 
 1;

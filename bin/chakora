@@ -37,7 +37,7 @@ if ( $^O =~ /win/i ) {
 }
 
 my (%options);
-our ( $SERVICES_STARTTIME, $SERVICES_VERSION, $pid );
+our ( $SERVICES_STARTTIME, $SERVICES_VERSION, $DEVS, $pid );
 our $IN_DEBUG = 0;
 
 # Get command line options
@@ -56,6 +56,7 @@ if ( $options{help} ) {
 
 # Define our version
 $SERVICES_VERSION = 'Chakora 1.0-dev';
+$DEVS = 'Elijah, Matthew, Russell, Niall, and Chazz';
 
 # Okay! Here we go!
 print color 'bold red';
