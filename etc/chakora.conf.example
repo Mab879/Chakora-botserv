@@ -82,6 +82,8 @@ chanserv {
 	user = ChanServ
 	host = technoirc/Services/ChanServ
 	real = "Channel Services"
+	# Character for fantasy commands. e.g. ! . @
+	fantasy_char = !
 }
 
 nickserv {
