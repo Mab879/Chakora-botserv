@@ -56,8 +56,8 @@ Chakora Services are modular IRC Services coded in Perl for the InspIRCd
 more than +ov. It comes with; 
 ChanServ, NickServ, OperServ, HostServ, MemoServ and Global.
 
-ATTENTION: By using this software, you are stating
-that you have read and agreed to the terms in docs/LICENSE.
+ATTENTION: By using this software, you are stating that you have read 
+and agreed to the terms stated in docs/LICENSE.
 
 3. INSTALLATION
 ---------------
