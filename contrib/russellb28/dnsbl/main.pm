@@ -89,6 +89,8 @@ sub ircd_dns_uid {
 				my ($ipr1,$ipr2,$ipr3,$ipr4)=split /\./,$rr->address;
 				if($ipr4 > 0 and $ipr4 < 30)
 				{
+					svsilog("dnsbl", $uid, "DNSBL: \002$nick\002 (\002$ip\002) is listed in \002$_\002 );
+					svsflog('commands', uidInfo($uid, 1).": DNSBL: DNSBL: $nick ($ip) is listed in $_");
 					serv_kill('dnsbl', $uid, "Your connection is listed in $_. This may be because you have spammed, or are on a compromised connection. (Reason: $ipr4)"); 
 					event_kill('dnsbl', $uid, "Your connection is listed in $_. This may be because you have spammed, or are on a compromised connection. (Reason: $ipr4)");
 					return;
