@@ -4,15 +4,17 @@
 # This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
-use Net::DNS;
 
 module_init("utilserv/dns", "Russell Bradford", "1.0", \&init_us_dns, \&void_us_dns, "all");
 
 sub init_us_dns {
-	eval {
-    		require Net::DNS;
-    		1;
-	     } or svsflog("modules", "Unable to load utilserv/dns, Net::DNS not installed.") and return 0;
+	if(!eval { require Net::DNS; 1; })
+	{
+		svsflog("modules", "Unable to load utilserv/dns, Net::DNS not installed.");
+		if ($Chakora::synced) { logchan("operserv", "\002utilserv/dns\002: Unable to load, Net::DNS not installed."); }
+		module_void("utilserv/dns");
+		return 0;
+	}
 	cmd_add("utilserv/dns", "Perform a DNS Query on a Hostname", "Perform a DNS Query on a hostname and \nget its IPv4 Address or Addresses \nAlternatively you can lookup a nameserver address or addresses from a domain name \n[T]\nSyntax: DNS [hostname/domain] [A/NS]", \&svs_us_dns);
 }
 
