@@ -289,6 +289,14 @@ sub serv_mode {
           . $target . " "
           . $Chakora::channel{ lc($target) }{'ts'} . " "
           . $modes );
+    # This is a cheap hack, but it'll work for now --Matthew
+    raw_fmode( ":"
+          . svsUID($svs)
+          . " FMODE "
+          . $target . " "
+          . $Chakora::channel{ lc($target) }{'ts'} . " "
+          . $modes );
+
 }
 
 # Handle ERROR

@@ -268,6 +268,9 @@ sub serv_mode {
                 $Chakora::channel{lc($target)}{'ts'} = time();
         }
 	send_sock(":".svsUID($svs)." TMODE ".$Chakora::channel{lc($target)}{'ts'}." ".$target." ".$modes);
+	# This is a cheap hack, but it'll work for now --Matthew
+        raw_tmode(":".svsUID($svs)." TMODE ".$Chakora::channel{lc($target)}{'ts'}." ".$target." ".$modes);
+
 }
 
 # Handle Client MODE (This is basically only used for user mode changes in Charybdis --Matthew)
