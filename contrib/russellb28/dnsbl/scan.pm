@@ -58,7 +58,7 @@ sub svs_dns_scan {
 			}
 			else
 			{
-				serv_notice("dnsbl", $user, "$sargv[1] could not be found in $_");
+				serv_notice("dnsbl", $user, "$sargv[1] is not listed in $_");
 			}
 		}
 		serv_notice("dnsbl", $user, "\002 ************************** \002");
