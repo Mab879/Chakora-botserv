@@ -27,6 +27,16 @@ sub svs_os_modunload {
 			elsif (module_void($sargv[1]) eq "MODUNLOAD_SUCCESS") {
 				serv_notice("operserv", $user, "Module unloaded");
 				svsilog("operserv", $user, "modunload", $sargv[1]); 
+				my @us = split('/', $sargv[1]);
+				if (lc($us[1]) eq 'main') {
+					foreach my $ml (keys %Chakora::MODULE) {
+						my @ms = split('/', $ml);
+						if (lc($ms[0]) eq lc($us[0])) {
+							logchan('operserv', "\002!!!\002 Unloading module \002$ml\002");
+							module_void($ml);
+						}
+					}
+				}
 			}
 			else { serv_notice("operserv", $user, "Module unloading failed"); }
 		}
