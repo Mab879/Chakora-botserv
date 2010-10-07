@@ -909,7 +909,9 @@ sub raw_fhost {
     my ($raw) = @_;
     my @rex = split( ' ', $raw );
     my $ruid = substr( $rex[0], 1 );
+    my $ohost = uidInfo($ruid, 4);
     $Chakora::uid{$ruid}{'mask'} = $rex[2];
+    event_chghost($ruid, $ohost, $rex[2]);
 }
 
 # Handle SETIDENT
@@ -917,7 +919,9 @@ sub raw_setident {
     my ($raw) = @_;
     my @rex = split( ' ', $raw );
     my $ruid = substr( $rex[0], 1 );
+    my $ouser = uidInfo($ruid, 2);
     $Chakora::uid{$ruid}{'user'} = substr( $rex[2], 1 );
+    event_chgident($ruid, $ouser, substr($rex[2], 1));
 }
 
 # Handle VERSION
