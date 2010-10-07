@@ -1,0 +1,4 @@
+serv_netban(username/ident, hostname, duration, reason)
+   This will set a network ban on <user>@<host> lasting for the given
+   duration with the given reason.  Adds a G-Line on InspIRCd and a 
+   K-Line on Charybdis.
