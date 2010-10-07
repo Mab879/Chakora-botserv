@@ -16,6 +16,7 @@ sub init_cs_kick {
 	if (!flag_exists("k")) {
 		flaglist_add("k", "Allows the use of the KICK,BAN,and KICKBAN commands");
 	}
+	return 1;
 }
 
 sub void_cs_kick {
