@@ -184,9 +184,6 @@ sub ircd_cs_privmsg {
 								push(@bargv, "");
 								push(@bargv, $target);
 								for (my $i = 1; $i < count(@rex); $i++) { push(@bargv, $rex[$i]); }
-								foreach my $barg (@bargv) {
-									print $barg."\n";
-								}
 							}
 							
 							eval { &{$sub_ref}($user, @bargv); };
