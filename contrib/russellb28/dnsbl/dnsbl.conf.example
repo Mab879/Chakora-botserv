@@ -1,0 +1,12 @@
+list
+{
+	1 = dnsbl.ahbl.org
+	2 = dnsbl.infinityirc.com
+	3 = tor.dnsbl.sectoor.de
+	4 = dnsbl.dronebl.org
+	5 = dnsbl.swiftbl.net
+	6 = rbl.efnet.org
+	7 = dnsbl.proxybl.org
+	8 = tor.dan.me.uk
+	9 = dnsbl.technoirc.org
+}
