@@ -11,6 +11,8 @@ CONTENTS
 -----------------
   1. About DNSBL
   2. Required Config Changes
+  3. Module Information
+	3.1 dnsbl/scan
 
 
 
@@ -47,6 +49,27 @@ nothing is gonna work otherwise! Next do the following:
 * ADD THE FOLLOWING LINES:
 				load "dnsbl/main";
 				load "dnsbl/help";
+
+3. MODULE INFORMATION
+---------------
+
+All the modules in this section are not supported officially by Chakora and while i will try to
+ensure all of them work and dont cause issues with anyones installations, there is no guarantee
+that there may not be exploitable bugs or issues that could corrupt databases or generally mess
+up services. THE MODULES IN THIS SECTION ALSO ONLY WORK WITH DNSBL!!
+
+
+***** 3.1 dnsbl/scan
+
+This module allows you to lookup up a IP Address in the defined list of DNSBL's. A list is
+returned showing whether the ip was or was not found in the blacklists. Currently only 
+IPv4 IP addresses are supported.
+
+Commands Added:	SCAN
+Syntax:		/msg DNSBL SCAN [IP Address]
+Expected Output:	Returns a list stating if the IP Address was or was not found in the blacklists
+
+Currently any user on the network can access can use this module.
 
 
 
