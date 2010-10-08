@@ -828,25 +828,27 @@ sub raw_fmode {
 				}
 				$curmos =~ s/($xc)//g;
 			}
-			if ($modes =~ m/($xc)/) {
-				if ($Chakora::PROTO_SETTINGS{cmodes}{$xc} > 1) {
-					my @cmtx = split(' ', $as);
-					my @cmta = split(//, $curmos);
-					my $cmtb = 0;
-					my $cmtd = 1;
-					foreach my $cmtc (@cmta) {
-						if ($cmtc eq $xc) {
-							$cmtd = 0;
+			if (defined $modes) {
+				if ($modes =~ m/($xc)/) {
+					if ($Chakora::PROTO_SETTINGS{cmodes}{$xc} > 1) {
+						my @cmtx = split(' ', $as);
+						my @cmta = split(//, $curmos);
+						my $cmtb = 0;
+						my $cmtd = 1;
+						foreach my $cmtc (@cmta) {
+							if ($cmtc eq $xc) {
+								$cmtd = 0;
+							}
+							elsif ($Chakora::PROTO_SETTINGS{cmodes}{$cmtc} > 1 and $cmtd != 0) {
+								$cmtb += $Chakora::PROTO_SETTINGS{cmodes}{$cmtc};
+							}	
 						}
-						elsif ($Chakora::PROTO_SETTINGS{cmodes}{$cmtc} > 1 and $cmtd != 0) {
-							$cmtb += $Chakora::PROTO_SETTINGS{cmodes}{$cmtc};
-						}	
+						undef $cmtx[$cmtb + 1];
+						undef $as;
+						for (my $i = 1; $i < count(@cmtx); $i++) { if (defined $cmtx[$i]) { $as .= ' '.$cmtx[$i]; } }
 					}
-					undef $cmtx[$cmtb + 1];
-					undef $as;
-					for (my $i = 1; $i < count(@cmtx); $i++) { if (defined $cmtx[$i]) { $as .= ' '.$cmtx[$i]; } }
+					$modes =~ s/($xc)//g;
 				}
-				$modes =~ s/($xc)//g;
 			}
 		}
 	}
