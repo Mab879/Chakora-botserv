@@ -51,6 +51,13 @@ sub os_cmd_akill {
         return;
     }
 
-    if ( uc( $parv[1] ) eq 'ADD' ) { }
+    if ( uc( $parv[1] ) eq 'ADD' ) {
+        if ( $pt->match_exact_string( $parv[2] ) ) {
+            serv_notice( $user, "This IP is already AKILL'd" );
+        }
+        else {
+            serv_netban();
+        }
+    }
 
 }
