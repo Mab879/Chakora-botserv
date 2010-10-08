@@ -17,7 +17,7 @@ module_init( "operserv/akill",
     "Woomoo Development Group <http://dev.woomoo.org",
     PACKAGE_VER, \&modinit, \&moddeinit, "all" );
 
-sub modinit() {
+sub modinit {
     hook_uid_add( \&handle_connection );
     cmd_add(
         "operserv/akill",        "Manages network bans.",
@@ -25,7 +25,7 @@ sub modinit() {
     );
 }
 
-sub moddeinit() {
+sub moddeinit {
     delete_sub('handle_connection');
     delete_sub('os_cmd_akill');
     cmd_del('operserv/akill');
@@ -44,6 +44,13 @@ sub os_cmd_akill {
         return;
     }
 
-    if ( uc( $parv[0] ) eq 'ADD' ) { }
+    if ( !defined( $parv[2] ) ) {
+        serv_notice( $user, "Missing parameters for AKILL" );
+        serv_notice( $user,
+            "Syntax: ADD <target> :<reason>|DEL <akill #>|LIST" );
+        return;
+    }
+
+    if ( uc( $parv[1] ) eq 'ADD' ) { }
 
 }
