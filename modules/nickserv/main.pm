@@ -12,6 +12,8 @@ sub init_ns_main {
 	hook_kill_add(\&ircd_ns_kill);
 	hook_kick_add(\&ircd_ns_kick);
 	hook_nick_add(\&ircd_ns_nick);
+        hook_chghost_add(\&ircd_ns_chghost);
+        hook_chgident_add(\&ircd_ns_chgident);
 	if (-e "$Chakora::ROOT_SRC/../etc/idrecover.db") { hook_eos_add(\&ircd_ns_restart); }
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_ns_main); }
 	else { ircd_ns_main(); return 1; }
@@ -24,12 +26,16 @@ sub void_ns_main {
 	delete_sub 'ircd_ns_kick';
 	delete_sub 'ircd_ns_nick';
 	delete_sub 'ircd_ns_restart';
+        delete_sub 'ircd_ns_chghost';
+        delete_sub 'ircd_ns_chgident';
 	hook_pds_del(\&svs_ns_main);
 	serv_del('NickServ');
 	hook_kill_del(\&ircd_ns_kill);
 	hook_kick_del(\&ircd_ns_kick);
 	hook_nick_del(\&ircd_ns_nick);
 	hook_eos_del(\&ircd_ns_restart);
+        hook_chghost_del(\&ircd_ns_chghost);
+        hook_chgident_del(\&ircd_ns_chgident);
 	delete_cmdtree("nickserv");
 	delete_sub 'void_ns_main';
 }
@@ -98,6 +104,21 @@ sub ircd_ns_nick {
 		metadata_add(1, uidInfo($user, 9), "data:realhost", $newnick."!".uidInfo($user,2)."@".uidInfo($user,3)." ".uidInfo($user,5));
 	}
 }
+
+sub ircd_ns_chghost {
+        my ($user, undef, $new) = @_;
+        if (is_identified($user)) {
+                metadata_add(1, uidInfo($user, 9), "data:realhost", uidInfo($user,1)."!".uidInfo($user,2)."@".$new." ".uidInfo($user,5));
+        }
+}
+
+sub ircd_ns_chgident {
+        my ($user, undef, $new) = @_;
+        if (is_identified($user)) {
+                metadata_add(1, uidInfo($user, 9), "data:realhost", uidInfo($user,1)."!".$new."@".uidInfo($user,3)." ".uidInfo($user,5));
+        }
+}
+
 
 sub ircd_ns_restart {
 	if (-e "$Chakora::ROOT_SRC/../etc/idrecover.db") {
