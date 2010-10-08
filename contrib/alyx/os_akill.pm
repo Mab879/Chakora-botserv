@@ -29,9 +29,11 @@ sub handle_connection {
     my ( $uid, $nick, $user, $host, $mask, $ip, $server ) = @_;
 	if ($pt->match_string($ip)) {
 		serv_kill("operserv", $uid, "Connection from banned netmask.");
-		
 }
 
 sub os_cmd_akill {
+	my ( $user, @parv ) = @_;
+	if (uc($parv[0]) eq 'ADD') { }
+		 
 }
 
