@@ -640,7 +640,20 @@ sub raw_tmode {
 	if (defined $curmo[1]) {
 		for (my $i = 1; $i < count(@curmo); $i++) { if (defined $curmo[$i]) { $acs .= ' '.$curmo[$i]; } }
 	}
-	$Chakora::channel{lc($chan)}{modes} = $curmos.$modes.$acs.$as;
+	my ($finmodes);
+	if (defined $curmos) {
+		$finmodes .= $curmos;
+	}
+	if (defined $modes) {
+		$finmodes .= $modes;
+	}
+	if (defined $acs) {
+		$finmodes .= $acs;
+	}
+	if (defined $as) {
+		$finmodes .= $as;
+	}
+	$Chakora::channel{lc($chan)}{modes} = $finmodes;
 }
 
 # Handle QUIT
