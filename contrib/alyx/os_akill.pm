@@ -25,15 +25,25 @@ sub modinit() {
     );
 }
 
+sub moddeinit() {
+    delete_sub('handle_connection');
+    delete_sub('os_cmd_akill');
+    cmd_del('operserv/akill');
+}
+
 sub handle_connection {
     my ( $uid, $nick, $user, $host, $mask, $ip, $server ) = @_;
-	if ($pt->match_string($ip)) {
-		serv_kill("operserv", $uid, "Connection from banned netmask.");
+    if ( $pt->match_string($ip) ) {
+        serv_kill( "operserv", $uid, "Connection from banned netmask." );
+    }
 }
 
 sub os_cmd_akill {
-	my ( $user, @parv ) = @_;
-	if (uc($parv[0]) eq 'ADD') { }
-		 
-}
+    my ( $user, @parv ) = @_;
+    if ( !has_spower( $user, 'operserv:akill' ) ) {
+        return;
+    }
 
+    if ( uc( $parv[0] ) eq 'ADD' ) { }
+
+}
