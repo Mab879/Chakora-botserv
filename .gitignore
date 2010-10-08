@@ -1,5 +1,7 @@
 *.log
 *.conf
+*.db
+*.pid
 etc/*.conf
 var/*
 etc/*.db
