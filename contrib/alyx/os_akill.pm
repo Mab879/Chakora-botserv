@@ -76,3 +76,5 @@ sub os_cmd_akill {
     }
 
 }
+
+1;
