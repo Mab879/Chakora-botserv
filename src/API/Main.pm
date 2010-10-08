@@ -1,7 +1,7 @@
 # api/main by The Chakora Project. Core of Chakora's module API.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -115,8 +115,11 @@ sub cmd_add {
 sub cmd_del {
     my ($cmd) = @_;
     my @scmd = split( '/', $cmd );
-    undef $Chakora::COMMANDS{ $scmd[0] }{ $scmd[1] };
-    undef $Chakora::HELP{$cmd};
+    delete $Chakora::COMMANDS{ $scmd[0] }{ $scmd[1] };
+    delete $Chakora::HELP{$cmd};
+    if (defined $Chakora::FANTASY{lc($scmd[1])}) {
+		delete $Chakora::FANTASY{lc($scmd[1])};
+	}
 }
 		
 sub create_cmdtree {

@@ -1,7 +1,7 @@
 # chanserv/main by The Chakora Project. Creates channel services (ChanServ).
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD Licecse (docs/LICENSE - http://www.opecsource.org/licecses/bsd-licecse.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -14,6 +14,7 @@ sub init_cs_main {
 	hook_part_add(\&ircd_cs_part);
 	hook_quit_add(\&ircd_cs_quit);
 	hook_kick_add(\&ircd_cs_kick);
+	hook_privmsg_add(\&ircd_cs_privmsg);
 	hook_identify_add(\&ircd_cs_ns_id);
 	hook_topic_add(\&ircd_cs_topic);
 	if (!$Chakora::synced) { hook_pds_add(\&ircd_cs_main); }
@@ -28,6 +29,7 @@ sub void_cs_main {
 	delete_sub 'ircd_cs_part';
 	delete_sub 'ircd_cs_quit';
 	delete_sub 'ircd_cs_kick';
+	delete_sub 'ircd_cs_privmsg';
 	delete_sub 'ircd_cs_ns_id';
 	delete_sub 'ircd_cs_topic';
 	delete_sub 'apply_status';
@@ -39,6 +41,7 @@ sub void_cs_main {
 	hook_part_del(\&ircd_cs_part);
 	hook_quit_del(\&ircd_cs_quit);
 	hook_kick_del(\&ircd_cs_kick);
+	hook_privmsg_del(\&ircd_cs_privmsg);
 	hook_identify_del(\&ircd_cs_ns_id);
 	hook_topic_del(\&ircd_cs_topic);
 	delete_cmdtree("chanserv");
@@ -161,6 +164,43 @@ sub ircd_cs_quit {
 	}
 }
 
+sub ircd_cs_privmsg {
+	my ($user, $target, $msg) = @_;
+	
+	my @rex = split(' ', $msg);
+	if (substr($target, 0, 1) eq '#') {
+		if (defined $Chakora::DB_chan{lc($target)}{name}) {
+			if (metadata(2, $target, 'option:fantasy')) {
+				unless (!config('chanserv', 'fantasy_char')) {
+					if (substr($rex[0], 0, 1) eq config('chanserv', 'fantasy_char')) {
+						my $ecmd = substr($rex[0], 1);
+						if (defined $Chakora::COMMANDS{'chanserv'}{lc($ecmd)} and defined $Chakora::FANTASY{lc($ecmd)}) {
+							my $sub_ref = $Chakora::COMMANDS{'chanserv'}{lc($ecmd)}{handler};
+							my (@bargv);
+							if ($Chakora::FANTASY{lc($ecmd)} == 0) {
+								for (my $i = 1; $i < count(@rex); $i++) { $bargv[$i] = $rex[$i]; }
+							}
+							elsif ($Chakora::FANTASY{lc($ecmd)} == 1)  {
+								push(@bargv, "");
+								push(@bargv, $target);
+								for (my $i = 1; $i < count(@rex); $i++) { push(@bargv, $rex[$i]); }
+							}
+							
+							eval { &{$sub_ref}($user, @bargv); };
+						}
+					}
+                }
+			}
+		}
+	}
+}
+
+sub fantasy {
+	my ($cmd, $type) = @_;
+	$Chakora::FANTASY{lc($cmd)} = $type;
+	return 1;
+}
+                
 sub ircd_cs_ns_id {
 	my ($user, $account) = @_;
 	if (defined($Chakora::uid{$user}{'chans'})) {

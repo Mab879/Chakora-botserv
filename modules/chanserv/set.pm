@@ -1,14 +1,15 @@
 # chanserv/set by The Chakora Project. Allows users to set channel settings
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
 module_init("chanserv/set", "The Chakora Project", "0.1", \&init_cs_set, \&void_cs_set, "all");
 
 sub init_cs_set {
-        cmd_add("chanserv/set", "Allows you to set channel settings", "SET allows you to manage the way various\naspects of your channel operate, such as \ntopiclock and fantasy.\n[T]\nSET options:\n[T]\n\002FANTASY\002 - Enables fantasy in your channel.\n\002GUARD\002 - Makes ChanServ stay in your channel until user count is below 1.\n\002RESTRICTED\002 - Restricts your channel from users who don't have flags.\n\002TOPICLOCK\002 - Keeps your topic 'locked' from changing unless the user has the +t flag.\n\002NOSTATUS\002 - Prevents users from recieving status regardless if they have flags or not.\n\002DESCRIPTION\002 - Changes your channels description.\n\002URL\002 - Sets a URL for your channel\n\002NOEXPIRE\002 - Makes a channel never expire. This is settable by service operators only.\n[T]\nSyntax: SET <option> [parameters]", \&svs_cs_set);
+	cmd_add("chanserv/set", "Allows you to set channel settings", "SET allows you to manage the way various\naspects of your channel operate, such as \ntopiclock and fantasy.\n[T]\nSET options:\n[T]\n\002FANTASY\002 - Enables fantasy in your channel.\n\002GUARD\002 - Makes ChanServ stay in your channel until user count is below 1.\n\002RESTRICTED\002 - Restricts your channel from users who don't have flags.\n\002TOPICLOCK\002 - Keeps your topic 'locked' from changing unless the user has the +t flag.\n\002NOSTATUS\002 - Prevents users from recieving status regardless if they have flags or not.\n\002DESCRIPTION\002 - Changes your channels description.\n\002URL\002 - Sets a URL for your channel\n\002NOEXPIRE\002 - Makes a channel never expire. This is settable by service operators only.\n[T]\nSyntax: SET <option> [parameters]", \&svs_cs_set);
+	fantasy("set", 1);
 	if (!flag_exists("s")) {
 	        flaglist_add("s", "Allows the use of SET");
 	}

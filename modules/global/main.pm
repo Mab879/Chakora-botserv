@@ -1,7 +1,7 @@
 # global/main by The Chakora Project. Creates global services (Global).
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD Licecse (docs/LICENSE - http://www.opecsource.org/licecses/bsd-licecse.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 

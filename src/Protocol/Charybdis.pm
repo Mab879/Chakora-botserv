@@ -1,7 +1,7 @@
 # protocol/charybdis by The Chakora Project. Link with Charybdis.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -268,6 +268,9 @@ sub serv_mode {
                 $Chakora::channel{lc($target)}{'ts'} = time();
         }
 	send_sock(":".svsUID($svs)." TMODE ".$Chakora::channel{lc($target)}{'ts'}." ".$target." ".$modes);
+	# This is a cheap hack, but it'll work for now --Matthew
+        raw_tmode(":".svsUID($svs)." TMODE ".$Chakora::channel{lc($target)}{'ts'}." ".$target." ".$modes);
+
 }
 
 # Handle Client MODE (This is basically only used for user mode changes in Charybdis --Matthew)
@@ -417,6 +420,12 @@ sub serv_enforce {
         if (defined $Chakora::uid{$user}{'nick'}) {
                 send_sock(":".svsUID('chakora::server')." ENCAP ".sidInfo($Chakora::uid{$user}{'server'}, 1)." RSFNC ".$user." ".$newnick." ".$Chakora::uid{$user}{'ts'}." ".time());
         }
+}
+
+# Handle network bans
+sub serv_netban {
+	my ($user, $host, $duration, $reason) = @_;
+	send_sock(":".svsUID("operserv")." ENCAP * KLINE $duration $user $host $reason");
 }
 
 ######### Receiving data #########

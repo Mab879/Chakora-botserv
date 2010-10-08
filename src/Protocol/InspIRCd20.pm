@@ -1,7 +1,7 @@
 # protocol/inspircd20 by The Chakora Project. Link with InspIRCd 2.0.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -287,6 +287,15 @@ sub serv_mode {
           . $target . " "
           . $Chakora::channel{ lc($target) }{'ts'} . " "
           . $modes );
+    # This is a cheap hack, but it'll work for now --Matthew
+    raw_fmode( ":"
+          . svsUID($svs)
+          . " FMODE "
+          . $target . " "
+          . $Chakora::channel{ lc($target) }{'ts'} . " "
+          . $modes );
+
+
 }
 
 # Handle ERROR
@@ -469,6 +478,13 @@ sub serv_enforce {
               . " SVSNICK $user $newnick "
               . time() );
     }
+}
+
+# Handle network bans
+sub serv_netban {
+	my ($user, $host, $duration, $reason) = @_;
+	my $mask = $user.'@'.$host;
+	send_sock(":".svsUID("chakora::server")." ADDLINE G $mask ".config('me', 'name')." ".time." $duration :$reason");
 }
 
 ######### Receiving data #########
@@ -909,7 +925,9 @@ sub raw_fhost {
     my ($raw) = @_;
     my @rex = split( ' ', $raw );
     my $ruid = substr( $rex[0], 1 );
+    my $ohost = uidInfo($ruid, 4);
     $Chakora::uid{$ruid}{'mask'} = $rex[2];
+    event_chghost($ruid, $ohost, $rex[2]);
 }
 
 # Handle SETIDENT
@@ -917,7 +935,9 @@ sub raw_setident {
     my ($raw) = @_;
     my @rex = split( ' ', $raw );
     my $ruid = substr( $rex[0], 1 );
+    my $ouser = uidInfo($ruid, 2);
     $Chakora::uid{$ruid}{'user'} = substr( $rex[2], 1 );
+    event_chgident($ruid, $ouser, substr($rex[2], 1));
 }
 
 # Handle VERSION

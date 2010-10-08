@@ -1,7 +1,7 @@
 # chanserv/invite by The Chakora Project. Adds an INVITE command to ChanServ for inviting themselves or others.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -12,6 +12,7 @@ sub init_cs_invite {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/invite", "Invites you or another user to a channel.", "INVITE will allow you to either invite yourself\nor another user to a channel.  This can\nbe useful for invite-only channels with\nno other means of accessing them.\n[T]\nSyntax: INVITE <#channel> [user]", \&svs_cs_invite);
+	fantasy("invite", 1);
         if (!flag_exists("i")) {
                 flaglist_add("i", "Allows the use of the INVITE command");
         }

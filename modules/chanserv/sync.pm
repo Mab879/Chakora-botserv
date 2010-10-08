@@ -1,7 +1,7 @@
 # chanserv/sync by The Chakora Project. Adds a SYNC command to Chakora, for syncing a channel with its access list.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -12,6 +12,7 @@ sub init_cs_sync {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/sync", "Syncs a channel with its access list.", "NO_HELP_ENTRY", \&svs_cs_sync);
+	fantasy("sync", 1);
 	if (!flag_exists("S")) { 
 		flaglist_add("S", "Allows the use of the SYNC command");
 	}

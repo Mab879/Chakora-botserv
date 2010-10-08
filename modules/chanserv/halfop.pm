@@ -1,7 +1,7 @@
 # chanserv/halfop by The Chakora Project. Adds a HALFOP/DEHALFOP command to ChanServ allowing one to (de)halfop themselves or another user.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -23,6 +23,8 @@ sub init_cs_halfop {
 	}
 	cmd_add("chanserv/halfop", "Halfops you or another user on a channel.", "HALFOP will allow you to either halfop \nyourself or another user in a channel\nthat you have the +h flag in. \n[T]\nSyntax: HALFOP <#channel> [user]", \&svs_cs_halfop);
 	cmd_add("chanserv/dehalfop", "Dehalfops you or another user on a channel.", "DEHALFOP will allow you to either\ndehalfop yourself or another user in\na channel that you have the +h flag in. \n[T]\nSyntax: DEHALFOP <#channel> [user]", \&svs_cs_dehalfop);
+	fantasy("halfop", 1);
+	fantasy("dehalfop", 1);
 	if (!flag_exists("h")) {
 		flaglist_add("h", "Allows the use of the HALFOP/DEHALFOP command");
 	}

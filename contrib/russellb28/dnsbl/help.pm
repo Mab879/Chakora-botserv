@@ -1,7 +1,7 @@
 # DNSBL/help by The Chakora Project. Adds help functions to DNSBL.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -23,11 +23,51 @@ sub void_dns_help {
 
 sub svs_dns_help {
     my ($user, @sargv) = @_;
-    serv_notice("dnsbl", $user, "\002***** DNSBL Help *****\002");
-    serv_notice("dnsbl", $user, "This DNSBL Module checks user's IP addresses against a long");
-    serv_notice("dnsbl", $user, "and comprehensive list of databases to check if the ip is");
-    serv_notice("dnsbl", $user, "blacklisted. If the IP is blacklisted, the user is killed");
-    serv_notice("dnsbl", $user, "from the network explaining what list their ip is in and");
-    serv_notice("dnsbl", $user, "the reason number that goes with it.");
-    serv_notice("dnsbl", $user, "\002***** End of Help *****\002");
+	if (defined($sargv[1])) {
+		my $hcmd = "dnsbl/".lc($sargv[1]);
+		if (defined($Chakora::HELP{$hcmd}{fhelp}) and $Chakora::HELP{$hcmd}{fhelp} ne "NO_HELP_ENTRY") {
+			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
+			my ($help);
+			serv_notice("dnsbl", $user, "\002***** DNSBL Help *****\002");
+			serv_notice("dnsbl", $user, "Help for \002".uc($sargv[1])."\002:");
+			serv_notice("dnsbl", $user, "\002\002");
+			foreach $help (@fhelp) {
+				$help =~ s/\[T\]/     /g;
+				serv_notice("dnsbl", $user, $help);
+			}
+			serv_notice("dnsbl", $user, "\002\002");
+			serv_notice("dnsbl", $user, "\002***** End of Help *****\002");
+		} else {
+			serv_notice("dnsbl", $user, "No help available for \002".uc($sargv[1])."\002.");
+		}
+	}
+	else
+	{
+   		serv_notice("dnsbl", $user, "\002***** DNSBL Help *****\002");
+    		serv_notice("dnsbl", $user, "This DNSBL Module checks user's IP addresses against a long");
+    		serv_notice("dnsbl", $user, "and comprehensive list of databases to check if the ip is");
+    		serv_notice("dnsbl", $user, "blacklisted. If the IP is blacklisted, the user is killed");
+    		serv_notice("dnsbl", $user, "from the network explaining what list their ip is in and");
+    		serv_notice("dnsbl", $user, "the reason number that goes with it.");
+		serv_notice("dnsbl", $user, "\002\002");
+		serv_notice("dnsbl", $user, "The following commands are available:");
+		my %commands = %Chakora::HELP;
+		my ($calc, $dv);
+		foreach my $key (sort keys %commands) {
+			my @skey = split('/', $key);
+			if (lc($skey[0]) eq 'dnsbl') {
+				unless ($commands{$key}{shelp} eq "NO_HELP_ENTRY" or length($key) > 23) {
+					$calc = length($key);
+					$dv = "";
+					while ($calc != 25) {
+						$dv .= ' ';
+						$calc += 1;
+					}
+					serv_notice("dnsbl", $user, "   \002".uc($skey[1])."\002".$dv.$commands{$key}{shelp});
+				}
+			}
+		}
+		serv_notice("dnsbl", $user, "\002\002");
+    		serv_notice("dnsbl", $user, "\002***** End of Help *****\002");
+	}
 }

@@ -1,7 +1,7 @@
 # operserv/modload by The Chakora Project. Adds MODLOAD to OperServ, which loads a services module.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 

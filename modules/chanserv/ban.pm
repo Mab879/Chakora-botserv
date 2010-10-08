@@ -1,7 +1,7 @@
 # chanserv/ban by The Chakora Project. Adds a BAN command to ChanServ.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -13,10 +13,13 @@ sub init_cs_ban {
 	}
 	cmd_add("chanserv/ban", "Bans a user from a given channel", "BAN allows you to place a ban on a user in \nyour channel or any other channel you have \nthe +k flag in. \n[T]\nSyntax: BAN <#channel> <nickname>", \&svs_cs_ban);
 	cmd_add("chanserv/unban", "Bans a user from a given channel", "UNBAN allows you to remove a ban placed on a \nuser in your channel or any other channel \nyou have the +k flag in. \n[T]\nSyntax: UNBAN <#channel> <nickname>", \&svs_cs_unban);
+	fantasy("ban", 1);
+	fantasy("unban", 1);
 
 	if (!flag_exists("k")) {
 		flaglist_add("k", "Allows the use of the KICK,BAN,and KICKBAN commands");
 	}
+	return 1;
 }
 
 sub void_cs_ban {

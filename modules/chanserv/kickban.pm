@@ -1,7 +1,7 @@
 # chanserv/kickban by The Chakora Project. Adds a KICKBAN command to ChanServ.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -12,10 +12,12 @@ sub init_cs_kickban {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/kickban", "Kicks and Bans a user from a given channel", "KICKBAN allows you to place a ban on a user in \nyour channel or any other channel and kick \nthem at the same time providing you have \nthe +k flag. \n[T]\nSyntax: KICKBAN <#channel> [nickname] [reason]", \&svs_cs_kickban);
+	fantasy("kickban", 1);
 
 	if (!flag_exists("k")) {
 		flaglist_add("k", "Allows the use of the KICK,BAN,and KICKBAN commands");
 	}
+	return 1;
 }
 
 sub void_cs_kickban {

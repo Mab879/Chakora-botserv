@@ -1,7 +1,7 @@
 # chanserv/info by The Chakora Project. View information for a registered channel.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -12,6 +12,7 @@ sub init_cs_info {
 		module_load("chanserv/main");
 	}
 	cmd_add("chanserv/info", "Display information about a channel.", "INFO will display channel information such as\nregistration date and time, settings, founder\n,and other details.\n[T]\nSyntax: INFO <channel>", \&svs_cs_info);
+	fantasy("info", 1);
 }
 
 sub void_cs_info {

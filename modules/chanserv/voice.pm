@@ -1,7 +1,7 @@
 # chanserv/voice by The Chakora Project. Adds an VOICE/DEVOICE command to ChanServ allowing one to (de)voice themselves or another user.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -13,6 +13,8 @@ sub init_cs_voice {
 	}
 	cmd_add("chanserv/voice", "Voices you or another user on a channel.", "VOICE will allow you to either voice \nyourself or another user in a channel\nthat you have the +v flag in. \n[T]\nSyntax: VOICE <#channel> [user]", \&svs_cs_voice);
 	cmd_add("chanserv/devoice", "Devoices you or another user on a channel.", "DEVOICE will allow you to either\ndevoice yourself or another user in\na channel that you have the +v flag in. \n[T]\nSyntax: DEVOICE <#channel> [user]", \&svs_cs_devoice);
+	fantasy("voice", 1);
+	fantasy("devoice", 1);
         if (!flag_exists("v")) {
                 flaglist_add("v", "Allows the use of the VOICE/DEVOICE command");
         }

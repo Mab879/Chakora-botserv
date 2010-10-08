@@ -1,4 +1,7 @@
 # Chakora example modules configuration file
+#
+# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# This software is free software; rights to this config are stated in docs/LICENSE.
 
 # ChanServ - Channel services.
 load "chanserv/main";            # Create ChanServ to allow management of channels.
@@ -46,6 +49,7 @@ load "nickserv/set";              # SET: Set core settings on an account.
 load "operserv/global";           # GLOBAL: Send a global notice to all connected users.
 load "operserv/help";             # HELP: Provides help with OperServ commands.
 load "operserv/modload";          # MODLOAD: Load a module.
+load "operserv/modreload";        # MODRELOAD: Reloads a module.
 load "operserv/modunload";        # MODUNLOAD: Unload a module.
 #load "operserv/raw";             # RAW: Sends a raw message to the services socket.
 load "operserv/restart"           # RESTART: Save services and identified user data to disk and restart services.

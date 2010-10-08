@@ -1,7 +1,7 @@
 # chanserv/owner by The Chakora Project. Adds a OWNER/DEOWNER command to ChanServ allowing one to (de)owner themselves or another user.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -23,6 +23,8 @@ sub init_cs_owner {
 	}
 	cmd_add("chanserv/owner", "Owners you or another user on a channel.", "OWNER will allow you to either owner \nyourself or another user in a channel\nthat you have the +q flag in.\n[T]\nSyntax: OWNER <#channel> [user]", \&svs_cs_owner);
 	cmd_add("chanserv/deowner", "Deowners you or another user on a channel.", "DEOWNER will allow you to either\ndeowner yourself or another user in\na channel that you have the +q flag in.\n[T]\nSyntax: DEOWNER <#channel> [user]", \&svs_cs_deowner);
+	fantasy("owner", 1);
+	fantasy("deowner", 1);
 	if (!flag_exists("q")) {
 		flaglist_add("q", "Allows the use of the OWNER/DEOWNER command");
 	}

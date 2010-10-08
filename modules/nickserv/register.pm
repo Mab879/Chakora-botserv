@@ -1,7 +1,7 @@
 # nickserv/register by The Chakora Project. Allows users to register their nickname with services.
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
-# Released under The BSD License (docs/LICENSE - http://www.opensource.org/licenses/bsd-license.php)
+# This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
 
@@ -102,15 +102,19 @@ sub ns_enforce_on_nick {
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
 		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
 		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
-		#my $timer = POSIX::RT::Timer->new(value => config('nickserv', 'enforce_delay'), callback => sub {
-		#	my $timer = shift;
-		#	ns_enforce($uid, $account);
-		#});
+		#my $timer = Timer->new;
+		#$timer->addonce(code => \&ns_enforce, data => "$uid $account", config('nickserv', 'enforce_delay'));
+		#sleep 1 while $timer->run;
+		sleep config('nickserv', 'enforce_delay');
+		ns_enforce($uid, $account);
 	}
 }
 
 sub ns_enforce {
 	my ($user, $account) = @_;
+#	my ($udata) = @_;
+#	my @ud = split(' ', $udata);
+#	my $account = $ud[1]; my $user = $ud[0];
 	if (!uidInfo($user, 9) or uidInfo($user, 9) ne $account) {
 		serv_notice("nickserv", $user, "You failed to identify in time.");
 		serv_enforce($user, "Guest-".int(rand(99999)));
