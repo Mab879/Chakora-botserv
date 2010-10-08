@@ -60,4 +60,18 @@ sub os_cmd_akill {
         }
     }
 
+    elsif ( uc( $parv[1] ) eq 'LIST' ) {
+
+        #Do something here
+    }
+
+    elsif ( uc( $parv[1] ) eq 'DEL' ) {
+        if ( $pt->remove_string( $parv[2] ) ) {
+            serv_notice( $user, "AKILL on $parv[2] removed successfully." );
+        }
+        else {
+            serv_notice( $user, "$parv[2] is not banned." );
+        }
+    }
+
 }
