@@ -120,6 +120,7 @@
 	[X] Allow custom services to be made and handled like others
 	[ ] When chanserv/flags is done, add the +L flag creation there
 	[ ] Make our own config parser, we really need one.
+	[ ] Fix the truckload of uninitialized values issues that are displayed while in debug mode.
 Key: 
 	X = Done
 	! = In development
