@@ -14,7 +14,7 @@ use constant { PACKAGE_VER => '0.1.0 devel' };
 our $pt = new Net::Patricia;    #Create the Patricia Trie
 
 module_init( "operserv/akill",
-    "Woomoo Development Group <http://dev.woomoo.org",
+    "Woomoo Development Group <http://dev.woomoo.org>",
     PACKAGE_VER, \&modinit, \&moddeinit, "all" );
 
 sub modinit {
