@@ -29,6 +29,7 @@ sub moddeinit {
     delete_sub('handle_connection');
     delete_sub('os_cmd_akill');
     cmd_del('operserv/akill');
+    hook_uid_del( \&handle_connection );
 }
 
 sub handle_connection {
