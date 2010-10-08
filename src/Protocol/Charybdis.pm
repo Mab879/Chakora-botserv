@@ -422,6 +422,12 @@ sub serv_enforce {
         }
 }
 
+# Handle network bans
+sub serv_netban {
+	my ($user, $host, $duration, $reason) = @_;
+	send_sock(":".svsUID("operserv")." ENCAP * KLINE $duration $user $host $reason");
+}
+
 ######### Receiving data #########
 
 # Handle CAPAB

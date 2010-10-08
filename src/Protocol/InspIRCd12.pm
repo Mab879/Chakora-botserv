@@ -481,6 +481,13 @@ sub serv_enforce {
     }
 }
 
+# Handle network bans
+sub serv_netban {
+	my ($user, $host, $duration, $reason) = @_;
+	my $mask = $user.'@'.$host;
+	send_sock(":".svsUID("chakora::server")." ADDLINE G $mask ".config('me', 'name')." ".time." $duration :$reason");
+}
+
 ######### Receiving data #########
 
 # Handle CAPAB
