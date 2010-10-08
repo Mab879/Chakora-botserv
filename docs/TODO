@@ -27,7 +27,7 @@
 	[ ] Release
 	[X] Account name
 	[X] Logout
-	[ ] Once the CHGIDENT event is done, add a hook in nickserv/main to change the data:realhost
+	[X] Once the CHGIDENT/CHGHOST event is done, add a hook in nickserv/main to change the data:realhost
 
 [ ] ChanServ
 	[X] Make the chanserv core a module
