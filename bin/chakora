@@ -403,7 +403,9 @@ while (1) {
     if ($IN_DEBUG) {
     	print("[IRC] ".$data."\n");
     }
-    $USER = substr( $ex[0], 1 );
+    if (defined $ex[0]) {
+		$USER = substr( $ex[0], 1 );
+	}
 
 	if (defined $ex[0]) {
 		if ($ex[0] eq 'CAPAB') {
@@ -461,61 +463,64 @@ while (1) {
     }
 
     # Handle a server command, if a handler is defined in the protocol module
-    if ( $rawcmds{ $ex[1] }{handler} ) {
-        my $sub_ref = $rawcmds{ $ex[1] }{handler};
-        eval { &{$sub_ref}($data); };
-    }
-
-    # Handle CTCPs
-    if ( $mtext =~ /^\001.+\001/ and $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
-        $data  =~ s/\001//g;
-        $mtext =~ s/\001//g;
-        $ex[3] =~ s/\001//g;
-        $ex[3] = substr( $ex[3], 1 );
-	event_ctcp ( $USER, $ex[2], $ex[3] );
-	if ($IN_DEBUG) {
-       		print("[CTCP] ".$ex[3]." from ".$USER."[".uidInfo($USER, 1)."]\n");
+    if (defined $ex[1]) { 
+		if ( $rawcmds{ $ex[1] }{handler} ) {
+			my $sub_ref = $rawcmds{ $ex[1] }{handler};
+			eval { &{$sub_ref}($data); };
+		}
 	}
-    }
 
-    # Handle services commands, if it exists
-    elsif ( $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
-	undef $SERVICES_MSGSERVICE;
-        foreach my $key ( keys %svsuid ) {
-            if ( svsUID($key) eq $ex[2]) {
-		if ($ex[2] eq svsUID('operserv')) {
-			if (has_spower($USER, 'operserv:_')) {
-				$SERVICES_MSGSERVICE = 'operserv';
-			}
-			else {
-				serv_notice('operserv', $USER, 'Access denied.');
+	if (defined $ex[1]) {
+		# Handle CTCPs
+		if ( $mtext =~ /^\001.+\001/ and $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
+			$data  =~ s/\001//g;
+			$mtext =~ s/\001//g;
+			$ex[3] =~ s/\001//g;
+			$ex[3] = substr( $ex[3], 1 );
+			event_ctcp ( $USER, $ex[2], $ex[3] );
+			if ($IN_DEBUG) {
+				print("[CTCP] ".$ex[3]." from ".$USER."[".uidInfo($USER, 1)."]\n");
 			}
 		}
-		elsif (!defined $SERVICES_MSGSERVICE) {	
-                	$SERVICES_MSGSERVICE = $key;
-		}
-            }
-        }
-        if ( $CMDTREE{ lc($SERVICES_MSGSERVICE) } ) {
 
-            # if there is an entry for the service in the command tree, continue
-            if ( $COMMANDS{ lc($SERVICES_MSGSERVICE) }
-                { lc( substr( $ex[3], 1 ) ) }{handler} )
-            {
+		# Handle services commands, if it exists
+		elsif ( $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
+			undef $SERVICES_MSGSERVICE;
+			foreach my $key ( keys %svsuid ) {
+				if ( svsUID($key) eq $ex[2]) {
+					if ($ex[2] eq svsUID('operserv')) {
+						if (has_spower($USER, 'operserv:_')) {
+							$SERVICES_MSGSERVICE = 'operserv';
+						}
+						else {
+							serv_notice('operserv', $USER, 'Access denied.');
+						}
+					}
+					elsif (!defined $SERVICES_MSGSERVICE) {	
+						$SERVICES_MSGSERVICE = $key;
+					}
+				}
+			}
+			if (defined $SERVICES_MSGSERVICE) {
+				if ( $CMDTREE{ lc($SERVICES_MSGSERVICE) } ) {
 
-                # if the command exists, execute the handler for it
-                my ( @bargv, $i );
-                for ( $i = 4 ; $i < count(@ex) ; $i++ ) {
-                    $bargv[ $i - 3 ] = $ex[$i];
-                }
-                my $sub_ref =
-                  $COMMANDS{ lc($SERVICES_MSGSERVICE) }
-                  { lc( substr( $ex[3], 1 ) ) }{handler};
-                eval { &{$sub_ref}( $USER, @bargv ); };
-            }
-            else {
-                serv_notice( $SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".$svsnick{ lc($SERVICES_MSGSERVICE) }." HELP for a list of commands.");
-            }
+					# if there is an entry for the service in the command tree, continue
+					if ( $COMMANDS{ lc($SERVICES_MSGSERVICE) }
+						{ lc( substr( $ex[3], 1 ) ) }{handler} ) {
+
+						# if the command exists, execute the handler for it
+						my ( @bargv, $i );
+						for ( $i = 4 ; $i < count(@ex) ; $i++ ) {
+							$bargv[ $i - 3 ] = $ex[$i];
+						}
+						my $sub_ref = $COMMANDS{ lc($SERVICES_MSGSERVICE) }{ lc( substr( $ex[3], 1 ) ) }{handler};
+						eval { &{$sub_ref}( $USER, @bargv ); };
+					}
+					else {
+						serv_notice( $SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".$svsnick{ lc($SERVICES_MSGSERVICE) }." HELP for a list of commands.");
+					}
+				}
+			}
         }
     }
 }
