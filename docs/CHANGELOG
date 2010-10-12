@@ -8,8 +8,6 @@
 ---------------------------------------
 
 Current Devel
-	- API: No longer send the supported IRCd in the module initialization call, as this can now be done in the initialization sub except with a more 
-          powerful interface for doing it.
 
 1.0.0-alpha3
 	- API: Added idflush() for flushing data about identified users to disk.
