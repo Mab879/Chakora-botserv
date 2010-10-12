@@ -17,45 +17,32 @@ sub module_init {
           . $name . " v" 
           . $version . " by "
           . $author );
-    $ircd = lc($ircd);
-    if ( $ircd ne 'all' and $ircd ne lc( config( 'server', 'ircd' ) ) ) {
-        print(  "[MODULES] Module " 
-              . $name
-              . " refusing to load: Protocol not supported.\n" );
-        svsflog( "chakora",
-                "[MODULES] Module " 
-              . $name
-              . " refusing to load: Protocol not supported." );
-        return "MODLOAD_BADPROTO";
-    }
-    else {
-        eval {
-            my $ms = &{$init_handler}();
-            if ($ms) {
-				print( "[MODULES] " . $name . ": Module successfully loaded.\n" );
-				svsflog( "chakora",
+	eval {
+		my $ms = &{$init_handler}();
+		if ($ms) {
+			print( "[MODULES] " . $name . ": Module successfully loaded.\n" );
+			svsflog( "chakora",
 					"[MODULES] " . $name . ": Module successfully loaded." );
-				$Chakora::MODULE{$name}{name}    = $name;
-				$Chakora::MODULE{$name}{author}  = $author;
-				$Chakora::MODULE{$name}{version} = $version;
-				$Chakora::MODULE{$name}{void}    = $void_handler;
-				return "MODLOAD_SUCCESS";
-				1;
-			}
-			else {
+			$Chakora::MODULE{$name}{name}    = $name;
+			$Chakora::MODULE{$name}{author}  = $author;
+			$Chakora::MODULE{$name}{version} = $version;
+			$Chakora::MODULE{$name}{void}    = $void_handler;
+			return "MODLOAD_SUCCESS";
+			1;
+		}
+		else {
 #				Class::Unload->unload("$Chakora::ROOT_SRC/../modules/$name.pm");
-				&{$void_handler}();
-				print( "[MODULES] " . $name . ": Module failed to load.\n" );
-				svsflog( "chakora",
+			&{$void_handler}();
+			print( "[MODULES] " . $name . ": Module failed to load.\n" );
+			svsflog( "chakora",
 					"[MODULES] " . $name . ": Module failed to load." );
-				return "MODLOAD_ERRFROMOD";
-			}
-        }
-          or print( "[MODULES] " . $name . ": Module failed to load. $@\n" )
-          and svsflog( "chakora",
+			return "MODLOAD_ERRFROMOD";
+		}
+	}
+	or print( "[MODULES] " . $name . ": Module failed to load. $@\n" )
+	and svsflog( "chakora",
             "[MODULES] " . $name . ": Module failed to load." )
-          and return "MODLOAD_FAIL";
-    }
+	and return "MODLOAD_FAIL";
 }
 
 sub module_exists {
