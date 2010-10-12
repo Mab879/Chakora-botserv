@@ -105,8 +105,8 @@ sub ns_enforce_on_nick {
 		#my $timer = Timer->new;
 		#$timer->addonce(code => \&ns_enforce, data => "$uid $account", config('nickserv', 'enforce_delay'));
 		#sleep 1 while $timer->run;
-		sleep config('nickserv', 'enforce_delay');
-		ns_enforce($uid, $account);
+#		sleep config('nickserv', 'enforce_delay');
+#		ns_enforce($uid, $account);
 	}
 }
 
