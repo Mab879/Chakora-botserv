@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/owner", "The Chakora Project", "0.1", \&sinit_cs_owner, \&void_cs_owner, "all");
+module_init("chanserv/owner", "The Chakora Project", "0.1", \&sinit_cs_owner, \&void_cs_owner);
 
 sub sinit_cs_owner {
 	if ($Chakora::synced) { init_cs_owner(); }

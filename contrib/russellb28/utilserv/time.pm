@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("utilserv/time", "Russell Bradford", "1.0", \&init_us_time, \&void_us_time, "all");
+module_init("utilserv/time", "Russell Bradford", "1.0", \&init_us_time, \&void_us_time);
 
 sub init_us_time {
 	cmd_add("utilserv/time", "Show the Current Date & Time", "Show the current date and time. \nThe date and time are retrieved from \nthe server that this service is running on. \n[T]\nSyntax: TIME", \&svs_us_time);

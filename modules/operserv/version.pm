@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/version", "The Chakora Project", "0.1", \&init_os_version, \&void_os_version, "all");
+module_init("operserv/version", "The Chakora Project", "0.1", \&init_os_version, \&void_os_version);
 
 sub init_os_version {
 	cmd_add("operserv/version", "Display services version", "Will return the current version of Chakora.", \&svs_os_version);

@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/lol", "Matthew Barksdale", "0.1", \&init_cs_lol, \&void_cs_lol, "all");
+module_init("chanserv/lol", "Matthew Barksdale", "0.1", \&init_cs_lol, \&void_cs_lol);
 
 sub init_cs_lol {
 	taint("LOL MODULE"); # Taints chakora

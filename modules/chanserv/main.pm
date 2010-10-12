@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/main", "The Chakora Project", "0.3", \&init_cs_main, \&void_cs_main, "all");
+module_init("chanserv/main", "The Chakora Project", "0.3", \&init_cs_main, \&void_cs_main);
 
 sub init_cs_main {
 	create_cmdtree("chanserv");

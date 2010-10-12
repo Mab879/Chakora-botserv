@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("utilserv/dns", "Russell Bradford", "1.0", \&init_us_dns, \&void_us_dns, "all");
+module_init("utilserv/dns", "Russell Bradford", "1.0", \&init_us_dns, \&void_us_dns);
 
 sub init_us_dns {
 	if(!eval { require Net::DNS; 1; })

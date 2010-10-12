@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/halfop", "The Chakora Project", "0.1", \&sinit_cs_halfop, \&void_cs_halfop, "all");
+module_init("chanserv/halfop", "The Chakora Project", "0.1", \&sinit_cs_halfop, \&void_cs_halfop);
 
 sub sinit_cs_halfop {
 	if ($Chakora::synced) { init_cs_halfop(); }

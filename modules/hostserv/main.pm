@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&void_hs_main, "all");
+module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&void_hs_main);
 
 sub init_hs_main {
 	hook_kill_add(\&ircd_hs_kill);

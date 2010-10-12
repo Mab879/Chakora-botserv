@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/global", "The Chakora Project", "0.1", \&init_os_global, \&void_os_global, "all");
+module_init("operserv/global", "The Chakora Project", "0.1", \&init_os_global, \&void_os_global);
 
 sub init_os_global {
 	cmd_add("operserv/global", "Sends a global", "Sends a notice to all users.", \&svs_os_global);

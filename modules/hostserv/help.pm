@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("hostserv/help", "The Chakora Project", "0.1", \&init_hs_help, \&void_hs_help, "all");
+module_init("hostserv/help", "The Chakora Project", "0.1", \&init_hs_help, \&void_hs_help);
 
 sub init_hs_help {
 	if (!module_exists("hostserv/main")) {

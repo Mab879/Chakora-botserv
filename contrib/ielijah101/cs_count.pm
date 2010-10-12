@@ -7,7 +7,7 @@ use strict;
 use warnings;
 
 # Call to initialize the module.
-module_init("chanserv/count", "Elijah Perrault", "1.0", \&init_cs_count, \&void_cs_count, "all");
+module_init("chanserv/count", "Elijah Perrault", "1.0", \&init_cs_count, \&void_cs_count);
 
 # Subroutine that initializes the module.
 sub init_cs_count {

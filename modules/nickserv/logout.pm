@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("nickserv/logout", "The Chakora Project", "0.1", \&init_ns_logout, \&void_ns_logout, "all");
+module_init("nickserv/logout", "The Chakora Project", "0.1", \&init_ns_logout, \&void_ns_logout);
 
 sub init_ns_logout {
         if (!module_exists("nickserv/main")) {

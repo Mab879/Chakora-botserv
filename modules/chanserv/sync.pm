@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/sync", "The Chakora Project", "0.1", \&init_cs_sync, \&void_cs_sync, "all");
+module_init("chanserv/sync", "The Chakora Project", "0.1", \&init_cs_sync, \&void_cs_sync);
 
 sub init_cs_sync {
 	if (!module_exists("chanserv/main")) {

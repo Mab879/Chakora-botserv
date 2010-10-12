@@ -6,7 +6,7 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # This software is free software; rights to this code are stated in docs/LICENSE.
-module_init("chanserv/away", "The Chakora Project", "0.1", \&init_cs_away, \&void_cs_away, "all");
+module_init("chanserv/away", "The Chakora Project", "0.1", \&init_cs_away, \&void_cs_away);
 
 sub init_cs_away {
 	hook_away_add(\&svs_cs_away);

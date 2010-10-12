@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/modunload", "The Chakora Project", "0.1", \&init_os_modunload, \&void_os_modunload, "all");
+module_init("operserv/modunload", "The Chakora Project", "0.1", \&init_os_modunload, \&void_os_modunload);
 
 sub init_os_modunload {
 	cmd_add("operserv/modunload", "Unloads a module", "Unloads a module from Chakora.", \&svs_os_modunload);

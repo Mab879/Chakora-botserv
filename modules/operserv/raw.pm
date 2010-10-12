@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/raw", "The Chakora Project", "0.1", \&init_os_raw, \&void_os_raw, "all");
+module_init("operserv/raw", "The Chakora Project", "0.1", \&init_os_raw, \&void_os_raw);
 
 sub init_os_raw {
 	taint("Modules: operserv/eval: Destructive module. Not supported.");

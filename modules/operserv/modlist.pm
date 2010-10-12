@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/modlist", "The Chakora Project", "0.1", \&init_os_modlist, \&void_os_modlist, "all");
+module_init("operserv/modlist", "The Chakora Project", "0.1", \&init_os_modlist, \&void_os_modlist);
 
 sub init_os_modlist {
 	cmd_add("operserv/modlist", "Displays a list of modules loaded.", "This returns a list of all the modules currently loaded.", \&svs_os_modlist);

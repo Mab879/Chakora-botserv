@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/restart", "The Chakora Project", "0.1", \&init_os_restart, \&void_os_restart, "all");
+module_init("operserv/restart", "The Chakora Project", "0.1", \&init_os_restart, \&void_os_restart);
 
 sub init_os_restart {
 	cmd_add("operserv/restart", "Restart services.", "RESTART will save data about identified users to disk,\nsave services data to disk, restart, then relink and\nre-identify appropriate users.\n[T]\nSyntax: RESTART", \&svs_os_restart);

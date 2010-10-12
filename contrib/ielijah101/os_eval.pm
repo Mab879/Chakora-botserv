@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/eval", "Elijah Perrault", "1.0", \&init_os_eval, \&void_os_eval, "all");
+module_init("operserv/eval", "Elijah Perrault", "1.0", \&init_os_eval, \&void_os_eval);
 
 sub init_os_eval {
 	taint("Modules: operserv/eval: Destructive module. Not supported.");

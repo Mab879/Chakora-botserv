@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("dnsbl/main", "Russell Bradford", "0.1", \&init_dns_main, \&void_dns_main, "all");
+module_init("dnsbl/main", "Russell Bradford", "0.1", \&init_dns_main, \&void_dns_main);
 
 sub init_dns_main {
 	if(!eval { require Net::DNS; 1; })

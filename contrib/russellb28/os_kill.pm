@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/kill", "Russell Bradford", "1.0", \&init_os_kill, \&void_os_kill, "all");
+module_init("operserv/kill", "Russell Bradford", "1.0", \&init_os_kill, \&void_os_kill);
 
 sub init_os_kill {
 	cmd_add("operserv/kill", "Kill a user from the network using OperServ", "Kill a user from the network using operserv \nwith a specific reason. If no reason \nis specified then the user will be killed \nwith a reason that shows your \nnickname.\n[T]\nSyntax: KILL <nickname> [reason]", \&svs_os_kill);

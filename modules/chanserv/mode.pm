@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/mode", "Russell Bradford", "1.0", \&init_cs_mode, \&void_cs_mode, "all");
+module_init("chanserv/mode", "Russell Bradford", "1.0", \&init_cs_mode, \&void_cs_mode);
 
 sub init_cs_mode {
 	if (!module_exists("chanserv/main")) {

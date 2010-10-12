@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("utilserv/main", "Russell Bradford", "0.1", \&init_us_main, \&void_us_main, "all");
+module_init("utilserv/main", "Russell Bradford", "0.1", \&init_us_main, \&void_us_main);
 
 sub init_us_main {
 	hook_kill_add(\&ircd_us_kill);

@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("nickserv/set", "The Chakora Project", "0.1", \&init_ns_set, \&void_ns_set, "all");
+module_init("nickserv/set", "The Chakora Project", "0.1", \&init_ns_set, \&void_ns_set);
 
 sub init_ns_set {
         if (!module_exists("nickserv/main")) {

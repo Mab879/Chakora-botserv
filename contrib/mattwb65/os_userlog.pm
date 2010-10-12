@@ -9,7 +9,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/userlog", "Matthew Barksdale", "0.1", \&init_os_userlog, \&void_os_userlog, "all");
+module_init("operserv/userlog", "Matthew Barksdale", "0.1", \&init_os_userlog, \&void_os_userlog);
 
 # Set this to 0 and verify it has a block in the config to make userlog use its own service
 my $use_operserv = 1;

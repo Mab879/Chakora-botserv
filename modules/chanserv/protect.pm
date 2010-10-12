@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/protect", "The Chakora Project", "0.1", \&sinit_cs_protect, \&void_cs_protect, "all");
+module_init("chanserv/protect", "The Chakora Project", "0.1", \&sinit_cs_protect, \&void_cs_protect);
 
 sub sinit_cs_protect {
 	if ($Chakora::synced) { init_cs_protect(); }

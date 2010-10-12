@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("memoserv/main", "The Chakora Project", "0.1", \&init_ms_main, \&void_ms_main, "all");
+module_init("memoserv/main", "The Chakora Project", "0.1", \&init_ms_main, \&void_ms_main);
 
 sub init_ms_main {
 	hook_kill_add(\&ircd_ms_kill);

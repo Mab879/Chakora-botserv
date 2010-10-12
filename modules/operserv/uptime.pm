@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/uptime", "The Chakora Project", "0.1", \&init_os_uptime, \&void_os_uptime, "all");
+module_init("operserv/uptime", "The Chakora Project", "0.1", \&init_os_uptime, \&void_os_uptime);
 
 sub init_os_uptime {
 	cmd_add("operserv/uptime", "Display services uptime.", "Display when services were started, and how long they've been running.", \&svs_os_uptime);

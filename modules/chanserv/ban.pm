@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("chanserv/ban", "The Chakora Project", "1.0", \&init_cs_ban, \&void_cs_ban, "all");
+module_init("chanserv/ban", "The Chakora Project", "1.0", \&init_cs_ban, \&void_cs_ban);
 
 sub init_cs_ban {
 	if (!module_exists("chanserv/main")) {

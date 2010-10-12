@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("hostserv/assign", "The Chakora Project", "0.1", \&init_hs_assign, \&void_hs_assign, "all");
+module_init("hostserv/assign", "The Chakora Project", "0.1", \&init_hs_assign, \&void_hs_assign);
 
 sub init_hs_assign {
 	cmd_add("hostserv/assign", "Assign vHosts (virtual hosts).", "ASSIGN will allow you to assign a vHost to a user, this\nvHost will replace their current hostmask as well as\nreplace it everytime they identify until it is unassigned.\n[T]\nSyntax: ASSIGN <account> <vhost>", \&svs_hs_assign);

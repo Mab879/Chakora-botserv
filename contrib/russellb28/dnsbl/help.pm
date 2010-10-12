@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("dnsbl/help", "The Chakora Project", "0.1", \&init_dns_help, \&void_dns_help, "all");
+module_init("dnsbl/help", "The Chakora Project", "0.1", \&init_dns_help, \&void_dns_help);
 
 sub init_dns_help {
 	if (!module_exists("dnsbl/main")) {

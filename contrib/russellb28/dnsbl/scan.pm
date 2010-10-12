@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 
-module_init("dnsbl/scan", "Russell Bradford", "1.0", \&init_dns_scan, \&void_dns_scan, "all");
+module_init("dnsbl/scan", "Russell Bradford", "1.0", \&init_dns_scan, \&void_dns_scan);
 
 sub init_dns_scan {
 	if(!eval { require Net::DNS; 1; })

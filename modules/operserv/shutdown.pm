@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/shutdown", "The Chakora Project", "0.1", \&init_os_shutdown, \&void_os_shutdown, "all");
+module_init("operserv/shutdown", "The Chakora Project", "0.1", \&init_os_shutdown, \&void_os_shutdown);
 
 sub init_os_shutdown {
 	cmd_add("operserv/shutdown", "Shutdown services.", "Shuts down all of Chakora.", \&svs_os_shutdown);

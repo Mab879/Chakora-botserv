@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("operserv/help", "The Chakora Project", "0.1", \&init_os_help, \&void_os_register, "all");
+module_init("operserv/help", "The Chakora Project", "0.1", \&init_os_help, \&void_os_register);
 
 sub init_os_help {
 	cmd_add("operserv/help", "NO_HELP_ENTRY", "NO_HELP_ENTRY", \&svs_os_help);

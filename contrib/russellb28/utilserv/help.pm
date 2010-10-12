@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("utilserv/help", "Russell Bradford", "0.1", \&init_us_help, \&void_us_help, "all");
+module_init("utilserv/help", "Russell Bradford", "0.1", \&init_us_help, \&void_us_help);
 
 sub init_us_help {
 	if (!module_exists("utilserv/main")) {

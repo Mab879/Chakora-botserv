@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("nickserv/main", "The Chakora Project", "0.3", \&init_ns_main, \&void_ns_main, "all");
+module_init("nickserv/main", "The Chakora Project", "0.3", \&init_ns_main, \&void_ns_main);
 
 sub init_ns_main {
 	create_cmdtree("nickserv");

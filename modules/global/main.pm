@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("global/main", "The Chakora Project", "0.3", \&init_g_main, \&void_g_main, "all");
+module_init("global/main", "The Chakora Project", "0.3", \&init_g_main, \&void_g_main);
 
 sub init_g_main {
 	create_cmdtree("global");
