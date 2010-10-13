@@ -17,7 +17,6 @@ sub module_init {
           . $name . " v" 
           . $version . " by "
           . $author );
-    else {
         eval {
             my $ms = &{$init_handler}();
             if ($ms) {
@@ -44,7 +43,6 @@ sub module_init {
           and svsflog( "chakora",
             "[MODULES] " . $name . ": Module failed to load." )
           and return "MODLOAD_FAIL";
-    }
 }
 
 sub module_exists {
