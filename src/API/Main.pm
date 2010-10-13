@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 sub module_init {
-    my ( $name, $author, $version, $init_handler, $void_handler, $ircd ) = @_;
+    my ( $name, $author, $version, $init_handler, $void_handler) = @_;
     print(  "[MODULES] Attempting to load module: " 
           . $name . " v" 
           . $version . " by "
@@ -17,17 +17,6 @@ sub module_init {
           . $name . " v" 
           . $version . " by "
           . $author );
-    $ircd = lc($ircd);
-    if ( $ircd ne 'all' and $ircd ne lc( config( 'server', 'ircd' ) ) ) {
-        print(  "[MODULES] Module " 
-              . $name
-              . " refusing to load: Protocol not supported.\n" );
-        svsflog( "chakora",
-                "[MODULES] Module " 
-              . $name
-              . " refusing to load: Protocol not supported." );
-        return "MODLOAD_BADPROTO";
-    }
     else {
         eval {
             my $ms = &{$init_handler}();
