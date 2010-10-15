@@ -73,7 +73,7 @@ sub ircd_ns_main {
 sub ircd_ns_kill {
 	my ($user, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'nickserv'}) {
+	if ($target eq svsUID("nickserv")) {
 		serv_del("NickServ");
 		ircd_ns_main();
 	}
@@ -89,7 +89,7 @@ sub ircd_ns_kill {
 sub ircd_ns_kick {
 	my ($user, $chan, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'nickserv'}) {
+	if ($target eq svsUID("nickserv")) {
 		if (lc($chan) ne config('log', 'logchan') and !defined($Chakora::DB_chan{lc($chan)}{name})) {
 			return;
 		}	

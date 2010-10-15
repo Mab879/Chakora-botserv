@@ -91,7 +91,7 @@ sub ircd_cs_main {
 sub ircd_cs_kill {
 	my ($user, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'chanserv'}) {
+	if ($target eq svsUID("chanserv")) {
 		serv_del("ChanServ");
 		ircd_cs_main();
 	}
@@ -136,7 +136,7 @@ sub ircd_cs_part {
 sub ircd_cs_kick {
 	my ($user, $chan, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'chanserv'}) {
+	if ($target eq svsUID("chanserv")) {
 		if (lc($chan) ne config('log', 'logchan') and !defined($Chakora::DB_chan{lc($chan)}{name})) {
 			return;
 		}
