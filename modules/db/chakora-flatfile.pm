@@ -6,10 +6,10 @@ use strict;
 use warnings;
 
 sub db_flush {
-    unless ( -e "$ROOT_SRC/../etc/chakora.db" ) {
-        `touch $ROOT_SRC/../etc/chakora.db`;
+    unless ( -e "$Chakora::ROOT_SRC/../etc/chakora.db" ) {
+        `touch $Chakora::ROOT_SRC/../etc/chakora.db`;
     }
-    open FILE, ">$ROOT_SRC/../etc/chakora.db" or return 0;
+    open FILE, ">$Chakora::ROOT_SRC/../etc/chakora.db" or return 0;
     my $dd = "DBV Chakora1.0-Flatfile\n";
     foreach my $key ( keys %Chakora::DB_account ) {
 		unless (!defined($Chakora::DB_account{$key}{name})) {
