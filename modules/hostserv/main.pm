@@ -9,6 +9,7 @@ module_init("hostserv/main", "The Chakora Project", "0.1", \&init_hs_main, \&voi
 
 sub init_hs_main {
 	hook_kill_add(\&ircd_hs_kill);
+        hook_kick_add(\&ircd_hs_kick);
 	hook_identify_add(\&ircd_hs_ns_id);
 	create_cmdtree("hostserv");
 	if (!$Chakora::synced) { hook_pds_add(\&svs_hs_main); }
@@ -22,9 +23,11 @@ sub void_hs_main {
 	serv_del('HostServ');
 	delete_cmdtree("hostserv");
 	hook_kill_del(\&ircd_hs_kill);
+        hook_kick_add(\&ircd_hs_kick);
 	hook_identify_del(\&ircd_hs_ns_id);
 	delete_sub 'ircd_hs_kill';
 	delete_sub 'ircd_hs_ns_id';
+	delete_sub 'ircd_hs_kick';
 	delete_sub 'void_hs_main';
 }
 
@@ -59,6 +62,15 @@ sub ircd_hs_kill {
 		serv_del("HostServ");
 		ircd_hs_main();
 	}
+}
+
+sub ircd_hs_kick {
+        my ($user, $chan, $target, undef) = @_;
+
+        if ($target eq svsUID("hostserv")) {
+                serv_join("hostserv", $chan);
+                serv_kick("hostserv", $chan, $user, "Please do not kick services.");
+        }
 }
 
 sub ircd_hs_ns_id {

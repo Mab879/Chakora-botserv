@@ -9,6 +9,7 @@ module_init("memoserv/main", "The Chakora Project", "0.1", \&init_ms_main, \&voi
 
 sub init_ms_main {
 	hook_kill_add(\&ircd_ms_kill);
+	hook_kick_add(\&ircd_ms_kick);
 	create_cmdtree("memoserv");
 	if (!$Chakora::synced) { hook_pds_add(\&svs_ms_main); }
 	else { svs_ms_main(); return 1; }
@@ -21,9 +22,11 @@ sub void_ms_main {
 	delete_sub 'svs_ms_main';
 	hook_pds_del(\&svs_ms_main);
 	hook_kill_del(\&ircd_ms_kill);
+	hook_kick_del(\&ircd_ms_kick);
 	serv_del('MemoServ');
 	delete_cmdtree("memoserv");
 	delete_sub 'ircd_ms_kill';
+	delete_sub 'ircd_ms_kick';
 	delete_sub 'void_ms_main';
 }
 
@@ -58,6 +61,15 @@ sub ircd_ms_kill {
 		serv_del("MemoServ");
 		ircd_ms_main();
 	}
+}
+
+sub ircd_ms_kick {
+        my ($user, $chan, $target, undef) = @_;
+
+        if ($target eq svsUID("memoserv")) {
+                serv_join("memoserv", $chan);
+                serv_kick("memoserv", $chan, $user, "Please do not kick services.");
+        }
 }
 
 sub memo_send {
