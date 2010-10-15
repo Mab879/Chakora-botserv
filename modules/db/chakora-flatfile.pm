@@ -5,6 +5,26 @@
 use strict;
 use warnings;
 
+module_init("db/chakora-flatfile", "The Chakora Project", "1.0.2", \&init_db, \&void_db);
+
+sub init_db {
+	if (defined $Chakora::DB_VERSION) {
+		svsflog("chakora", "Unloading database backend: $Chakora::DB_VERSION");
+		undef $Chakora::DB_VERSION;
+	}
+	our $Chakora::DB_VERSION = "Chakora1.0-Flatfile";
+	svsflog("chakora", "Initializing database backend: $Chakora::DB_VERSION");
+	return 1;
+}
+
+sub void_db {
+	svsflog("chakora", "Unloading database backend: $Chakora::DB_VERSION");
+	undef $Chakora::DB_VERSION;
+	delete_sub 'init_db';
+	delete_sub 'db_flush';
+	delete_sub 'void_db';
+}
+
 sub db_flush {
     unless ( -e "$Chakora::ROOT_SRC/../etc/chakora.db" ) {
         `touch $Chakora::ROOT_SRC/../etc/chakora.db`;
