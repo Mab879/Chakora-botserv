@@ -648,17 +648,19 @@ sub dbflush {
     open FILE, ">$ROOT_SRC/../etc/chakora.db" or exit;
     my $dd = "DBV Chakora1.0-Flatfile\n";
     foreach my $key ( keys %DB_account ) {
-        $dd .= "AI "
-          . $DB_account{$key}{name} . " "
-          . $DB_account{$key}{pass} . " "
-          . $DB_account{$key}{email} . " "
-          . $DB_account{$key}{regtime} . " "
-          . $DB_account{$key}{lasthost} . " "
-          . $DB_account{$key}{lastseen} . "\n";
+		unless (!defined($DB_account{$key}{name})) {
+			$dd .= "AI "
+			. $DB_account{$key}{name} . " "
+			. $DB_account{$key}{pass} . " "
+			. $DB_account{$key}{email} . " "
+			. $DB_account{$key}{regtime} . " "
+			. $DB_account{$key}{lasthost} . " "
+			. $DB_account{$key}{lastseen} . "\n";
+		}
     }
     foreach my $key ( keys %DB_nick ) {
         unless ( !defined( $DB_nick{$key}{nick} ) )
-        {    # this is a cheap hack, but it'll work
+        {
             $dd .= "AN "
               . $DB_nick{$key}{nick} . " "
               . $DB_nick{$key}{account} . " "
@@ -666,10 +668,12 @@ sub dbflush {
         }
     }
     foreach my $key ( keys %DB_accdata ) {
-        $dd .= "AD "
-          . $DB_accdata{$key}{account} . " "
-          . $DB_accdata{$key}{name} . " "
-          . $DB_accdata{$key}{value} . "\n";
+		unless (!defined($DB_accdata{$key}{account})) {
+			$dd .= "AD "
+			. $DB_accdata{$key}{account} . " "
+			. $DB_accdata{$key}{name} . " "
+			. $DB_accdata{$key}{value} . "\n";
+		}
     }
     foreach my $key ( keys %DB_chan ) {
         unless ( !defined( $DB_chan{$key}{name} ) ) {
@@ -683,26 +687,30 @@ sub dbflush {
         }
     }
     foreach my $key ( keys %DB_chandata ) {
-        $dd .= "CD "
-          . $DB_chandata{$key}{chan} . " "
-          . $DB_chandata{$key}{name} . " "
-          . $DB_chandata{$key}{value} . "\n";
+		unless (!defined($DB_chandata{$key}{value})) {
+			$dd .= "CD "
+			. $DB_chandata{$key}{chan} . " "
+			. $DB_chandata{$key}{name} . " "
+			. $DB_chandata{$key}{value} . "\n";
+		}
     }
     foreach my $key ( keys %DB_chanflags ) {
-	unless ( !defined( $DB_chanflags{$key}{flags} ) ) {
+		unless ( !defined( $DB_chanflags{$key}{flags} ) ) {
         	$dd .= "CF "
           	. $DB_chanflags{$key}{chan} . " "
           	. $DB_chanflags{$key}{account} . " "
-          	. $DB_chanflags{$key}{flags} . "\n";
-	}
+			. $DB_chanflags{$key}{flags} . "\n";
+		}
     }
     foreach my $key ( keys %DB_memo ) {
-        $dd .= "MM "
-          . $DB_memo{$key}{to} . " "
-          . $DB_memo{$key}{from} . " "
-          . $DB_memo{$key}{time} . " "
-          . $DB_memo{$key}{new} . " "
-          . $DB_memo{$key}{body} . "\n";
+		unless (!defined($DB_memo{$key}{body})) {
+			$dd .= "MM "
+			. $DB_memo{$key}{to} . " "
+			. $DB_memo{$key}{from} . " "
+			. $DB_memo{$key}{time} . " "
+			. $DB_memo{$key}{new} . " "
+			. $DB_memo{$key}{body} . "\n";
+		}
     }
     print FILE $dd;
     close FILE;
