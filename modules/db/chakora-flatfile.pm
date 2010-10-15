@@ -100,3 +100,19 @@ sub db_flush {
     close FILE;
     return 1;
 }
+
+sub db_read {
+	
+}
+
+sub db_find {
+	
+}
+
+sub db_write {
+	
+}
+
+sub db_delete {
+	
+}
