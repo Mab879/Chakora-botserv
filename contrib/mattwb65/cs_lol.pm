@@ -2,15 +2,18 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # This software is free software; rights to this code are stated in docs/LICENSE.
+
+# Typical perl modules
 use strict;
 use warnings;
 
-module_init("chanserv/lol", "Matthew Barksdale", "0.1", \&init_cs_lol, \&void_cs_lol);
+module_init("chanserv/lol", "Matthew Barksdale", "0.1", \&init_cs_lol, \&void_cs_lol); # Initalize the module
 
 sub init_cs_lol {
 	taint("LOL MODULE"); # Taints chakora
 	serv_privmsg("chanserv", config('log', 'logchan'), "LOL MODULE ON"); # Messages the logchan, "LOL MODULE ON"
 	cmd_add("chanserv/lol", "Short help", "Long help.", \&svs_cs_lol); # Adds the command
+	fantasy("lol", 0); # Allows fantasy for this command, 0 = channel is not param one 1 = channel is param 1
 }
 
 sub void_cs_lol {
