@@ -55,7 +55,7 @@ sub svs_hs_main {
 sub ircd_hs_kill {
 	my ($user, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'hostserv'}) {
+	if ($target eq svsUID("hostserv")) {
 		serv_del("HostServ");
 		ircd_hs_main();
 	}

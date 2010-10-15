@@ -54,7 +54,7 @@ sub svs_ms_main {
 sub ircd_ms_kill {
 	my ($user, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'memoserv'}) {
+	if ($target eq svsUID("memoserv")) {
 		serv_del("MemoServ");
 		ircd_ms_main();
 	}

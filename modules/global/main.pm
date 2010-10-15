@@ -61,19 +61,16 @@ sub ircd_g_main {
 sub ircd_g_kill {
 	my ($user, $target, $reason) = @_;
 	
-	if ($target eq $Chakora::svsuid{'global'}) {
+	if ($target eq svsUID("global")) {
 		serv_del("Global");
 		ircd_g_main();
 	}
 }
 
 sub ircd_g_kick {
-	my ($user, $chan, $target, $reason) = @_;
+	my ($user, $chan, $target, undef) = @_;
 	
-	if ($target eq $Chakora::svsuid{'global'}) {
-		if (lc($chan) ne config('log', 'logchan') and !defined($Chakora::DB_chan{lc($chan)}{name})) {
-			return;
-		}	
+	if ($target eq svsUID("global")) {
 		serv_join("Global", $chan);
 		serv_kick("Global", $chan, $user, "Please do not kick services.");
 	}
