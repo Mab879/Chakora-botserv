@@ -88,6 +88,9 @@
 	[ ] Add module_is_loadable (check if the file exists perhaps?)
 	[X] Improve CTCP handling (make add_ctcp_handler and del_ctcp_handler perhaps?) - Made it an event
 	[O] Add is_oper
+	[ ] Make Chakora's DB backend modular.
+	[>] Add MySQL support.
+	[>] Add PostgreSQL support.
 [ ] Protocols
 	[X] InspIRCd: Track CHGIDENT and make an event for it
 	[X] Network ban API sub
@@ -106,13 +109,13 @@
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
 	[ ] Native ircd-ratbox support.
-	[>] ircd-hybrid support.
-	[>] UnrealIRCd support.
-	[>] ircu support.
-	[>] Bahamut support.
-	[>] ircd-plexus support.
+	[+] ircd-hybrid support.
+	[+] UnrealIRCd support.
+	[+] ircu support.
+	[+] Bahamut support.
+	[+] ircd-plexus support.
 	[ ] TS6-generic support.
-	[>] P10-generic support.
+	[+] P10-generic support.
 	[ ] A server doesn't need to exist to add a jupe, but we still need to check if a server that is trying to be juped exists. Fix the $ssid in the protocols to do this.
 
 [ ] Docs
@@ -128,4 +131,5 @@ Key:
 	! = In development
 	? = Still being questioned whether it should be in Chakora or not
 	O = This didn't make the cut, this could be added later though	
+	+ = This has been planned for Chakora v2.x series.
 	> = This has been planned for Chakora v1.1.
