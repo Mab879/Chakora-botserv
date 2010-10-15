@@ -1211,6 +1211,10 @@ sub raw_kick {
 	my $chan = $rex[2];
 	my $target = $rex[3];
 	my $args = substr($rex[4], 1);
+        if ($target eq svsUID("operserv")) {
+                serv_join("operserv", $chan);
+                serv_kick("operserv", $chan, $user, "Please do not kick services.");
+        }
 	my ($i);
 	for ($i = 5; $i < count(@rex); $i++) { $args .= ' '.$rex[$i]; }
     my @members = split( ' ', $Chakora::channel{ lc( $chan ) }{'members'} );
