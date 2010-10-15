@@ -68,7 +68,7 @@ sub ircd_g_kill {
 }
 
 sub ircd_g_kick {
-	my ($user, $chan, $target, $reason) = @_;
+	my ($user, $chan, $target, undef) = @_;
 	
 	if ($target eq svsUID("global")) {
 		serv_join("Global", $chan);

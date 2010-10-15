@@ -134,7 +134,7 @@ sub ircd_cs_part {
 }
 
 sub ircd_cs_kick {
-	my ($user, $chan, $target, $reason) = @_;
+	my ($user, $chan, $target, undef) = @_;
 	
 	if ($target eq svsUID("chanserv")) {
 		if (lc($chan) ne config('log', 'logchan') and !defined($Chakora::DB_chan{lc($chan)}{name})) {

@@ -87,12 +87,9 @@ sub ircd_ns_kill {
 }
 
 sub ircd_ns_kick {
-	my ($user, $chan, $target, $reason) = @_;
+	my ($user, $chan, $target, undef) = @_;
 	
 	if ($target eq svsUID("nickserv")) {
-		if (lc($chan) ne config('log', 'logchan') and !defined($Chakora::DB_chan{lc($chan)}{name})) {
-			return;
-		}	
 		serv_join("nickserv", $chan);
 		serv_kick("nickserv", $chan, $user, "Please do not kick services.");
 	}
