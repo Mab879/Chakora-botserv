@@ -36,7 +36,7 @@ if ( $^O =~ /win/i ) {
 }
 
 my (%options);
-our ( $SERVICES_STARTTIME, $SERVICES_VERSION, $DEVS, $pid );
+our ( $SERVICES_STARTTIME, $SERVICES_VERSION, $DEVS, $pid, $DB_VERSION );
 our $IN_DEBUG = 0;
 
 # Get command line options

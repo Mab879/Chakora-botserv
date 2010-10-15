@@ -12,7 +12,7 @@ sub init_db {
 		svsflog("chakora", "Unloading database backend: $Chakora::DB_VERSION");
 		undef $Chakora::DB_VERSION;
 	}
-	our $Chakora::DB_VERSION = "Chakora1.0-Flatfile";
+	$Chakora::DB_VERSION = "Chakora1.0-Flatfile";
 	svsflog("chakora", "Initializing database backend: $Chakora::DB_VERSION");
 	return 1;
 }
