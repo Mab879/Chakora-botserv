@@ -48,8 +48,8 @@ load "nickserv/set";              # SET: Set core settings on an account.
 # OperServ - Oper services.
 load "operserv/global";           # GLOBAL: Send a global notice to all connected users.
 load "operserv/help";             # HELP: Provides help with OperServ commands.
-load "operserv/modload";          # MODLOAD: Load a module.
 load "operserv/modlist";          # MODLIST: List all loaded modules.
+load "operserv/modload";          # MODLOAD: Load a module.
 load "operserv/modreload";        # MODRELOAD: Reloads a module.
 load "operserv/modunload";        # MODUNLOAD: Unload a module.
 #load "operserv/raw";             # RAW: Sends a raw message to the services socket.
