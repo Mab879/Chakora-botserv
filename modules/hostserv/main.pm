@@ -56,7 +56,7 @@ sub svs_hs_main {
 }
 
 sub ircd_hs_kill {
-	my ($user, $target, $reason) = @_;
+	my ($user, $target, undef) = @_;
 	
 	if ($target eq svsUID("hostserv")) {
 		serv_del("HostServ");

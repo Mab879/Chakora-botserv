@@ -89,7 +89,7 @@ sub ircd_cs_main {
 }
 
 sub ircd_cs_kill {
-	my ($user, $target, $reason) = @_;
+	my ($user, $target, undef) = @_;
 	
 	if ($target eq svsUID("chanserv")) {
 		serv_del("ChanServ");

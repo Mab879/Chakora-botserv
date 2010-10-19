@@ -59,7 +59,7 @@ sub ircd_g_main {
 }
 
 sub ircd_g_kill {
-	my ($user, $target, $reason) = @_;
+	my ($user, $target, undef) = @_;
 	
 	if ($target eq svsUID("global")) {
 		serv_del("Global");

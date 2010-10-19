@@ -55,7 +55,7 @@ sub svs_ms_main {
 }
 
 sub ircd_ms_kill {
-	my ($user, $target, $reason) = @_;
+	my ($user, $target, undef) = @_;
 	
 	if ($target eq svsUID("memoserv")) {
 		serv_del("MemoServ");

@@ -71,7 +71,7 @@ sub ircd_ns_main {
 }
 
 sub ircd_ns_kill {
-	my ($user, $target, $reason) = @_;
+	my ($user, $target, undef) = @_;
 	
 	if ($target eq svsUID("nickserv")) {
 		serv_del("NickServ");
