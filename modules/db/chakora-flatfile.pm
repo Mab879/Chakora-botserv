@@ -24,7 +24,7 @@ sub void_db {
 	delete_sub 'db_flush';
 	delete_sub 'void_db';
 	delete_sub 'db_delete';
-	delete_sub 'db_girl';
+	delete_sub 'db_find';
 	delete_sub 'db_write';
 	delete_sub 'db_read';
 }
