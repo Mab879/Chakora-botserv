@@ -138,9 +138,114 @@ if (config('services', 'allow_taint')) {
     print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
 
-# Prepare for the database
+# Read the database
 our ( %DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata,
     %DB_chanflags, %DB_memo );
+our $DBADLAST = 0;
+our $DBCDLAST = 0;
+our $DBCFLAST = 0;
+our $DBMMLAST = 0;
+if ( -e "$ROOT_SRC/../etc/chakora.db" ) {
+    open FILE, "<$ROOT_SRC/../etc/chakora.db";
+    my @lines = <FILE>;
+    foreach my $line (@lines) {
+        chomp($line);
+        my @lsy = split( ' ', $line );
+        if ( $lsy[0] eq "AI" ) {
+
+            # this is an account
+            unless ( !defined( $lsy[1] ) ) {
+                $DB_account{ lc( $lsy[1] ) }{name}     = $lsy[1];
+                $DB_account{ lc( $lsy[1] ) }{pass}     = $lsy[2];
+                $DB_account{ lc( $lsy[1] ) }{email}    = $lsy[3];
+                $DB_account{ lc( $lsy[1] ) }{regtime}  = $lsy[4];
+                $DB_account{ lc( $lsy[1] ) }{lasthost} = $lsy[5];
+                $DB_account{ lc( $lsy[1] ) }{lastseen} = $lsy[6];
+            }
+        }
+        elsif ( $lsy[0] eq "AN" ) {
+
+            # this is a grouped nick
+            unless ( !defined( $lsy[1] ) ) {
+                $DB_nick{ lc( $lsy[1] ) }{nick}    = $lsy[1];
+                $DB_nick{ lc( $lsy[1] ) }{account} = $lsy[2];
+                $DB_nick{ lc( $lsy[1] ) }{regtime} = $lsy[3];
+            }
+        }
+        elsif ( $lsy[0] eq "AD" ) {
+
+            # this is account metadata
+            unless ( !defined( $lsy[1] ) ) {
+                $DBADLAST += 1;
+                $DB_accdata{$DBADLAST}{account} = lc( $lsy[1] );
+                $DB_accdata{$DBADLAST}{name}    = lc( $lsy[2] );
+                my ($i);
+                $DB_accdata{$DBADLAST}{value} = $lsy[3];
+                for ( $i = 4 ; $i < count(@lsy) ; $i++ ) {
+                    $DB_accdata{$DBADLAST}{value} .= ' ' . $lsy[$i];
+                }
+            }
+        }
+        elsif ( $lsy[0] eq "CI" ) {
+
+            # this is a channel
+            unless ( !defined( $lsy[1] ) ) {
+                $DB_chan{ lc( $lsy[1] ) }{name}    = $lsy[1];
+                $DB_chan{ lc( $lsy[1] ) }{founder} = $lsy[2];
+                $DB_chan{ lc( $lsy[1] ) }{regtime} = $lsy[3];
+                $DB_chan{ lc( $lsy[1] ) }{mlock}   = $lsy[4];
+                $DB_chan{ lc( $lsy[1] ) }{ts}      = $lsy[5];
+                $DB_chan{ lc( $lsy[1] ) }{desc}    = $lsy[6];
+                my ($i);
+                for ( $i = 7 ; $i < count(@lsy) ; $i++ ) {
+                    $DB_chan{ lc( $lsy[1] ) }{desc} .= ' ' . $lsy[$i];
+                }
+            }
+        }
+        elsif ( $lsy[0] eq "CD" ) {
+
+            # this is channel metadata
+            unless ( !defined( $lsy[1] ) ) {
+                $DBCDLAST += 1;
+                $DB_chandata{$DBCDLAST}{chan} = lc( $lsy[1] );
+                $DB_chandata{$DBCDLAST}{name} = lc( $lsy[2] );
+                my ($i);
+                $DB_chandata{$DBCDLAST}{value} = $lsy[3];
+                for ( $i = 4 ; $i < count(@lsy) ; $i++ ) {
+                    $DB_chandata{$DBCDLAST}{value} .= ' ' . $lsy[$i];
+                }
+            }
+        }
+        elsif ( $lsy[0] eq "CF" ) {
+
+            # this is a channel flag entry
+            unless ( !defined( $lsy[1] ) ) {
+                $DBCFLAST += 1;
+                $DB_chanflags{$DBCFLAST}{chan}    = lc( $lsy[1] );
+                $DB_chanflags{$DBCFLAST}{account} = $lsy[2];
+                $DB_chanflags{$DBCFLAST}{flags}   = $lsy[3];
+            }
+        }
+        elsif ( $lsy[0] eq "MM" ) {
+			
+			# this is a memo
+			unless ( !defined( $lsy[1] ) ) {
+				$DBMMLAST += 1;
+				$DB_memo{$DBMMLAST}{to}   = lc( $lsy[1] );
+				$DB_memo{$DBMMLAST}{from} = $lsy[2];
+				$DB_memo{$DBMMLAST}{time} = $lsy[3];
+				$DB_memo{$DBMMLAST}{new}  = $lsy[4];
+				$DB_memo{$DBMMLAST}{body} = $lsy[5];
+				for ( my $i = 6 ; $i < count(@lsy) ; $i++ ) {
+                    $DB_memo{$DBMMLAST}{body} .= ' ' . $lsy[$i];
+                }
+			}
+		}
+    }
+}
+
+# Clean the database.
+dbflush();
 
 # Fork into the background unless --debug was specified
 unless ( $options{debug} ) {
@@ -624,11 +729,9 @@ sub idflush {
 	}
 	
 	`touch $ROOT_SRC/../etc/idrecover.db`;
-	if (defined $idd) {
-		open FILE, ">$ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
-		print FILE $idd;
-		close FILE;
-	}
+	open FILE, ">$ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
+	print FILE $idd;
+	close FILE;
 }
 
 sub TERM_handler {
