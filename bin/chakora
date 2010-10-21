@@ -138,7 +138,7 @@ if (config('services', 'allow_taint')) {
     print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
 
-# Read the database
+# Prepare for/Read the database
 our ( %DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata,
     %DB_chanflags, %DB_memo );
 our $DBADLAST = 0;
@@ -729,9 +729,11 @@ sub idflush {
 	}
 	
 	`touch $ROOT_SRC/../etc/idrecover.db`;
-	open FILE, ">$ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
-	print FILE $idd;
-	close FILE;
+	if (defined $idd) {
+		open FILE, ">$ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
+		print FILE $idd;
+		close FILE;
+	}
 }
 
 sub TERM_handler {
