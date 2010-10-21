@@ -125,7 +125,7 @@ sub ircd_cs_join {
 }
 
 sub ircd_cs_part {
-	my ($user, $chan, $msg) = @_;
+	my ($user, $chan, undef) = @_;
 	
 	my @cmems = split(' ', $Chakora::channel{lc($chan)}{'members'});
 	if (count(@cmems) < 1 and defined($Chakora::DB_chan{lc($chan)}{name}) and metadata(2, $chan, 'option:guard') and lc($chan) ne lc(config('log', 'logchan'))) {
@@ -153,7 +153,7 @@ sub ircd_cs_kick {
 }
 
 sub ircd_cs_quit {
-	my ($user, $msg) = @_;
+	my ($user, undef) = @_;
 
 	my @chns = split(' ', uidInfo($user, 10));
 	foreach my $chn (@chns) {
@@ -212,7 +212,7 @@ sub ircd_cs_ns_id {
 }
 
 sub ircd_cs_topic {
-	my ($user, $chan, $topic) = @_;
+	my ($user, $chan, undef) = @_;
 	my $account = account_name(uidInfo($user, 1));
 	if (has_flag($account, $chan, "t")) {
 		return;
