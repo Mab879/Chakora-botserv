@@ -442,11 +442,6 @@ while (1) {
 			raw_lsquit($data);
 		}
 
-		# IRCd: Respond to PING's
-		elsif ($ex[0] eq 'PING' and lc(config( 'server', 'ircd' )) eq 'ircd') {
-			raw_ping($data);
-		}
-
 		# Error without a source
 		elsif ($ex[0] eq 'ERROR') {
 			raw_nosrcerror($data);
