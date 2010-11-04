@@ -55,7 +55,7 @@ if ( $options{help} ) {
 
 # Define our version
 $SERVICES_VERSION = 'Chakora 1.0-dev';
-$DEVS = 'Elijah, Matthew, Russell, Niall, and Chazz';
+$DEVS = 'starcoder, Matthew, Russell, Niall, and Chazz';
 
 # Okay! Here we go!
 print color 'bold red';
