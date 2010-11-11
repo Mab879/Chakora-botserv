@@ -1051,7 +1051,27 @@ sub raw_encap {
 	my @rex = split(' ', $raw);
 	# [IRC] :48XAAAAAB ENCAP some.server REHASH 
 	if ($rex[2] eq config('me', 'name')) {
-		# It's being sent to us only!
+		# It's being sent to us only.
+	}
+	if ($rex[2] eq '*') { 
+		# It's being sent to everyone.
+		if ($rex[3] eq 'SU') {
+			if ($rex[5]) {
+				if (!uidInfo($rex[4], 9)) {
+					# SU sent from remote server - user isn't identified
+					if (module_exists("nickserv/main")) {
+						serv_notice("nickserv", $rex[4], "Forcing logout - you're not identified");
+					}
+					serv_logout($rex[4]);
+				}
+			}
+			else {
+				# SU sent from remote server - wanting logout 
+				if (uidInfo($rex[4], 9)) {
+					serv_accountname($rex[4], uidInfo($rex[4], 9));
+				}
+			} 
+		}
 	}
 }
 
