@@ -37,6 +37,7 @@ our %rawcmds = (
 	'ADMIN'      => { handler => \&raw_admin, },
 	'TMODE'      => { handler => \&raw_tmode, },
 	'MLOCK'      => { handler => \&raw_mlock, },
+	'BAN'	     => { handler => \&raw_ban, },
 );
 
 %Chakora::PROTO_SETTINGS = (
@@ -1068,6 +1069,13 @@ sub raw_mlock {
 	if (is_registered(2, $chan)) {
 		$Chakora::DB_chan{lc($chan)}{mlock} = $args;
 	}
+}
+
+# Handle BAN
+sub raw_ban {
+	my ($raw) = @_;
+	my @rex = split(' ', $raw);
+	# Network ban bursts - add support
 }
 
 # Handle MOTD
