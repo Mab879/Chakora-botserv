@@ -118,6 +118,8 @@
 	[+] P10-generic support.
 	[ ] A server doesn't need to exist to add a jupe, but we still need to check if a server that is trying to be juped exists. Fix the $ssid in the protocols to do this.
 	[ ] InspIRCd: Handle remote servers trying to set a users accountname like Charybdis
+	[ ] Add handling for ADDLINE (InspIRCd) and BAN (Charybdis)
+
 [ ] Docs
 	[X] Add docs for the module api
 	[!] Improve module api docs (add sidInfo and uidInfo for one)
