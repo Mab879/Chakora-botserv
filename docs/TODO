@@ -25,6 +25,7 @@
 		[ ] Set API
 	[X] Ghost
 	[ ] Release
+	[ ] Verify (allow opers with nickserv:override to force verification --Matthew)
 	[X] Account name
 	[X] Logout
 	[X] Once the CHGIDENT/CHGHOST event is done, add a hook in nickserv/main to change the data:realhost
