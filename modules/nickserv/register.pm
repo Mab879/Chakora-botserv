@@ -26,6 +26,7 @@ sub void_ns_register {
 	delete_sub 'ns_enforce';
 	cmd_del("nickserv/register");
 	delete_sub 'void_ns_register';
+	delete_sub 'mkverifycode';
 }
 
 sub mkverifycode {
@@ -77,7 +78,7 @@ sub svs_ns_register {
 			unless (length($password) < 5) {
 				unless (!Email::Valid->address($email)) {
 
-if (config('nickserv', 'verify_email')) {
+					if (config('nickserv', 'verify_email')) {
 						unless (my $pid = fork) {
                                                         serv_notice("nickserv", $user, "An email containing nickname activation instructions has been sent to $email.");
 							defined $pid or error('nickserv', 'Cannot fork to send verify email: '.$!);
