@@ -197,8 +197,13 @@ sub ircd_cs_privmsg {
 
 sub fantasy {
 	my ($cmd, $type) = @_;
-	$Chakora::FANTASY{lc($cmd)} = $type;
-	return 1;
+	if (config('services', 'use_fantasy')) {
+		$Chakora::FANTASY{lc($cmd)} = $type;
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }
                 
 sub ircd_cs_ns_id {

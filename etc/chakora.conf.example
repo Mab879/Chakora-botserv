@@ -62,6 +62,8 @@ services {
 	allow_taint = 0
 	# Change a channel's TS to the TS from when it was registered (recommended)
 	updatets = 1
+	# Allow the use of fantasy - not using fantasy saves some resources.
+	use_fantasy = 1
 }
 
 enc {

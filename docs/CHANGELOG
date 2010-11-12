@@ -9,6 +9,7 @@
 
 Current Devel
 	- API: Added event_ms_sent to allow hooks when a user sends a memo
+	- Modules/Config: Added use_fantasy, allowing you to not allow the use of fantasy, which could potentially save resources
 
 1.0.0-alpha3
 	- API: Added idflush() for flushing data about identified users to disk.
