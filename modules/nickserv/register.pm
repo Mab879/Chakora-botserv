@@ -79,6 +79,7 @@ sub svs_ns_register {
 
 if (config('nickserv', 'verify_email')) {
 						unless (my $pid = fork) {
+                                                        serv_notice("nickserv", $user, "An email containing nickname activation instructions has been sent to $email.");
 							defined $pid or error('nickserv', 'Cannot fork to send verify email: '.$!);
 							my $sendmail = config('sendmail', 'sendmail_path');
 							my $verifycode = mkverifycode(20);
@@ -88,7 +89,7 @@ if (config('nickserv', 'verify_email')) {
 							close FH;
 							my $email;
 							foreach my $line (@template) {
-								$line =~ s/\%account%/$nick/gs;
+								$line =~ s/\%account%/$user/gs;
 								$line =~ s/\%verifycode%/$verifycode/gs;
 								$email .= $line
 							}
