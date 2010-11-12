@@ -28,6 +28,33 @@ sub void_ns_register {
 	delete_sub 'void_ns_register';
 }
 
+sub mkverifycode {
+        my ($maxchars) = @_;
+        my @letters = (
+                'A','B','C','D','E','F','G','H','I','J','K',
+                'L','M','N','O','P','Q','R','S','T','U','V',
+                'W','X','Y','Z'
+        );
+
+        $maxchars = $maxchars / 2;
+
+        my $alias;
+        my ($x, $y);
+
+        for (my $i = 0; $i < $maxchars; $i++) {
+                $x = int(rand($#letters));
+                $y = int(rand(9));
+                if ($x % 2) {
+                        $alias .= lc($letters[$x]);
+                } else {
+                        $alias .= $letters[$x];
+                }
+                $alias .= $y;
+        }
+
+        return $alias;
+}
+
 sub svs_ns_register {
 	my ($user, @sargv) = @_;
 	my $nick = uidInfo($user, 1);
@@ -49,6 +76,34 @@ sub svs_ns_register {
 		unless (is_registered(1, $nick)) {
 			unless (length($password) < 5) {
 				unless (!Email::Valid->address($email)) {
+
+if (config('nickserv', 'verify_email')) {
+						unless (my $pid = fork) {
+							defined $pid or error('nickserv', 'Cannot fork to send verify email: '.$!);
+							my $sendmail = config('sendmail', 'sendmail_path');
+							my $verifycode = mkverifycode(20);
+							my $mailtemplate = config('nickserv', 'verify_email_template');
+							open (FH, $mailtemplate) or error('nickserv', 'cannot open email template');
+							my @template = <FH>;
+							close FH;
+							my $email;
+							foreach my $line (@template) {
+								$line =~ s/\%account%/$nick/gs;
+								$line =~ s/\%verifycode%/$verifycode/gs;
+								$email .= $line
+							}
+							open(SENDMAIL, "|$sendmail") or die "Cannot open $sendmail: $!"; 
+							print SENDMAIL "Reply-to: ".config('sendmail', 'reply_email')."\n";
+							print SENDMAIL "Subject: Nick Registration Verification\n";
+							print SENDMAIL "To: $email\n";
+							print SENDMAIL "Content-type: text/plain\n\n"; 
+							print SENDMAIL $email;
+							close SENDMAIL;
+							$Chakora::DB_account{lc($nick)}{email_verify_code} = $verifycode;
+							exit;
+						}
+					}
+			
 					my $pass = hash($password);
 					$Chakora::DB_account{lc($nick)}{name} = $nick;
 					$Chakora::DB_account{lc($nick)}{pass} = $pass;
