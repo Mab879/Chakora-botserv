@@ -1321,13 +1321,13 @@ sub raw_metadata {
                         if ($opera eq '-') {
                                 delete $Chakora::PROTO_SETTINGS{deaf};
                                 foreach my $key (keys %Chakora::svsnick) {
-                                        serv_mode($key, "-".$Chakora::PROTO_SETTINGS{deaf});
+                                        serv_cmode($key, "-".$Chakora::PROTO_SETTINGS{deaf});
                                 }
                         }
                         elsif ($opera eq '+') {
                                 $Chakora::PROTO_SETTINGS{deaf} = 'd';
                                 foreach my $key (keys %Chakora::svsnick) {
-                                        serv_mode($key, "+".$Chakora::PROTO_SETTINGS{deaf});
+                                        serv_cmode($key, "+".$Chakora::PROTO_SETTINGS{deaf});
                                 }
                         }
                 }
