@@ -135,6 +135,9 @@ sub svs_cs_set {
                 if (!defined($sargv[3])) {
                         serv_notice("chanserv", $user, "Not enough parameters. Syntax: SET <channel> FANTASY <on/off>");
                 }
+		elsif (!config('services', 'use_fantasy')) {
+			serv_notice("chanserv", $user, "Fantasy has been disabled. Please contact an IRCop for more information.");
+		}
                 elsif (lc($sargv[3]) eq 'on' or lc($sargv[3]) eq 'off') {
                         cs_set_fantasy($user, $sargv[1], lc($sargv[3]));
                 }
