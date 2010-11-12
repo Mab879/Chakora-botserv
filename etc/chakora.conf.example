@@ -15,7 +15,7 @@ me {
 
 # The server block is information about the ircd and linking
 server {
-	# inspircd12 or charybdis
+	# inspircd12, charybdis, or ratbox
 	ircd = inspircd12
 	# The name/ip of our hub
 	host = some.server.tld

@@ -54,7 +54,7 @@ Shrike (http://malkier.net) - Some design concepts
 
 Chakora Services are modular IRC Services coded in Perl for the InspIRCd 
 1.2, Charybdis and any other IRCd based off it (TS6), except those with 
-more than +ov. It comes with; 
+more than +ov. NOTE: ircd-ratbox support is available - you must set use_ts6 to yes though. It comes with; 
 ChanServ, NickServ, OperServ, HostServ, MemoServ and Global.
 
 ATTENTION: By using this software, you are stating that you have read 

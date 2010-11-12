@@ -14,6 +14,7 @@ Current Devel
 	- Protocols: InspIRCd: If m_deaf is loaded/unloaded... un(set) the mode on services
 	- Modules: Added operserv/stats
 	- Protocols: Handle remote servers trying to set an users accountname
+	- Protocols: Added ircd-ratbox support
 
 1.0.0-alpha3
 	- API: Added idflush() for flushing data about identified users to disk.

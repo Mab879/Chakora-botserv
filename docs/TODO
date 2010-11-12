@@ -109,7 +109,7 @@
 	[X] Make a SID generator
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
-	[ ] Native ircd-ratbox support.
+	[X] Native ircd-ratbox support.
 	[+] ircd-hybrid support.
 	[+] UnrealIRCd support.
 	[+] ircu support.

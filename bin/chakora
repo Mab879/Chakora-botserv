@@ -31,8 +31,8 @@ our $ROOT_ETC = "$Bin/../etc";
 
 # We do not support Windows
 if ( $^O =~ /win/i ) {
-    print("[ERROR] Operating System: Windows is not supported by Chakora.\n");
-    exit;
+	print("[ERROR] Operating System: Windows is not supported by Chakora.\n");
+	exit;
 }
 
 my (%options);
@@ -41,16 +41,16 @@ our $IN_DEBUG = 0;
 
 # Get command line options
 GetOptions(
-    "help"  => \$options{help},
-    "debug" => \$options{debug},
-);
+		"help"  => \$options{help},
+		"debug" => \$options{debug},
+	  );
 
 # Handle --help
 if ( $options{help} ) {
-    print("**Chakora Help**\n");
-    print("--debug = Run in debug mode\n");
-    print("--help = Return this help menu\n");
-    exit;
+	print("**Chakora Help**\n");
+	print("--debug = Run in debug mode\n");
+	print("--help = Return this help menu\n");
+	exit;
 }
 
 # Define our version
@@ -78,8 +78,8 @@ sleep 2;
 print("\n\n");
 print color 'reset';
 print(  "Chakora IRC Services started on "
-      . strftime( '%D at %I:%M:%S %p.', localtime )
-      . "\n" );
+		. strftime( '%D at %I:%M:%S %p.', localtime )
+		. "\n" );
 sleep 1;
 $SERVICES_STARTTIME = time();
 our $TAINTED = 0;
@@ -87,17 +87,17 @@ svsflog( "chakora", "Chakora IRC Services started." );
 
 # Don't allow Chakora to run as root
 if ( `whoami` eq "root\n" ) {
-    error( "chakora", "We forbid running Chakora as root." );
+	error( "chakora", "We forbid running Chakora as root." );
 }
 
 # If we're in debug mode, set a variable letting Chakora know that.
 if ( $options{debug} ) {
-    $IN_DEBUG = 1;
+	$IN_DEBUG = 1;
 }
 
 # Get configuration values
 my $conf = Config::Scoped->new( file => $ROOT_ETC . "/chakora.conf", )
-  or die("We couldn't open the config file!\n");
+or die("We couldn't open the config file!\n");
 
 # Put them into variables
 our $SETTINGS = $conf->parse;
@@ -108,30 +108,30 @@ $SIG{'TERM'} = \&TERM_handler;
 
 # Create some variables for later use
 our (
-    %rawcmds, %svsuid, %svsnick, %PROTO_SETTINGS, %COMMANDS,
-    %HELP,    %MODULE, %CMDTREE, %TIMER, %FANTASY
-);
+		%rawcmds, %svsuid, %svsnick, %PROTO_SETTINGS, %COMMANDS,
+		%HELP,    %MODULE, %CMDTREE, %TIMER, %FANTASY
+    );
 
 # Load the modules
 require Server::Events;
 if (lc(config('server', 'ircd')) eq 'inspircd12') {
-    print("[MODULES] Loading protocol: InspIRCd 1.2\n");
-    require Protocol::InspIRCd12 or error( "chakora", "Protocol module failed to load: $!" );
+	print("[MODULES] Loading protocol: InspIRCd 1.2\n");
+	require Protocol::InspIRCd12 or error( "chakora", "Protocol module failed to load: $!" );
 }
 elsif (lc(config('server', 'ircd')) eq 'inspircd20') {
-    print("[MODULES] Loaded protocol: InspIRCd 2.0\n");
-    require Protocol::InspIRCd20 or error("chakora", "Protocol module failed to load: $!");
+	print("[MODULES] Loaded protocol: InspIRCd 2.0\n");
+	require Protocol::InspIRCd20 or error("chakora", "Protocol module failed to load: $!");
 }
 elsif (lc(config( 'server', 'ircd')) eq 'charybdis') {
-    print("[MODULES] Loading protocol: Charybdis\n");
-    require Protocol::Charybdis or error( "chakora", "Protocol module failed to load: $!" );
+	print("[MODULES] Loading protocol: Charybdis\n");
+	require Protocol::Charybdis or error( "chakora", "Protocol module failed to load: $!" );
 }
 elsif (lc(config( 'server', 'ircd')) eq 'ratbox') {
-    print("[MODULES] Loading protocol: Ratbox\n");
-    require Protocol::Ratbox or error( "chakora", "Protocol module failed to load: $!" );
+	print("[MODULES] Loading protocol: Ratbox\n");
+	require Protocol::Ratbox or error( "chakora", "Protocol module failed to load: $!" );
 }
 else {
-    error( "chakora", "This protocol isn't supported by Chakora." );
+	error( "chakora", "This protocol isn't supported by Chakora." );
 }
 require API::Main;
 require API::Server;
@@ -139,100 +139,100 @@ require API::Services;
 
 # Void support if ALLOW_TAINT is enabled
 if (config('services', 'allow_taint')) {
-    print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
+	print("[WARNING] ALLOW_TAINT is enabled, your rights to support are hereby voided.\n");
 }
 
 # Prepare for/Read the database
 our ( %DB_account, %DB_nick, %DB_accdata, %DB_chan, %DB_chandata,
-    %DB_chanflags, %DB_memo );
+		%DB_chanflags, %DB_memo );
 our $DBADLAST = 0;
 our $DBCDLAST = 0;
 our $DBCFLAST = 0;
 our $DBMMLAST = 0;
 if ( -e "$ROOT_SRC/../etc/chakora.db" ) {
-    open FILE, "<$ROOT_SRC/../etc/chakora.db";
-    my @lines = <FILE>;
-    foreach my $line (@lines) {
-        chomp($line);
-        my @lsy = split( ' ', $line );
-        if ( $lsy[0] eq "AI" ) {
+	open FILE, "<$ROOT_SRC/../etc/chakora.db";
+	my @lines = <FILE>;
+	foreach my $line (@lines) {
+		chomp($line);
+		my @lsy = split( ' ', $line );
+		if ( $lsy[0] eq "AI" ) {
 
-            # this is an account
-            unless ( !defined( $lsy[1] ) ) {
-                $DB_account{ lc( $lsy[1] ) }{name}     = $lsy[1];
-                $DB_account{ lc( $lsy[1] ) }{pass}     = $lsy[2];
-                $DB_account{ lc( $lsy[1] ) }{email}    = $lsy[3];
-                $DB_account{ lc( $lsy[1] ) }{regtime}  = $lsy[4];
-                $DB_account{ lc( $lsy[1] ) }{lasthost} = $lsy[5];
-                $DB_account{ lc( $lsy[1] ) }{lastseen} = $lsy[6];
-            }
-        }
-        elsif ( $lsy[0] eq "AN" ) {
+		# this is an account
+			unless ( !defined( $lsy[1] ) ) {
+				$DB_account{ lc( $lsy[1] ) }{name}     = $lsy[1];
+				$DB_account{ lc( $lsy[1] ) }{pass}     = $lsy[2];
+				$DB_account{ lc( $lsy[1] ) }{email}    = $lsy[3];
+				$DB_account{ lc( $lsy[1] ) }{regtime}  = $lsy[4];
+				$DB_account{ lc( $lsy[1] ) }{lasthost} = $lsy[5];
+				$DB_account{ lc( $lsy[1] ) }{lastseen} = $lsy[6];
+			}
+		}
+		elsif ( $lsy[0] eq "AN" ) {
 
-            # this is a grouped nick
-            unless ( !defined( $lsy[1] ) ) {
-                $DB_nick{ lc( $lsy[1] ) }{nick}    = $lsy[1];
-                $DB_nick{ lc( $lsy[1] ) }{account} = $lsy[2];
-                $DB_nick{ lc( $lsy[1] ) }{regtime} = $lsy[3];
-            }
-        }
-        elsif ( $lsy[0] eq "AD" ) {
+		# this is a grouped nick
+			unless ( !defined( $lsy[1] ) ) {
+				$DB_nick{ lc( $lsy[1] ) }{nick}    = $lsy[1];
+				$DB_nick{ lc( $lsy[1] ) }{account} = $lsy[2];
+				$DB_nick{ lc( $lsy[1] ) }{regtime} = $lsy[3];
+			}
+		}
+		elsif ( $lsy[0] eq "AD" ) {
 
-            # this is account metadata
-            unless ( !defined( $lsy[1] ) ) {
-                $DBADLAST += 1;
-                $DB_accdata{$DBADLAST}{account} = lc( $lsy[1] );
-                $DB_accdata{$DBADLAST}{name}    = lc( $lsy[2] );
-                my ($i);
-                $DB_accdata{$DBADLAST}{value} = $lsy[3];
-                for ( $i = 4 ; $i < count(@lsy) ; $i++ ) {
-                    $DB_accdata{$DBADLAST}{value} .= ' ' . $lsy[$i];
-                }
-            }
-        }
-        elsif ( $lsy[0] eq "CI" ) {
+		# this is account metadata
+			unless ( !defined( $lsy[1] ) ) {
+				$DBADLAST += 1;
+				$DB_accdata{$DBADLAST}{account} = lc( $lsy[1] );
+				$DB_accdata{$DBADLAST}{name}    = lc( $lsy[2] );
+				my ($i);
+				$DB_accdata{$DBADLAST}{value} = $lsy[3];
+				for ( $i = 4 ; $i < count(@lsy) ; $i++ ) {
+					$DB_accdata{$DBADLAST}{value} .= ' ' . $lsy[$i];
+				}
+			}
+		}
+		elsif ( $lsy[0] eq "CI" ) {
 
-            # this is a channel
-            unless ( !defined( $lsy[1] ) ) {
-                $DB_chan{ lc( $lsy[1] ) }{name}    = $lsy[1];
-                $DB_chan{ lc( $lsy[1] ) }{founder} = $lsy[2];
-                $DB_chan{ lc( $lsy[1] ) }{regtime} = $lsy[3];
-                $DB_chan{ lc( $lsy[1] ) }{mlock}   = $lsy[4];
-                $DB_chan{ lc( $lsy[1] ) }{ts}      = $lsy[5];
-                $DB_chan{ lc( $lsy[1] ) }{desc}    = $lsy[6];
-                my ($i);
-                for ( $i = 7 ; $i < count(@lsy) ; $i++ ) {
-                    $DB_chan{ lc( $lsy[1] ) }{desc} .= ' ' . $lsy[$i];
-                }
-            }
-        }
-        elsif ( $lsy[0] eq "CD" ) {
+		# this is a channel
+			unless ( !defined( $lsy[1] ) ) {
+				$DB_chan{ lc( $lsy[1] ) }{name}    = $lsy[1];
+				$DB_chan{ lc( $lsy[1] ) }{founder} = $lsy[2];
+				$DB_chan{ lc( $lsy[1] ) }{regtime} = $lsy[3];
+				$DB_chan{ lc( $lsy[1] ) }{mlock}   = $lsy[4];
+				$DB_chan{ lc( $lsy[1] ) }{ts}      = $lsy[5];
+				$DB_chan{ lc( $lsy[1] ) }{desc}    = $lsy[6];
+				my ($i);
+				for ( $i = 7 ; $i < count(@lsy) ; $i++ ) {
+					$DB_chan{ lc( $lsy[1] ) }{desc} .= ' ' . $lsy[$i];
+				}
+			}
+		}
+		elsif ( $lsy[0] eq "CD" ) {
 
-            # this is channel metadata
-            unless ( !defined( $lsy[1] ) ) {
-                $DBCDLAST += 1;
-                $DB_chandata{$DBCDLAST}{chan} = lc( $lsy[1] );
-                $DB_chandata{$DBCDLAST}{name} = lc( $lsy[2] );
-                my ($i);
-                $DB_chandata{$DBCDLAST}{value} = $lsy[3];
-                for ( $i = 4 ; $i < count(@lsy) ; $i++ ) {
-                    $DB_chandata{$DBCDLAST}{value} .= ' ' . $lsy[$i];
-                }
-            }
-        }
-        elsif ( $lsy[0] eq "CF" ) {
+		# this is channel metadata
+			unless ( !defined( $lsy[1] ) ) {
+				$DBCDLAST += 1;
+				$DB_chandata{$DBCDLAST}{chan} = lc( $lsy[1] );
+				$DB_chandata{$DBCDLAST}{name} = lc( $lsy[2] );
+				my ($i);
+				$DB_chandata{$DBCDLAST}{value} = $lsy[3];
+				for ( $i = 4 ; $i < count(@lsy) ; $i++ ) {
+					$DB_chandata{$DBCDLAST}{value} .= ' ' . $lsy[$i];
+				}
+			}
+		}
+		elsif ( $lsy[0] eq "CF" ) {
 
-            # this is a channel flag entry
-            unless ( !defined( $lsy[1] ) ) {
-                $DBCFLAST += 1;
-                $DB_chanflags{$DBCFLAST}{chan}    = lc( $lsy[1] );
-                $DB_chanflags{$DBCFLAST}{account} = $lsy[2];
-                $DB_chanflags{$DBCFLAST}{flags}   = $lsy[3];
-            }
-        }
-        elsif ( $lsy[0] eq "MM" ) {
-			
-			# this is a memo
+		# this is a channel flag entry
+			unless ( !defined( $lsy[1] ) ) {
+				$DBCFLAST += 1;
+				$DB_chanflags{$DBCFLAST}{chan}    = lc( $lsy[1] );
+				$DB_chanflags{$DBCFLAST}{account} = $lsy[2];
+				$DB_chanflags{$DBCFLAST}{flags}   = $lsy[3];
+			}
+		}
+		elsif ( $lsy[0] eq "MM" ) {
+
+		# this is a memo
 			unless ( !defined( $lsy[1] ) ) {
 				$DBMMLAST += 1;
 				$DB_memo{$DBMMLAST}{to}   = lc( $lsy[1] );
@@ -241,11 +241,11 @@ if ( -e "$ROOT_SRC/../etc/chakora.db" ) {
 				$DB_memo{$DBMMLAST}{new}  = $lsy[4];
 				$DB_memo{$DBMMLAST}{body} = $lsy[5];
 				for ( my $i = 6 ; $i < count(@lsy) ; $i++ ) {
-                    $DB_memo{$DBMMLAST}{body} .= ' ' . $lsy[$i];
-                }
+					$DB_memo{$DBMMLAST}{body} .= ' ' . $lsy[$i];
+				}
 			}
 		}
-    }
+	}
 }
 
 # Clean the database.
@@ -253,19 +253,19 @@ dbflush();
 
 # Fork into the background unless --debug was specified
 unless ( $options{debug} ) {
-    print("Becoming a daemon...\n");
-    open STDIN, '/dev/null' or error( "chakora", "Can't read /dev/null: $!" );
-    open STDOUT, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
-    open STDERR, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
-    $pid = fork();
-    unless ( $pid == 0 ) {
-        svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
-        exit;
-    }
-    setsid or error("chakora", "Can't start a new session: $!");
+	print("Becoming a daemon...\n");
+	open STDIN, '/dev/null' or error( "chakora", "Can't read /dev/null: $!" );
+	open STDOUT, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
+	open STDERR, '>>/dev/null' or error( "chakora", "Can't write to /dev/null: $!" );
+	$pid = fork();
+	unless ( $pid == 0 ) {
+		svsflog("chakora", "Successfully forked into the background. Process ID: ".$pid);
+		exit;
+	}
+	setsid or error("chakora", "Can't start a new session: $!");
 }
 else {
-    $pid = $$;
+	$pid = $$;
 }
 
 open FILE, ">$ROOT_SRC/../etc/chakora.pid" or error("Unable to open PID file: $!");
@@ -274,17 +274,17 @@ close FILE;
 
 # Open the socket and connect to the server
 my $socket = IO::Socket::INET->new(
-    Proto     => "tcp",
-    LocalAddr => config('server', 'vhost'),
-    PeerAddr  => config('server', 'host'),
-    PeerPort  => config('server', 'port'),
-  ) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
+		Proto     => "tcp",
+		LocalAddr => config('server', 'vhost'),
+		PeerAddr  => config('server', 'host'),
+		PeerPort  => config('server', 'port'),
+		) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
 
 # Create some variables for later use
 my ( $data, $ex, @ex, $mtext );
 our $synced = 0;
 our ( $INSPIRCD_SERVICES_ACCOUNT_MOD,
-    $INSPIRCD_SERVICE_PROTECT_MOD, $INSPIRCD_CHGHOST_MOD );
+		$INSPIRCD_SERVICE_PROTECT_MOD, $INSPIRCD_CHGHOST_MOD );
 my ( $SERVICES_MSGSERVICE, $USER );
 
 # Load modules in the autoload
@@ -292,13 +292,13 @@ if (-e "$ROOT_SRC/../etc/modules.conf") {
 	open FILE, "<$ROOT_SRC/../etc/modules.conf" or error("Unable to open modules.conf: $!");
 	my @saa = <FILE>;
 	close FILE;
-	
+
 	foreach my $sab (@saa) {
 		unless (substr($sab, 0, 1) eq '#') {
 			my @sac = split(';', $sab);
 			foreach my $sad (@sac) {
 				my @sae = split(' ', $sad);
-				
+
 				if (defined $sae[0] and defined $sae[1]) {
 					if ($sae[0] eq 'load') {
 						my $saf = $sae[1];
@@ -318,13 +318,13 @@ if (-e "$ROOT_SRC/../etc/soper.conf") {
 	open FILE, "<$ROOT_SRC/../etc/soper.conf" or error("Unable to open soper.conf: $!");
 	my @saa = <FILE>;
 	close FILE;
-	
+
 	foreach my $sab (@saa) {
 		unless (substr($sab, 0, 1) eq '#') {
 			my @sac = split(';', $sab);
 			foreach my $sad (@sac) {
 				my @sae = split(' ', $sad);
-				
+
 				if (defined $sae[0]) {
 					if ($sae[0] eq 'BOF') {
 						if (defined $ssopower) {
@@ -385,226 +385,226 @@ hook_ctcp_add(\&handle_ctcp);
 create_core_flags();
 
 while (1) {
-    $data = <$socket>;
-    unless ( defined($data) ) {
-
-        # There is no connection! Lets reconnect!
-        sleep 2;
-        $synced = 0;
-        $socket = IO::Socket::INET->new(
-            Proto     => "tcp",
-            LocalAddr => config( 'server', 'vhost' ),
-            PeerAddr  => config( 'server', 'host' ),
-            PeerPort  => config( 'server', 'port' ),
-          ) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
-        irc_connect();
-    }
-    if (defined $data) {
-    chomp($data);
-    undef $ex;
-    undef $mtext;
-    @ex = split( ' ', $data );
-    $mtext = substr( $data, index( $data, ":", index( $data, ":" ) + 1 ) + 1 );
-    if ($IN_DEBUG) {
-    	print("[IRC] ".$data."\n");
-    }
-    if (defined $ex[0]) {
-		$USER = substr( $ex[0], 1 );
+	$data = <$socket>;
+	unless ( defined($data) ) {
+	
+		# There is no connection! Lets reconnect!
+		sleep 2;
+		$synced = 0;
+		$socket = IO::Socket::INET->new(
+				Proto     => "tcp",
+				LocalAddr => config( 'server', 'vhost' ),
+				PeerAddr  => config( 'server', 'host' ),
+				PeerPort  => config( 'server', 'port' ),
+				) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
+		irc_connect();
 	}
-
-	if (defined $ex[0]) {
-		if ($ex[0] eq 'CAPAB') {
-			raw_capab($data);
+	if (defined $data) {
+		chomp($data);
+		undef $ex;
+		undef $mtext;
+		@ex = split( ' ', $data );
+		$mtext = substr( $data, index( $data, ":", index( $data, ":" ) + 1 ) + 1 );
+		if ($IN_DEBUG) {
+			print("[IRC] ".$data."\n");
+		}
+		if (defined $ex[0]) {
+			$USER = substr( $ex[0], 1 );
 		}
 
-		# Charybdis/Ratbox: syncing done
-		if ($ex[0] eq 'PING' and $synced != 1) {
-			if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
-				raw_endsync();
+		if (defined $ex[0]) {
+			if ($ex[0] eq 'CAPAB') {
+				raw_capab($data);
+			}
+
+			# Charybdis/Ratbox: syncing done
+			if ($ex[0] eq 'PING' and $synced != 1) {
+				if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+					raw_endsync();
+				}
+			}
+
+			# Charybdis/Ratbox: Handle the SERVER while linking
+			elsif ($ex[0] eq 'SERVER' and $synced != 1) {
+				if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+					raw_server($data);
+				}
+			}
+	
+			# Charybdis/Ratbox: Handle the PASS while linking
+			elsif ($ex[0] eq 'PASS' and $synced != 1) {
+				if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+					raw_pass($data);
+				}
+			}
+
+			# InspIRCd: Handle the SERVER while linking
+			elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'inspircd12') {
+				raw_lserver($data);
+			}
+
+			# Charybdis/Ratbox: Respond to PING's
+			elsif ($ex[0] eq 'PING' and $synced != 0) {
+				if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+					send_sock(":".config( 'me', 'sid' )." PONG ".$ex[1]);
+				}
+			}
+
+			# Charybdis/Ratbox: Local SQUIT's
+			elsif ($ex[0] eq 'SQUIT') {
+				if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+					raw_lsquit($data);
+				}
+			}
+
+			# Error without a source
+			elsif ($ex[0] eq 'ERROR') {
+				raw_nosrcerror($data);
 			}
 		}
 
-		# Charybdis/Ratbox: Handle the SERVER while linking
-		elsif ($ex[0] eq 'SERVER' and $synced != 1) {
-                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
-				raw_server($data);
+		# Handle timers
+		foreach my $key ( keys %TIMER ) {
+			if ( $TIMER{$key}{ttime} eq time() ) {
+				my $tsub_ref = $TIMER{$key}{handler};
+				eval( $tsub_ref . ";" );
+				timer_del($key);
 			}
 		}
 
-		# Charybdis/Ratbox: Handle the PASS while linking
-		elsif ($ex[0] eq 'PASS' and $synced != 1) {
-                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
-				raw_pass($data);
+		# Handle a server command, if a handler is defined in the protocol module
+		if (defined $ex[1]) { 
+			if ( $rawcmds{ $ex[1] }{handler} ) {
+				my $sub_ref = $rawcmds{ $ex[1] }{handler};
+				eval { &{$sub_ref}($data); };
 			}
 		}
 
-		# InspIRCd: Handle the SERVER while linking
-		elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'inspircd12') {
-			raw_lserver($data);
-		}
-
-		# Charybdis/Ratbox: Respond to PING's
-		elsif ($ex[0] eq 'PING' and $synced != 0) {
-                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
-				send_sock(":".config( 'me', 'sid' )." PONG ".$ex[1]);
-			}
-		}
-
-		# Charybdis/Ratbox: Local SQUIT's
-		elsif ($ex[0] eq 'SQUIT') {
-                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
-				raw_lsquit($data);
-			}
-		}
-
-		# Error without a source
-		elsif ($ex[0] eq 'ERROR') {
-			raw_nosrcerror($data);
-		}
-	}
-
-    # Handle timers
-    foreach my $key ( keys %TIMER ) {
-        if ( $TIMER{$key}{ttime} eq time() ) {
-            my $tsub_ref = $TIMER{$key}{handler};
-            eval( $tsub_ref . ";" );
-            timer_del($key);
-        }
-    }
-
-    # Handle a server command, if a handler is defined in the protocol module
-    if (defined $ex[1]) { 
-		if ( $rawcmds{ $ex[1] }{handler} ) {
-			my $sub_ref = $rawcmds{ $ex[1] }{handler};
-			eval { &{$sub_ref}($data); };
-		}
-	}
-
-	if (defined $ex[1]) {
+		if (defined $ex[1]) {
 		# Handle CTCPs
-		if ( $mtext =~ /^\001.+\001/ and $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
-			$data  =~ s/\001//g;
-			$mtext =~ s/\001//g;
-			$ex[3] =~ s/\001//g;
-			$ex[3] = substr( $ex[3], 1 );
-			event_ctcp ( $USER, $ex[2], $ex[3] );
-			if ($IN_DEBUG) {
-				print("[CTCP] ".$ex[3]." from ".$USER."[".uidInfo($USER, 1)."]\n");
+			if ( $mtext =~ /^\001.+\001/ and $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
+				$data  =~ s/\001//g;
+				$mtext =~ s/\001//g;
+				$ex[3] =~ s/\001//g;
+				$ex[3] = substr( $ex[3], 1 );
+				event_ctcp ( $USER, $ex[2], $ex[3] );
+				if ($IN_DEBUG) {
+					print("[CTCP] ".$ex[3]." from ".$USER."[".uidInfo($USER, 1)."]\n");
+				}
 			}
-		}
 
 		# Handle services commands, if it exists
-		elsif ( $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
-			undef $SERVICES_MSGSERVICE;
-			foreach my $key ( keys %svsuid ) {
-				if ( svsUID($key) eq $ex[2]) {
-					if ($ex[2] eq svsUID('operserv')) {
-						if (has_spower($USER, 'operserv:_')) {
-							$SERVICES_MSGSERVICE = 'operserv';
+			elsif ( $ex[1] eq "PRIVMSG" and $ex[2] !~ m/#/ ) {
+				undef $SERVICES_MSGSERVICE;
+				foreach my $key ( keys %svsuid ) {
+					if ( svsUID($key) eq $ex[2]) {
+						if ($ex[2] eq svsUID('operserv')) {
+							if (has_spower($USER, 'operserv:_')) {
+								$SERVICES_MSGSERVICE = 'operserv';
+							}
+							else {
+								serv_notice('operserv', $USER, 'Access denied.');
+							}
 						}
+						elsif (!defined $SERVICES_MSGSERVICE) {	
+							$SERVICES_MSGSERVICE = $key;
+						}
+					}
+				}
+				if (defined $SERVICES_MSGSERVICE) {
+					if ( $CMDTREE{ lc($SERVICES_MSGSERVICE) } ) {
+
+		# if there is an entry for the service in the command tree, continue
+						if ( $COMMANDS{ lc($SERVICES_MSGSERVICE) }
+								{ lc( substr( $ex[3], 1 ) ) }{handler} ) {
+
+		# if the command exists, execute the handler for it
+														 my ( @bargv, $i );
+														 for ( $i = 4 ; $i < count(@ex) ; $i++ ) {
+															 $bargv[ $i - 3 ] = $ex[$i];
+														 }
+														 my $sub_ref = $COMMANDS{ lc($SERVICES_MSGSERVICE) }{ lc( substr( $ex[3], 1 ) ) }{handler};
+														 eval { &{$sub_ref}( $USER, @bargv ); };
+													 }
 						else {
-							serv_notice('operserv', $USER, 'Access denied.');
+							serv_notice( $SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".$svsnick{ lc($SERVICES_MSGSERVICE) }." HELP for a list of commands.");
 						}
-					}
-					elsif (!defined $SERVICES_MSGSERVICE) {	
-						$SERVICES_MSGSERVICE = $key;
 					}
 				}
 			}
-			if (defined $SERVICES_MSGSERVICE) {
-				if ( $CMDTREE{ lc($SERVICES_MSGSERVICE) } ) {
-
-					# if there is an entry for the service in the command tree, continue
-					if ( $COMMANDS{ lc($SERVICES_MSGSERVICE) }
-						{ lc( substr( $ex[3], 1 ) ) }{handler} ) {
-
-						# if the command exists, execute the handler for it
-						my ( @bargv, $i );
-						for ( $i = 4 ; $i < count(@ex) ; $i++ ) {
-							$bargv[ $i - 3 ] = $ex[$i];
-						}
-						my $sub_ref = $COMMANDS{ lc($SERVICES_MSGSERVICE) }{ lc( substr( $ex[3], 1 ) ) }{handler};
-						eval { &{$sub_ref}( $USER, @bargv ); };
-					}
-					else {
-						serv_notice( $SERVICES_MSGSERVICE, $USER, "Unknown command. Please see /msg ".$svsnick{ lc($SERVICES_MSGSERVICE) }." HELP for a list of commands.");
-					}
-				}
-			}
-        }
-    }
-}
+		}
+	}
 }
 
 sub send_sock {
-    my ($str) = @_;
-    chomp($str);
-    send( $socket, $str . "\r\n", 0 );
-    if ($IN_DEBUG) {
-    	print("[YOU] " . $str . "\n");
-    }
+	my ($str) = @_;
+	chomp($str);
+	send( $socket, $str . "\r\n", 0 );
+	if ($IN_DEBUG) {
+		print("[YOU] " . $str . "\n");
+	}
 }
 
 sub config {
-    my ( $block, $name ) = @_;
-    $block = lc($block);
-    $name  = lc($name);
-    if ( defined $SETTINGS->{$block}->{$name} ) {
-        return $SETTINGS->{$block}->{$name};
-    }
-    else {
-        return 0;
-    }
+	my ( $block, $name ) = @_;
+	$block = lc($block);
+	$name  = lc($name);
+	if ( defined $SETTINGS->{$block}->{$name} ) {
+		return $SETTINGS->{$block}->{$name};
+	}
+	else {
+		return 0;
+	}
 }
 
 sub error {
-    my ( $type, $msg ) = @_;
-    if ($IN_DEBUG) {
-    	print("[ERROR] ". $msg."\n" );
-    }
-    my ($file);
-    if ( $type ne 0 ) {
-        $type = lc($type);
-        svsflog( $type, "[ERROR] ".$msg );
-    }
-    exit;
+	my ( $type, $msg ) = @_;
+	if ($IN_DEBUG) {
+		print("[ERROR] ". $msg."\n" );
+	}
+	my ($file);
+	if ( $type ne 0 ) {
+		$type = lc($type);
+		svsflog( $type, "[ERROR] ".$msg );
+	}
+	exit;
 }
 
 sub svsflog {
-    my ( $type, $str ) = @_;
-    my $file = $type . ".log";
-    unless ( -d "$Bin/../var" ) {
-        `mkdir $Bin/../var`;
-    }
-    `touch $Bin/../var/$file`;
-    open FILE, ">>$Bin/../var/$file"
-      or print("[FATAL] $file: Unable to open log file! Abort!\n")
-      and exit;
-    print FILE "(" . scalar( localtime( time() ) ) . ") " . $str . "\n";
-    close FILE;
+	my ( $type, $str ) = @_;
+	my $file = $type . ".log";
+	unless ( -d "$Bin/../var" ) {
+		`mkdir $Bin/../var`;
+	}
+	`touch $Bin/../var/$file`;
+	open FILE, ">>$Bin/../var/$file"
+		or print("[FATAL] $file: Unable to open log file! Abort!\n")
+		and exit;
+	print FILE "(" . scalar( localtime( time() ) ) . ") " . $str . "\n";
+	close FILE;
 }
 
 sub module_load {
-    my ($module) = @_;
-    if ( -e $ROOT_SRC . "/../modules/" . lc($module) . ".pm" ) {
-        do $ROOT_SRC . "/../modules/" . lc($module) . ".pm" and return 1
-          or return 0;
-    }
-    else {
-        return 0;
-    }
+	my ($module) = @_;
+	if ( -e $ROOT_SRC . "/../modules/" . lc($module) . ".pm" ) {
+		do $ROOT_SRC . "/../modules/" . lc($module) . ".pm" and return 1
+			or return 0;
+	}
+	else {
+		return 0;
+	}
 }
 
 sub count {
-    my (@array) = @_;
-    my ( $i, $ai );
-    foreach $ai (@array) {
-        $i += 1;
-    }
-    if (!defined $i) {
+	my (@array) = @_;
+	my ( $i, $ai );
+	foreach $ai (@array) {
+		$i += 1;
+	}
+	if (!defined $i) {
 		$i = 0;
 	}
-    return $i;
+	return $i;
 }
 
 sub is_tainted {
@@ -617,128 +617,128 @@ sub is_tainted {
 }
 
 sub taint {
-    my ($str) = @_;
-    my $msg = "TAINTED: " . $str;
-    if ( config( 'services', 'allow_taint' ) ) {
-        $msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
-	if ($IN_DEBUG) {
-        	print("[WARNING] ".$msg."\n");
+	my ($str) = @_;
+	my $msg = "TAINTED: " . $str;
+	if ( config( 'services', 'allow_taint' ) ) {
+		$msg .= " - ALLOW_TAINT enabled, ignoring taint. . .";
+		if ($IN_DEBUG) {
+			print("[WARNING] ".$msg."\n");
+		}
+		if (!$Chakora::TAINTED) { $Chakora::TAINTED = 1; }
 	}
-	if (!$Chakora::TAINTED) { $Chakora::TAINTED = 1; }
-    }
-    else {
-        $msg .= " - Aborting. . .";
-        if ($synced) {
+	else {
+		$msg .= " - Aborting. . .";
+		if ($synced) {
 			logchan("operserv", "\002!!! TAINTED !!!\002");
 			if (module_exists("chanserv/main")) {
 				serv_quit("chanserv", "Shutting down");
 			}
 			serv_squit(config('me', 'sid'), "Tainted");
 		}
-        error( "chakora", $msg );
-    }
+		error( "chakora", $msg );
+	}
 }
 
 sub handle_ctcp {
-    my ( $user, $svsuid, $ctcp ) = @_;
-    if ( lc($ctcp) eq "version" ) {
-        ctcp_reply( $svsuid, $user, "VERSION", $SERVICES_VERSION );
-    }
+	my ( $user, $svsuid, $ctcp ) = @_;
+	if ( lc($ctcp) eq "version" ) {
+		ctcp_reply( $svsuid, $user, "VERSION", $SERVICES_VERSION );
+	}
 }
 
 
 sub ctcp_reply {
-    my ( $svsuid, $user, $ctcp, $reply ) = @_;
-    send_sock( ":".$svsuid." NOTICE ".$user." :\001".$ctcp." ".$reply."\001" );
+	my ( $svsuid, $user, $ctcp, $reply ) = @_;
+	send_sock( ":".$svsuid." NOTICE ".$user." :\001".$ctcp." ".$reply."\001" );
 }
 
 sub dbflush {
-    unless ( -e "$ROOT_SRC/../etc/chakora.db" ) {
-        `touch $ROOT_SRC/../etc/chakora.db`;
-    }
-    open FILE, ">$ROOT_SRC/../etc/chakora.db" or exit;
-    my $dd = "DBV Chakora1.0-Flatfile\n";
-    foreach my $key ( keys %DB_account ) {
+	unless ( -e "$ROOT_SRC/../etc/chakora.db" ) {
+		`touch $ROOT_SRC/../etc/chakora.db`;
+	}
+	open FILE, ">$ROOT_SRC/../etc/chakora.db" or exit;
+	my $dd = "DBV Chakora1.0-Flatfile\n";
+	foreach my $key ( keys %DB_account ) {
 		unless (!defined($DB_account{$key}{name})) {
 			$dd .= "AI "
-			. $DB_account{$key}{name} . " "
-			. $DB_account{$key}{pass} . " "
-			. $DB_account{$key}{email} . " "
-			. $DB_account{$key}{regtime} . " "
-			. $DB_account{$key}{lasthost} . " "
-			. $DB_account{$key}{lastseen} . "\n";
+				. $DB_account{$key}{name} . " "
+				. $DB_account{$key}{pass} . " "
+				. $DB_account{$key}{email} . " "
+				. $DB_account{$key}{regtime} . " "
+				. $DB_account{$key}{lasthost} . " "
+				. $DB_account{$key}{lastseen} . "\n";
 		}
-    }
-    foreach my $key ( keys %DB_nick ) {
-        unless ( !defined( $DB_nick{$key}{nick} ) )
-        {
-            $dd .= "AN "
-              . $DB_nick{$key}{nick} . " "
-              . $DB_nick{$key}{account} . " "
-              . $DB_nick{$key}{regtime} . "\n";
-        }
-    }
-    foreach my $key ( keys %DB_accdata ) {
+	}
+	foreach my $key ( keys %DB_nick ) {
+		unless ( !defined( $DB_nick{$key}{nick} ) )
+		{
+			$dd .= "AN "
+				. $DB_nick{$key}{nick} . " "
+				. $DB_nick{$key}{account} . " "
+				. $DB_nick{$key}{regtime} . "\n";
+		}
+	}
+	foreach my $key ( keys %DB_accdata ) {
 		unless (!defined($DB_accdata{$key}{account})) {
 			$dd .= "AD "
-			. $DB_accdata{$key}{account} . " "
-			. $DB_accdata{$key}{name} . " "
-			. $DB_accdata{$key}{value} . "\n";
+				. $DB_accdata{$key}{account} . " "
+				. $DB_accdata{$key}{name} . " "
+				. $DB_accdata{$key}{value} . "\n";
 		}
-    }
-    foreach my $key ( keys %DB_chan ) {
-        unless ( !defined( $DB_chan{$key}{name} ) ) {
-            $dd .= "CI "
-              . $DB_chan{$key}{name} . " "
-              . $DB_chan{$key}{founder} . " "
-              . $DB_chan{$key}{regtime} . " "
-              . $DB_chan{$key}{mlock} . " "
-              . $DB_chan{$key}{ts} . " "
-              . $DB_chan{$key}{desc} . "\n";
-        }
-    }
-    foreach my $key ( keys %DB_chandata ) {
+	}
+	foreach my $key ( keys %DB_chan ) {
+		unless ( !defined( $DB_chan{$key}{name} ) ) {
+			$dd .= "CI "
+				. $DB_chan{$key}{name} . " "
+				. $DB_chan{$key}{founder} . " "
+				. $DB_chan{$key}{regtime} . " "
+				. $DB_chan{$key}{mlock} . " "
+				. $DB_chan{$key}{ts} . " "
+				. $DB_chan{$key}{desc} . "\n";
+		}
+	}
+	foreach my $key ( keys %DB_chandata ) {
 		unless (!defined($DB_chandata{$key}{value})) {
 			$dd .= "CD "
-			. $DB_chandata{$key}{chan} . " "
-			. $DB_chandata{$key}{name} . " "
-			. $DB_chandata{$key}{value} . "\n";
+				. $DB_chandata{$key}{chan} . " "
+				. $DB_chandata{$key}{name} . " "
+				. $DB_chandata{$key}{value} . "\n";
 		}
-    }
-    foreach my $key ( keys %DB_chanflags ) {
+	}
+	foreach my $key ( keys %DB_chanflags ) {
 		unless ( !defined( $DB_chanflags{$key}{flags} ) ) {
-        	$dd .= "CF "
-          	. $DB_chanflags{$key}{chan} . " "
-          	. $DB_chanflags{$key}{account} . " "
-			. $DB_chanflags{$key}{flags} . "\n";
+			$dd .= "CF "
+				. $DB_chanflags{$key}{chan} . " "
+				. $DB_chanflags{$key}{account} . " "
+				. $DB_chanflags{$key}{flags} . "\n";
 		}
-    }
-    foreach my $key ( keys %DB_memo ) {
+	}
+	foreach my $key ( keys %DB_memo ) {
 		unless (!defined($DB_memo{$key}{body})) {
 			$dd .= "MM "
-			. $DB_memo{$key}{to} . " "
-			. $DB_memo{$key}{from} . " "
-			. $DB_memo{$key}{time} . " "
-			. $DB_memo{$key}{new} . " "
-			. $DB_memo{$key}{body} . "\n";
+				. $DB_memo{$key}{to} . " "
+				. $DB_memo{$key}{from} . " "
+				. $DB_memo{$key}{time} . " "
+				. $DB_memo{$key}{new} . " "
+				. $DB_memo{$key}{body} . "\n";
 		}
-    }
-    print FILE $dd;
-    close FILE;
+	}
+	print FILE $dd;
+	close FILE;
 }
 
 sub idflush {
 	if (-e "$ROOT_SRC/../etc/idrecover.db") {
 		`rm $ROOT_SRC/../etc/idrecover.db`;
 	}
-	
+
 	my ($idd);
 	foreach my $key (keys %Chakora::uid) {
 		if (defined $Chakora::uid{$key}{'account'}) {
 			$idd .= $key." ".$Chakora::uid{$key}{'nick'}." ".$Chakora::uid{$key}{'user'}." ".$Chakora::uid{$key}{'host'}." ".$Chakora::uid{$key}{'ip'}." ".$Chakora::uid{$key}{'server'}." ".$Chakora::uid{$key}{'account'}."\n";
 		}
 	}
-	
+
 	`touch $ROOT_SRC/../etc/idrecover.db`;
 	if (defined $idd) {
 		open FILE, ">$ROOT_SRC/../etc/idrecover.db" or error("chakora", "Unable to open idrecover.db: $!");
@@ -748,27 +748,27 @@ sub idflush {
 }
 
 sub TERM_handler {
-    logchan( "operserv", "\002!!!\002 Caught \002SIGTERM\002; terminating" );
-    svsflog( "chakora", "Exiting on SIGTERM" );
-    if (module_exists("chanserv/main")) {
-    	serv_quit( "chanserv", "Shutting down" );
-    }
-    serv_squit( config( 'me', 'sid' ), "Caught SIGTERM" );
-    dbflush();
-    sleep 1;
-    exit(0);
+	logchan( "operserv", "\002!!!\002 Caught \002SIGTERM\002; terminating" );
+	svsflog( "chakora", "Exiting on SIGTERM" );
+	if (module_exists("chanserv/main")) {
+		serv_quit( "chanserv", "Shutting down" );
+	}
+	serv_squit( config( 'me', 'sid' ), "Caught SIGTERM" );
+	dbflush();
+	sleep 1;
+	exit(0);
 }
 
 sub INT_handler {
-    logchan( "operserv", "\002!!!\002 Caught \002SIGINT\002; terminating" );
-    svsflog( "chakora", "Exiting on SIGINT" );
-    if (module_exists("chanserv/main")) {
-    	serv_quit( "chanserv", "Shutting down" );
-    }
-    serv_squit( config( 'me', 'sid' ), "Caught SIGINT" );
-    dbflush();
-    if ($IN_DEBUG) { idflush(); }
-    sleep 1;
-    exit(0);
+	logchan( "operserv", "\002!!!\002 Caught \002SIGINT\002; terminating" );
+	svsflog( "chakora", "Exiting on SIGINT" );
+	if (module_exists("chanserv/main")) {
+		serv_quit( "chanserv", "Shutting down" );
+	}
+	serv_squit( config( 'me', 'sid' ), "Caught SIGINT" );
+	dbflush();
+	if ($IN_DEBUG) { idflush(); }
+	sleep 1;
+	exit(0);
 }
 

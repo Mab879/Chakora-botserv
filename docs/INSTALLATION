@@ -10,6 +10,7 @@
 Currently Chakora supports:
 
 ` InspIRCd 1.2
+` ircd-ratbox with use_ts6 set to yes
 ` Charybdis and IRCd's based off of it. [that only have the +ov modes - e.g. not ShadowIRCd] (ircd-seven, darkhex, etc.) - For all these put charybdis
 
 
