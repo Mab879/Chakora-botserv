@@ -126,6 +126,10 @@ elsif (lc(config( 'server', 'ircd')) eq 'charybdis') {
     print("[MODULES] Loading protocol: Charybdis\n");
     require Protocol::Charybdis or error( "chakora", "Protocol module failed to load: $!" );
 }
+elsif (lc(config( 'server', 'ircd')) eq 'ratbox') {
+    print("[MODULES] Loading protocol: Ratbox\n");
+    require Protocol::Ratbox or error( "chakora", "Protocol module failed to load: $!" );
+}
 else {
     error( "chakora", "This protocol isn't supported by Chakora." );
 }
@@ -395,6 +399,7 @@ while (1) {
           ) or error( "chakora", "Connection to ".config( 'server', 'host' )." failed.\n");
         irc_connect();
     }
+    if (defined $data) {
     chomp($data);
     undef $ex;
     undef $mtext;
@@ -412,19 +417,25 @@ while (1) {
 			raw_capab($data);
 		}
 
-		# Charybdis: syncing done
-		if ($ex[0] eq 'PING' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
-			raw_endsync();
+		# Charybdis/Ratbox: syncing done
+		if ($ex[0] eq 'PING' and $synced != 1) {
+			if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+				raw_endsync();
+			}
 		}
 
-		# Charybdis: Handle the SERVER while linking
-		elsif ($ex[0] eq 'SERVER' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
-			raw_server($data);
+		# Charybdis/Ratbox: Handle the SERVER while linking
+		elsif ($ex[0] eq 'SERVER' and $synced != 1) {
+                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+				raw_server($data);
+			}
 		}
 
-		# Charybdis: Handle the PASS while linking
-		elsif ($ex[0] eq 'PASS' and $synced != 1 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
-			raw_pass($data);
+		# Charybdis/Ratbox: Handle the PASS while linking
+		elsif ($ex[0] eq 'PASS' and $synced != 1) {
+                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+				raw_pass($data);
+			}
 		}
 
 		# InspIRCd: Handle the SERVER while linking
@@ -432,14 +443,18 @@ while (1) {
 			raw_lserver($data);
 		}
 
-		# Charybdis: Respond to PING's
-		elsif ($ex[0] eq 'PING' and $synced != 0 and lc(config( 'server', 'ircd' )) eq 'charybdis') {
-			send_sock(":".config( 'me', 'sid' )." PONG ".$ex[1]);
+		# Charybdis/Ratbox: Respond to PING's
+		elsif ($ex[0] eq 'PING' and $synced != 0) {
+                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+				send_sock(":".config( 'me', 'sid' )." PONG ".$ex[1]);
+			}
 		}
 
-		# Charybdis: Local SQUIT's
-		elsif ($ex[0] eq 'SQUIT' and lc(config( 'server', 'ircd' )) eq 'charybdis') {
-			raw_lsquit($data);
+		# Charybdis/Ratbox: Local SQUIT's
+		elsif ($ex[0] eq 'SQUIT') {
+                        if (lc(config( 'server', 'ircd' )) eq 'charybdis' or lc(config('server', 'ircd')) eq 'ratbox') {
+				raw_lsquit($data);
+			}
 		}
 
 		# Error without a source
@@ -518,6 +533,7 @@ while (1) {
 			}
         }
     }
+}
 }
 
 sub send_sock {
