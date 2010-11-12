@@ -1317,6 +1317,20 @@ sub raw_metadata {
 				$Chakora::PROTO_SETTINGS{god} = 'k';
 			}
 		}
+                elsif ($mod eq 'm_deaf.so') {
+                        if ($opera eq '-') {
+                                delete $Chakora::PROTO_SETTINGS{deaf};
+                                foreach my $key (keys %Chakora::svsnick) {
+                                        serv_mode($key, "-".$Chakora::PROTO_SETTINGS{deaf});
+                                }
+                        }
+                        elsif ($opera eq '+') {
+                                $Chakora::PROTO_SETTINGS{deaf} = 'd';
+                                foreach my $key (keys %Chakora::svsnick) {
+                                        serv_mode($key, "+".$Chakora::PROTO_SETTINGS{deaf});
+                                }
+                        }
+                }
 		elsif ($mod eq 'm_allowinvite.so') {
 			if ($opera eq '-') {
 				delete $Chakora::PROTO_SETTINGS{cmodes}{'A'};
