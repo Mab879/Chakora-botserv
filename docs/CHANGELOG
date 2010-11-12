@@ -13,6 +13,7 @@ Current Devel
 	- Modules: If use_fantasy is set to false, set +d (deaf) on services, if it's available
 	- Protocols: InspIRCd: If m_deaf is loaded/unloaded... un(set) the mode on services
 	- Modules: Added operserv/stats
+	- Protocols: Handle remote servers trying to set an users accountname
 
 1.0.0-alpha3
 	- API: Added idflush() for flushing data about identified users to disk.

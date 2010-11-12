@@ -1305,7 +1305,25 @@ sub raw_metadata {
 	my ($raw) = @_;
 	my @rex = split(' ', $raw);
 	my $server = substr($rex[0], 1);
-	if ($server eq sidInfo(config('me', 'sid'), 4) and $rex[2] eq '*' and $rex[3] eq 'modules') {
+        if (lc($rex[4]) eq 'accountname') {
+                my $uid = $rex[3];
+                if ($rex[5]) {
+                        if (!uidInfo($rex[3], 9)) {
+                                # SU sent from remote server - user isn't identified
+                                if (module_exists("nickserv/main")) {
+                                        serv_notice("nickserv", $rex[3], "Forcing logout - you're not identified");
+                                }
+                                serv_logout($rex[3]);
+                        }
+                }
+                else {
+                        # SU sent from remote server - wanting logout 
+                        if (uidInfo($rex[3], 9)) {
+                                serv_accountname($rex[3], uidInfo($rex[3], 9));
+                        }
+                }
+        }
+	elsif ($server eq sidInfo(config('me', 'sid'), 4) and $rex[2] eq '*' and $rex[3] eq 'modules') {
 		my $opera = substr($rex[4], 1, 1);
 		my $mod = substr($rex[4], 2);
 		
