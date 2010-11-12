@@ -58,3 +58,4 @@ load "operserv/shutdown";         # SHUTDOWN: Save services data to disk and shu
 load "operserv/update";           # UPDATE: Save services data to disk.
 load "operserv/uptime";           # UPTIME: Display services uptime.
 load "operserv/version";          # VERSION: Display the version of services.
+load "operserv/stats";		  # STATS: Displays basic stats on registered accounts/channels
