@@ -114,6 +114,15 @@ eval {
         1;
 } or print("Not Found (install Class::Unload)\n") and $die = 1;
 
+print("Checking for sendmail..... ");
+if (-e '/usr/sbin/sendmail') {
+	print "OK\n";
+	1;
+} else {
+	print("Not Found (Please install sendmail or create a symbolic link at /usr/sbin/sendmail)\n");
+	$die = 1;
+}
+
 print("\n");
 
 if ($die) {
