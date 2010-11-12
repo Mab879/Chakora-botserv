@@ -48,6 +48,7 @@ our %rawcmds = (
 	bexcept => 'e',
 	iexcept => 'I',
 	god => 'S',
+	dead => 'd',
 	cmodes => {
 		'b' => 2,
 		'q' => 2,
@@ -953,6 +954,7 @@ sub raw_kill {
     if ($target eq svsUID("operserv")) {
 		serv_del("operserv");
 		my $modes = '+io';
+		if (defined $Chakora::PROTO_SETTINGS{deaf} and !config('services', 'use_fantasy')) { $modes .= $Chakora::PROTO_SETTINGS{deaf}; }
 		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add('operserv', config( 'operserv', 'user' ), config( 'operserv', 'nick' ), config( 'operserv', 'host' ), $modes, config( 'operserv', 'real' ));
 	}
