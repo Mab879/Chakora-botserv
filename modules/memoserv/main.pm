@@ -49,6 +49,7 @@ sub svs_ms_main {
 		module_void("memoserv/main");
 	} else {
 		my $modes = '+io';
+                if (defined $Chakora::PROTO_SETTINGS{deaf} and !config('services', 'use_fantasy')) { $modes .= $Chakora::PROTO_SETTINGS{deaf}; }
 		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add('memoserv', config('memoserv', 'user'), config('memoserv', 'nick'), config('memoserv', 'host'), $modes, config('memoserv', 'real'));
 	}

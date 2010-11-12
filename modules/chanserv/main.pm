@@ -67,6 +67,7 @@ sub ircd_cs_main {
 		module_void("chanserv/main");
 	} else {
 		my $modes = '+io';
+		if (defined $Chakora::PROTO_SETTINGS{deaf} and !config('services', 'use_fantasy')) { $modes .= $Chakora::PROTO_SETTINGS{deaf}; }
 		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add(
 			'chanserv',

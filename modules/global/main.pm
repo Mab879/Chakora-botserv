@@ -47,6 +47,7 @@ sub ircd_g_main {
 		module_void("global/main");
 	} else {
 		my $modes = '+io';
+                if (defined $Chakora::PROTO_SETTINGS{deaf} and !config('services', 'use_fantasy')) { $modes .= $Chakora::PROTO_SETTINGS{deaf}; }
 		if (defined $Chakora::PROTO_SETTINGS{god}) { $modes .= $Chakora::PROTO_SETTINGS{god}; }
 		serv_add(
 			'global',
