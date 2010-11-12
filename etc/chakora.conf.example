@@ -93,9 +93,11 @@ nickserv {
 	user = NickServ
 	host = technoirc/Services/NickServ
 	real = "Nickname Services"
-	enforce_delay = 30;
+	enforce_delay = 30
 	# The maxiumum number of times an email address can be used to register an account
-	max_email = 3;
+	max_email = 3
+	# Send a verication email upon registration?
+	verify_email = 0
 }
 
 operserv {
