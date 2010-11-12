@@ -641,4 +641,28 @@ sub hook_chghost_del {
     undef $hook_chghost{$handler};
 }
 
+### MEMOSERV/SEND ###
+our (%hook_ms_send);
+
+# When a user sends a memo, execute all send hooks.
+sub event_ms_send {
+    my ( $user, $target, $msg ) = @_;
+    my ($hook);
+    foreach $hook (%hook_ms_send) {
+        eval { &{$hook}( $user, $target, $msg ); };
+    }
+}
+
+# Add a hook to the send event.
+sub hook_ms_send_add {
+    my ($handler) = @_;
+    $hook_ms_send{$handler} = $handler;
+}
+
+# Delete a hook from the send event.
+sub hook_ms_send_del {
+    my ($handler) = @_;
+    undef $hook_ms_send{$handler};
+}
+
 1;

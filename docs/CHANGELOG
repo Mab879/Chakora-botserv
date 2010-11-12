@@ -8,6 +8,7 @@
 ---------------------------------------
 
 Current Devel
+	- API: Added event_ms_sent to allow hooks when a user sends a memo
 
 1.0.0-alpha3
 	- API: Added idflush() for flushing data about identified users to disk.
