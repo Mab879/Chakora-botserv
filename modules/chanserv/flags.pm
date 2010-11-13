@@ -89,17 +89,29 @@ sub cs_setflags {
 		}
 		if (flag_exists($f) and !already_setting($f, @uflag)) {
 			$sflag .= $f."";
+			my @tmp_flags = split(/(\+ | \-)/, $sflag);
+			foreach my $tmp_F (@tmp_flags) {
+				if ($tmp =~ /\+/) {
+					$sflaf = $tmp_F;
+					$op = $tmp_flags[$. - 1];
+				}
+				elsif ($tmp =~ /\-/) {
+					$sflaf = $tmp_F;
+					$op = $tmp_flafs[$. - 1];
+				}
+				if (length($sflag) => 1) { 
+					flags($chan, $account, $op.$sflag);
+				}
+				else {
+					delete $Chakora::DB_chanflags{$account};
+					return;
+				}
+				if ($sflag) { serv_notice("chanserv", $user, "Set flags ".$sflag." on ".$account); }
+			}
 		}
 		else { 
 			# these flags done exist
 		}
 	}
-	if (length($sflag) => 1) { 
-		flags($chan, $account, $op.$sflag);
-	}
-	else {
-		delete $Chakora::DB_chanflags{$account};
-		return;
-	}
-	if ($sflag) { serv_notice("chanserv", $user, "Set flags ".$sflag." on ".$account); }
+	
 }
