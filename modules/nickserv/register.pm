@@ -84,6 +84,7 @@ sub svs_ns_register {
 							defined $pid or error('nickserv', 'Cannot fork to send verify email: '.$!);
 							my $sendmail = config('sendmail', 'sendmail_path');
 							my $verifycode = mkverifycode(20);
+							my $net = config('network', 'name');
 							my $mailtemplate = config('nickserv', 'verify_email_template');
 							open (FH, $mailtemplate) or error('nickserv', 'cannot open email template');
 							my @template = <FH>;
@@ -92,6 +93,7 @@ sub svs_ns_register {
 							foreach my $line (@template) {
 								$line =~ s/\%account%/$user/gs;
 								$line =~ s/\%verifycode%/$verifycode/gs;
+								$line =~ s/\%network%/$net/gs;
 								$email .= $line
 							}
 							open(SENDMAIL, "|$sendmail") or die "Cannot open $sendmail: $!"; 
