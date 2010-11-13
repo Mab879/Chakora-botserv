@@ -567,6 +567,7 @@ sub error {
 		$type = lc($type);
 		svsflog( $type, "[ERROR] ".$msg );
 	}
+	dbflush();
 	exit;
 }
 
@@ -634,7 +635,6 @@ sub taint {
 				serv_quit("chanserv", "Shutting down");
 			}
 			serv_squit(config('me', 'sid'), "Tainted");
-			db_flush();
 		}
 
 		error( "chakora", $msg );
