@@ -634,7 +634,9 @@ sub taint {
 				serv_quit("chanserv", "Shutting down");
 			}
 			serv_squit(config('me', 'sid'), "Tainted");
+			db_flush();
 		}
+
 		error( "chakora", $msg );
 	}
 }
