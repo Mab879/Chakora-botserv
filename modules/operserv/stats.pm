@@ -20,19 +20,6 @@ sub void_os_stats {
 
 sub svs_os_stats {
     	my ($user, @sargv) = @_;
-	my $nicks = 0;
-	my $accounts = 0;
-	my $channels = 0;
-	foreach my $nick (keys %Chakora::DB_NICK) { 
-		$nicks++;
-    	}
- 	foreach my $acc (keys %Chakora::DB_ACCOUNT) {
-		$accounts++;
-	}
-	foreach my $chan (keys %Chakora::DB_CHAN) {	
-		$channels++;
-	}
-	
 	serv_notice("operserv", $user, "-Services stats-");
 	serv_notice("operserv", $user, "Registered accounts: ".scalar(keys %Chakora::DB_account));
 	serv_notice("operserv", $user, "Registered nicknames: ".scalar(keys %Chakora::DB_nick));
