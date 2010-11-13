@@ -12,7 +12,7 @@ sub init_ns_identify {
                 module_load("nickserv/main");
         }
 	cmd_add("nickserv/identify", "Identifies to services for a nickname.", "IDENTIFY identifies you to services so that you can\nreceive channel status and perform general maintenance\nand commands that require you to be logged in.\n[T]\nSyntax: IDENTIFY <password>\n[T]\nYou can also identify for another nick/account than\nyou are currently using.\n[T]\nSyntax: IDENTIFY <nick> <password>", \&svs_ns_identify);
-	cmd_add("nickserv/id", "An alias for identify", "ID has the same effect as IDENTIFY - for more information see /msg ".config('nickserv', 'nick'." help identify for more information", \&svs_ns_identify);
+	cmd_add("nickserv/id", "An alias for identify", "ID has the same effect as IDENTIFY - for more information see /msg ".config('nickserv', 'nick')." help identify for more information", \&svs_ns_identify);
 }
 
 sub void_ns_identify {
