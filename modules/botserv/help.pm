@@ -17,7 +17,7 @@ sub init_hs_help {
 sub void_hs_help {
 	delete_sub 'init_hs_help';
 	delete_sub 'svs_hs_help';
-	cmd_del("hostserv/help");
+	cmd_del("botserv/help");
 	delete_sub 'void_hs_help';
 }
 
@@ -29,8 +29,8 @@ sub svs_hs_help {
 			my @fhelp = split('\n', $Chakora::HELP{$hcmd}{fhelp});
 			my ($help);
 			serv_notice("botserv", $user, "\002***** BotServ Help *****\002");
-			serv_notice("hostserv", $user, "Help for \002".uc($sargv[1])."\002:");
-			serv_notice("hostserv", $user, "\002\002");
+			serv_notice("botserv", $user, "Help for \002".uc($sargv[1])."\002:");
+			serv_notice("botserv", $user, "\002\002");
 			foreach $help (@fhelp) {
 				$help =~ s/\[T\]/     /g;
 				serv_notice("botservserv", $user, $help);
@@ -45,11 +45,11 @@ sub svs_hs_help {
 		serv_notice("botserv", $user, "\00BotServ\002 allows channel owners to have a Services bot");
 		serv_notice("botserv", $user, "in there channel. It serves as a protection bot and ");
 		serv_notice("botserv", $user, "allows the use of \002FANSTY\002 commands.");
-		serv_notice("hostserv", $user, "\002\002");
-		serv_notice("hostserv", $user, "For more information on a command, please type:");
-		serv_notice("hostserv", $user, "\002/msg ".$Chakora::svsnick{'botserv'}." HELP <command>\002");
-		serv_notice("hostserv", $user, "\002\002");
-		serv_notice("hostserv", $user, "The following commands are available:");
+		serv_notice("botserv", $user, "\002\002");
+		serv_notice("botserv", $user, "For more information on a command, please type:");
+		serv_notice("botserv", $user, "\002/msg ".$Chakora::svsnick{'botserv'}." HELP <command>\002");
+		serv_notice("botserv", $user, "\002\002");
+		serv_notice("botserv", $user, "The following commands are available:");
 		my %commands = %Chakora::HELP;
 		my ($calc, $dv);
 		foreach my $key (sort keys %commands) {
