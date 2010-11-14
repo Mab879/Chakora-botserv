@@ -18,7 +18,7 @@ sub init_bs_assign {
 sub void_bs_assign {
         delete_sub 'init_bs_flags';
         delete_sub 'svs_bs_assign';
-	delete_sub 'cs_assign';
+	delete_sub 'bs_assign';
         cmd_del("botserv/assign");
         delete_sub 'void_bs_flags';
 }
@@ -44,6 +44,8 @@ sub svs_cs_flags {
 	if (defined($sargv[2]) and defined($sargv[3])) {
 		if (has_flag(uidInfo($user, 9), $sargv[1], "m")) {
 			bs_assign($user, $sargv[1], $sargv[2);
+		serv_notice("botserv", $user Bot $sargv[2] was assigned to 
+
 	} 
 	else {
 		serv_notice("botserv", $user, "You do not have permission to assign bots in ".$sargv[1]);
