@@ -83,6 +83,8 @@ botserv {
 	user = BotServ
 	host = technoirc/Services/BotServ
 	real = "Bot Services"
+ 
+}
 chanserv {
 	nick = ChanServ
 	user = ChanServ
