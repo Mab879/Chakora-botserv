@@ -8,7 +8,7 @@ use warnings;
 module_init("chanserv/set", "The Chakora Project", "0.1", \&init_cs_set, \&void_cs_set);
 
 sub init_cs_set {
-	cmd_add("chanserv/set", "Allows you to set channel settings", "SET allows you to manage the way various\naspects of your channel operate, such as \ntopiclock and fantasy.\n[T]\nSET options:\n[T]\n\002FANTASY\002 - Enables fantasy in your channel.\n\002GUARD\002 - Makes ChanServ stay in your channel until user count is below 1.\n\002RESTRICTED\002 - Restricts your channel from users who don't have flags.\n\002TOPICLOCK\002 - Keeps your topic 'locked' from changing unless the user has the +t flag.\n\002NOSTATUS\002 - Prevents users from recieving status regardless if they have flags or not.\n\002DESCRIPTION\002 - Changes your channels description.\n\002URL\002 - Sets a URL for your channel\n\002NOEXPIRE\002 - Makes a channel never expire. This is settable by service operators only.\n[T]\nSyntax: SET <option> [parameters]", \&svs_cs_set);
+	cmd_add("chanserv/set", "Allows you to set channel settings", "SET allows you to manage the way various\naspects of your channel operate, such as \ntopiclock and fantasy.\n[T]\nSET options:\n[T]\n\002FANTASY\002 - Enables fantasy in your channel.\n\002GUARD\002 - Makes ChanServ stay in your channel until user count is below 1.\n\002RESTRICTED\002 - Restricts your channel from users who don't have flags.\n\002TOPICLOCK\002 - Keeps your topic 'locked' from changing unless the user has the +t flag.\n\002NOSTATUS\002 - Prevents users from recieving status regardless if they have flags or not.\n\002DESCRIPTION\002 - Changes your channels description.\n\002URL\002 - Sets a URL for your channel\n\002NOEXPIRE\002 - Makes a channel never expire. This is settable by service operators only.\n\002AUTOVOICE\002 - Allows you to autovoice all or all registered users upon joining your channel\n[T]\nSyntax: SET <option> [parameters]", \&svs_cs_set);
 	fantasy("set", 1);
 	if (!flag_exists("s")) {
 	        flaglist_add("s", "Allows the use of SET");
@@ -19,6 +19,7 @@ sub void_cs_set {
         delete_sub 'init_cs_set';
         delete_sub 'svs_cs_set';
 	delete_sub 'cs_set_description';
+	delete_sub 'cs_set_autovoice';
 	delete_sub 'cs_set_url';
 	delete_sub 'cs_set_guard';
 	delete_sub 'cs_set_fantasy';
@@ -91,6 +92,18 @@ sub svs_cs_set {
                         serv_notice("chanserv", $user, "Invalid parameter. Syntax: SET <channel> NOSTATUS <on/off>");
                 }
         }
+        elsif (lc($sargv[2]) eq 'autovoice') {
+                if (!defined($sargv[3])) {
+                        serv_notice("chanserv", $user, "Not enough parameters. Syntax: SET <channel> AUTOVOICE <all/registered/off>");
+                }
+                elsif (lc($sargv[3]) eq 'all' or lc($sargv[3]) eq 'registered' or lc($sargv[3]) eq 'off') {
+                        cs_set_autovoice($user, $sargv[1], lc($sargv[3]));
+                }
+                else {
+                        serv_notice("chanserv", $user, "Invalid parameter. Syntax: SET <channel> AUTOVOICE <all/registered/off>");
+                }
+        }
+
         elsif (lc($sargv[2]) eq 'restricted') {
                 if (!defined($sargv[3])) {
                         serv_notice("chanserv", $user, "Not enough parameters. Syntax: SET <channel> RESTRICTED <on/off>");
@@ -261,6 +274,31 @@ sub cs_set_restricted {
                 }
                 else {
                         serv_notice("chanserv", $user, "The \2RESTRICTED\2 flag is already unset on ".$chan);
+                }
+        }
+}
+
+sub cs_set_autovoice {
+        my ($user, $chan, $option) = @_;
+        if ($option eq 'all') {
+                if (!metadata(2, $chan, "option:autovoice")) {
+                        metadata_add(2, $chan, "option:autovoice", "all");
+                        serv_notice("chanserv", $user, "\2AUTOVOICE (all)\2 flag set on ".$chan);
+                        svsilog("chanserv", $user, "SET:".$chan.":AUTOVOICE", "ALL");
+                }
+        }
+        elsif ($option eq 'registered') {
+                if (!metadata(2, $chan, "option:autovoice")) {
+                        metadata_add(2, $chan, "option:autovoice", "registerd");
+                        serv_notice("chanserv", $user, "\2AUTOVOICE (registered)\2 flag set on ".$chan);
+                        svsilog("chanserv", $user, "SET:".$chan.":AUTOVOICE", "REGISTERED");
+                } 
+        }
+        elsif ($option eq 'off') {
+                if (metadata(2, $chan, "option:autovoice")) {
+                        metadata_del(2, $chan, "option:autovoice");
+                        serv_notice("chanserv", $user, "\2AUTOVOICE\2 flag unset on ".$chan);
+                        svsilog("chanserv", $user, "SET:".$chan.":AUTOVOICE", "OFF");
                 }
         }
 }
