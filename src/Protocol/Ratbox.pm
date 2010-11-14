@@ -383,7 +383,9 @@ sub send_global {
         $svs = 'global';
     }
     foreach my $key ( keys %uid ) {
-        serv_notice($svs, $Chakora::uid{$key}{'uid'}, $msg);
+        if ($Chakora::uid{$key}{'uid'}) {
+                serv_notice($svs, $Chakora::uid{$key}{'uid'}, $msg);
+        } 
     }
 }
 
