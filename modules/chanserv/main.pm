@@ -122,6 +122,9 @@ sub ircd_cs_join {
 			serv_join("chanserv", $chan);
 		}
 	}
+        if (metadata(2, $chan, "option:autovoice") eq "all") {
+                serv_mode("chanserv", $chan, "+".$Chakora::PROTO_SETTINGS{voice}." ".$user);
+	}
 	apply_status($user, $chan);
 }
 
@@ -281,6 +284,9 @@ sub apply_status {
         }
         if (metadata(1, $account, 'flag:nostatus')) {
                 return;
+        }
+        if (metadata(2, $chan, "option:autovoice") eq "all" or metadata(2, $chan, "option:autovoice") eq "registered") {
+                $modes .= $Chakora::PROTO_SETTINGS{voice};
         }
 	if (has_flag($account, $chan, "Q") and defined($Chakora::PROTO_SETTINGS{owner})) {
 		$modes .= $Chakora::PROTO_SETTINGS{owner};
