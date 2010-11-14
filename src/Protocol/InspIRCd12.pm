@@ -513,14 +513,23 @@ sub raw_capab {
 				if ($lix =~ m/q/) {
 					$Chakora::PROTO_SETTINGS{owner} = 'q';
 					$lix =~ s/q//g;
+                                	if (!flag_exists("Q")) {
+                                        	flaglist_add("Q", "Auto owner.");
+                                	}
 				}
 				if ($lix =~ m/a/) {
 					$Chakora::PROTO_SETTINGS{admin} = 'a';
 					$lix =~ s/a//g;
+                                	if (!flag_exists("A")) {
+                                        	flaglist_add("A", "Auto protect.");
+                                	}
 				}
 				if ($lix =~ m/h/) {
 					$Chakora::PROTO_SETTINGS{halfop} = 'h';
 					$lix =~ s/h//g;
+	                                if (!flag_exists("H")) {
+        	                                flaglist_add("H", "Auto halfop.");
+        	                        }
 				}
 				if (defined $lix) {
 					if ($lix ne "") {
