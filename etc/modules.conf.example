@@ -2,6 +2,9 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # This software is free software; rights to this config are stated in docs/LICENSE.
+#BotServ - Bot Services
+load "botserv/main" 		# Create BotServ to allow bots.
+load "botserv/assign"		# Allows bots to be assigned. 
 
 # ChanServ - Channel services.
 load "chanserv/main";            # Create ChanServ to allow management of channels.

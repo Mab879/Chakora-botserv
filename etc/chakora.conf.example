@@ -78,7 +78,11 @@ enc {
 }
 
 # Information on services
-
+botserv {
+	nick = BotServ
+	user = BotServ
+	host = technoirc/Services/BotServ
+	real = "Bot Services"
 chanserv {
 	nick = ChanServ
 	user = ChanServ
