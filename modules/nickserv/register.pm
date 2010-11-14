@@ -158,6 +158,9 @@ sub ns_enforce_on_nick {
 		if (!metadata(1, $account, "flag:enforce")) {
 			return;
 		}
+		if (!is_registered(2, $nick)) {
+			return;
+		}
 		serv_notice("nickserv", $uid, "This nickname is registered and protected.  Please");
 		serv_notice("nickserv", $uid, "identify with /msg ".$Chakora::svsnick{'nickserv'}." IDENTIFY <password>");
 		serv_notice("nickserv", $uid, "within ".config('nickserv', 'enforce_delay')." seconds or I will change your nick.");
