@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("botserv/help", "Franklin  IRC Services", "0.1", \&init_ns_main, \&void_ns_main);
+module_init("botserv/help", "Franklin  IRC Services", "0.1", \&init_bs_help, \&void_bs_help);
 
 sub init_hs_help {
 	if (!module_exists("botserv/main")) {

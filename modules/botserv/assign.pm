@@ -12,7 +12,7 @@ sub init_bs_assign {
         if (!module_exists("botserv/main")) {
                 module_load("botserv/main");
         }
-        cmd_add("botserv/asssign", "Assign a BotServ bot.", "FLAGS allows you to view and manage your channels access list", \&svs_bs_assign);
+        cmd_add("botserv/asssign", "Assign a BotServ bot.", "ASSGIN allows you to assign a botserv bot to a channel.", \&svs_bs_assign);
 }
 
 sub void_bs_assign {
