@@ -30,6 +30,7 @@ sub void_cs_ban {
 	fantasy_del("unban");
 	cmd_del("chanserv/ban");
 	cmd_del("chanserv/unban");
+	flaglist_del("k");
         delete_sub 'void_cs_ban';
 }
 
