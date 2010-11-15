@@ -1,4 +1,4 @@
-# botserv/add by Franklin IRC Services. Adds a bot to the database
+# botserv/add by Franklin IRC Services. Adds a bot to the database.
 #
 # Copyright (c) 2010 Franklin IRC Services. All rights reserved.
 # This software is free software; rights to this code are stated in docs/LICENSE.
@@ -48,7 +48,7 @@ sub svs_bs_add {
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
 				if (has_spower($user, 'operserv:global')) {
 					bs_assign($user, $sargv[1], $sargv[2);
-				serv_notice("botserv", $user Bot $sargv[2] was assigned to 
+				serv_notice("botserv", $user Bot $sargv[1] was added with the host of $sargv[2] @ $sargv[3] with the real name $sargv[4].;
 
 	} 
 	else {
