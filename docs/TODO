@@ -38,6 +38,7 @@
 	[ ] Bot list
 	[ ] Badwords
 	[ ] Intergation with fantasy
+        [ ] Add Botserv Database
 [ ] ChanServ
 	[X] Make the chanserv core a module
 	[X] Register
@@ -100,6 +101,8 @@
 	[ ] Make Chakora's DB backend modular.
 	[>] Add MySQL support.
 	[>] Add PostgreSQL support.
+        [ ] Add Support for Botserv 
+
 [ ] Protocols
 	[X] InspIRCd: Track CHGIDENT and make an event for it
 	[X] Network ban API sub
