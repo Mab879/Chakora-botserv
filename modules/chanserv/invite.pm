@@ -22,7 +22,6 @@ sub init_cs_invite {
 sub void_cs_invite {
 	delete_sub 'init_cs_invite';
 	delete_sub 'svs_cs_invite';
-	fantasy_del("invite");
 	cmd_del("chanserv/invite");
 	flaglist_del("i");
 	delete_sub 'void_cs_invite';

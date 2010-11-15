@@ -21,7 +21,6 @@ sub init_cs_sync {
 sub void_cs_sync {
 	delete_sub 'init_cs_sync';
 	delete_sub 'svs_cs_sync';
-	fantasy_del("sync");
 	cmd_del("chanserv/sync");
 	flaglist_del("S");
 	delete_sub 'void_cs_sync';

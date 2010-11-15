@@ -209,12 +209,6 @@ sub fantasy {
 		return 0;
 	}
 }
- 
-sub fantasy_del {
-        my ($cmd) = @_;
-        delete $Chakora::FANTASY{lc($cmd)};
-        return 1;
-}
                
 sub ircd_cs_ns_id {
 	my ($user, $account) = @_;

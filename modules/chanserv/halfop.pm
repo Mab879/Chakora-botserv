@@ -36,8 +36,6 @@ sub void_cs_halfop {
 	delete_sub 'svs_cs_halfop';
 	delete_sub 'svs_cs_dehalfop';
 	hook_pds_del(\&init_cs_halfop);
-	fantasy_del("halfop");
-	fantasy_del("dehalfop");
 	cmd_del("chanserv/halfop");
 	cmd_del("chanserv/dehalfop");
 	flaglist_del("h");

@@ -21,8 +21,6 @@ sub init_cs_xop {
 
 sub void_cs_xop {
 	delete_sub 'init_cs_xop';
-	fantasy_del("vop");
-	fantasy_del("aop");
 	cmd_del("chanserv/vop");
 	cmd_del("chanserv/aop");
 	delete_sub 'svs_cs_vop';

@@ -22,7 +22,6 @@ sub init_cs_kick {
 sub void_cs_kick {
 	delete_sub 'init_cs_kick';
 	delete_sub 'svs_cs_kick';
-	fantasy_del("kick");
 	cmd_del("chanserv/kick");
         delete_sub 'void_cs_kick';
 }

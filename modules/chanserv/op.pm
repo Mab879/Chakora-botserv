@@ -25,8 +25,6 @@ sub void_cs_op {
 	delete_sub 'init_cs_op';
 	delete_sub 'svs_cs_op';
 	delete_sub 'svs_cs_deop';
-	fantasy_del("op");
-	fantasy_del("deop");
 	cmd_del("chanserv/op");
 	cmd_del("chanserv/deop");
 	flaglist_del("o");
