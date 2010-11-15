@@ -4,7 +4,9 @@
 # This software is free software; rights to this config are stated in docs/LICENSE.
 #BotServ - Bot Services
 load "botserv/main" 		# Create BotServ to allow bots.
-load "botserv/assign"		# Allows bots to be assigned. 
+load "botserv/assign"		# ASSIGN: Allows bots to be assigned. 
+load "botserv/help"		# HELP: Provides help with botserv commands.
+load "botserv/add"		# ADD: Allows an IRCop to add a Botserv bot.
 
 # ChanServ - Channel services.
 load "chanserv/main";            # Create ChanServ to allow management of channels.
