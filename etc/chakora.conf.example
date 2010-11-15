@@ -66,6 +66,7 @@ services {
 	use_fantasy = 1
 }
 
+# The enc block is information on database encryption
 enc {
 	# Encryption method.
 	#    none - No encryption. Users will be warned of this.
@@ -132,6 +133,14 @@ global {
 	user = Global
 	host = technoirc/Services/Global
 	real = "Global Noticer"
+}
+
+xop {
+	qop = "+QOqaohvLkMtisC"
+	sop = "+AOaohvLkMtis"
+	aop = "+OohvLkMti
+	hop = "+HhvLkMti"
+	vop = "+VvL"
 }
 
 # End configuration file
