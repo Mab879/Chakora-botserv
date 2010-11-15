@@ -24,6 +24,7 @@ sub void_bs_add {
 }
 sub svs_bs_add {
         my ($user, @sargv) = @_;
+	if (!
 
 			if (!defined($sargv[1])) {
 				serv_notice("botserv", $user, "Not enough parameters. Syntax: ADD [nickname] [name] [host] [real name]");
@@ -44,13 +45,16 @@ sub svs_bs_add {
 			if (defined $Chakora::DB_account{lc($sargv[1])}{name}) {
 				serv_notice("botserv", $user, "User \002$sargv[1]\002 is registered! Choose a differnt nick for the bot.");
 				return;
-			}
+			} 
 	if (defined $Chakora::DB_bots{lc($sargv[1]){nickname}) {
-	  serv_notice("botserv" , $user "This bot exits")
+	  serv_notice("botserv" , $user "This bot exits.");
+	  return;
+	}
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
-				if (has_spower($user, 'operserv:global')) {
+				if (has_spower($user, 'botserv:assign')) {
+				  
 					
-				serv_notice("botserv", $user Bot $sargv[1] was added with the host of $sargv[2] @ $sargv[3] with the real name $sargv[4].;
+				serv_notice("botserv", $user Bot $sargv[1] was added with the host of $sargv[2] @ $sargv[3] with the real name $sargv[4] .;
 
 	} 
 	else {
