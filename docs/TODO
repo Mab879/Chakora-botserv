@@ -39,6 +39,9 @@
 	[ ] Badwords
 	[ ] Intergation with fantasy
         [ ] Add Botserv Database
+	[ ] Say
+	[ ] Act
+	[ ] Unassign
 [ ] ChanServ
 	[X] Make the chanserv core a module
 	[X] Register
@@ -112,7 +115,7 @@
 	[ ] Add function to hold nicknames
  	[X] InspIRCd: find a way to properly tell if a user is an oper
 	[X] Charybdis: find a way to properly tell if a user is an oper 
-	[X] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew)
+	[X] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew Barksbale)
 	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew Barksbale)
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] InspIRCd: Add raw_motd and raw_admin
@@ -121,11 +124,11 @@
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
 	[X] Native ircd-ratbox support.
-	[+] ircd-hybrid support.
+	[?] ircd-hybrid support.
 	[+] UnrealIRCd support.
-	[+] ircu support.
-	[+] Bahamut support.
-	[+] ircd-plexus support.
+	[?] ircu support.
+	[?] Bahamut support.
+	[?] ircd-plexus support.
 	[ ] TS6-generic support.
 	[+] P10-generic support.
 	[ ] A server doesn't need to exist to add a jupe, but we still need to check if a server that is trying to be juped exists. Fix the $ssid in the protocols to do this.
@@ -146,6 +149,6 @@ Key:
 	X = Done
 	! = In development
 	? = Still being questioned whether it should be in Chakora or not
-	O = This didn't make the cut, this could be added later though	
+	O = This didn't make the cut, this could be added later though
 	+ = This has been planned for Chakora v2.x series.
 	> = This has been planned for Chakora v1.1.
