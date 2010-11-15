@@ -45,9 +45,11 @@ sub svs_bs_add {
 				serv_notice("botserv", $user, "User \002$sargv[1]\002 is registered! Choose a differnt nick for the bot.");
 				return;
 			}
+	if (defined $Chakora::DB_bots{lc($sargv[1]){nickname}) {
+	  serv_notice("botserv" , $user "This bot exits")
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
 				if (has_spower($user, 'operserv:global')) {
-					bs_assign($user, $sargv[1], $sargv[2);
+					
 				serv_notice("botserv", $user Bot $sargv[1] was added with the host of $sargv[2] @ $sargv[3] with the real name $sargv[4].;
 
 	} 
