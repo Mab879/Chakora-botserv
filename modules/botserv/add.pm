@@ -24,7 +24,6 @@ sub void_bs_add {
 }
 sub svs_bs_add {
         my ($user, @sargv) = @_;
-		if (has_spower($user, 'operserv:global')) {
 
 			if (!defined($sargv[1])) {
 				serv_notice("botserv", $user, "Not enough parameters. Syntax: ADD [nickname] [name] [host] [real name]");
@@ -47,12 +46,12 @@ sub svs_bs_add {
 				return;
 			}
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
-				if (has_flag(uidInfo($user, 9), $sargv[1], "m")) {
+				if (has_spower($user, 'operserv:global')) {
 					bs_assign($user, $sargv[1], $sargv[2);
 				serv_notice("botserv", $user Bot $sargv[2] was assigned to 
 
 	} 
 	else {
-		serv_notice("botserv", $user, "You do not have permission to assign bots in ".$sargv[1]);
+		serv_notice("botserv", $user, "You do not have permission to add bots.");
 		}
 }

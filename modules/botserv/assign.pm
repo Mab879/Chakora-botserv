@@ -16,13 +16,13 @@ sub init_bs_assign {
 }
 
 sub void_bs_assign {
-        delete_sub 'init_bs_flags';
+        delete_sub 'init_bs_assign';
         delete_sub 'svs_bs_assign';
 	delete_sub 'bs_assign';
         cmd_del("botserv/assign");
-        delete_sub 'void_bs_flags';
+        delete_sub 'void_bs_assign';
 }
-sub svs_cs_flags {
+sub svs_bs_assign {
         my ($user, @sargv) = @_;
 
         if (!defined($sargv[1])) {
