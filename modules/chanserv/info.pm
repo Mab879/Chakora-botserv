@@ -18,6 +18,7 @@ sub init_cs_info {
 sub void_cs_info {
 	delete_sub 'init_cs_info';
 	delete_sub 'svs_cs_info';
+	fantasy_del("info");
 	cmd_del("chanserv/info");
 	delete_sub 'void_cs_info';
 }

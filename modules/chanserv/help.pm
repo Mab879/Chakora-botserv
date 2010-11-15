@@ -18,6 +18,7 @@ sub init_cs_help {
 sub void_cs_help {
 	delete_sub 'init_cs_help';
 	delete_sub 'svs_cs_help';
+	fantasy_del("help");
 	cmd_del("chanserv/help");
 	delete_sub 'void_cs_help';
 }

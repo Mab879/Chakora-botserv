@@ -28,6 +28,7 @@ sub void_cs_set {
 	delete_sub 'cs_set_restricted';
 	delete_sub 'cs_set_noexpire';
 	flaglist_del("s");
+	fantasy_del("set");
         cmd_del("chanserv/set");
 	delete_sub 'void_cs_set';
 }

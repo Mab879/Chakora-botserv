@@ -36,6 +36,8 @@ sub void_cs_protect {
 	delete_sub 'svs_cs_protect';
 	delete_sub 'svs_cs_deprotect';
 	hook_pds_del(\&sinit_cs_protect);
+	fantasy_del("protect");
+	fantasy_del("deprotect");
 	cmd_del("chanserv/protect");
 	cmd_del("chanserv/deprotect");
 	flaglist_del("a");

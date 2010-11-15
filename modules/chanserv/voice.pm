@@ -25,6 +25,8 @@ sub void_cs_voice {
 	delete_sub 'init_cs_voice';
 	delete_sub 'svs_cs_voice';
 	delete_sub 'svs_cs_devoice';
+	fantasy_del("voice");
+	fantasy_del("devoice");
 	cmd_del("chanserv/voice");
 	cmd_del("chanserv/devoice");
 	flaglist_del("v");

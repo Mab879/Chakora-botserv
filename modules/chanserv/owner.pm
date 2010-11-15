@@ -36,6 +36,8 @@ sub void_cs_owner {
 	delete_sub 'svs_cs_owner';
 	delete_sub 'svs_cs_deowner';
 	hook_pds_del(\&init_cs_owner);
+	fantasy_del("owner");
+	fantasy_del("deowner");
 	cmd_del("chanserv/owner");
 	cmd_del("chanserv/deowner");
 	flaglist_del("q");

@@ -23,8 +23,9 @@ sub init_cs_kickban {
 sub void_cs_kickban {
 	delete_sub 'init_cs_kickban';
 	delete_sub 'svs_cs_kickban';
+	fantasy_del("kickban");
 	cmd_del("chanserv/kickban");
-       delete_sub 'void_cs_kickban';
+        delete_sub 'void_cs_kickban';
 }
 
 sub svs_cs_kickban {

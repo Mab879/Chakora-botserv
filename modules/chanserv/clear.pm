@@ -23,6 +23,7 @@ sub void_cs_clear {
 	delete_sub 'init_cs_clear';
 	delete_sub 'svs_cs_clear';
 	delete_sub 'cs_clearusers';
+	fantasy_del("clear");
 	cmd_del("chanserv/clear");
 	flaglist_del("C");
 	delete_sub 'void_cs_clear';

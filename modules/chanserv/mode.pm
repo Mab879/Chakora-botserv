@@ -22,9 +22,10 @@ sub init_cs_mode {
 sub void_cs_mode {
 	delete_sub 'init_cs_mode';
 	delete_sub 'svs_cs_mode';
+	fantasy_del("mode");
 	cmd_del("chanserv/mode");
 	flaglist_del("c");
-       delete_sub 'void_cs_mode';
+        delete_sub 'void_cs_mode';
 }
 
 sub svs_cs_mode {

@@ -18,6 +18,7 @@ sub init_cs_flist {
 sub void_cs_flist {
 	delete_sub 'init_cs_flist';
 	delete_sub 'svs_cs_flist';
+	fantasy_del("flist");
 	cmd_del("chanserv/flist");
 	delete_sub 'void_cs_flist';
 }

@@ -26,9 +26,11 @@ sub void_cs_ban {
 	delete_sub 'init_cs_ban';
 	delete_sub 'svs_cs_ban';
 	delete_sub 'svs_cs_unban';
+	fantasy_del("ban");
+	fantasy_del("unban");
 	cmd_del("chanserv/ban");
 	cmd_del("chanserv/unban");
-       delete_sub 'void_cs_ban';
+        delete_sub 'void_cs_ban';
 }
 
 sub svs_cs_ban {
