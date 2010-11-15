@@ -141,6 +141,7 @@
 	[ ] When chanserv/flags is done, add the +L flag creation there
 	[ ] Make our own config parser, we really need one.
 	[!] Fix the truckload of uninitialized values issues that are displayed while in debug mode.
+        [!] Add Comments to all of the code  
 Key: 
 	X = Done
 	! = In development
