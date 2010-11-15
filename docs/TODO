@@ -29,7 +29,15 @@
 	[X] Account name
 	[X] Logout
 	[X] Once the CHGIDENT/CHGHOST event is done, add a hook in nickserv/main to change the data:realhost
-
+[ ] BotServ
+	[!] Make the botserv core a module
+	[ ] Add Bot
+	[ ] Edit bot
+	[ ] Remove bot
+	[!] Assign
+	[ ] Bot list
+	[ ] Badwords
+	[ ] Intergation with fantasy
 [ ] ChanServ
 	[X] Make the chanserv core a module
 	[X] Register
@@ -52,7 +60,7 @@
 		[X] Description
 		[X] URL
 		[X] Noexpire
-	[!] Access list system (We're going to do a flag system with an XOP adapter)	
+	[!] Access list system (We're going to do a flag system with an XOP adapter.)	
 [ ] MemoServ
 	[X] Make the memoserv core a module
 	[ ] Send
@@ -62,14 +70,14 @@
 	[ ] Delete
 [ ] OperServ
 	[O] Make the operserv core a module
-	[X] Don't allow OperServ to be kicked/killed/etc. (Add the reconnection stuff in raw_ subs? --Matthew)
+	[X] Don't allow OperServ to be kicked/killed/etc. (Add the reconnection stuff in raw_ subs? --Matthew Barksbale)
 	[X] Restart
 	[X] Shutdown
 	[ ] Rehash (Config::Scoped doesn't allow this, we need our own config parser --Matthew)
-	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
-	[ ] Make modload, modunload and protocols - unloadable ( protocols don't have a void/init handler, regardless, let it be known it's not unloadable --Matthew)
+	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew Barksbale] 
+	[ ] Make modload, modunload and protocols - unloadable ( protocols don't have a void/init handler, regardless, let it be known it's not unloadable --Matthew Barksbale)
  	[ ] Improve the error messages in modload, if the file doesn't exist say that.
-	[X] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew)
+	[X] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew Barksbale)
 	[ ] AKill
 	[ ] Jupe
 	[X] Global
@@ -102,7 +110,7 @@
  	[X] InspIRCd: find a way to properly tell if a user is an oper
 	[X] Charybdis: find a way to properly tell if a user is an oper 
 	[X] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew)
-	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew)
+	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew Barksbale)
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] InspIRCd: Add raw_motd and raw_admin
 	[X] Add serv_accoutname
