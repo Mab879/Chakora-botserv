@@ -38,6 +38,12 @@ sub svs_cs_vop {
 
 sub svs_cs_aop {
         my ($user, @sargv) = @_;
-
+	if (has_flag($user, $sargv[0], "+F")) {
+		serv_notice('chanserv', $user, "Adding $sargv[2] to the AOP list for $sargv[0]");
+		flags($sargv[2], $chan, config('xop', 'aop');
+		apply_status($sargv[2], $sargv[0]);
+	} else {
+		serv_notice('chanserv', $user, "Only channel founders can add people to the AOP list");
+	}
 }
 
