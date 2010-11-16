@@ -6,13 +6,13 @@
 use strict;
 use warnings;
 
-module_init("botserv/assign", "Franklin  IRC Services", "0.1", \&init_bs_add, \&void_bs_add);
+module_init("botserv/add", "Franklin  IRC Services", "0.1", \&init_bs_add, \&void_bs_add);
 
-sub init_bs_assign {
+sub init_bs_add {
         if (!module_exists("botserv/main")) {
                 module_load("botserv/main");
         }
-        cmd_add("botserv/asssign", "Create a botserv bot.", "ADD allows an IRC Operator to add an botserv bot the bot list.", \&svs_bs_add);
+        cmd_add("botserv/add", "Create a botserv bot.", "ADD allows an IRC Operator to add an botserv bot the bot list.", \&svs_bs_add);
 }
 
 sub void_bs_add {
@@ -24,8 +24,7 @@ sub void_bs_add {
 }
 sub svs_bs_add {
         my ($user, @sargv) = @_;
-	# TODO: Check to if they botserv:add 
-	if  (
+	 if (has_spower($user, 'botserv:add')) {
 
 			if (!defined($sargv[1])) {
 				serv_notice("botserv", $user, "Not enough parameters. Syntax: ADD [nickname] [name] [host] [real name]");
@@ -53,11 +52,10 @@ sub svs_bs_add {
 		return;
 			}
 			} 
-	if (defined $Chakora::DB_bots{lc($sargv[1]){nickname}) {
-	  serv_notice("botserv" , $user "This bot exits.");
-	  return;
+	  if (defined $Chakora::DB_bots{lc($sargv[1]){nickname}) {
+	    serv_notice("botserv" , $user "This bot exits.");
+	    return;
 	}
->>>>>>> d0a5a99817a6961a5ee033f7b549ad5db9be1045
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
 				if (has_spower($user, 'botserv:assign')) {
 				  
