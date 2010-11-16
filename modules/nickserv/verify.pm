@@ -23,4 +23,16 @@ sub svs_ns_verify {
   if (has_spower($user, 'nickserv:override')) {
     
     if (!defined($sargv[1])) {
-      serv_notice("nickserv"
+      serv_notice("nickserv" , $user, "Not enough parameters: Syntax: VERIFY <acccount name>");
+      return;
+		}
+   
+    if (!uidInfo($user, 9)) {
+      serv_notice("nickserv" , $user, "You must be logged in to perform this operation.");
+}
+    if(!defined Chakora::DB_account{lc($sargv[1])}{name} {
+      serv_notice("nickserv" , $user, "Account \002$sargv[1]\002 doesn't exist!");
+    else {
+      serv_notice("nickserv" , $user, "You don't have permession to this operation.");
+  return;
+}
