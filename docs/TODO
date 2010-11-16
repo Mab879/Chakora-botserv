@@ -8,7 +8,7 @@
 ----------------------------------------
 
 [X] Global
-	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
+	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew Barksdale)
 [ ] NickServ
 	[X] Make the nickserv core a module.
 		[O] Add sub's relating to nickserv into nickserv/main (These go in API/Services.pm)
@@ -25,7 +25,7 @@
 		[ ] Set API
 	[X] Ghost
 	[ ] Release
-	[ ] Verify (allow opers with nickserv:override to force verification --Matthew)
+	[!] Verify (allow opers with nickserv:override to force verification --Matthew Barksdale)
 	[X] Account name
 	[X] Logout
 	[X] Once the CHGIDENT/CHGHOST event is done, add a hook in nickserv/main to change the data:realhost
@@ -33,7 +33,7 @@
 	[!] Make the botserv core a module
 	[ ] Add Bot
 	[ ] Edit bot
-	[ ] Remove bot
+	[!] Remove bot
 	[!] Assign
 	[ ] Bot list
 	[ ] Badwords
