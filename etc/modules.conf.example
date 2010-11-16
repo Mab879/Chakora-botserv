@@ -49,6 +49,7 @@ load "nickserv/info";             # INFO: View information about a nickname.
 load "nickserv/logout";           # LOGOUT: Log out of services.
 load "nickserv/register";         # REGISTER: Registers a nickname with NickServ, protecting it and unlocking various features for the user.
 load "nickserv/set";              # SET: Set core settings on an account.
+load "nickserv/resetpass";	  # RESETPASS: Allows an oper with nickserv:manage to reset a users password.
 
 # OperServ - Oper services.
 load "operserv/global";           # GLOBAL: Send a global notice to all connected users.
