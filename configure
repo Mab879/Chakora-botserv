@@ -123,6 +123,6 @@ if ($die) {
 }
 
 print(
-"All required modules were found.\nPlease edit etc/chakora.conf.example and rename it to chakora.conf now...\n\n"
+"All required modules were found.\nPlease edit etc/chakora.conf.example and rename it to chakora.conf /n Also etc/modules.conf.example should be edited to your needs. \n\n"
 );
 
