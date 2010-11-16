@@ -28,7 +28,7 @@ sub svs_bs_add {
 	 if (has_spower($user, 'botserv:add')) {
 
 			if (!defined($sargv[1])) {
-				serv_notice("botserv", $user, "Not enough parameters. Syntax: DELETE [nickname]");
+				serv_notice("botserv", $user, "Not enough parameters. Syntax: DELETE <nickname>");
 				return;
 			}
 			}
