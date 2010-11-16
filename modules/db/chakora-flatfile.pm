@@ -71,6 +71,7 @@ sub db_flush {
               . $Chakora::DB_chan{$key}{regtime} . " "
               . $Chakora::DB_chan{$key}{mlock} . " "
               . $Chakora::DB_chan{$key}{ts} . " "
+	      . $Chakora::DB_chan{$key}{bot} . "" 	
               . $Chakora::DB_chan{$key}{desc} . "\n";
         }
     }
@@ -99,6 +100,14 @@ sub db_flush {
 			. $Chakora::DB_memo{$key}{new} . " "
 			. $Chakora::DB_memo{$key}{body} . "\n";
 		}
+		foreach my $key ( keys %Chakora::DB_bot) {
+		  unless (!defined($Chakora::DB_bots{key}{realname})) {
+		    . $Chakora::DB_bots{$key}{username} . ""
+		    . $Chakora::DB_bots{$key}{name} . ""
+		    . $Chakora::DB_bots{$key}{host} . ""
+		    . $Chakora::DB_bots{key}{realname} . "/n";
+		  }
+		      
     }
     print FILE $dd;
     close FILE;

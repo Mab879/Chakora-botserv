@@ -1,4 +1,4 @@
-# botserv/add by Franklin IRC Services. Adds a bot to the database
+# botserv/add by Franklin IRC Services. Adds a bot to the database.
 #
 # Copyright (c) 2010 Franklin IRC Services. All rights reserved.
 # This software is free software; rights to this code are stated in docs/LICENSE.
@@ -24,6 +24,7 @@ sub void_bs_add {
 }
 sub svs_bs_add {
         my ($user, @sargv) = @_;
+	if (!
 
 			if (!defined($sargv[1])) {
 				serv_notice("botserv", $user, "Not enough parameters. Syntax: ADD [nickname] [name] [host] [real name]");
@@ -44,16 +45,25 @@ sub svs_bs_add {
 			if (defined $Chakora::DB_account{lc($sargv[1])}{name}) {
 				serv_notice("botserv", $user, "User \002$sargv[1]\002 is registered! Choose a differnt nick for the bot.");
 				return;
+<<<<<<< HEAD
 			}
 			my $tu = nickUID($sargv[1]);
 			if ($tu) {
 		serv_notice("botserv", $user, "User \002$sargv[1]\002 is online! Please choose a differnt nickname for the bot or close the connect.");
 		return;
 			}
+=======
+			} 
+	if (defined $Chakora::DB_bots{lc($sargv[1]){nickname}) {
+	  serv_notice("botserv" , $user "This bot exits.");
+	  return;
+	}
+>>>>>>> d0a5a99817a6961a5ee033f7b549ad5db9be1045
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
-				if (has_spower($user, 'operserv:global')) {
-					bs_assign($user, $sargv[1], $sargv[2);
-				serv_notice("botserv", $user Bot $sargv[2] was assigned to 
+				if (has_spower($user, 'botserv:assign')) {
+				  
+					
+				serv_notice("botserv", $user Bot $sargv[1] was added with the host of $sargv[2] @ $sargv[3] with the real name $sargv[4] .;
 
 	} 
 	else {

@@ -7,6 +7,7 @@ BOF oper
 operserv:_
 operserv:global
 nickserv:fullinfo
+botserv:add
 EOF
 
 BOF admin
@@ -14,6 +15,7 @@ chanserv:override
 nickserv:override
 hostserv:override
 operserv:update
+botserv:add
 INCLUDE oper
 EOF
 
