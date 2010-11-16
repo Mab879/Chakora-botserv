@@ -45,6 +45,11 @@ sub svs_bs_add {
 				serv_notice("botserv", $user, "User \002$sargv[1]\002 is registered! Choose a differnt nick for the bot.");
 				return;
 			}
+			my $tu = nickUID($sargv[1]);
+			if ($tu) {
+		serv_notice("botserv", $user, "User \002$sargv[1]\002 is online! Please choose a differnt nickname for the bot or close the connect.");
+		return;
+			}
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
 				if (has_spower($user, 'operserv:global')) {
 					bs_assign($user, $sargv[1], $sargv[2);
