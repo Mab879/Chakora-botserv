@@ -12,7 +12,7 @@ sub init_bs_assign {
         if (!module_exists("botserv/main")) {
                 module_load("botserv/main");
         }
-        cmd_add("botserv/asssign", "Create a botserv bot.", "ADD allows an IRC Operator to add an botserv bot the bot list.", \&svs_bs_add);
+        cmd_add("botserv/add", "Create a botserv bot.", "ADD allows an IRC Operator to add an botserv bot the bot list.", \&svs_bs_add);
 }
 
 sub void_bs_add {
@@ -45,20 +45,19 @@ sub svs_bs_add {
 			if (defined $Chakora::DB_account{lc($sargv[1])}{name}) {
 				serv_notice("botserv", $user, "User \002$sargv[1]\002 is registered! Choose a differnt nick for the bot.");
 				return;
-<<<<<<< HEAD
+
 			}
 			my $tu = nickUID($sargv[1]);
 			if ($tu) {
-		serv_notice("botserv", $user, "User \002$sargv[1]\002 is online! Please choose a differnt nickname for the bot or close the connect.");
+			serv_notice("botserv", $user, "User \002$sargv[1]\002 is online! Please choose a differnt nickname for the bot or close the connect.");
 		return;
 			}
-=======
+
 			} 
-	if (defined $Chakora::DB_bots{lc($sargv[1]){nickname}) {
+		if (defined $Chakora::DB_bot{lc($sargv[1]){nickname}) {
 	  serv_notice("botserv" , $user "This bot exits.");
 	  return;
 	}
->>>>>>> d0a5a99817a6961a5ee033f7b549ad5db9be1045
 			if (defined($sargv[2]) and defined($sargv[3] and defined($sargv)[4])) {
 				if (has_spower($user, 'botserv:assign')) {
 				  
