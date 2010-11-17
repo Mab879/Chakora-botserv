@@ -30,8 +30,10 @@ sub svs_ns_verify {
     if (!uidInfo($user, 9)) {
       serv_notice("nickserv" , $user, "You must be logged in to perform this operation.");
 }
-    if(!defined Chakora::DB_account{lc($sargv[1])}{name} {
+    if (!defined Chakora::DB_account{lc($sargv[1])}{name} {
       serv_notice("nickserv" , $user, "Account \002$sargv[1]\002 doesn't exist!");
+}
+	if (defined Chakora::DB_account{
     else {
       serv_notice("nickserv" , $user, "You don't have permession to this operation.");
   return;
