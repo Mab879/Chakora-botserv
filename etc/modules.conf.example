@@ -58,7 +58,7 @@ load "operserv/modlist";          # MODLIST: List all loaded modules.
 load "operserv/modload";          # MODLOAD: Load a module.
 load "operserv/modreload";        # MODRELOAD: Reloads a module.
 load "operserv/modunload";        # MODUNLOAD: Unload a module.
-#load "operserv/raw";             # RAW: Sends a raw message to the services socket.
+#load "operserv/raw";             # RAW: Sends a raw message to the services socket. (Warning: Taints service - can potentially cause a desync)
 load "operserv/restart"           # RESTART: Save services and identified user data to disk and restart services.
 load "operserv/shutdown";         # SHUTDOWN: Save services data to disk and shutdown services.
 load "operserv/update";           # UPDATE: Save services data to disk.
