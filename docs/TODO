@@ -87,7 +87,8 @@
 	[X] Global
 	[X] Uptime
 	[X] Version
-	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew)
+	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew Barksbale)
+	[ ] Privs (Allows a soper to view the privs he/she has access to)
 [ ] HostServ
 	[X] Make the hostserv core a module
 	[X] Set vHosts
