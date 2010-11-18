@@ -24,6 +24,7 @@ sub svs_os_stats {
 	serv_notice("operserv", $user, "Registered accounts: ".scalar(keys %Chakora::DB_account));
 	serv_notice("operserv", $user, "Registered nicknames: ".scalar(keys %Chakora::DB_nick));
 	serv_notice("operserv", $user, "Registered channels: ".scalar(keys %Chakora::DB_chan));
+	serv_notice("operserv", $user, "-End stats-");
 }
 
 1;
