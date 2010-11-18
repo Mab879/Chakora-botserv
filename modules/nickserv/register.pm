@@ -118,6 +118,7 @@ sub svs_ns_register {
 					$Chakora::DB_nick{lc($nick)}{nick} = $nick;
 					$Chakora::DB_nick{lc($nick)}{account} = $nick;
 					$Chakora::DB_nick{lc($nick)}{regtime} = time();
+					$Chakora::DB_nick{lc($nick){verify} = no
 					metadata_add(1, $nick, "flag:enforce", 1);
 					metadata_add(1, $nick, "flag:hidemail", 1);
 					serv_accountname($user, $nick);
