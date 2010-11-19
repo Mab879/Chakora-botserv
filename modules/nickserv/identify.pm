@@ -90,7 +90,7 @@ sub svs_ns_identify {
 			svsilog("nickserv", $user, "LOGOUT", uidInfo($user, 9));
 			svsflog('commands', uidInfo($user, 1).": NickServ: LOGOUT: ".uidInfo($user, 9));
 		}
-<<<<<<< HEAD
+
 		#If there account isn't verifyed
 		if ($Chakora::DB_nick{lc($nick)}{is_verify} eq no) {
 			serv_notice("nickserv", $user, "You can't identify to unverifyed account");
@@ -99,13 +99,12 @@ sub svs_ns_identify {
 			return;
 			}
 				
-=======
+
 		if (Chakora::DB_nick{lc($account)}{verify} eq no) {
 		  serv_notice("nickserv" , $user, "You can't indentify to an unverified account!");
 		  #TODO: Change to unidentiftyied nick
 		  
-		}
->>>>>>> dae788fac4ecfb1dc5aebd8abb94ea25f8264313
+
 		serv_accountname($user, $account);
 		$Chakora::uid{$user}{'account'} = $account;
 		serv_notice("nickserv", $user, "You are now identified as \002$account\002.");
