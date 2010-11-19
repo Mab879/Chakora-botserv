@@ -29,16 +29,17 @@
 	[X] Account name
 	[X] Logout
 	[X] Once the CHGIDENT/CHGHOST event is done, add a hook in nickserv/main to change the data:realhost
+	[ ] Make so after so many failed logins Services disconnets the client.
 [ ] BotServ
 	[!] Make the botserv core a module
-	[ ] Add Bot
+	[!] Add Bot
 	[ ] Edit bot
 	[!] Remove bot
 	[!] Assign
 	[ ] Bot list
 	[ ] Badwords
 	[ ] Intergation with fantasy
-        [ ] Add Botserv Database
+    [!] Add Botserv Database
 	[ ] Say
 	[ ] Act
 	[ ] Unassign
