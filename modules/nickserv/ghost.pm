@@ -1,4 +1,4 @@
-#
+# nickserv/ghost by The Chakora Project. Allows ghosting of users (and dead sessions AKA ghosts) using another's nickname.
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
