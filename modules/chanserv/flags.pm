@@ -101,7 +101,8 @@ sub cs_setflags {
 	}
 	my ($as);
 	my ($acs);
-	my $curmos = $curmo[0];
+	my $curmos = $Chakora::DB_flags<<insert location to existing flags for user here>>;
+	$curmos =~ s/\+//g;
 	foreach my $xc (@nomo) {
 		if (defined $xc) {
 			if ($curmos =~ m/($xc)/) {
