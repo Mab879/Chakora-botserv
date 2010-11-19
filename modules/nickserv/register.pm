@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("nickserv/register", "The Chakora Project", "0.1", \&init_ns_register, \&void_ns_register);
+module_init("nickserv/register", "The Chakora Project", "0.2", \&init_ns_register, \&void_ns_register);
 
 sub init_ns_register {
 	if (!module_exists("nickserv/main")) {
@@ -118,6 +118,7 @@ sub svs_ns_register {
 					$Chakora::DB_nick{lc($nick)}{nick} = $nick;
 					$Chakora::DB_nick{lc($nick)}{account} = $nick;
 					$Chakora::DB_nick{lc($nick)}{regtime} = time();
+					$Chakora::DB_nick{lc($nick)}{is_verify} = no;	
 					metadata_add(1, $nick, "flag:enforce", 1);
 					metadata_add(1, $nick, "flag:hidemail", 1);
 					serv_accountname($user, $nick);
