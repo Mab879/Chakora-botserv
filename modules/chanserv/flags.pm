@@ -77,41 +77,90 @@ sub already_setting {
 }
 
 sub cs_setflags {
-	my ($user, $chan, $account, $flags) = @_;
-	my $sflag;
-	my @uflag = ('');
-	my @flag = split(//, $flags);
-	my $op;
-	foreach my $f (@flag) {
-		push(@uflag, $f);
-		if (has_flag($account, $chan, $f) and flag_exists($f) and !already_setting($f, @uflag)) {
-			# the user already has these flags
+	my ($user, $chan, $account, $srflags) = @_;
+	
+	my $bflags = $srflags;
+	my @sflags = split(//, $bflags);
+	my ($cargs, $flags);
+	my $margs = 0;
+	my $op = 0;
+	my (@nomo);
+	foreach my $r (@sflags) {
+		if ($r eq '+') {
+			$op = 1;
 		}
-		if (flag_exists($f) and !already_setting($f, @uflag)) {
-			$sflag .= $f."";
-			my @tmp_flags = split(/(\+ | \-)/, $sflag);
-			foreach my $tmp_F (@tmp_flags) {
-				if ($tmp =~ /\+/) {
-					$sflaf = $tmp_F;
-					$op = $tmp_flags[$. - 1];
-				}
-				elsif ($tmp =~ /\-/) {
-					$sflaf = $tmp_F;
-					$op = $tmp_flafs[$. - 1];
-				}
-				if (length($sflag) => 1) { 
-					flags($chan, $account, $op.$sflag);
-				}
-				else {
-					delete $Chakora::DB_chanflags{$account};
-					return;
-				}
-				if ($sflag) { serv_notice("chanserv", $user, "Set flags ".$sflag." on ".$account); }
-			}
+		if ($r eq '-') {
+			$op = 0;
 		}
-		else { 
-			# these flags done exist
+		if (flag_exists($r) and $op) {
+			$flags .= $r;
+		}
+		elsif (flag_exists($r) and $op == 0) {
+			$nomo[count(@nomo) + 1] = $r;
 		}
 	}
-	
+	my ($as);
+	my ($acs);
+	my $curmos = $curmo[0];
+	foreach my $xc (@nomo) {
+		if (defined $xc) {
+			if ($curmos =~ m/($xc)/) {
+				if ($Chakora::PROTO_SETTINGS{cflags}{$xc} > 1) {
+					my @cmta = split(//, $curmos);
+					my $cmtb = 0;
+					my $cmtd = 1;
+					foreach my $cmtc (@cmta) {
+						if ($cmtc eq $xc) {
+							$cmtd = 0;
+						}	
+						elsif ($Chakora::PROTO_SETTINGS{cflags}{$cmtc} > 1 and $cmtd != 0) {
+							$cmtb += $Chakora::PROTO_SETTINGS{cflags}{$cmtc};
+						}
+					}
+					undef $curmo[$cmtb + 1];
+				}	
+				$curmos =~ s/($xc)//g;
+			}	
+			if (defined $flags) {
+				if ($flags =~ m/($xc)/) {
+					if ($Chakora::PROTO_SETTINGS{cflags}{$xc} > 1) {
+						my @cmtx = split(' ', $as);
+						my @cmta = split(//, $curmos);
+						my $cmtb = 0;
+						my $cmtd = 1;
+						foreach my $cmtc (@cmta) {
+							if ($cmtc eq $xc) {
+								$cmtd = 0;
+							}
+							elsif ($Chakora::PROTO_SETTINGS{cflags}{$cmtc} > 1 and $cmtd != 0) {
+								$cmtb += $Chakora::PROTO_SETTINGS{cflags}{$cmtc};
+							}	
+						}
+						undef $cmtx[$cmtb + 1];
+						undef $as;
+						for (my $i = 1; $i < count(@cmtx); $i++) { if (defined $cmtx[$i]) { $as .= ' '.$cmtx[$i]; } }
+					}
+					$flags =~ s/($xc)//g;
+				}	
+			}
+		}
+	}
+	if (defined $curmo[1]) {
+		for (my $i = 1; $i < count(@curmo); $i++) { if (defined $curmo[$i]) { $acs .= ' '.$curmo[$i]; } }
+	}
+	my ($finflags);
+	if (defined $curmos) {
+		$finflags .= $curmos;
+	}
+	if (defined $flags) {
+		$finflags .= $flags;
+	}
+	if (defined $acs) {
+		$finflags .= $acs;
+	}
+	if (defined $as) {
+		$finflags .= $as;
+	}
+	flags($chan, $account, $finflags);
+	serv_notice("chanserv", $user, "Set flags for \002".$account."\002 on \002".$chan."\002 to \002".$finflags."\002"); 
 }

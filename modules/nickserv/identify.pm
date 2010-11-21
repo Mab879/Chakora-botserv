@@ -4,8 +4,8 @@
 # This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;
-
-module_init("nickserv/identify", "The Chakora Project", "0.1", \&init_ns_identify, \&void_ns_identify);
+#Start Module
+module_init("nickserv/identify", "The Chakora Project", "0.2", \&init_ns_identify, \&void_ns_identify);
 
 sub init_ns_identify {
         if (!module_exists("nickserv/main")) {
@@ -42,6 +42,7 @@ sub svs_ns_identify {
 			serv_notice("nickserv", $user, "Incorrect password.");
 			svsilog("nickserv", $user, "IDENTIFY:FAIL:BADPASS", $account);
 			svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY:FAIL:BADPASS: $account");
+			#TODO: If user fails to identify in X tries kill the user.
 			return;
 		}
 		if (lc(uidInfo($user, 9)) eq lc($account)) {
@@ -77,6 +78,9 @@ sub svs_ns_identify {
 			svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY:FAIL:BADPASS: $account");
 			return;
 		}
+		if ($Chakora::DB_nick{lc($account)}{is_verify} eq no) {
+			serv_notice("nickserv", $user, "You can't identify to an unverifyed nick" );
+		}
 		if (lc(uidInfo($user, 9)) eq lc($account)) {
 			serv_notice("nickserv", $user, "You're already identified as \002$account\002.");
 			return;
@@ -89,6 +93,22 @@ sub svs_ns_identify {
 			svsilog("nickserv", $user, "LOGOUT", uidInfo($user, 9));
 			svsflog('commands', uidInfo($user, 1).": NickServ: LOGOUT: ".uidInfo($user, 9));
 		}
+<<<<<<< HEAD
+		#If there account isn't verifyed
+		if ($Chakora::DB_nick{lc($nick)}{is_verify} eq no) {
+			serv_notice("nickserv", $user, "You can't identify to unverifyed account");
+			#Change there nick to a guest nick
+			serv_nick($nick , Guest);
+			return;
+			}
+				
+=======
+		if (Chakora::DB_nick{lc($account)}{verify} eq no) {
+		  serv_notice("nickserv" , $user, "You can't indentify to an unverified account!");
+		  #TODO: Change to unidentiftyied nick
+		  
+		}
+>>>>>>> dae788fac4ecfb1dc5aebd8abb94ea25f8264313
 		serv_accountname($user, $account);
 		$Chakora::uid{$user}{'account'} = $account;
 		serv_notice("nickserv", $user, "You are now identified as \002$account\002.");
