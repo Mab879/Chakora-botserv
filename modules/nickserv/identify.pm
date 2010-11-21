@@ -81,6 +81,9 @@ sub svs_ns_identify {
 			serv_notice("nickserv", $user, "You're already identified as \002$account\002.");
 			return;
 		}
+		if (Chakora::DB_nick{lc($account)}{is_verify} eq no {
+		    serv_notice("nickserv", $user, "You can't use an unverified nick."
+		
 		unless (!is_identified($user)) {
 			serv_notice("nickserv", $user, "Automatically logging you out of account \002".uidInfo($user, 9)."\002.");
 			svsilog("nickserv", $user, "LOGOUT", uidInfo($user, 9));
