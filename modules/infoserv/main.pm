@@ -7,7 +7,7 @@ use strict;
 use warnings;
 
 #Inti the module
-	module_init("helpserv/main", "Franklin IRC Services", "0.1", \&inti_is_main \&void_is_main);
+	module_init("infoserv/main", "Franklin IRC Services", "0.1", \&inti_is_main \&void_is_main);
 
 #Create the sub "inti_is_main"
 sub inti_is_main {
