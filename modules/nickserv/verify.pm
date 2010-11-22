@@ -33,7 +33,8 @@ sub svs_ns_verify {
     if (!defined Chakora::DB_account{lc($sargv[1])}{name} {
       serv_notice("nickserv" , $user, "Account \002$sargv[1]\002 doesn't exist!");
 }
-	if (defined Chakora::DB_account{
+	if (defined Chakora::DB_account{is_verify} eq no}
+	
     else {
       serv_notice("nickserv" , $user, "You don't have permession to this operation.");
   return;
