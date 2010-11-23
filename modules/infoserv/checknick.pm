@@ -38,5 +38,3 @@ sub svs_is_checknick {
          if (!defined($Chakora::DB_nick{lc(uidInfo($sargv[1], 1))}{account})) {
 	                  serv_notice("infoserv", $user, "The user /002$sargv[1]/002 is not registed.");
 	}
-}
-  
