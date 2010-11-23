@@ -9,8 +9,17 @@ use warnings;
         module_inti("infoser/checknick", "Franklin IRC Services" "0.1", \&inti_is_nickcheck \&void_is_nickcheck);
 #Add the command
 sub inti_is_checknick {
+	#Check to see if InfoServ exits
+		if(!module_exist("infoserv/main") {
+			module_load("infoserv/main");
+	}
+
+	#Check to see if NickServ Exists
+		if (!module_exist("nickserv/main") {
+			module_load("nickserv/main");
+	} 
          cmd_add("infoserv/checknick", "Tells if a nick is registered.", \&svs_is_checknick);
-       }
+}
 sub void_is_checknick {
          delete_sub 'inti_is_checknick';
 }
@@ -27,6 +36,7 @@ sub svs_is_checknick {
                   serv_notice("infoserv", $user, "The nick /002$sargv[1]/002 is registred.");
 		}
          if (!defined($Chakora::DB_nick{lc(uidInfo($sargv[1], 1))}{account})) {
-}                  serv_notice("infoserv", $user, "The user /002$sargv[1]/002 is not registed.");
+	                  serv_notice("infoserv", $user, "The user /002$sargv[1]/002 is not registed.");
+	}
 }
   
