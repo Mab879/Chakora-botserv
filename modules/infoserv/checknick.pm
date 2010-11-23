@@ -18,7 +18,7 @@ sub inti_is_checknick {
 		if (!module_exist("nickserv/main") {
 			module_load("nickserv/main");
 	} 
-         cmd_add("infoserv/checknick", "Tells if a nick is registered.", \&svs_is_checknick);
+         cmd_add("infoserv/checknick", "Tells if a nick is registered.", "CHECKNICK allows a you to see if a nick is registed./n SYNTAX: CHECKNICK <nick>", \&svs_is_checknick);
 }
 sub void_is_checknick {
          delete_sub 'inti_is_checknick';
