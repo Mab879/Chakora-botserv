@@ -81,8 +81,7 @@ sub cs_setflags {
 	
 	my $bflags = $srflags;
 	my @sflags = split(//, $bflags);
-	my ($cargs, $flags);
-	my $margs = 0;
+	my ($flags);
 	my $op = 0;
 	my (@nomo);
 	foreach my $r (@sflags) {
