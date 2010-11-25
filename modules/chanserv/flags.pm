@@ -100,10 +100,21 @@ sub cs_setflags {
 	}
 	my ($as);
 	my ($acs);
-	my $curmos = $Chakora::DB_flags<<insert location to existing flags for user here>>;
+	my ($curmos);
+	foreach my $acfm (keys %Chakora::DB_flags) {
+		if (lc($Chakora::DB_flags{$acfm}{chan}) eq lc($chan) and lc($Chakora::DB_flags{$acfm}{account}) eq lc($account)) {
+			if (defined $Chakora::DB_flags{$acfm}{flags}) {
+				$curmos = $Chakora::DB_flags{$acfm}{flags};
+			}
+			else {
+				$curmos = 0;
+			}
+		}
+	}
 	$curmos =~ s/\+//g;
 	foreach my $xc (@nomo) {
 		if (defined $xc) {
+=start
 			if ($curmos =~ m/($xc)/) {
 				if ($Chakora::PROTO_SETTINGS{cflags}{$xc} > 1) {
 					my @cmta = split(//, $curmos);
@@ -120,7 +131,8 @@ sub cs_setflags {
 					undef $curmo[$cmtb + 1];
 				}	
 				$curmos =~ s/($xc)//g;
-			}	
+			}
+=cut
 			if (defined $flags) {
 				if ($flags =~ m/($xc)/) {
 					if ($Chakora::PROTO_SETTINGS{cflags}{$xc} > 1) {
