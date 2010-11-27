@@ -27,14 +27,13 @@ sub svs_is_checknick {
          my ($user, @sarfv) +@_;
 	 (!defined($sargv[1])) {
 	          serv_notice("infoserv", $user, "Not enough parameters. Syntax: CHECKNICK <nick>.");
-			      }
-	 if (is_identified)$user) {
-                  serv_notice("infoserv", $user, "Your nick, /002$user/002 is registerd and idnetifyied.");
-	}	  
+		      }	  
 
          if (defined($Chakora::DB_nick{lc(uidInfo($sargv[1], 1))}{account}) {
                   serv_notice("infoserv", $user, "The nick /002$sargv[1]/002 is registred.");
 		}
+
          if (!defined($Chakora::DB_nick{lc(uidInfo($sargv[1], 1))}{account})) {
 	                  serv_notice("infoserv", $user, "The user /002$sargv[1]/002 is not registed.");
 	}
+}
