@@ -12,14 +12,17 @@ sub init_cs_flags {
                 module_load("chanserv/main");
         }
         cmd_add("chanserv/flags", "View and edit users access", "FLAGS allows you to view and manage your channels access list", \&svs_cs_flags);
+	fantasy("flags", 1);
 }
 
 sub void_cs_flags {
-        delete_sub 'init_cs_flags';
-        delete_sub 'svs_cs_flags';
+	delete_sub 'init_cs_flags';
+	delete_sub 'svs_cs_flags';
 	delete_sub 'cs_listflags';
-        cmd_del("chanserv/flags");
-        delete_sub 'void_cs_flags';
+	delete_sub 'cs_setflags';
+	delete_sub 'already_setting';
+	cmd_del("chanserv/flags");
+	delete_sub 'void_cs_flags';
 }
 
 sub svs_cs_flags {
@@ -46,7 +49,7 @@ sub svs_cs_flags {
 			cs_setflags($user, $sargv[1], $sargv[2], $sargv[3]);
 		}
 		else {
-			serv_notice("chanserv", $user, "You do not have permission to set flags in ".$sargv[1]);
+			serv_notice("chanserv", $user, "You do not have permission to set flags in \002".$sargv[1]."\002.");
 		}
 	}
 	if (defined($sargv[1]) and !defined($sargv[2])) {
@@ -56,13 +59,13 @@ sub svs_cs_flags {
 
 sub cs_listflags {
 	my ($user, $chan) = @_;
-	serv_notice("chanserv", $user, "*** ".$chan." flag list ***");
+	serv_notice("chanserv", $user, "\002*** ".$chan." flag list ***\002");
 	foreach my $flag (keys %Chakora::DB_chanflags) {
 		if (lc($Chakora::DB_chanflags{$flag}{chan} eq lc($chan))) {
-			serv_notice("chanserv", $user, $Chakora::DB_chanflags{$flag}{account}." - ".substr($Chakora::DB_chanflags{$flag}{flags},1));
+			serv_notice("chanserv", $user, "\002".$Chakora::DB_chanflags{$flag}{account}."\002 - \002".substr($Chakora::DB_chanflags{$flag}{flags},1)."\002");
 		}
 	}
-	serv_notice("chanserv", $user, "*** End flag list ***");
+	serv_notice("chanserv", $user, "\002*** End flag list ***\002");
 }
 
 sub already_setting {
@@ -79,12 +82,18 @@ sub already_setting {
 sub cs_setflags {
 	my ($user, $chan, $account, $srflags) = @_;
 	
+	# Make sure the target account is registered.
+	if (!is_registered(1, $account)) {
+		serv_notice("chanserv", $user, "User \002$account\002 is not registered.");
+		return;
+	}
+	
+	# Sort out the changes (if any).
 	my $bflags = $srflags;
 	my @sflags = split(//, $bflags);
-	my ($cargs, $flags);
-	my $margs = 0;
+	my ($flags);
 	my $op = 0;
-	my (@nomo);
+	my (@nomo, $nomon);
 	foreach my $r (@sflags) {
 		if ($r eq '+') {
 			$op = 1;
@@ -97,70 +106,67 @@ sub cs_setflags {
 		}
 		elsif (flag_exists($r) and $op == 0) {
 			$nomo[count(@nomo) + 1] = $r;
+			$nomon = 1;
 		}
 	}
-	my ($as);
-	my ($acs);
-	my $curmos = $curmo[0];
-	foreach my $xc (@nomo) {
-		if (defined $xc) {
-			if ($curmos =~ m/($xc)/) {
-				if ($Chakora::PROTO_SETTINGS{cflags}{$xc} > 1) {
-					my @cmta = split(//, $curmos);
-					my $cmtb = 0;
-					my $cmtd = 1;
-					foreach my $cmtc (@cmta) {
-						if ($cmtc eq $xc) {
-							$cmtd = 0;
-						}	
-						elsif ($Chakora::PROTO_SETTINGS{cflags}{$cmtc} > 1 and $cmtd != 0) {
-							$cmtb += $Chakora::PROTO_SETTINGS{cflags}{$cmtc};
-						}
-					}
-					undef $curmo[$cmtb + 1];
-				}	
-				$curmos =~ s/($xc)//g;
-			}	
-			if (defined $flags) {
-				if ($flags =~ m/($xc)/) {
-					if ($Chakora::PROTO_SETTINGS{cflags}{$xc} > 1) {
-						my @cmtx = split(' ', $as);
-						my @cmta = split(//, $curmos);
-						my $cmtb = 0;
-						my $cmtd = 1;
-						foreach my $cmtc (@cmta) {
-							if ($cmtc eq $xc) {
-								$cmtd = 0;
-							}
-							elsif ($Chakora::PROTO_SETTINGS{cflags}{$cmtc} > 1 and $cmtd != 0) {
-								$cmtb += $Chakora::PROTO_SETTINGS{cflags}{$cmtc};
-							}	
-						}
-						undef $cmtx[$cmtb + 1];
-						undef $as;
-						for (my $i = 1; $i < count(@cmtx); $i++) { if (defined $cmtx[$i]) { $as .= ' '.$cmtx[$i]; } }
-					}
-					$flags =~ s/($xc)//g;
-				}	
+	if (!defined $flags) { $flags = 0; }
+	
+	# Sort out existing flags.
+	my ($oflags);
+	foreach my $acfm (keys %Chakora::DB_chanflags) {
+		if (lc($Chakora::DB_chanflags{$acfm}{chan}) eq lc($chan) and lc($Chakora::DB_chanflags{$acfm}{account}) eq lc($account)) {
+			if (defined $Chakora::DB_chanflags{$acfm}{flags}) {
+				$oflags = $Chakora::DB_chanflags{$acfm}{flags}; $oflags =~ s/\+//g;
+				if ($Chakora::DB_chanflags{$acfm}{flags} eq '+') {
+					$oflags = 0;
+				}
+			}
+			else {
+				$oflags = 0;
 			}
 		}
 	}
-	if (defined $curmo[1]) {
-		for (my $i = 1; $i < count(@curmo); $i++) { if (defined $curmo[$i]) { $acs .= ' '.$curmo[$i]; } }
+	
+	# Make sure they're actually making changes.
+ 	if ($flags eq $oflags and !defined $nomon) {
+		serv_notice("chanserv", $user, "Flags unchanged.");
+		return;
 	}
-	my ($finflags);
-	if (defined $curmos) {
-		$finflags .= $curmos;
+	else {
+		my ($noof);
+		my @nofa = split(//, $oflags);
+		foreach my $noff (@nofa) {
+			if (flag_exists($noff)) {
+				$noof .= $noff;
+			}
+		}
+		if ($flags eq $noof and !defined $nomon) {
+			serv_notice("chanserv", $user, "Flags unchanged.");
+			return;
+		}
 	}
-	if (defined $flags) {
-		$finflags .= $flags;
+	
+	# Make all changes.
+	my $nflags = $oflags;
+	my @ncflags = split(//, $flags);
+	foreach my $r (@ncflags) {
+		if ($oflags !~ m/($r)/) {
+			$nflags .= $r;
+		}
 	}
-	if (defined $acs) {
-		$finflags .= $acs;
+	foreach my $r (@nomo) {
+		if (defined $r) {
+			$nflags =~ s/($r)//g;
+		}
 	}
-	if (defined $as) {
-		$finflags .= $as;
+	foreach my $acfm (keys %Chakora::DB_chanflags) {
+		if (lc($Chakora::DB_chanflags{$acfm}{chan}) eq lc($chan) and lc($Chakora::DB_chanflags{$acfm}{account}) eq lc($account)) {
+			$Chakora::DB_chanflags{$acfm}{flags} = '+'.$nflags;
+		}
 	}
-	flags($chan, $account, $finflags);
-	serv_notice("chanserv", $user, "Set flags for \002".$account."\002 on \002".$chan."\002 to \002".$finflags."\002"); 
+	
+	# Done.
+	serv_notice("chanserv", $user, "Flags for \002$account\002 on \002$chan\002 changed to \002$nflags\002.");
 }
+
+1;
