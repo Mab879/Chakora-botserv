@@ -78,9 +78,6 @@ sub svs_ns_identify {
 			svsflog('commands', uidInfo($user, 1).": NickServ: IDENTIFY:FAIL:BADPASS: $account");
 			return;
 		}
-		if ($Chakora::DB_nick{lc($account)}{is_verify} eq no) {
-			serv_notice("nickserv", $user, "You can't identify to an unverifyed nick" );
-		}
 		if (lc(uidInfo($user, 9)) eq lc($account)) {
 			serv_notice("nickserv", $user, "You're already identified as \002$account\002.");
 			return;
@@ -100,12 +97,7 @@ sub svs_ns_identify {
 			#Change there nick to a guest nick
 			serv_nick($nick , Guest);
 			return;
-			}
-				
-
-		if (Chakora::DB_nick{lc($account)}{verify} eq no) {
-		  serv_notice("nickserv" , $user, "You can't indentify to an unverified account!");
-		  #TODO: Change to unidentiftyied nick
+		      }
 		  
 
 		serv_accountname($user, $account);
