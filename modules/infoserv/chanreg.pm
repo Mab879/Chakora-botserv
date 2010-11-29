@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 #Start The module
-	module_init("infoserv/chanreg", "Franklin IRC Services", "0.1", \&inti_is_chanreg \&void_is_chanreg);
+	module_init("infoserv/chanreg", "Franklin IRC Services", "0.1", \&inti_is_chanreg, \&void_is_chanreg);
 #Add the command
 sub inti_is_chanreg {
 	cmd_add("infoserv/chanreg", "Shows how to register a channel.", \&svs_is_chanreg);
