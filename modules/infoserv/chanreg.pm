@@ -24,7 +24,7 @@ sub svs_is_chanref {
 	serv_notice("infoserv", $user, "To register a channel first have to have a registred nickname. If don't if have one plese type:/n /msg infoserv nickcheck $user /n After you have a regiserd nick. Join the channel you want to register./n /002Please Note:/002 That the channnel you want may be already registered./n Then do /msg chanserv REGISTER <#channel> <description.");
 }
 sub svs_chandrop {
-  serv_notice("infoserv", $user, "To drop a channel you must be the channels founder./n If you want to drop your channel do/n /msg chanserv drop <#channel> /n /002Please note:/002 Once you drop your channel. someone else can register the channel.")
+  serv_notice("infoserv", $user, "To drop a channel you must be the channels founder./n If you want to drop your channel do/n /msg chanserv drop <#channel> /n /002Please note:/002 Once you drop your channel. someone else can register the channel.");
 1;
   
 
