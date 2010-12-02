@@ -98,7 +98,7 @@ infoserv {
 	nick = InfoServ
 	user = InfoServ
 	host = techoirc/Services/InfoServ
-	real = "Help Services"
+	real = "Infomation Services"
 }
 
 nickserv {
@@ -143,7 +143,7 @@ global {
 xop {
 	qop = "+QOqaohvLkMtisC"
 	sop = "+AOaohvLkMtis"
-	aop = "+OohvLkMti
+	aop = "+OohvLkMti"
 	hop = "+HhvLkMti"
 	vop = "+VvL"
 }
