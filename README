@@ -19,7 +19,7 @@ TABLE OF CONTENTS
 0. ATTENTION
 ------------
 
-As Chakora continues to progress in its development, we are
+As Franklin IRC Services continues to progress in its development, we are
 beginning to need more help, so, if you'd like to help us out,
 please consider becoming a contributor/developer.
 
@@ -27,30 +27,35 @@ You should have the following before contacting us on this:
 
 * A fair knowledge of Perl.
 * Be able to use proper English, grammar, etc. to a good degree.
+* Have a basic knowlage of one IRC Services Package
 
 1. CREDITS
 ----------
+Developed The Chakora Project Development
+Team, a team managed by TechnoDevs.
 
-Franklin IRC Services are developed by The Franklin IRC Services Team
-Team, a team managed by FranklinDevs.
 ==Chakora Coders==
 Elijah "starcoder" Perrault   - Head Developer      || iElijah101
 Matthew "MattB" Barksdale     - Co-Head Developer   || mattwb65
 Alexandria "alyx" Wolcott     - Developer           || alyx
 Russell Bradford              - Developer           || RussellB28
 Niall Davies                  - Developer           || NiallDavies
-Aaron "Dark_Aaron" Blakely    - Developer	    || ablakely
+Aaron "Dark_Aaron" Blakely    - Developer	    	|| ablakely
+
+Franklin IRC Services are developed by The Franklin IRC Services Team
+Team, a team managed by FranklinDevs. 
 
 ==Franklin IRC Services==
-Matthew "Franklin" Burket - Head Developer          || Mab879
+Matthew "Franklin" Burket 	- Head Developer		|| Mab879
 
 If you are interested in becoming a developer for Franklin IRC Services,
-please contact Elijah at Matthew@assignitapp.com.
+please contact Matthew at Matthew@assignitapp.com.
 
 Other Credits:
 
 Atheme (http://atheme.net)  	- Many design concepts
 Shrike (http://malkier.net) 	- Some design concepts
+Anope (http://anope.org) 		- Some design concepts
 Chakora (http://Chakora.net) 	- The orgianl source code
 
 2. DESCRIPTION
@@ -59,7 +64,7 @@ Chakora (http://Chakora.net) 	- The orgianl source code
 Franklin IRC Services are modular IRC Services coded in Perl for the InspIRCd 
 1.2, Charybdis and any other IRCd based off it (TS6), except those with 
 more than +ov. NOTE: ircd-ratbox support is available - you must set use_ts6 to yes though. It comes with; 
-ChanServ, NickServ, OperServ, HostServ, MemoServ and Global.
+ChanServ, InfoServ, NickServ, OperServ, HostServ,  MemoServ and Global.
 
 ATTENTION: By using this software, you are stating that you have read 
 and agreed to the terms stated in docs/LICENSE.
