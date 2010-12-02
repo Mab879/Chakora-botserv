@@ -65,7 +65,12 @@
 		[X] Description
 		[X] URL
 		[X] Noexpire
-	[!] Access list system (We're going to do a flag system with an XOP adapter.)	
+  	    [!] Access list system (We're going to do a flag system with an XOP adapter.)
+[ ] InfoServ
+	[X] Make the infoserv core a module	
+	[!] Check Nick
+	[!] Channel registerion with droping
+	
 [ ] MemoServ
 	[X] Make the memoserv core a module
 	[ ] Send
@@ -106,7 +111,7 @@
 	[ ] Make Chakora's DB backend modular.
 	[>] Add MySQL support.
 	[>] Add PostgreSQL support.
-        [ ] Add Support for Botserv 
+    [ ] Add Support for Botserv 
 
 [ ] Protocols
 	[X] InspIRCd: Track CHGIDENT and make an event for it
@@ -121,6 +126,7 @@
 	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew Barksbale)
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] InspIRCd: Add raw_motd and raw_admin
+	[ ] InspIRCD: Add saquit support
 	[X] Add serv_accoutname
 	[X] Make a SID generator
 	[ ] Make the UID generator use letters instead of numbers.
