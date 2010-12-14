@@ -2,7 +2,7 @@
 
 # ns_hashgen.pm - Generates a hash in the specified format.
 # Copyright (c) 2010 Alexandria Marie Wolcott <alyx@woomoo.org>
-# Licensed under the same terms as Hashlib.
+# Licensed under the WTFPL, see http://issm.tk/?a=t4n3A2f4 for more information
 use strict;
 use warnings;
 use Hashlib;
