@@ -1,0 +1,23 @@
+Information on Hashlib, and the digests usable by Chakora
+---------------------------------------------------------
+
+Last updated: Boomtime, The Aftermath 45, 3176 YOLD (Fri  3 Dec 2010 01:28:34 CST)
+Updated by: Alexandria Marie Wolcott <alyx@woomoo.org>
+
+* Hashlib information
+    Hashlib is a Perl library coded by alyx for the purpose of a basic API for using the majority of modules from Perl's Digest namespace.
+    Hashlib is available at https://github.com/alyx/p5-Hashlib and is owned and maintained by alyx and the Woomoo Development team.
+
+* Information on the digests used by Hashlib
+
+    * Adler32
+        Adler32 checksum support is provided via Digest::Adler32(3). This module implements Adler-32 checksum support, 
+        as defined in RFC 1950.
+    * BLAKE
+        Support for the BLAKE digest algorithm is provided by Digest::BLAKE. The Digest::BLAKE module provides an interface to the BLAKE message
+        digest algorithm. BLAKE is a candidate in the NIST SHA-3 competition.
+    * BMW
+        Blue Midnight Wish digest support is via Digest::BMW. The Digest::BMW module provides an interface to the Blue Midnight Wish message
+        digest algorithm. Blue Midnight Wish is a candidate in the NIST SHA-3 competition.
+    * CubeHash
+        CubeHash di
