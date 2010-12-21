@@ -40,13 +40,14 @@ if (has_spower($user, 'operserv:gline'))	(
 		serv_notice("operserv", $user "PLEASE NOTE: That your nick  was the  reason for this Network Ban./n Added gline:" $sargv);
 		return;
 	}
-	if (defined($sargv[3])) 
+	if (defined($sargv[3]))  {
 		net_ban($sargv);
 		svsilog("operserv", $user GLINE: $sargv);
 		serv_ntoice("operserv", $user, $sargv); 
 		
 	
 		)
+	}
 	else  {
 		serv_notice("operserv", $user "You do not have access to the gline command!/n YOUR ACTION HAS BEEN LOGGED!");
 		svsilog("operserv", $user, "NetBan: $sargv");
