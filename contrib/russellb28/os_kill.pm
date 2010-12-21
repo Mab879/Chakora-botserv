@@ -20,6 +20,16 @@ sub void_os_kill {
 
 sub svs_os_kill {
 	my ($user, @sargv) = @_;
+
+	if (!is_identified($user)) {
+		serv_notice("chanserv", $user, "You are not identified.");
+		return;
+	}
+
+	if (!has_spower($user, 'operserv:kill')) {
+		serv_notice("operserv", $user, "Access denied.");
+		return;
+	}
 	
 	if (!defined($sargv[1])) {
 		serv_notice("operserv", $user, "Not enough parameters. Syntax: KILL [nickname] <reason>");
