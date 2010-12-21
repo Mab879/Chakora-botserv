@@ -12,13 +12,14 @@ sub init_ns_register {
 		module_load("nickserv/main");
 	}
 
-	cmd_add("nickserv/verify", "Allow opers to force verification.", "VERIFY allow opers with nickserv:override to force verification on account that are not verifyed");
+	cmd_add("nickserv/forceverify", "Allow opers to force verification.", "FORCEVERIFY allow opers with nickserv:override to force verification on account that are not verifyed" \&svs_ns_fverify);
+	cmd("nickserv/verify", "VERIFY for account.", "VERIFY allows to verify your account",)
       }
 sub void_ns_verify {
   delete_sub 'init_ns_verify';
-  delete_sub 'svs_ns_verify';
+  delete_sub 'svs_ns_fverify';
 }
-sub svs_ns_verify {
+sub svs_ns_fverify {
   my ($user, @sargv) = @_;
   if (has_spower($user, 'nickserv:override')) {
     
