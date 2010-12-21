@@ -65,7 +65,7 @@ sub svs_dns_scan {
       					foreach $rr ($query->answer) {
        	   				next unless $rr->type eq "A";
 						my ($ipr1,$ipr2,$ipr3,$ipr4)=split /\./,$rr->address;
-						if($ipr4 > 0 and $ipr4 < 30)
+						if($ipr1 == 127 and $ipr4 > 0 and $ipr4 < 30)
 						{
 							serv_notice("dnsbl", $user, "$sargv[1] is listed in $config->{list}->{$i} (Reason: $ipr4)");
 							$found++;

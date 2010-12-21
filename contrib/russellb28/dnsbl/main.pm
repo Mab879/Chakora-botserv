@@ -105,7 +105,7 @@ sub ircd_dns_uid {
       				foreach $rr ($query->answer) {
        	   			next unless $rr->type eq "A";
 					my ($ipr1,$ipr2,$ipr3,$ipr4)=split /\./,$rr->address;
-					if($ipr4 > 0 and $ipr4 < 30)
+					if($ipr1 == 127 and $ipr4 > 0 and $ipr4 < 30)
 					{
 						svsilog("dnsbl", $uid, "KILLED: $ip\002 is listed in \002$config->{list}->{$i}\002");
 						svsflog('commands', uidInfo($uid, 1).": DNSBL: KILLED: $nick ($ip) is listed in $config->{list}->{$i}");
