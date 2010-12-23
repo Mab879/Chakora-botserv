@@ -1,0 +1,117 @@
+# Config Checker by Matthew Burket. Check the config for errors in the command line.
+#
+#
+package FranklinIRCSerives;
+use strict;
+use warnings;
+print("Welcome to the Franklin IRC Services Setup and config Wizard!\n");
+print("We recommend using this to make sure everything works\n");
+print("properly.\n");
+print("\n");
+sleep 2;
+print("Checking Operating System....\n");
+my ($die);
+
+#our $ROOT_SRC = "$Bin/../src";
+#our $ROOT_ETC = "$Bin/../etc";
+
+#Are we on Windows?
+if ( $^O =~ /win/i ) {
+	print("[ERROR] Operating System: Windows is not supported by Franklin IRC Services.\n");
+	print("You will be able to run Franklin IRC Services with Windows.\n");
+	print("Moving on..."\n);
+	sleep 2;
+	}
+#Check the modules
+print("Checking for required modules...\n");
+print("Checking for IO::Socket..... /n");
+eval {
+    require IO::Socket;
+    print "OK\n";
+    1;
+} or print("Not Found (install IO::Socket)\n") and $die = 1;
+
+print("Checking for Config::Scoped..... ");
+eval {
+    require Config::Scoped;
+    print "OK\n";
+    1;
+} or print("Not Found (install Config::Scoped)\n") and $die = 1;
+
+print("Checking for Getopt::Long..... ");
+eval {
+    require Getopt::Long;
+    print "OK\n";
+    1;
+} or print("Not Found (install Getopt::Long)\n") and $die = 1;
+
+print("Checking for FindBin..... ");
+eval {
+    require FindBin;
+    print "OK\n";
+    1;
+} or print("Not Found (install FindBin)\n") and $die = 1;
+
+print("Checking for File::Data..... ");
+eval {
+    require File::Data;
+    print "OK\n";
+    1;
+} or print("Not Found (install File::Data)\n") and $die = 1;
+
+print("Checking for Term::ANSIColor..... ");
+eval {
+    require Term::ANSIColor;
+    print "OK\n";
+    1;
+} or print("Not Found (install Term::ANSIColor)\n") and $die = 1;
+
+print("Checking for Sub::Delete..... ");
+eval {
+    require Sub::Delete;
+    print "OK\n";
+    1;
+} or print("Not Found (install Sub::Delete)\n") and $die = 1;
+
+print("Checking for Digest::Whirlpool..... ");
+eval {
+    require Digest::Whirlpool;
+    print "OK\n";
+    1;
+} or print("Not Found (install Digest::Whirlpool)\n") and $die = 1;
+
+print("Checking for Digest::HMAC..... ");
+eval {
+    require Digest::HMAC;
+    print "OK\n";
+    1;
+} or print("Not Found (install Digest::HMAC)\n") and $die = 1;
+
+print("Checking for Email::Valid..... ");
+eval {
+    require Email::Valid;
+    print "OK\n";
+    1;
+} or print("Not Found (install Email::Valid)\n") and $die = 1;
+
+print("Checking for Class::Unload..... ");
+eval {
+        require Class::Unload;
+        print "OK\n";
+        1;
+} or print("Not Found (install Class::Unload)\n") and $die = 1;
+
+print("Checking for sendmail..... ");
+if (-e '/usr/sbin/sendmail') {
+	print "OK\n";
+	1;
+} else {
+	print("Not Found (Please install sendmail or create a symbolic link at /usr/sbin/sendmail)\n");
+	$die = 1;
+}
+
+print("\n");
+
+if ($die) {
+    die("Required modules missing! Please install these then try again!\n");
+}
