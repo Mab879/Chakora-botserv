@@ -1,7 +1,6 @@
 # OperServ
 ### *OperServ* is Service that helps Network Operators regulate the network.
 <p>The following is table of the OperServ commands.</p>
-<table>
 * **DEFCON** DEFCON is a way for Network admins to respond a botnet attack.
 * **ColorDEFCON** ColorDEFCON assigns color to the DEFCON.
 * **Global** Sends a global message to all users
