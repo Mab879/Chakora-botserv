@@ -3,7 +3,7 @@
 <p>The following is table of the ChanServ commands.</p>
 * **[[ChanServ/Ban]]**            Allows you to place a ban on a user.
 * **[[ChanServ/Clear]]**          Allows you to clear things.
-* **Flags**         Allows you to view and edit users access.
+* **[[ChanServ/Flags]]**         Allows you to view and edit users access.
 * **flist**           Lists available channel flags
 * **Info**          Display information about a channel.
 * **Invite**       Invites you or another user to a channel.
