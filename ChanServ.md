@@ -10,4 +10,12 @@
 * **Kick**       Kicks a user from a given channel.
 * **KickBan** Kicks and Bans a user from a given channel.
 * **Mode** Set modes on a given channel.
- 
+* **Mute** Mutes you or another user on a channels
+* **op** Ops you or another user on a channel.
+* **owner** Owners you or another user on a channel.
+* **Protect** Protects you or another user on a channel.
+* **Register** Registers and protects a channel with services.
+* **Set** Allows you to set channel settings
+* **Sync** Syncs a channel with its access list.
+* **Voice** Voices you or another user on a channel.
+
