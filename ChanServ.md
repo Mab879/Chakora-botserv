@@ -5,7 +5,7 @@
 * **[[ChanServ/Clear]]**          Allows you to clear things.
 * **[[ChanServ/Flags]]**         Allows you to view and edit users access.
 * **[[ChanServ/flist]]**           Lists available channel flags
-* **Info**          Display information about a channel.
+* **[[ChanServ/Info]]**          Display information about a channel.
 * **Invite**       Invites you or another user to a channel.
 * **Kick**       Kicks a user from a given channel.
 * **KickBan** Kicks and Bans a user from a given channel.
