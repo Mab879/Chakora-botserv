@@ -1,5 +1,3 @@
-h2. Welcome to the Franklin IRC Services Wiki! .h2
-p. Please explore the wiki with the table below.
-
-|_.Name of Page |
-| ChanServ |
+# Franklin IRC Services Documents
+## Welcome!
+ 
