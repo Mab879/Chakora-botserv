@@ -18,5 +18,7 @@
 * **[[ChanServ/Register]]** Registers and protects a channel with services.
 * **[[ChanServ/Set]]** Allows you to set channel settings
 * **[[ChanServ/Sync]]** Syncs a channel with its access list.
-* **Voice** Voices you or another user on a channel.
+* **[[ChanServ/Devoice]] Devoice you or another user on a channel.
+* **[[ChanServ/Voice]]** Voices you or another user on a channel.
+
 
