@@ -17,6 +17,6 @@
 * **[[ChanServ/Deprotect]]** Deprotects you or another user on a channel.
 * **[[ChanServ/Register]]** Registers and protects a channel with services.
 * **[[ChanServ/Set]]** Allows you to set channel settings
-* **Sync** Syncs a channel with its access list.
+* **[[ChanServ/Sync]]** Syncs a channel with its access list.
 * **Voice** Voices you or another user on a channel.
 
