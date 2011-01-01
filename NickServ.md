@@ -7,4 +7,4 @@
 * **[[NickServ/Info]]** Displays information about a nickname.  
 * **[[NickServ/Logout]]** Logs you out from services.
 * **[[NickServ/Register]]** Register a nickname with service.
-* **Set** Set account settings
+* **[[NickServ/Set]]** Set account settings
