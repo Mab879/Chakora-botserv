@@ -12,8 +12,9 @@
 * **[[ChanServ/Mode]]** Set modes on a given channel.
 * **[[ChanServ/Mute]]** Mutes you or another user on a channels
 * **[[ChanServ/op]]** Ops you or another user on a channel.
-* **owner** Owners you or another user on a channel.
-* **Protect** Protects you or another user on a channel.
+* **[[ChanServ/owner]]** Owners you or another user on a channel.
+* **[[ChanServ/Protect]]** Protects you or another user on a channel.
+* **[[ChanServ/Deprotect]]** Deprotects you or another user on a channel.
 * **Register** Registers and protects a channel with services.
 * **Set** Allows you to set channel settings
 * **Sync** Syncs a channel with its access list.
