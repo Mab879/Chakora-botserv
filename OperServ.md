@@ -9,8 +9,8 @@
 * **[[OperServ/modunload]]** Unloads a module.
 * **[[OperServ/raw]]** Sends raw data to the server. PLEASE NOTE: This NOT RECOMMENDED.
 * **[[OperServ/restart]]**  Shutdown down Services and then Starts them up again.
-* **shutdown** Shutdowns services.
-* **stats** Displays services uptime.
+* **[[OperServ/shutdown]]** Shutdowns services.
+* **[[OperServ/stats]]** Displays services uptime.
 * **update** Updates the Services database. 
-* **Uptime** Displays the services uptime
-* **Version** Displays services version
+* **[[OperServ/Uptime]]** Displays the services uptime
+* **[[OperServ/Version]]** Displays services version
