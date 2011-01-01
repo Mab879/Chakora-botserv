@@ -10,8 +10,8 @@
 * **[[ChanServ/Kick]]**       Kicks a user from a given channel.
 * **[[ChanServ/KickBan]]** Kicks and Bans a user from a given channel.
 * **[[ChanServ/Mode]]** Set modes on a given channel.
-* **Mute** Mutes you or another user on a channels
-* **op** Ops you or another user on a channel.
+* **[[ChanServ/Mute]]** Mutes you or another user on a channels
+* **[[ChanServ/op]]** Ops you or another user on a channel.
 * **owner** Owners you or another user on a channel.
 * **Protect** Protects you or another user on a channel.
 * **Register** Registers and protects a channel with services.
