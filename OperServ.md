@@ -11,6 +11,6 @@
 * **[[OperServ/restart]]**  Shutdown down Services and then Starts them up again.
 * **[[OperServ/shutdown]]** Shutdowns services.
 * **[[OperServ/stats]]** Displays services uptime.
-* **update** Updates the Services database. 
+* **[[OperServ/update]]** Updates the Services database. 
 * **[[OperServ/Uptime]]** Displays the services uptime
 * **[[OperServ/Version]]** Displays services version
