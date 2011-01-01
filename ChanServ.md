@@ -8,7 +8,7 @@
 * **[[ChanServ/Info]]**          Display information about a channel.
 * **[[ChanServ/Invite]]**       Invites you or another user to a channel.
 * **[[ChanServ/Kick]]**       Kicks a user from a given channel.
-* **KickBan** Kicks and Bans a user from a given channel.
+* **[[ChanServ/KickBan]]** Kicks and Bans a user from a given channel.
 * **Mode** Set modes on a given channel.
 * **Mute** Mutes you or another user on a channels
 * **op** Ops you or another user on a channel.
