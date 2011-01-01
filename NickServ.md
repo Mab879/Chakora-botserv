@@ -5,6 +5,6 @@
 * **[[NickServ/ghost]]** Ghost / disconnet a user/ ghost using your nickname.
 * **[[NickServ/Identify]]** Identify to services to nickname.
 * **[[NickServ/Info]]** Displays information about a nickname.  
-* **Logout** Logs you out from services.
-* **Register** Register a nickname with service.
+* **[[NickServ/Logout]]** Logs you out from services.
+* **[[NickServ/Register]]** Register a nickname with service.
 * **Set** Set account settings
