@@ -3,7 +3,7 @@
 <p>The following is table of the OperServ commands.</p>
 * **[[OperServ/DEFCON]]** DEFCON is a way for Network admins to respond a botnet attack.
 * **[[OperServ/ColorDEFCON]]** ColorDEFCON assigns color to the DEFCON.
-* **Global** Sends a global message to all users
+* **[OperServ/Global]]** Sends a global message to all users
 * **modlist** Displays a list of the modules loaded.
 * **modreload** Reloads a module.
 * **modunloadd** Unloads a module.
