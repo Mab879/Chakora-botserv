@@ -7,7 +7,7 @@
 * **[[OperServ/modlist]]** Displays a list of the modules loaded.
 * **[[Operserv/modreload]]** Reloads a module.
 * **[[OperServ/modunload]]** Unloads a module.
-* **raw** Sends raw data to the server. PLEASE NOTE: This NOT RECOMMENDED.
+* **[[OperServ/raw]]** Sends raw data to the server. PLEASE NOTE: This NOT RECOMMENDED.
 * **restart**  Shutdown down Services and then Starts them up again.
 * **shutdown** Shutdowns services.
 * **stats** Displays services uptime.
