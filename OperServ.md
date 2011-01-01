@@ -4,7 +4,7 @@
 * **[[OperServ/DEFCON]]** DEFCON is a way for Network admins to respond a botnet attack.
 * **[[OperServ/ColorDEFCON]]** ColorDEFCON assigns color to the DEFCON.
 * **[[OperServ/Global]]** Sends a global message to all users
-* **modlist** Displays a list of the modules loaded.
+* **[[OperServ/modlist]]** Displays a list of the modules loaded.
 * **modreload** Reloads a module.
 * **modunloadd** Unloads a module.
 * **raw** Sends raw data to the server. PLEASE NOTE: This NOT RECOMMENDED.
