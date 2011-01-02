@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-module_init("botserv/main", "Franklin  IRC Services", "0.1", \&init_ns_main, \&void_ns_main);
+module_init("botserv/main", "Franklin  IRC Services", "0.1", \&init_bs_main, \&void_bs_main);
 
 sub init_bs_main {
 	create_cmdtree("botserv");
