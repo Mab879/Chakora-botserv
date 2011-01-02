@@ -2,6 +2,11 @@
 #
 # Copyright (c) 2010 The Chakora Project. All rights reserved.
 # This software is free software; rights to this config are stated in docs/LICENSE.
+#BotServ - Bot Services
+load "botserv/main" 		# Create BotServ to allow bots.
+load "botserv/assign"		# ASSIGN: Allows bots to be assigned. 
+load "botserv/help"		# HELP: Provides help with botserv commands.
+load "botserv/add"		# ADD: Allows an IRCop to add a Botserv bot.
 
 # ChanServ - Channel services.
 load "chanserv/main";            # Create ChanServ to allow management of channels.
@@ -31,6 +36,9 @@ load "global/main";               # Create Global to send global notices from a 
 #load "hostserv/assign";          # ASSIGN/UNASSIGN: Allows (un)assigning of vHosts (virtual hosts).
 #load "hostserv/help";            # HELP: Provides help with HostServ commands.
 
+#InfoServ - Help Services
+load "infoserv/main";		 # Create InfoServ
+
 # MemoServ - Memo services.
 load "memoserv/main";             # Create MemoServ to allow the sending, receiving and management of memos.
 
@@ -44,6 +52,7 @@ load "nickserv/info";             # INFO: View information about a nickname.
 load "nickserv/logout";           # LOGOUT: Log out of services.
 load "nickserv/register";         # REGISTER: Registers a nickname with NickServ, protecting it and unlocking various features for the user.
 load "nickserv/set";              # SET: Set core settings on an account.
+load "nickserv/verify";		  # VERIFY: Verify an account.	
 
 # OperServ - Oper services.
 load "operserv/global";           # GLOBAL: Send a global notice to all connected users.

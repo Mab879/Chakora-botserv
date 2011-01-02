@@ -8,7 +8,7 @@
 ----------------------------------------
 
 [X] Global
-	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew)
+	[X] send_global sub (Use a foreach statement for %uid's to send a NOTICE to each user? --Matthew Barksdale)
 [ ] NickServ
 	[X] Make the nickserv core a module.
 		[O] Add sub's relating to nickserv into nickserv/main (These go in API/Services.pm)
@@ -25,11 +25,24 @@
 		[ ] Set API
 	[X] Ghost
 	[ ] Release
-	[ ] Verify (allow opers with nickserv:override to force verification --Matthew)
+	[!] Verify (allow opers with nickserv:override to force verification --Matthew Barksdale)
 	[X] Account name
 	[X] Logout
 	[X] Once the CHGIDENT/CHGHOST event is done, add a hook in nickserv/main to change the data:realhost
-
+	[ ] Make so after so many failed logins Services disconnets the client.
+[ ] BotServ
+	[!] Make the botserv core a module
+	[!] Add Bot
+	[ ] Edit bot
+	[!] Remove bot
+	[!] Assign
+	[ ] Bot list
+	[ ] Badwords
+	[ ] Intergation with fantasy
+    [!] Add Botserv Database
+	[ ] Say
+	[ ] Act
+	[ ] Unassign
 [ ] ChanServ
 	[X] Make the chanserv core a module
 	[X] Register
@@ -52,7 +65,12 @@
 		[X] Description
 		[X] URL
 		[X] Noexpire
-	[!] Access list system (We're going to do a flag system with an XOP adapter)	
+  	    [!] Access list system (We're going to do a flag system with an XOP adapter.)
+[ ] InfoServ
+	[X] Make the infoserv core a module	
+	[!] Check Nick
+	[!] Channel registerion with droping
+	
 [ ] MemoServ
 	[X] Make the memoserv core a module
 	[ ] Send
@@ -62,20 +80,24 @@
 	[ ] Delete
 [ ] OperServ
 	[O] Make the operserv core a module
-	[X] Don't allow OperServ to be kicked/killed/etc. (Add the reconnection stuff in raw_ subs? --Matthew)
+	[X] Don't allow OperServ to be kicked/killed/etc. (Add the reconnection stuff in raw_ subs? --Matthew Barksbale)
 	[X] Restart
 	[X] Shutdown
-	[ ] Rehash (Config::Scoped doesn't allow this, we need our own config parser --Matthew)
-	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew] 
-	[ ] Make modload, modunload and protocols - unloadable ( protocols don't have a void/init handler, regardless, let it be known it's not unloadable --Matthew)
+	[ ] Rehash (Config::Scoped doesn't allow this, we need our own config parser --Matthew Barksable)
+	[X] Module management (list, load, unload) [list done, somethings wrong with load and unload - perhaps module_exists is bugged --Matthew Barksbale] 
+	[ ] Make modload, modunload and protocols - unloadable ( protocols don't have a void/init handler, regardless, let it be known it's not unloadable --Matthew Barksbale)
  	[ ] Improve the error messages in modload, if the file doesn't exist say that.
-	[X] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew)
+	[X] The protocols need to be a module (Add $Chakora::MODULE{name} $Chakora::MODULE{author} and $Chakora::MODULE{version} to the top of the protocol --Matthew Barksbale)
 	[ ] AKill
+	[ ] Net Ban
+	[?] Mass Mode
 	[ ] Jupe
 	[X] Global
 	[X] Uptime
 	[X] Version
-	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew)
+	[ ] Logonnews (Add a hook using hook_uid_add, sending a( ) notice(s) to users on connect? --Matthew Barksbale)
+	[ ] Privs (Allows a soper to view the privs he/she has access to)
+	[!] DEFCON
 [ ] HostServ
 	[X] Make the hostserv core a module
 	[X] Set vHosts
@@ -92,6 +114,8 @@
 	[ ] Make Chakora's DB backend modular.
 	[>] Add MySQL support.
 	[>] Add PostgreSQL support.
+    [ ] Add Support for Botserv 
+
 [ ] Protocols
 	[X] InspIRCd: Track CHGIDENT and make an event for it
 	[X] Network ban API sub
@@ -101,20 +125,21 @@
 	[ ] Add function to hold nicknames
  	[X] InspIRCd: find a way to properly tell if a user is an oper
 	[X] Charybdis: find a way to properly tell if a user is an oper 
-	[X] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew)
-	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew)
+	[X] Add serv_jupe (InspIRCd's module still lacks this, developers who can create some sort of SID generator and check if its in use, go for it --Matthew Barksbale)
+	[X] InspIRCd: strip modes on a user in FJOIN (I was stupid, it already did that --Matthew Barksbale)
 	[X] Charybdis: Oper regex needs fixed (for one +a isn't always applied, also +o isn't the only mode, so the current one won't work --Matthew)
 	[X] InspIRCd: Add raw_motd and raw_admin
+	[ ] InspIRCD: Add saquit support
 	[X] Add serv_accoutname
 	[X] Make a SID generator
 	[ ] Make the UID generator use letters instead of numbers.
 	[ ] Native ShadowIRCd support.
 	[X] Native ircd-ratbox support.
-	[+] ircd-hybrid support.
+	[?] ircd-hybrid support.
 	[+] UnrealIRCd support.
-	[+] ircu support.
-	[+] Bahamut support.
-	[+] ircd-plexus support.
+	[?] ircu support.
+	[?] Bahamut support.
+	[?] ircd-plexus support.
 	[ ] TS6-generic support.
 	[+] P10-generic support.
 	[ ] A server doesn't need to exist to add a jupe, but we still need to check if a server that is trying to be juped exists. Fix the $ssid in the protocols to do this.
@@ -130,10 +155,11 @@
 	[ ] When chanserv/flags is done, add the +L flag creation there
 	[ ] Make our own config parser, we really need one.
 	[!] Fix the truckload of uninitialized values issues that are displayed while in debug mode.
+    [!] Add Comments to all of the code (Never done)  
 Key: 
 	X = Done
 	! = In development
 	? = Still being questioned whether it should be in Chakora or not
-	O = This didn't make the cut, this could be added later though	
+	O = This didn't make the cut, this could be added later though
 	+ = This has been planned for Chakora v2.x series.
 	> = This has been planned for Chakora v1.1.

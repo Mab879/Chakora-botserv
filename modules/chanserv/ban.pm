@@ -43,6 +43,7 @@ sub svs_cs_ban {
 	if (!defined($sargv[1])) {
 		serv_notice("chanserv", $user, "Not enough parameters. Syntax: BAN <#channel> [nickname]");
 		return;
+	
 	}
 
 	if (!is_registered(2, $sargv[1])) {
@@ -51,7 +52,7 @@ sub svs_cs_ban {
 	}
 
 	if (!has_flag(uidInfo($user, 9), $sargv[1], "k")) {
-		serv_notice("chanserv", $user, "Permission denied");
+		serv_notice("chanserv", $user, "Permission denied.");
 		return;
 	}
 

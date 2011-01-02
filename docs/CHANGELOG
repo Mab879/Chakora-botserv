@@ -15,6 +15,9 @@ Current Devel
 	- Modules: Added operserv/stats
 	- Protocols: Handle remote servers trying to set an users accountname
 	- Protocols: Added ircd-ratbox support
+	- Modules: Added ChanServ/flags.
+	- Modules: Added InfoServ
+        - Docs: Add credit to old devs. 
 
 1.0.0-alpha3
 	- API: Added idflush() for flushing data about identified users to disk.

@@ -65,7 +65,7 @@ services {
 	# Allow the use of fantasy - not using fantasy saves some resources.
 	use_fantasy = 1
 }
-
+#The enc block is information on database encryption
 enc {
 	# Encryption method.
 	#    none - No encryption. Users will be warned of this.
@@ -78,7 +78,14 @@ enc {
 }
 
 # Information on services
-
+botserv {
+	nick = BotServ
+	user = BotServ
+	host = technoirc/Services/BotServ
+	real = "Bot Services"
+	#
+ 
+}
 chanserv {
 	nick = ChanServ
 	user = ChanServ
@@ -86,6 +93,12 @@ chanserv {
 	real = "Channel Services"
 	# Character for fantasy commands. e.g. ! . @
 	fantasy_char = !
+}
+infoserv {
+	nick = InfoServ
+	user = InfoServ
+	host = techoirc/Services/InfoServ
+	real = "Infomation Services"
 }
 
 nickserv {
@@ -126,6 +139,13 @@ global {
 	user = Global
 	host = technoirc/Services/Global
 	real = "Global Noticer"
+}
+xop {
+	qop = "+QOqaohvLkMtisC"
+	sop = "+AOaohvLkMtis"
+	aop = "+OohvLkMti"
+	hop = "+HhvLkMti"
+	vop = "+VvL"
 }
 
 # End configuration file
