@@ -103,7 +103,7 @@
 	[X] Set vHosts
 	[X] Delete vHost
 	[ ] Group
-	[ ] Request
+	[!] Request
 	[?] On/Off 
 [ ] Core
 	[X] Add module_void
