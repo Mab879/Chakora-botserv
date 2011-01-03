@@ -1,6 +1,6 @@
 # hostserv/assign by The Chakora Project. Allows assigning and unassigning of vHosts.
 #
-# Copyright (c) 2010 The Chakora Project. All rights reserved.
+# Copyright (c) 2010-2011 The Chakora Project. All rights reserved.
 # This software is free software; rights to this code are stated in docs/LICENSE.
 use strict;
 use warnings;

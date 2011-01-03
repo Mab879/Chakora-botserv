@@ -37,9 +37,49 @@ my $account = $Chakora::DB_account{lc($user}{name};
 	}
 	if ($sargv[1] == *.com) {
 		serv_notice("hostserv", $user, "The vHost you entered will need to verified. Please wait for an Network operator to contact you.");
+		$Chakora::DB_hpst{lc($user)}{host} = $sargv;
+		svsilog("hostserv", $user, "REQUEST", $sargv[1]);
+		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): HostServ: REQUEST: $sargv[1]")
+		
+	}
+	if ($sargv[1] == *.net) {
+		serv_notice("hostserv", $user, "The vHost you entered will need to verified. Please wait for an Network operator to contact you.");
+		$Chakora::DB_hpst{lc($user)}{host} = $sargv;
+		svsilog("hostserv", $user, "REQUEST", $sargv[1]);
+		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): HostServ: REQUEST: $sargv[1]");
+		
+	}
+	if ($sargv[1] == *.org) {
+		serv_notice("hostserv", $user, "The vHost you entered will need to verified. Please wait for an Network operator to contact you.");
+		$Chakora::DB_hpst{lc($user)}{host} = $sargv;
+		svsilog("hostserv", $user, "REQUEST", $sargv[1]);
+		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): HostServ: REQUEST: $sargv[1]");
+		
+	}
+	if ($sargv[1] == *.co.cc) {
+		serv_notice("hostserv", $user, "The vHost you entered will need to verified. Please wait for an Network operator to contact you.");
 		$Chakora::DB_hosts
 		svsilog("hostserv", $user, "REQUEST", $sargv[1]);
 		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): HostServ: REQUEST: $sargv[1]");
 		
 	}
+	if ($sargv[1] == *.info) {
+		serv_notice("hostserv", $user, "The vHost you entered will need to verified. Please wait for an Network operator to contact you.");
+		$Chakora::DB_hpst{lc($user)}{host} = $sargv;
+		svsilog("hostserv", $user, "REQUEST", $sargv[1]);
+		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): HostServ: REQUEST: $sargv[1]");
+		
+	}
+	if ($sargv[1] == *.vhost) {
+		serv_notice("hostserv", $user, "The vHost you entered will be looked over by our staff.");
+		$Chakora::DB_hpst{lc($user)}{host} = $sargv;
+		svsilog("hostserv", $user, "REQUEST", $sargv[1]);
+		svsflog('commands', uidInfo($user, 1)." (".uidInfo($user, 9)."): HostServ: REQUEST: $sargv[1]");
+		
+	}
+	
+}
+svs_hs_waiting {
+my ($user, @sargv) = @_;
+	if ()
 }
